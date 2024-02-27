@@ -25,15 +25,23 @@ workflow GET_ORTHOLOGS {
             ch_inputfile
         )
 
-        IDENTIFY_SEQ_ONLINE.out
+        IDENTIFY_SEQ_ONLINE.out.seqinfo
             .set { ch_query }
+
+        ch_versions
+            .mix(IDENTIFY_SEQ_ONLINE.out.versions)
+            .set { ch_versions }
     } else {
         WRITE_SEQINFO (
             ch_samplesheet
         )
 
-        WRITE_SEQINFO.out
+        WRITE_SEQINFO.out.seqinfo
             .set { ch_query }
+
+        ch_versions
+            .mix(WRITE_SEQINFO.out.versions)
+            .set { ch_versions }
     }
 
     FETCH_OMA_GROUP_ONLINE (
@@ -68,13 +76,21 @@ workflow GET_ORTHOLOGS {
         FETCH_INSPECTOR_GROUP_ONLINE.out.inspector_group.map { it[1] }
     )
 
+    ch_versions
+        .mix(MAKE_SCORE_TABLE.out.versions)
+        .set { ch_versions }
+
     FILTER_HITS (
-        MAKE_SCORE_TABLE.out,
+        MAKE_SCORE_TABLE.out.score_table,
         params.merge_strategy
     )
 
+    ch_versions
+        .mix(FILTER_HITS.out.versions)
+        .set { ch_versions }
+
     PLOT_ORTHOLOGS (
-        MAKE_SCORE_TABLE.out
+        MAKE_SCORE_TABLE.out.score_table
     )
 
     ch_versions
@@ -86,7 +102,7 @@ workflow GET_ORTHOLOGS {
         .set { ch_merged_versions }
 
     emit:
-    orthologs     = FILTER_HITS.out
+    orthologs     = FILTER_HITS.out.filtered_hits
     supports_plot = PLOT_ORTHOLOGS.out.supports
     venn_plot     = PLOT_ORTHOLOGS.out.venn
     versions      = ch_merged_versions

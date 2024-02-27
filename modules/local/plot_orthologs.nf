@@ -1,4 +1,7 @@
 process PLOT_ORTHOLOGS {
+    tag "$meta.id"
+    label 'process_single'
+
     input:
     tuple val(meta), path(score_table)
 
@@ -7,6 +10,9 @@ process PLOT_ORTHOLOGS {
     path "supports.png", emit: supports
     path "venn.png", emit: venn
     path "versions.yml", emit: versions
+
+    when:
+    task.ext.when == null || task.ext.when
 
     script:
     """

@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-from typing import Any
 import requests
 import sys
 
@@ -9,7 +8,7 @@ def fetch_seq(url: str):
     if not res.ok:
         print(f"HTTP error. Code: {res.status_code}")
         return (False, dict())
-    json: dict[str, Any] = res.json()
+    json: dict = res.json()
     return (True, json)
 
 
