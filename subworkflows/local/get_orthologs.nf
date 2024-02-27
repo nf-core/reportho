@@ -4,6 +4,8 @@ include { FETCH_OMA_GROUP_ONLINE       } from "../../modules/local/fetch_oma_gro
 include { FETCH_PANTHER_GROUP_ONLINE   } from "../../modules/local/fetch_panther_group_online"
 include { FETCH_INSPECTOR_GROUP_ONLINE } from "../../modules/local/fetch_inspector_group_online"
 include { MAKE_SCORE_TABLE             } from "../../modules/local/make_score_table"
+include { FILTER_HITS                  } from "../../modules/local/filter_hits"
+include { PLOT_ORTHOLOGS               } from "../../modules/local/plot_orthologs"
 
 workflow GET_ORTHOLOGS {
     take:
@@ -11,7 +13,7 @@ workflow GET_ORTHOLOGS {
 
     main:
 
-    ch_samplesheet.view()
+    ch_versions = Channel.empty()
 
     if (!params.uniprot_query) {
         ch_samplesheet
@@ -30,36 +32,63 @@ workflow GET_ORTHOLOGS {
             ch_samplesheet
         )
 
-        WRITE_SEQINFO.out.view()
-
-        // WRITE_SEQINFO.out
-        //     .set { ch_query }
+        WRITE_SEQINFO.out
+            .set { ch_query }
     }
 
-    // FETCH_OMA_GROUP_ONLINE (
-    //     ch_query
-    // )
+    FETCH_OMA_GROUP_ONLINE (
+        ch_query
+    )
 
-    // FETCH_OMA_GROUP_ONLINE.out.view()
+    ch_versions
+        .mix(FETCH_OMA_GROUP_ONLINE.out.versions)
+        .set { ch_versions }
 
-    // FETCH_PANTHER_GROUP_ONLINE (
-    //     ch_query
-    // )
+    FETCH_PANTHER_GROUP_ONLINE (
+        ch_query
+    )
 
-    // FETCH_PANTHER_GROUP_ONLINE.out.view()
+    ch_versions
+        .mix(FETCH_PANTHER_GROUP_ONLINE.out.versions)
+        .set { ch_versions }
 
-    // FETCH_INSPECTOR_GROUP_ONLINE (
-    //     ch_query
-    // )
+    FETCH_INSPECTOR_GROUP_ONLINE (
+        ch_query,
+        params.inspector_version
+    )
 
-    // FETCH_INSPECTOR_GROUP_ONLINE.out.view()
+    ch_versions
+        .mix(FETCH_INSPECTOR_GROUP_ONLINE.out.versions)
+        .set { ch_versions }
 
-    // MAKE_SCORE_TABLE (
-    //     FETCH_OMA_GROUP_ONLINE.out.map { it[0] },
-    //     FETCH_OMA_GROUP_ONLINE.out.map { it[1] },
-    //     FETCH_PANTHER_GROUP_ONLINE.out.map { it[1] },
-    //     FETCH_INSPECTOR_GROUP_ONLINE.out.map { it[1] }
-    // )
+    MAKE_SCORE_TABLE (
+        FETCH_OMA_GROUP_ONLINE.out.oma_group.map { it[0] },
+        FETCH_OMA_GROUP_ONLINE.out.oma_group.map { it[1] },
+        FETCH_PANTHER_GROUP_ONLINE.out.panther_group.map { it[1] },
+        FETCH_INSPECTOR_GROUP_ONLINE.out.inspector_group.map { it[1] }
+    )
 
-    // MAKE_SCORE_TABLE.out.view()
+    FILTER_HITS (
+        MAKE_SCORE_TABLE.out,
+        params.merge_strategy
+    )
+
+    PLOT_ORTHOLOGS (
+        MAKE_SCORE_TABLE.out
+    )
+
+    ch_versions
+        .mix(PLOT_ORTHOLOGS.out.versions)
+        .set { ch_versions }
+
+    ch_versions
+        .collectFile(name: "get_orthologs_versions.yml", sort: true, newLine: true)
+        .set { ch_merged_versions }
+
+    emit:
+    orthologs     = FILTER_HITS.out
+    supports_plot = PLOT_ORTHOLOGS.out.supports
+    venn_plot     = PLOT_ORTHOLOGS.out.venn
+    versions      = ch_merged_versions
+
 }

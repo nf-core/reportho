@@ -83,8 +83,8 @@ workflow PIPELINE_INITIALISATION {
     Channel
         .fromSamplesheet("input")
         .map {
-            id, query, taxid ->
-                [ id, query, taxid ]
+            id, query ->
+                [ id, query ]
         }
         .set { ch_samplesheet }
 

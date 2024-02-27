@@ -16,6 +16,7 @@ def main() -> None:
     for i in json["search"]["mapping"]["mapped"]:
         uniprot_id = i["target_gene"].split("|")[-1].split("=")[-1]
         print(f"{uniprot_id}")
+    print(f"{json['search']['product']['content']} {json['search']['product']['version']}", file=sys.stderr)
 
 if __name__ == "__main__":
     main()

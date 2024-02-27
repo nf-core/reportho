@@ -1,6 +1,6 @@
 process WRITE_SEQINFO {
     input:
-    tuple val(meta), val(uniprot_id), val(taxid)
+    tuple val(meta), val(uniprot_id)
 
     output:
     tuple val(meta), path("id.txt"), path("taxid.txt")
@@ -8,6 +8,6 @@ process WRITE_SEQINFO {
     script:
     """
     echo "${uniprot_id}" > id.txt
-    echo "${taxid}" > taxid.txt
+    fetch_oma_taxid_by_id.py $uniprot_id > taxid.txt
     """
 }

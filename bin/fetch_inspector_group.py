@@ -16,10 +16,10 @@ def fetch_inspector_by_id(uniprot_id: str, db_id: str = "Eukaryota2019"):
 
 
 def main() -> None:
-    if len(sys.argv) < 2:
-        raise ValueError("Too few arguments.")
+    if len(sys.argv) < 3:
+        raise ValueError("Too few arguments. Usage: fetch_inspector_group.py [id] [db_id]")
 
-    fetch_inspector_by_id(sys.argv[1])
+    fetch_inspector_by_id(sys.argv[1], sys.argv[2])
 
 
 if __name__ == "__main__":

@@ -17,11 +17,6 @@
                 "type": "string",
                 "pattern": "^\\S+$",
                 "errorMessage": "A query must be provided"
-            },
-            "taxid": {
-                "type": "string",
-                "pattern": "^\\S+$",
-                "errorMessage": "A taxid must be provided"
             }
         },
         "required": ["id", "query"]

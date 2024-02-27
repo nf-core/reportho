@@ -29,11 +29,12 @@ workflow REPORTHO {
     ch_versions = Channel.empty()
     ch_multiqc_files = Channel.empty()
 
-    ch_samplesheet.view()
-
     GET_ORTHOLOGS (
         ch_samplesheet
     )
+
+    GET_ORTHOLOGS.out.orthologs.view()
+    GET_ORTHOLOGS.out.versions.view()
 
     //
     // Collate and save software versions
