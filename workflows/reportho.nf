@@ -12,6 +12,8 @@ include { softwareVersionsToYAML } from '../subworkflows/nf-core/utils_nfcore_pi
 include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_reportho_pipeline'
 
 include { GET_ORTHOLOGS          } from '../subworkflows/local/get_orthologs'
+include { FETCH_SEQUENCES        } from '../subworkflows/local/fetch_sequences'
+include { FETCH_STRUCTURES       } from '../subworkflows/local/fetch_structures'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -33,15 +35,36 @@ workflow REPORTHO {
         ch_samplesheet
     )
 
-    GET_ORTHOLOGS.out.orthologs.view()
-    GET_ORTHOLOGS.out.versions.view()
+    ch_versions
+        .mix(GET_ORTHOLOGS.out.versions)
+        .set { ch_versions }
+
+    FETCH_SEQUENCES (
+        GET_ORTHOLOGS.out.orthologs
+    )
+
+    ch_versions
+        .mix(FETCH_SEQUENCES.out.versions)
+        .set { ch_versions }
+
+    if (params.use_structures) {
+        FETCH_STRUCTURES (
+            GET_ORTHOLOGS.out.orthologs
+        )
+
+        ch_versions
+            .mix(FETCH_STRUCTURES.out.versions)
+            .set { ch_versions }
+    }
 
     //
     // Collate and save software versions
     //
-    softwareVersionsToYAML(ch_versions)
+    ch_versions
         .collectFile(storeDir: "${params.outdir}/pipeline_info", name: 'nf_core_pipeline_software_mqc_versions.yml', sort: true, newLine: true)
         .set { ch_collated_versions }
+
+    ch_collated_versions.view()
 
     //
     // MODULE: MultiQC

@@ -68,7 +68,22 @@
                     "description": "The version of the OrthoInspector database to use.",
                     "help_text": "This SHOULD be left as the default if working with eukaryotes. Only change if working with bacteria, or an old version is required for reproducibility.",
                     "default": "Eukaryota2019",
-                    "fa_icon": "fas fa-search"
+                    "fa_icon": "fas fa-database"
+                }
+            }
+        },
+        "donwstream_options": {
+            "title": "Downstream analysis options",
+            "type": "object",
+            "fa_icon": "fas fa-search",
+            "description": "All options related to the downstream analysis subworkflows.",
+            "properties": {
+                "use_structures": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Use structures for the analysis.",
+                    "help_text": "If set to `true`, the pipeline will use AlphaFold structures for the analysis.",
+                    "fa_icon": "fas fa-dna"
                 }
             }
         },
