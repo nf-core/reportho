@@ -18,17 +18,19 @@ def fetch_structures(path: str):
             res = requests.get(pdb_url)
             if res.ok:
                 print(res.text, file=open(f"{id}.pdb", 'w'))
-                hits.append(f"{id}.pdb")
+                hits.append(id)
             else:
                 misses.append(id)
         else:
             misses.append(id)
 
-    for hit in hits:
-        print(hit)
+    with open("hits.txt", 'w') as f:
+        for hit in hits:
+            print(hit, file=f)
 
-    for miss in misses:
-        print(miss, file=sys.stderr)
+    with open("misses.txt", 'w') as f:
+        for miss in misses:
+            print(miss, file=f)
 
 
 def main() -> None:

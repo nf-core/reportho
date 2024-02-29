@@ -8,14 +8,14 @@ process FETCH_AFDB_STRUCTURES {
     tuple val(meta), path(ids)
 
     output:
-    val meta
-    path "*.pdb", emit: pdb
-    path "misses.txt", emit: misses
-    path "versions.yml", emit: versions
+    tuple val(meta), path("*.pdb") , emit: pdb
+    path "hits.txt"                , emit: hits
+    path "misses.txt"              , emit: misses
+    path "versions.yml"            , emit: versions
 
     script:
     """
-    fetch_afdb_structures.py $ids 2> misses.txt
+    fetch_afdb_structures.py $ids
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}"

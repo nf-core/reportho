@@ -8,14 +8,14 @@ process FETCH_SEQUENCES_ONLINE {
     tuple val(meta), path(ids)
 
     output:
-    val meta
-    path "orthologs.fa", emit: fasta
+    tuple val(meta), path("orthologs.fa"), emit: fasta
+    path "hits.txt", emit: hits
     path "misses.txt", emit: misses
     path "versions.yml", emit: versions
 
     script:
     """
-    fetch_sequences.py $ids > orthologs.fa 2> misses.txt
+    fetch_sequences.py $ids > orthologs.fa
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":

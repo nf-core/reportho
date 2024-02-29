@@ -19,6 +19,11 @@
                         "branch": "master",
                         "git_sha": "ccacf6f5de6df3bc6d73b665c1fd2933d8bbc290",
                         "installed_by": ["modules"]
+                    },
+                    "tcoffee/align": {
+                        "branch": "master",
+                        "git_sha": "5caf7640a9ef1d18d765d55339be751bb0969dfa",
+                        "installed_by": ["modules"]
                     }
                 }
             },

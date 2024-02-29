@@ -14,6 +14,7 @@ include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_repo
 include { GET_ORTHOLOGS          } from '../subworkflows/local/get_orthologs'
 include { FETCH_SEQUENCES        } from '../subworkflows/local/fetch_sequences'
 include { FETCH_STRUCTURES       } from '../subworkflows/local/fetch_structures'
+include { ALIGN                  } from '../subworkflows/local/align'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -56,6 +57,17 @@ workflow REPORTHO {
             .mix(FETCH_STRUCTURES.out.versions)
             .set { ch_versions }
     }
+
+    ALIGN (
+        FETCH_SEQUENCES.out.sequences,
+        FETCH_STRUCTURES.out.structures
+    )
+
+    ALIGN.out.alignment.view()
+
+    ch_versions
+        .mix(ALIGN.out.versions)
+        .set { ch_versions }
 
     //
     // Collate and save software versions

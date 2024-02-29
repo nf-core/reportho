@@ -11,6 +11,7 @@ workflow FETCH_SEQUENCES {
 
     emit:
     sequences = FETCH_SEQUENCES_ONLINE.out.fasta
+    hits      = FETCH_SEQUENCES_ONLINE.out.hits
     misses    = FETCH_SEQUENCES_ONLINE.out.misses
     versions  = FETCH_SEQUENCES_ONLINE.out.versions
 }
