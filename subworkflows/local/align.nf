@@ -1,5 +1,5 @@
-include { TCOFFEE_ALIGN } from '../modules/nf-core/tcoffee/align/main'
-include { TCOFFEE_ALIGN as TCOFFEE_3DALIGN } from '../modules/nf-core/tcoffee/align/main'
+include { TCOFFEE_ALIGN } from '../../modules/nf-core/tcoffee/align/main'
+include { TCOFFEE_ALIGN as TCOFFEE_3DALIGN } from '../../modules/nf-core/tcoffee/align/main'
 
 workflow ALIGN {
     take:
@@ -8,7 +8,8 @@ workflow ALIGN {
 
     main:
 
-    ch_versions = Channel.empty()
+    ch_versions  = Channel.empty()
+    ch_alignment = Channel.empty()
 
     if (params.use_structures) {
         // add 3D alignment later
@@ -18,15 +19,16 @@ workflow ALIGN {
         TCOFFEE_ALIGN (
             ch_fasta,
             [[:], []],
-            [[:], [], []]
+            [[:], [], []],
+            false
         )
 
         TCOFFEE_ALIGN.out.alignment
-            .set(ch_alignment)
+            .set { ch_alignment }
 
         ch_versions
             .mix(TCOFFEE_ALIGN.out.versions)
-            .set(ch_versions)
+            .set { ch_versions }
     }
 
     emit:

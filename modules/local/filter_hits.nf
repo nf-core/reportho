@@ -10,6 +10,7 @@ process FILTER_HITS {
     input:
     tuple val(meta), path(score_table)
     val strategy
+    val queryid
 
     output:
     tuple val(meta), path('filtered_hits.txt'), emit: filtered_hits
@@ -20,7 +21,7 @@ process FILTER_HITS {
 
     script:
     """
-    filter_hits.py $score_table $strategy > filtered_hits.txt 2> python.err
+    filter_hits.py $score_table $strategy $queryid > filtered_hits.txt 2> python.err
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":

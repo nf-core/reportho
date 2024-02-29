@@ -5,7 +5,7 @@ process FETCH_SEQUENCES_ONLINE {
     // add container here when available
 
     input:
-    tuple val(meta), path(ids)
+    tuple val(meta), path(ids), path(query_fasta)
 
     output:
     tuple val(meta), path("orthologs.fa"), emit: fasta
@@ -14,8 +14,10 @@ process FETCH_SEQUENCES_ONLINE {
     path "versions.yml", emit: versions
 
     script:
+    add_query = params.uniprot_query ? "" : "cat $query_fasta >> orthologs.fa"
     """
     fetch_sequences.py $ids > orthologs.fa
+    $add_query
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":

@@ -56,8 +56,8 @@ def filter_centroid(data):
 
 def main():
     # arg check
-    if len(sys.argv) < 3:
-        print("Usage: python filter_hits.py <input_file> <strategy>")
+    if len(sys.argv) < 4:
+        print("Usage: python filter_hits.py <input_file> <strategy> [query_id]")
         sys.exit(1)
     # load data
     data = load_data_from_csv(sys.argv[1])
@@ -75,6 +75,7 @@ def main():
         print("Invalid strategy. Choose from: intersection, majority, union, centroid")
         sys.exit(1)
     # print filtered data
+    print(sys.argv[3])
     for row in filtered_data:
         print(row['ID'])
 

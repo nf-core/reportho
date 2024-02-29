@@ -84,6 +84,20 @@
                     "description": "Use structures for the analysis.",
                     "help_text": "If set to `true`, the pipeline will use AlphaFold structures for the analysis.",
                     "fa_icon": "fas fa-dna"
+                },
+                "use_iqtree": {
+                    "type": "boolean",
+                    "default": "true",
+                    "description": "Use IQ-TREE for the phylogenetic analysis.",
+                    "help_text": "If set to `true`, the pipeline will use IQ-TREE for the phylogenetic analysis.",
+                    "fa_icon": "fas fa-tree"
+                },
+                "use_fastme": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Use FastME for the phylogenetic analysis.",
+                    "help_text": "If set to `true`, the pipeline will use FastME for the phylogenetic analysis.",
+                    "fa_icon": "fas fa-tree"
                 }
             }
         },

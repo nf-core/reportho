@@ -14,6 +14,7 @@ workflow GET_ORTHOLOGS {
     main:
 
     ch_versions = Channel.empty()
+    ch_queryid  = params.uniprot_query ? ch_samplesheet.map { it[1] } : ch_samplesheet.map { it[0].id }
 
     if (!params.uniprot_query) {
         ch_samplesheet
@@ -82,7 +83,8 @@ workflow GET_ORTHOLOGS {
 
     FILTER_HITS (
         MAKE_SCORE_TABLE.out.score_table,
-        params.merge_strategy
+        params.merge_strategy,
+        ch_queryid
     )
 
     ch_versions

@@ -11,8 +11,8 @@ workflow FETCH_STRUCTURES {
     )
 
     emit:
-    pdb      = FETCH_AFDB_STRUCTURES.out.pdb
-    hits     = FETCH_AFDB_STRUCTURES.out.hits
-    misses   = FETCH_AFDB_STRUCTURES.out.misses
-    versions = FETCH_AFDB_STRUCTURES.out.versions
+    structures = FETCH_AFDB_STRUCTURES.out.pdb
+    hits       = FETCH_AFDB_STRUCTURES.out.hits
+    misses     = FETCH_AFDB_STRUCTURES.out.misses
+    versions   = FETCH_AFDB_STRUCTURES.out.versions
 }
