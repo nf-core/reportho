@@ -15,6 +15,8 @@ def fetch_structures(path: str):
         res = requests.get(url)
         if res.ok:
             pdb_url = res.json()[0]["pdbUrl"]
+            version = res.json()[0]["latestVersion"]
+            print(f"{id}: {version}", file=sys.stderr)
             res = requests.get(pdb_url)
             if res.ok:
                 print(res.text, file=open(f"{id}.pdb", 'w'))

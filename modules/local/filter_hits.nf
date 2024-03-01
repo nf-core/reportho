@@ -13,8 +13,8 @@ process FILTER_HITS {
     val queryid
 
     output:
-    tuple val(meta), path('filtered_hits.txt'), emit: filtered_hits
-    path "versions.yml", emit: versions
+    tuple val(meta), path('filtered_hits.txt') , emit: filtered_hits
+    path "versions.yml"                        , emit: versions
 
     when:
     task.ext.when == null || task.ext.when

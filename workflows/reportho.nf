@@ -33,7 +33,7 @@ workflow REPORTHO {
     ch_versions = Channel.empty()
     ch_multiqc_files = Channel.empty()
 
-    ch_query_fasta = params.uniprot_query ? ch_samplesheet.map { [it[0], []]} : ch_samplesheet.map { [it[0], file(it[1])] }
+    ch_query_fasta = params.uniprot_query ? ch_samplesheet.map { [it[0], []] } : ch_samplesheet.map { [it[0], file(it[1])] }
 
     GET_ORTHOLOGS (
         ch_samplesheet
@@ -57,6 +57,8 @@ workflow REPORTHO {
             GET_ORTHOLOGS.out.orthologs
         )
 
+        FETCH_STRUCTURES.out.af_versions.view()
+
         ch_versions
             .mix(FETCH_STRUCTURES.out.versions)
             .set { ch_versions }
@@ -68,8 +70,6 @@ workflow REPORTHO {
         FETCH_SEQUENCES.out.sequences,
         ch_structures
     )
-
-    ALIGN.out.alignment.view()
 
     ch_versions
         .mix(ALIGN.out.versions)
@@ -89,8 +89,6 @@ workflow REPORTHO {
     ch_versions
         .collectFile(storeDir: "${params.outdir}/pipeline_info", name: 'nf_core_pipeline_software_mqc_versions.yml', sort: true, newLine: true)
         .set { ch_collated_versions }
-
-    ch_collated_versions.view()
 
     //
     // MODULE: MultiQC

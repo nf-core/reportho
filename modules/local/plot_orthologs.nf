@@ -2,6 +2,10 @@ process PLOT_ORTHOLOGS {
     tag "$meta.id"
     label 'process_single'
 
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+        'docker://itrujnara/plot_orthologs:1.0.0' :
+        'itrujnara/plot_orthologs:1.0.0' }"
+
     input:
     tuple val(meta), path(score_table)
 
