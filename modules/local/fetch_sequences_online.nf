@@ -2,7 +2,10 @@ process FETCH_SEQUENCES_ONLINE {
     tag "${meta.id}"
     label "process_single"
 
-    // add container here when available
+    conda "conda-forge::python=3.11.0 conda-forge::biopython=1.83.0 conda-forge::requests=2.31.0"
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+        'https://depot.galaxyproject.org/singularity/mulled-v2-bc54124b36864a4af42a9db48b90a404b5869e7e:5258b8e5ba20587b7cbf3e942e973af5045a1e59-0' :
+        'biocontainers/mulled-v2-bc54124b36864a4af42a9db48b90a404b5869e7e:5258b8e5ba20587b7cbf3e942e973af5045a1e59-0' }"
 
     input:
     tuple val(meta), path(ids), path(query_fasta)
@@ -12,6 +15,9 @@ process FETCH_SEQUENCES_ONLINE {
     path "hits.txt", emit: hits
     path "misses.txt", emit: misses
     path "versions.yml", emit: versions
+
+    when:
+    task.ext.when == null || task.ext.when
 
     script:
     add_query = params.uniprot_query ? "" : "cat $query_fasta >> orthologs.fa"

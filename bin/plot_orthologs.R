@@ -2,7 +2,7 @@
 
 suppressMessages(library(ggplot2))
 suppressMessages(library(reshape2))
-suppressMessages(library(tidyverse))
+suppressMessages(library(dplyr))
 suppressMessages(library(ggVennDiagram))
 
 # Command line arguments
