@@ -57,3 +57,33 @@ venn.plot <- ggVennDiagram(venn.data, set_color = text_color) +
         plot.background = element_rect(fill = bg_color),
         panel.background = element_rect(fill = bg_color))
 ggsave(paste0(args[2], "/venn.png"), plot = venn.plot, width = 6, height = 6, dpi = 300)
+
+# Make a plot with Jaccard index for each pair of methods
+jaccard <- data.frame(method1 = character(), method2 = character(), jaccard = numeric())
+for (i in 2:4) {
+    for (j in 2:4) {
+        if (i == j) {
+            next
+        }
+        method1 <- colnames(data)[i]
+        method2 <- colnames(data)[j]
+        hits1 <- (data %>% filter(data[, i] == 1) %>% select(ID))$ID
+        hits2 <- (data %>% filter(data[, j] == 1) %>% select(ID))$ID
+        jaccard <- rbind(jaccard, data.frame(method1 = method1, method2 = method2, jaccard = length(intersect(hits1, hits2)) / length(union(hits1, hits2))))
+    }
+}
+p <- ggplot(jaccard, aes(x = method1, y = method2, fill = jaccard)) +
+    geom_tile() +
+    geom_text(aes(label = round(jaccard, 2)), size=5) +
+    scale_fill_gradient(low = "#59B4C3", high = "#EFF396") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    labs(title = "Jaccard index", x = "Method 1", y = "Method 2", fill = "Jaccard index") +
+    theme(legend.position = "right",
+        text = element_text(size = 12, color = text_color),
+        axis.text.x = element_text(color = text_color),
+        axis.text.y = element_text(color = text_color),
+        plot.background = element_rect(fill = bg_color),
+        panel.background = element_rect(fill = bg_color))
+
+ggsave(paste0(args[2], "/jaccard.png"), plot = p, width = 6, height = 6, dpi = 300)

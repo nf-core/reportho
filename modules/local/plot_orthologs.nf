@@ -9,6 +9,7 @@ process PLOT_ORTHOLOGS {
     val meta, emit: meta
     path "supports.png", emit: supports
     path "venn.png", emit: venn
+    path "jaccard.png", emit: jaccard
     path "versions.yml", emit: versions
 
     when:

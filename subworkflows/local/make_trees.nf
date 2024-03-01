@@ -1,5 +1,6 @@
-include { IQTREE } from "../../modules/nf-core/iqtree/main"
-include { FASTME } from "../../modules/nf-core/fastme/main"
+include { IQTREE         } from "../../modules/nf-core/iqtree/main"
+include { FASTME         } from "../../modules/nf-core/fastme/main"
+include { CONVERT_PHYLIP } from "../../modules/local/convert_phylip"
 
 workflow MAKE_TREES {
     take:
@@ -31,12 +32,20 @@ workflow MAKE_TREES {
         ch_alnfile = ch_alignment.
             map { meta, path -> path }
 
+        CONVERT_PHYLIP (
+            ch_alnfile
+        )
+
+        ch_versions
+            .mix(CONVERT_PHYLIP.out.versions)
+            .set { ch_versions }
+
         FASTME (
-            ch_alnfile,
+            CONVERT_PHYLIP.out.phylip,
             []
         )
 
-        ch_metree = FASTME.out.phylogeny
+        ch_metree = FASTME.out.nwk
 
         ch_versions
             .mix(FASTME.out.versions)

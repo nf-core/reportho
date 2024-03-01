@@ -107,6 +107,7 @@ workflow GET_ORTHOLOGS {
     orthologs     = FILTER_HITS.out.filtered_hits
     supports_plot = PLOT_ORTHOLOGS.out.supports
     venn_plot     = PLOT_ORTHOLOGS.out.venn
+    jaccard_plot  = PLOT_ORTHOLOGS.out.jaccard
     versions      = ch_merged_versions
 
 }
