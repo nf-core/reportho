@@ -8,10 +8,10 @@ process CONVERT_PHYLIP {
         'biocontainers/mulled-v2-bc54124b36864a4af42a9db48b90a404b5869e7e:5258b8e5ba20587b7cbf3e942e973af5045a1e59-0' }"
 
     input:
-    path input_file
+    tuple val(meta), path(input_file)
 
     output:
-    path "orthologs.phy", emit: phylip
+    path "*.phy", emit: phylip
     path "versions.yml", emit: versions
 
     when:
@@ -19,7 +19,7 @@ process CONVERT_PHYLIP {
 
     script:
     """
-    clustal2phylip.py $input_file orthologs.phy
+    clustal2phylip.py $input_file ${meta.id}.phy
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":

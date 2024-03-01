@@ -29,11 +29,9 @@ workflow MAKE_TREES {
     }
 
     if (params.use_fastme) {
-        ch_alnfile = ch_alignment.
-            map { meta, path -> path }
 
         CONVERT_PHYLIP (
-            ch_alnfile
+            ch_alignment
         )
 
         ch_versions
