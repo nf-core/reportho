@@ -11,17 +11,18 @@ process PLOT_ORTHOLOGS {
 
     output:
     val meta, emit: meta
-    path "supports.png", emit: supports
-    path "venn.png", emit: venn
-    path "jaccard.png", emit: jaccard
+    path "*supports.png", emit: supports
+    path "*venn.png", emit: venn
+    path "*jaccard.png", emit: jaccard
     path "versions.yml", emit: versions
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
+    prefix = task.ext.prefix ?: meta.id
     """
-    plot_orthologs.R $score_table .
+    plot_orthologs.R $score_table $prefix
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}"

@@ -11,17 +11,18 @@ process FETCH_PANTHER_GROUP_ONLINE {
     tuple val(meta), path(uniprot_id), path(taxid)
 
     output:
-    tuple val(meta), path("panther_group.txt") , emit:panther_group
-    path "versions.yml"                        , emit: versions
+    tuple val(meta), path("*panther_group.txt") , emit:panther_group
+    path "versions.yml"                         , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
+    prefix = task.ext.prefix ?: meta.id
     """
     uniprot_id=\$(cat $uniprot_id)
     taxid=\$(cat $taxid)
-    fetch_panther_group.py \$uniprot_id \$taxid > panther_group.txt 2> panther_version.txt
+    fetch_panther_group.py \$uniprot_id \$taxid > ${prefix}_panther_group.txt 2> panther_version.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

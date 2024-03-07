@@ -11,18 +11,19 @@ process FETCH_SEQUENCES_ONLINE {
     tuple val(meta), path(ids), path(query_fasta)
 
     output:
-    tuple val(meta), path("orthologs.fa"), emit: fasta
-    path "hits.txt", emit: hits
-    path "misses.txt", emit: misses
-    path "versions.yml", emit: versions
+    tuple val(meta), path("&orthologs.fa") , emit: fasta
+    path "hits.txt"                        , emit: hits
+    path "misses.txt"                      , emit: misses
+    path "versions.yml"                    , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
-    add_query = params.uniprot_query ? "" : "cat $query_fasta >> orthologs.fa"
+    prefix = task.ext.prefix ?: meta.id
+    add_query = params.uniprot_query ? "" : "cat $query_fasta >> ${prefix}_orthologs.fa"
     """
-    fetch_sequences.py $ids > orthologs.fa
+    fetch_sequences.py $ids > ${prefix}_orthologs.fa
     $add_query
 
     cat <<- END_VERSIONS > versions.yml

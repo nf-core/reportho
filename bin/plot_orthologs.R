@@ -8,13 +8,13 @@ suppressMessages(library(ggVennDiagram))
 # Command line arguments
 args <- commandArgs(trailingOnly = TRUE)
 if (length(args) < 2) {
-    print("Usage: Rscript comparison_plots.R <input_file> <output_dir>")
+    print("Usage: Rscript comparison_plots.R <input_file> <prefix>")
     quit(status = 1)
 }
 
 # Styles
 text_color <- "#DDDDDD"
-bg_color <- "#333333"
+bg_color <- "transparent"
 
 # Load the data
 data <- read.csv(args[1], header = TRUE, stringsAsFactors = FALSE)
@@ -41,10 +41,10 @@ p <- ggplot(melted_crosstable, aes(x = method, y = count, fill = score)) +
         text = element_text(size = 12, color = text_color),
         axis.text.x = element_text(color = text_color),
         axis.text.y = element_text(color = text_color),
-        plot.background = element_rect(fill = bg_color),
-        panel.background = element_rect(fill = bg_color))
+        plot.background = element_rect(color = bg_color, fill = bg_color),
+        panel.background = element_rect(color = bg_color, fill = bg_color))
 
-ggsave(paste0(args[2], "/supports.png"), plot = p, width = 6, height = 10, dpi = 300)
+ggsave(paste0(args[2], "_supports.png"), plot = p, width = 6, height = 10, dpi = 300)
 
 # Make a Venn diagram
 oma.hits <- (data %>% filter(oma == 1) %>% select(ID))$ID
@@ -54,9 +54,9 @@ venn.data <- list(OMA = oma.hits, Panther = panther.hits, OrthoInspector = inspe
 venn.plot <- ggVennDiagram(venn.data, set_color = text_color) +
     theme(legend.position = "none",
         text = element_text(size = 12, color = text_color),
-        plot.background = element_rect(fill = bg_color),
-        panel.background = element_rect(fill = bg_color))
-ggsave(paste0(args[2], "/venn.png"), plot = venn.plot, width = 6, height = 6, dpi = 300)
+        plot.background = element_rect(color = bg_color, fill = bg_color),
+        panel.background = element_rect(color = bg_color, fill = bg_color))
+ggsave(paste0(args[2], "_venn.png"), plot = venn.plot, width = 6, height = 6, dpi = 300)
 
 # Make a plot with Jaccard index for each pair of methods
 jaccard <- data.frame(method1 = character(), method2 = character(), jaccard = numeric())
@@ -78,12 +78,12 @@ p <- ggplot(jaccard, aes(x = method1, y = method2, fill = jaccard)) +
     scale_fill_gradient(low = "#59B4C3", high = "#EFF396") +
     theme_minimal() +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-    labs(title = "Jaccard index", x = "Method 1", y = "Method 2", fill = "Jaccard index") +
+    labs(title = "Jaccard Index", x = "Method 1", y = "Method 2", fill = "Jaccard Index") +
     theme(legend.position = "right",
         text = element_text(size = 12, color = text_color),
         axis.text.x = element_text(color = text_color),
         axis.text.y = element_text(color = text_color),
-        plot.background = element_rect(fill = bg_color),
-        panel.background = element_rect(fill = bg_color))
+        plot.background = element_rect(color = bg_color, fill = bg_color),
+        panel.background = element_rect(color = bg_color, fill = bg_color))
 
-ggsave(paste0(args[2], "/jaccard.png"), plot = p, width = 6, height = 6, dpi = 300)
+ggsave(paste0(args[2], "_jaccard.png"), plot = p, width = 6, height = 6, dpi = 300)

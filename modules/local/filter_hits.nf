@@ -13,15 +13,16 @@ process FILTER_HITS {
     val queryid
 
     output:
-    tuple val(meta), path('filtered_hits.txt') , emit: filtered_hits
-    path "versions.yml"                        , emit: versions
+    tuple val(meta), path('*filtered_hits.txt') , emit: filtered_hits
+    path "versions.yml"                         , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
+    prefix = task.ext.prefix ?: meta.id
     """
-    filter_hits.py $score_table $strategy $queryid > filtered_hits.txt 2> python.err
+    filter_hits.py $score_table $strategy $queryid > ${prefix}_filtered_hits.txt 2> python.err
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":

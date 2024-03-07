@@ -18,8 +18,9 @@ process CONVERT_PHYLIP {
     task.ext.when == null || task.ext.when
 
     script:
+    prefix = task.ext.prefix ?: meta.id
     """
-    clustal2phylip.py $input_file ${meta.id}.phy
+    clustal2phylip.py $input_file ${prefix}.phy
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":

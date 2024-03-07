@@ -12,16 +12,17 @@ process FETCH_INSPECTOR_GROUP_ONLINE {
     val inspector_version
 
     output:
-    tuple val(meta), path("inspector_group.txt") , emit: inspector_group
-    path "versions.yml"                          , emit: versions
+    tuple val(meta), path("*inspector_group.txt") , emit: inspector_group
+    path "versions.yml"                           , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
+    prefix = task.ext.prefix ?: meta.id
     """
     uniprot_id=\$(cat $uniprot_id)
-    fetch_inspector_group.py \$uniprot_id $inspector_version > inspector_group.txt
+    fetch_inspector_group.py \$uniprot_id $inspector_version > ${prefix}_inspector_group.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

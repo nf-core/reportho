@@ -21,8 +21,9 @@ process MAKE_SCORE_TABLE {
     task.ext.when == null || task.ext.when
 
     script:
+    prefix = task.ext.prefix ?: meta.id
     """
-    make_score_table.py $oma_group $panther_group $inspector_group > score_table.csv
+    make_score_table.py $oma_group $panther_group $inspector_group > ${prefix}_score_table.csv
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":
