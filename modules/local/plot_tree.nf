@@ -10,8 +10,8 @@ process PLOT_TREE {
     path tree
 
     output:
-    path "*.png", emit: plot
-    path "versions.yml", emit: versions
+    path "*.png"        , emit: plot
+    path "versions.yml" , emit: versions
 
     when:
     task.ext.when == null || task.ext.when

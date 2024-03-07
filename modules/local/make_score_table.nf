@@ -14,8 +14,8 @@ process MAKE_SCORE_TABLE {
     path inspector_group
 
     output:
-    tuple val(meta), path('score_table.csv'), emit: score_table
-    path "versions.yml", emit: versions
+    tuple val(meta), path('*score_table.csv') , emit: score_table
+    path "versions.yml"                       , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
