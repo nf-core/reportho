@@ -104,10 +104,15 @@ workflow GET_ORTHOLOGS {
         .set { ch_merged_versions }
 
     emit:
-    orthologs     = FILTER_HITS.out.filtered_hits
-    supports_plot = PLOT_ORTHOLOGS.out.supports
-    venn_plot     = PLOT_ORTHOLOGS.out.venn
-    jaccard_plot  = PLOT_ORTHOLOGS.out.jaccard
-    versions      = ch_merged_versions
+    id              = ch_query.map { it[1] }
+    taxid           = ch_query.map { it[2] }
+    oma_group       = FETCH_OMA_GROUP_ONLINE.out.oma_group.map { it[1] }
+    panther_group   = FETCH_PANTHER_GROUP_ONLINE.out.panther_group.map { it[1] }
+    inspector_group = FETCH_INSPECTOR_GROUP_ONLINE.out.inspector_group.map { it[1] }
+    orthologs       = FILTER_HITS.out.filtered_hits
+    supports_plot   = PLOT_ORTHOLOGS.out.supports
+    venn_plot       = PLOT_ORTHOLOGS.out.venn
+    jaccard_plot    = PLOT_ORTHOLOGS.out.jaccard
+    versions        = ch_merged_versions
 
 }

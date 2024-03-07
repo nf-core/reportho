@@ -11,8 +11,8 @@ process WRITE_SEQINFO {
     tuple val(meta), val(uniprot_id)
 
     output:
-    tuple val(meta), path("id.txt"), path("taxid.txt") , emit: seqinfo
-    path "versions.yml"                                , emit: versions
+    tuple val(meta), path("*id.txt"), path("*taxid.txt") , emit: seqinfo
+    path "versions.yml"                                  , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
