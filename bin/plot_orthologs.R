@@ -12,6 +12,13 @@ if (length(args) < 2) {
     quit(status = 1)
 }
 
+getPrettyName <- function(method) {
+    switch(method,
+        oma = "OMA",
+        panther = "Panther",
+        inspector = "OrthoInspector")
+}
+
 # Styles
 text_color <- "#DDDDDD"
 bg_color <- "transparent"
@@ -35,8 +42,9 @@ p <- ggplot(melted_crosstable, aes(x = method, y = count, fill = score)) +
     geom_bar(stat = "identity", position = "stack") +
     theme_minimal() +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-    labs(title = "Support for predictions", x = "Database", y = "Count", fill = "Support") +
+    labs(title = "Support for predictions", x = "Database", y = "Number of orthologs", fill = "Support") +
     scale_fill_manual(values = c("#59B4C3", "#74E291", "#EFF396")) +
+    scale_x_discrete(labels = function(labs) sapply(labs, getPrettyName)) +
     theme(legend.position = "right",
         text = element_text(size = 12, color = text_color),
         axis.text.x = element_text(color = text_color),
@@ -76,9 +84,11 @@ p <- ggplot(jaccard, aes(x = method1, y = method2, fill = jaccard)) +
     geom_tile() +
     geom_text(aes(label = round(jaccard, 2)), size=5) +
     scale_fill_gradient(low = "#59B4C3", high = "#EFF396") +
+    scale_x_discrete(labels = function(labs) sapply(labs, getPrettyName)) +
+    scale_y_discrete(labels = function(labs) sapply(labs, getPrettyName)) +
     theme_minimal() +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-    labs(title = "Jaccard Index", x = "Method 1", y = "Method 2", fill = "Jaccard Index") +
+    labs(title = "Jaccard Index", x = "", y = "", fill = "Jaccard Index") +
     theme(legend.position = "right",
         text = element_text(size = 12, color = text_color),
         axis.text.x = element_text(color = text_color),

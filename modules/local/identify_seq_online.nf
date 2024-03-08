@@ -11,7 +11,7 @@ process IDENTIFY_SEQ_ONLINE {
     tuple val(meta), path(fasta)
 
     output:
-    tuple val(meta), path("*id.txt"), path("*taxid.txt") , emit: seqinfo
+    tuple val(meta), path("*_id.txt"), path("*_taxid.txt") , emit: seqinfo
     path "versions.yml"                                  , emit: versions
 
     when:

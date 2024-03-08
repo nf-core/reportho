@@ -11,7 +11,7 @@ process FETCH_SEQUENCES_ONLINE {
     tuple val(meta), path(ids), path(query_fasta)
 
     output:
-    tuple val(meta), path("&orthologs.fa") , emit: fasta
+    tuple val(meta), path("*_orthologs.fa") , emit: fasta
     path "hits.txt"                        , emit: hits
     path "misses.txt"                      , emit: misses
     path "versions.yml"                    , emit: versions
