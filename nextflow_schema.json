@@ -304,6 +304,9 @@
             "$ref": "#/definitions/ortholog_options"
         },
         {
+            "$ref": "#/definitions/donwstream_options"
+        },
+        {
             "$ref": "#/definitions/institutional_config_options"
         },
         {
