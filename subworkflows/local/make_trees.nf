@@ -32,6 +32,7 @@ workflow MAKE_TREES {
             .set { ch_versions }
 
         PLOT_IQTREE (
+            ch_alnfile.map{ it[0] },
             IQTREE.out.phylogeny
         )
 
@@ -64,6 +65,7 @@ workflow MAKE_TREES {
             .set { ch_versions }
 
         PLOT_FASTME (
+            ch_alnfile.map{ it[0] },
             FASTME.out.nwk
         )
 

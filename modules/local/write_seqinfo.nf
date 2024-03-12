@@ -12,7 +12,7 @@ process WRITE_SEQINFO {
 
     output:
     tuple val(meta), path("*_id.txt"), path("*_taxid.txt") , emit: seqinfo
-    path "versions.yml"                                  , emit: versions
+    path "versions.yml"                                    , emit: versions
 
     when:
     task.ext.when == null || task.ext.when

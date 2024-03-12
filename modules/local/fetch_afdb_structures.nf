@@ -11,18 +11,19 @@ process FETCH_AFDB_STRUCTURES {
     tuple val(meta), path(ids)
 
     output:
-    tuple val(meta), path("*.pdb") , emit: pdb
-    path "hits.txt"                , emit: hits
-    path "misses.txt"              , emit: misses
-    path "af_versions.txt"         , emit: af_versions
-    path "versions.yml"            , emit: versions
+    tuple val(meta), path("*.pdb")             , emit: pdb
+    tuple val(meta), path("*_hits.txt")        , emit: hits
+    tuple val(meta), path("*_misses.txt")      , emit: misses
+    tuple val(meta), path("*af_versions.txt")  , emit: af_versions
+    path "versions.yml"                        , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
+    prefix = task.ext.prefix ?: meta.id
     """
-    fetch_afdb_structures.py $ids 2> af_versions.txt
+    fetch_afdb_structures.py $ids $prefix 2> ${prefix}_af_versions.txt
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}"

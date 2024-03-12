@@ -57,8 +57,6 @@ workflow REPORTHO {
             GET_ORTHOLOGS.out.orthologs
         )
 
-        FETCH_STRUCTURES.out.af_versions.view()
-
         ch_versions
             .mix(FETCH_STRUCTURES.out.versions)
             .set { ch_versions }

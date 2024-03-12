@@ -10,11 +10,10 @@ process PLOT_ORTHOLOGS {
     tuple val(meta), path(score_table)
 
     output:
-    val meta             , emit: meta
-    path "*supports.png" , emit: supports
-    path "*venn.png"     , emit: venn
-    path "*jaccard.png"  , emit: jaccard
-    path "versions.yml"  , emit: versions
+    tuple val(meta), path("*_supports.png") , emit: supports
+    tuple val(meta), path("*_venn.png")     , emit: venn
+    tuple val(meta), path("*_jaccard.png")  , emit: jaccard
+    path "versions.yml"                     , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
