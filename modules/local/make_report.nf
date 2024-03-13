@@ -13,11 +13,11 @@ process MAKE_REPORT {
     task.ext.when == null || task.ext.when
 
     script:
-    prefix = task.ext.prefix ?: meta.id
-    cp_str_hits = params.use_structures ? "cp $str_hits > public/str_hits.txt" : ""
+    prefix        = task.ext.prefix ?: meta.id
+    cp_str_hits   = params.use_structures ? "cp $str_hits > public/str_hits.txt" : ""
     cp_str_misses = params.use_structures ? "cp $str_misses > public/str_misses.txt" : ""
-    cp_ml_tree = params.use_iqtree ? "cp $ml_tree > public/ml_tree.png" : ""
-    cp_me_tree = params.use_fastme ? "cp $me_tree > public/me_tree.png" : ""
+    cp_ml_tree    = params.use_iqtree ? "cp $ml_tree > public/ml_tree.png" : ""
+    cp_me_tree    = params.use_fastme ? "cp $me_tree > public/me_tree.png" : ""
     """
     cp $id > public/id.txt
     cp $taxid > public/taxid.txt

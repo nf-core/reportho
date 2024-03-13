@@ -8,10 +8,7 @@ process MAKE_SCORE_TABLE {
         'biocontainers/mulled-v2-bc54124b36864a4af42a9db48b90a404b5869e7e:5258b8e5ba20587b7cbf3e942e973af5045a1e59-0' }"
 
     input:
-    val meta
-    path oma_group
-    path panther_group
-    path inspector_group
+    tuple val(meta), path(merged_csv)
 
     output:
     tuple val(meta), path('*score_table.csv') , emit: score_table
@@ -23,7 +20,7 @@ process MAKE_SCORE_TABLE {
     script:
     prefix = task.ext.prefix ?: meta.id
     """
-    make_score_table.py $oma_group $panther_group $inspector_group > ${prefix}_score_table.csv
+    make_score_table.py $merged_csv > ${prefix}_score_table.csv
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":

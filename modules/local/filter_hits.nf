@@ -8,13 +8,13 @@ process FILTER_HITS {
         'biocontainers/mulled-v2-bc54124b36864a4af42a9db48b90a404b5869e7e:5258b8e5ba20587b7cbf3e942e973af5045a1e59-0' }"
 
     input:
-    tuple val(meta), path(score_table)
+    tuple val(meta), path(score_table), path(queryid)
     val strategy
-    val queryid
 
     output:
-    tuple val(meta), path('*filtered_hits.txt') , emit: filtered_hits
-    path "versions.yml"                         , emit: versions
+    tuple val(meta), path('*_minscore_*.txt'), path("*_centroid.txt") , emit: scored_hits
+    tuple val(meta), path('*_filtered_hits.txt')                      , emit: filtered_hits
+    path "versions.yml"                                               , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -22,7 +22,8 @@ process FILTER_HITS {
     script:
     prefix = task.ext.prefix ?: meta.id
     """
-    filter_hits.py $score_table $strategy $queryid > ${prefix}_filtered_hits.txt 2> python.err
+    score_hits.py $score_table $prefix $queryid
+    cat ${prefix}_minscore_3.txt > ${prefix}_filtered_hits.txt # TODO do this properly
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":

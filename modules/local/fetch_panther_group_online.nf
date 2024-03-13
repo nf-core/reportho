@@ -11,8 +11,8 @@ process FETCH_PANTHER_GROUP_ONLINE {
     tuple val(meta), path(uniprot_id), path(taxid)
 
     output:
-    tuple val(meta), path("*panther_group.txt") , emit:panther_group
-    path "versions.yml"                         , emit: versions
+    tuple val(meta), path("*_panther_group.csv") , emit:panther_group
+    path "versions.yml"                          , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -23,6 +23,7 @@ process FETCH_PANTHER_GROUP_ONLINE {
     uniprot_id=\$(cat $uniprot_id)
     taxid=\$(cat $taxid)
     fetch_panther_group.py \$uniprot_id \$taxid > ${prefix}_panther_group.txt 2> panther_version.txt
+    csv_adorn.py ${prefix}_panther_group.txt PANTHER > ${prefix}_panther_group.csv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

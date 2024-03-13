@@ -55,13 +55,61 @@
             "fa_icon": "fas fa-dna",
             "description": "All options related to the ortholog search subworkflow.",
             "properties": {
-                "merge_strategy": {
+                "local_databases": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Use local databases for the analysis.",
+                    "help_text": "If set to `true`, the pipeline will use local databases for the analysis.",
+                    "fa_icon": "fas fa-database"
+                },
+                "use_oma": {
+                    "type": "boolean",
+                    "default": "true",
+                    "description": "Use OMA for the ortholog search.",
+                    "help_text": "If set to `true`, the pipeline will use OMA for the ortholog search.",
+                    "fa_icon": "fas fa-database"
+                },
+                "oma_path": {
                     "type": "string",
-                    "enum": ["union", "majority", "intersection", "centroid"],
-                    "default": "union",
-                    "description": "The strategy to merge the orthologs.",
-                    "help_text": "Select one of the valid strategies to merge the orthologs.",
-                    "fa_icon": "fas fa-object-group"
+                    "format": "path",
+                    "description": "Path to the OMA database.",
+                    "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the OMA database.",
+                    "fa_icon": "fas fa-database"
+                },
+                "oma_uniprot_path": {
+                    "type": "string",
+                    "format": "path",
+                    "description": "Path to the Uniprot-OMA ID map.",
+                    "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the OMA-Uniprot ID map.",
+                    "fa_icon": "fas fa-database"
+                },
+                "oma_ensembl_path": {
+                    "type": "string",
+                    "format": "path",
+                    "description": "Path to the Ensembl-OMA ID map.",
+                    "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the OMA-Ensembl ID map.",
+                    "fa_icon": "fas fa-database"
+                },
+                "oma_refseq_path": {
+                    "type": "string",
+                    "format": "path",
+                    "description": "Path to the RefSeq-OMA ID map.",
+                    "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the OMA-RefSeq ID map.",
+                    "fa_icon": "fas fa-database"
+                },
+                "use_centroid": {
+                    "type": "boolean",
+                    "default": "true",
+                    "description": "Use centroid strategy for the ortholog search. Overrides min_score.",
+                    "help_text": "If set to `true`, the pipeline will use centroid strategy for the ortholog search.",
+                    "fa_icon": "fas fa-database"
+                },
+                "min_score": {
+                    "type": "number",
+                    "default": 2,
+                    "description": "Minimum score for the ortholog search.",
+                    "help_text": "The minimum score for the ortholog search. If `use_centroid` is set to `true`, this parameter will be ignored.",
+                    "fa_icon": "fas fa-database"
                 },
                 "inspector_version": {
                     "type": "string",
