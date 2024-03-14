@@ -48,10 +48,8 @@ workflow GET_ORTHOLOGS {
             .set { ch_versions }
     }
 
-    if (params.use_oma) {
-        ch_oma = Channel.empty()
-
-        if(params.local_databases) {
+    if (params.local_databases) {
+        if (params.use_oma) {
             FETCH_OMA_GROUP_LOCAL (
                 ch_query,
                 params.oma_path,
@@ -60,62 +58,58 @@ workflow GET_ORTHOLOGS {
                 params.oma_refseq_path
             )
 
-            ch_oma
+            ch_orthogroups
                 .mix(FETCH_OMA_GROUP_LOCAL.out.oma_group)
-                .set { ch_oma }
+                .set { ch_orthogroups }
 
             ch_versions
                 .mix(FETCH_OMA_GROUP_LOCAL.out.versions)
                 .set { ch_versions }
         }
-        else {
+    }
+    else { // use online databases
+        if (params.use_oma) {
             FETCH_OMA_GROUP_ONLINE (
                 ch_query
             )
 
-            ch_oma
+            ch_orthogroups
                 .mix(FETCH_OMA_GROUP_ONLINE.out.oma_group)
-                .set { ch_oma }
+                .set { ch_orthogroups }
 
             ch_versions
                 .mix(FETCH_OMA_GROUP_ONLINE.out.versions)
                 .set { ch_versions }
+
         }
+        if (params.use_panther) {
+            FETCH_PANTHER_GROUP_ONLINE (
+                ch_query
+            )
 
-        ch_orthogroups
-            .mix(ch_oma)
-            .set { ch_orthogroups }
-        ch_oma.view()
+            ch_orthogroups
+                .mix(FETCH_PANTHER_GROUP_ONLINE.out.panther_group)
+                .set { ch_orthogroups }
+
+            ch_versions
+                .mix(FETCH_PANTHER_GROUP_ONLINE.out.versions)
+                .set { ch_versions }
+        }
+        if (params.use_inspector) {
+            FETCH_INSPECTOR_GROUP_ONLINE (
+                ch_query,
+                params.inspector_version
+            )
+
+            ch_orthogroups
+                .mix(FETCH_INSPECTOR_GROUP_ONLINE.out.inspector_group)
+                .set { ch_orthogroups }
+
+            ch_versions
+                .mix(FETCH_INSPECTOR_GROUP_ONLINE.out.versions)
+                .set { ch_versions }
+        }
     }
-
-    FETCH_PANTHER_GROUP_ONLINE (
-        ch_query
-    )
-
-    ch_orthogroups
-        .mix(FETCH_PANTHER_GROUP_ONLINE.out.panther_group)
-        .set { ch_orthogroups }
-
-    FETCH_PANTHER_GROUP_ONLINE.out.panther_group.view()
-
-    ch_versions
-        .mix(FETCH_PANTHER_GROUP_ONLINE.out.versions)
-        .set { ch_versions }
-
-    FETCH_INSPECTOR_GROUP_ONLINE (
-        ch_query,
-        params.inspector_version
-    )
-
-    ch_orthogroups
-        .mix(FETCH_INSPECTOR_GROUP_ONLINE.out.inspector_group)
-        .set { ch_orthogroups }
-
-    FETCH_INSPECTOR_GROUP_ONLINE.out.inspector_group.view()
-
-    ch_versions
-        .mix(FETCH_INSPECTOR_GROUP_ONLINE.out.versions)
-        .set { ch_versions }
 
     MERGE_CSV (
         ch_orthogroups.groupTuple()
@@ -139,7 +133,8 @@ workflow GET_ORTHOLOGS {
 
     FILTER_HITS (
         ch_forfilter,
-        params.merge_strategy
+        params.use_centroid,
+        params.min_score
     )
 
     ch_versions

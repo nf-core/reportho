@@ -9,7 +9,8 @@ process FILTER_HITS {
 
     input:
     tuple val(meta), path(score_table), path(queryid)
-    val strategy
+    val use_centroid
+    val min_score
 
     output:
     tuple val(meta), path('*_minscore_*.txt'), path("*_centroid.txt") , emit: scored_hits
@@ -21,9 +22,10 @@ process FILTER_HITS {
 
     script:
     prefix = task.ext.prefix ?: meta.id
+    filter = use_centroid ? "cat ${prefix}_centroid.txt" : "cat ${prefix}_minscore_${min_score}.txt"
     """
     score_hits.py $score_table $prefix $queryid
-    cat ${prefix}_minscore_3.txt > ${prefix}_filtered_hits.txt # TODO do this properly
+    $filter > ${prefix}_filtered_hits.txt
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":
