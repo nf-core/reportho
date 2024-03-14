@@ -46,7 +46,8 @@ def main():
     # load data
     data = load_data_from_csv(sys.argv[1])
     prefix = sys.argv[2]
-    query = sys.argv[3]
+    with open(sys.argv[3], 'r') as f:
+        query = f.read().strip()
     # filter data
     for score in range(1, max([int(row['score']) for row in data])+1):
         f = open(f"{prefix}_minscore_{score}.txt", 'w')
