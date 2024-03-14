@@ -126,6 +126,13 @@
             "fa_icon": "fas fa-search",
             "description": "All options related to the downstream analysis subworkflows.",
             "properties": {
+                "skip_downstream": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Skip the downstream analysis. Overrides all other downstream options.",
+                    "help_text": "If set to `true`, the pipeline will skip the downstream analysis.",
+                    "fa_icon": "fas fa-search"
+                },
                 "use_structures": {
                     "type": "boolean",
                     "default": "false",

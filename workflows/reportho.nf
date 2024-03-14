@@ -43,43 +43,46 @@ workflow REPORTHO {
         .mix(GET_ORTHOLOGS.out.versions)
         .set { ch_versions }
 
-    FETCH_SEQUENCES (
-        GET_ORTHOLOGS.out.orthologs,
-        ch_query_fasta
-    )
-
-    ch_versions
-        .mix(FETCH_SEQUENCES.out.versions)
-        .set { ch_versions }
-
-    if (params.use_structures) {
-        FETCH_STRUCTURES (
-            GET_ORTHOLOGS.out.orthologs
+    if (!params.skip_downstream) {
+        FETCH_SEQUENCES (
+            GET_ORTHOLOGS.out.orthologs,
+            ch_query_fasta
         )
 
         ch_versions
-            .mix(FETCH_STRUCTURES.out.versions)
+            .mix(FETCH_SEQUENCES.out.versions)
             .set { ch_versions }
+
+        if (params.use_structures) {
+            FETCH_STRUCTURES (
+                GET_ORTHOLOGS.out.orthologs
+            )
+
+            ch_versions
+                .mix(FETCH_STRUCTURES.out.versions)
+                .set { ch_versions }
+        }
+
+        ch_structures = params.use_structures ? FETCH_STRUCTURES.out.structures : Channel.empty()
+
+        ALIGN (
+            FETCH_SEQUENCES.out.sequences,
+            ch_structures
+        )
+
+        ch_versions
+            .mix(ALIGN.out.versions)
+            .set { ch_versions }
+
+        MAKE_TREES (
+            ALIGN.out.alignment
+        )
+
+        ch_versions
+            .mix(MAKE_TREES.out.versions)
+            .set { ch_versions }
+
     }
-
-    ch_structures = params.use_structures ? FETCH_STRUCTURES.out.structures : Channel.empty()
-
-    ALIGN (
-        FETCH_SEQUENCES.out.sequences,
-        ch_structures
-    )
-
-    ch_versions
-        .mix(ALIGN.out.versions)
-        .set { ch_versions }
-
-    MAKE_TREES (
-        ALIGN.out.alignment
-    )
-
-    ch_versions
-        .mix(MAKE_TREES.out.versions)
-        .set { ch_versions }
 
     //
     // Collate and save software versions
