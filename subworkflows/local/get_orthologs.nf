@@ -4,6 +4,7 @@ include { FETCH_OMA_GROUP_ONLINE       } from "../../modules/local/fetch_oma_gro
 include { FETCH_PANTHER_GROUP_ONLINE   } from "../../modules/local/fetch_panther_group_online"
 include { FETCH_INSPECTOR_GROUP_ONLINE } from "../../modules/local/fetch_inspector_group_online"
 include { FETCH_OMA_GROUP_LOCAL        } from "../../modules/local/fetch_oma_group_local"
+include { FETCH_PANTHER_GROUP_LOCAL    } from "../../modules/local/fetch_panther_group_local"
 include { CSVTK_JOIN as MERGE_CSV      } from "../../modules/nf-core/csvtk/join/main"
 include { MAKE_SCORE_TABLE             } from "../../modules/local/make_score_table"
 include { FILTER_HITS                  } from "../../modules/local/filter_hits"
@@ -64,6 +65,21 @@ workflow GET_ORTHOLOGS {
 
             ch_versions
                 .mix(FETCH_OMA_GROUP_LOCAL.out.versions)
+                .set { ch_versions }
+        }
+
+        if (params.use_panther) {
+            FETCH_PANTHER_GROUP_LOCAL (
+                ch_query,
+                params.panther_path
+            )
+
+            ch_orthogroups
+                .mix(FETCH_PANTHER_GROUP_LOCAL.out.panther_group)
+                .set { ch_orthogroups }
+
+            ch_versions
+                .mix(FETCH_PANTHER_GROUP_LOCAL.out.versions)
                 .set { ch_versions }
         }
     }
