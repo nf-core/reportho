@@ -16,6 +16,7 @@ include { FETCH_SEQUENCES        } from '../subworkflows/local/fetch_sequences'
 include { FETCH_STRUCTURES       } from '../subworkflows/local/fetch_structures'
 include { ALIGN                  } from '../subworkflows/local/align'
 include { MAKE_TREES             } from '../subworkflows/local/make_trees'
+include { REPORT                 } from '../subworkflows/local/report'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -82,6 +83,14 @@ workflow REPORTHO {
             .mix(MAKE_TREES.out.versions)
             .set { ch_versions }
 
+        REPORT (
+            GET_ORTHOLOGS.out.seqinfo,
+            GET_ORTHOLOGS.out.score_table,
+            GET_ORTHOLOGS.out.orthologs,
+            GET_ORTHOLOGS.out.supports_plot,
+            GET_ORTHOLOGS.out.venn_plot,
+            GET_ORTHOLOGS.out.jaccard_plot,
+        )
     }
 
     //

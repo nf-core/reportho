@@ -6,13 +6,12 @@ process DUMP_PARAMS {
     val meta
 
     output:
-    tuple val(meta), path("*_params.yml"), emit: params
+    tuple val(meta), path("params.yml"), emit: params
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
-    prefix = task.ext.prefix ?: meta.id
     """
     echo <<- END_PARAMS > params.yml
     uniprot_query: ${params.uniprot_query}

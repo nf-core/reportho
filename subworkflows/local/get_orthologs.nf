@@ -170,6 +170,7 @@ workflow GET_ORTHOLOGS {
         .set { ch_merged_versions }
 
     emit:
+    seqinfo         = ch_query
     id              = ch_query.map { it[1] }
     taxid           = ch_query.map { it[2] }
     orthogroups     = ch_orthogroups
