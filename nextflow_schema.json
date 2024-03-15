@@ -139,6 +139,27 @@
                     "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the OrthoInspector database.",
                     "fa_icon": "fas fa-database"
                 },
+                "use_eggnog": {
+                    "type": "boolean",
+                    "default": "true",
+                    "description": "Use EggNOG for the ortholog search.",
+                    "help_text": "If set to `true`, the pipeline will use EggNOG for the ortholog search.",
+                    "fa_icon": "fas fa-database"
+                },
+                "eggnog_path": {
+                    "type": "string",
+                    "format": "path",
+                    "description": "Path to the EggNOG database.",
+                    "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the EggNOG database.",
+                    "fa_icon": "fas fa-database"
+                },
+                "eggnog_idmap_path": {
+                    "type": "string",
+                    "format": "path",
+                    "description": "Path to the EggNOG ID map.",
+                    "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the EggNOG ID map.",
+                    "fa_icon": "fas fa-database"
+                },
                 "use_centroid": {
                     "type": "boolean",
                     "default": "true",

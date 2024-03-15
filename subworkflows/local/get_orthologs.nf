@@ -1,10 +1,14 @@
 include { IDENTIFY_SEQ_ONLINE          } from "../../modules/local/identify_seq_online"
 include { WRITE_SEQINFO                } from "../../modules/local/write_seqinfo"
+
 include { FETCH_OMA_GROUP_ONLINE       } from "../../modules/local/fetch_oma_group_online"
 include { FETCH_PANTHER_GROUP_ONLINE   } from "../../modules/local/fetch_panther_group_online"
 include { FETCH_INSPECTOR_GROUP_ONLINE } from "../../modules/local/fetch_inspector_group_online"
+
 include { FETCH_OMA_GROUP_LOCAL        } from "../../modules/local/fetch_oma_group_local"
 include { FETCH_PANTHER_GROUP_LOCAL    } from "../../modules/local/fetch_panther_group_local"
+include { FETCH_EGGNOG_GROUP_LOCAL     } from "../../modules/local/fetch_eggnog_group_local"
+
 include { CSVTK_JOIN as MERGE_CSV      } from "../../modules/nf-core/csvtk/join/main"
 include { MAKE_SCORE_TABLE             } from "../../modules/local/make_score_table"
 include { FILTER_HITS                  } from "../../modules/local/filter_hits"
@@ -125,6 +129,20 @@ workflow GET_ORTHOLOGS {
             .mix(FETCH_INSPECTOR_GROUP_ONLINE.out.versions)
             .set { ch_versions }
 
+        FETCH_EGGNOG_GROUP_LOCAL (
+            ch_query,
+            params.eggnog_path,
+            params.eggnog_idmap_path
+        )
+
+        ch_orthogroups
+            .mix(FETCH_EGGNOG_GROUP_LOCAL.out.eggnog_group)
+            .set { ch_orthogroups }
+
+        ch_versions
+            .mix(FETCH_EGGNOG_GROUP_LOCAL.out.versions)
+            .set { ch_versions }
+
     } else { // online/local separation is used
         // local only
         if (params.local_databases) {
@@ -159,6 +177,23 @@ workflow GET_ORTHOLOGS {
                 ch_versions
                     .mix(FETCH_PANTHER_GROUP_LOCAL.out.versions)
                     .set { ch_versions }
+            }
+
+            if(params.use_eggnog) {
+                FETCH_EGGNOG_GROUP_LOCAL (
+                    ch_query,
+                    params.eggnog_path,
+                    params.eggnog_idmap_path
+                )
+
+                ch_orthogroups
+                    .mix(FETCH_EGGNOG_GROUP_LOCAL.out.eggnog_group)
+                    .set { ch_orthogroups }
+
+                ch_versions
+                    .mix(FETCH_EGGNOG_GROUP_LOCAL.out.versions)
+                    .set { ch_versions }
+
             }
         }
         else { // online only
