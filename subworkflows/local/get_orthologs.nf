@@ -20,6 +20,8 @@ workflow GET_ORTHOLOGS {
     ch_queryid     = params.uniprot_query ? ch_samplesheet.map { it[1] } : ch_samplesheet.map { it[0].id }
     ch_orthogroups = Channel.empty()
 
+    // Preprocessing - find the ID and taxid of the query sequences
+
     if (!params.uniprot_query) {
         ch_samplesheet
             .map { it -> [it[0], file(it[1])] }
@@ -49,8 +51,11 @@ workflow GET_ORTHOLOGS {
             .set { ch_versions }
     }
 
-    if (params.local_databases) {
-        if (params.use_oma) {
+    // Ortholog fetching
+
+    if(params.use_all) {
+        // OMA
+        if (params.local_databases) {
             FETCH_OMA_GROUP_LOCAL (
                 ch_query,
                 params.oma_path,
@@ -66,9 +71,21 @@ workflow GET_ORTHOLOGS {
             ch_versions
                 .mix(FETCH_OMA_GROUP_LOCAL.out.versions)
                 .set { ch_versions }
-        }
+        } else {
+            FETCH_OMA_GROUP_ONLINE (
+                ch_query
+            )
 
-        if (params.use_panther) {
+            ch_orthogroups
+                .mix(FETCH_OMA_GROUP_ONLINE.out.oma_group)
+                .set { ch_orthogroups }
+
+            ch_versions
+                .mix(FETCH_OMA_GROUP_ONLINE.out.versions)
+                .set { ch_versions }
+        }
+        // Panther
+        if (params.local_databases) {
             FETCH_PANTHER_GROUP_LOCAL (
                 ch_query,
                 params.panther_path
@@ -81,24 +98,7 @@ workflow GET_ORTHOLOGS {
             ch_versions
                 .mix(FETCH_PANTHER_GROUP_LOCAL.out.versions)
                 .set { ch_versions }
-        }
-    }
-    else { // use online databases
-        if (params.use_oma) {
-            FETCH_OMA_GROUP_ONLINE (
-                ch_query
-            )
-
-            ch_orthogroups
-                .mix(FETCH_OMA_GROUP_ONLINE.out.oma_group)
-                .set { ch_orthogroups }
-
-            ch_versions
-                .mix(FETCH_OMA_GROUP_ONLINE.out.versions)
-                .set { ch_versions }
-
-        }
-        if (params.use_panther) {
+        } else {
             FETCH_PANTHER_GROUP_ONLINE (
                 ch_query
             )
@@ -111,19 +111,98 @@ workflow GET_ORTHOLOGS {
                 .mix(FETCH_PANTHER_GROUP_ONLINE.out.versions)
                 .set { ch_versions }
         }
-        if (params.use_inspector) {
-            FETCH_INSPECTOR_GROUP_ONLINE (
-                ch_query,
-                params.inspector_version
-            )
+        // OrthoInspector
+        FETCH_INSPECTOR_GROUP_ONLINE (
+            ch_query,
+            params.inspector_version
+        )
 
-            ch_orthogroups
-                .mix(FETCH_INSPECTOR_GROUP_ONLINE.out.inspector_group)
-                .set { ch_orthogroups }
+        ch_orthogroups
+            .mix(FETCH_INSPECTOR_GROUP_ONLINE.out.inspector_group)
+            .set { ch_orthogroups }
 
-            ch_versions
-                .mix(FETCH_INSPECTOR_GROUP_ONLINE.out.versions)
-                .set { ch_versions }
+        ch_versions
+            .mix(FETCH_INSPECTOR_GROUP_ONLINE.out.versions)
+            .set { ch_versions }
+
+    } else { // online/local separation is used
+        // local only
+        if (params.local_databases) {
+            if (params.use_oma) {
+                FETCH_OMA_GROUP_LOCAL (
+                    ch_query,
+                    params.oma_path,
+                    params.oma_uniprot_path,
+                    params.oma_ensembl_path,
+                    params.oma_refseq_path
+                )
+
+                ch_orthogroups
+                    .mix(FETCH_OMA_GROUP_LOCAL.out.oma_group)
+                    .set { ch_orthogroups }
+
+                ch_versions
+                    .mix(FETCH_OMA_GROUP_LOCAL.out.versions)
+                    .set { ch_versions }
+            }
+
+            if (params.use_panther) {
+                FETCH_PANTHER_GROUP_LOCAL (
+                    ch_query,
+                    params.panther_path
+                )
+
+                ch_orthogroups
+                    .mix(FETCH_PANTHER_GROUP_LOCAL.out.panther_group)
+                    .set { ch_orthogroups }
+
+                ch_versions
+                    .mix(FETCH_PANTHER_GROUP_LOCAL.out.versions)
+                    .set { ch_versions }
+            }
+        }
+        else { // online only
+            if (params.use_oma) {
+                FETCH_OMA_GROUP_ONLINE (
+                    ch_query
+                )
+
+                ch_orthogroups
+                    .mix(FETCH_OMA_GROUP_ONLINE.out.oma_group)
+                    .set { ch_orthogroups }
+
+                ch_versions
+                    .mix(FETCH_OMA_GROUP_ONLINE.out.versions)
+                    .set { ch_versions }
+
+            }
+            if (params.use_panther) {
+                FETCH_PANTHER_GROUP_ONLINE (
+                    ch_query
+                )
+
+                ch_orthogroups
+                    .mix(FETCH_PANTHER_GROUP_ONLINE.out.panther_group)
+                    .set { ch_orthogroups }
+
+                ch_versions
+                    .mix(FETCH_PANTHER_GROUP_ONLINE.out.versions)
+                    .set { ch_versions }
+            }
+            if (params.use_inspector) {
+                FETCH_INSPECTOR_GROUP_ONLINE (
+                    ch_query,
+                    params.inspector_version
+                )
+
+                ch_orthogroups
+                    .mix(FETCH_INSPECTOR_GROUP_ONLINE.out.inspector_group)
+                    .set { ch_orthogroups }
+
+                ch_versions
+                    .mix(FETCH_INSPECTOR_GROUP_ONLINE.out.versions)
+                    .set { ch_versions }
+            }
         }
     }
 

@@ -55,10 +55,17 @@
             "fa_icon": "fas fa-dna",
             "description": "All options related to the ortholog search subworkflow.",
             "properties": {
+                "use_all": {
+                    "type": "boolean",
+                    "default": "true",
+                    "description": "Use all ortholog search methods. Will mix online and local methods if needed. Overrides all individual database flags.",
+                    "help_text": "If set to `true`, the pipeline will use all ortholog search methods.",
+                    "fa_icon": "fas fa-database"
+                },
                 "local_databases": {
                     "type": "boolean",
                     "default": "false",
-                    "description": "Use local databases for the analysis.",
+                    "description": "Use local databases for the analysis. If use_all is set to `true`, online databases might still be used.",
                     "help_text": "If set to `true`, the pipeline will use local databases for the analysis.",
                     "fa_icon": "fas fa-database"
                 },
