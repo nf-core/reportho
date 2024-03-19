@@ -1,7 +1,0 @@
-name: iqtree
-channels:
-  - conda-forge
-  - bioconda
-  - defaults
-dependencies:
-  - bioconda::iqtree=2.1.4_beta

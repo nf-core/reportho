@@ -3,7 +3,7 @@
 import requests
 import sys
 
-def fetch_seqs_oma(path: str, prefix: str) -> list[str]:
+def fetch_seqs_oma(path: str):
     ids = []
     with open(path, "r") as f:
         ids = f.read().splitlines()
@@ -27,14 +27,14 @@ def fetch_seqs_oma(path: str, prefix: str) -> list[str]:
         print(f">{hit[0]}")
         print(hit[1])
 
-    with open(f"{prefix}_hits.txt", 'w') as f:
+    with open("hits.txt", 'w') as f:
         for hit in hits:
             print(hit[0], file=f)
 
     return misses
 
 
-def fetch_seqs_uniprot(oma_misses: list, prefix: str) -> None:
+def fetch_seqs_uniprot(oma_misses: list):
     hits = []
     misses = []
 
@@ -49,20 +49,21 @@ def fetch_seqs_uniprot(oma_misses: list, prefix: str) -> None:
         print(f">{hit[0]}")
         print(hit[1])
 
-    with open(f"{prefix}_hits.txt", 'a') as f:
+    with open("hits.txt", 'a') as f:
         for hit in hits:
             print(hit[0], file=f)
 
-    with open(f"{prefix}_misses.txt", 'w') as f:
+    with open("misses.txt", 'w') as f:
         for miss in misses:
             print(miss, file=f)
 
 
+
 def main() -> None:
-    if len(sys.argv) < 3:
-        raise ValueError("Too few arguments. Usage: fetch_sequences.py [path] [prefix]")
-    oma_misses = fetch_seqs_oma(sys.argv[1], sys.argv[2])
-    fetch_seqs_uniprot(oma_misses, sys.argv[2])
+    if len(sys.argv) < 2:
+        raise ValueError("Too few arguments. Usage: fetch_sequences.py [path]")
+    oma_misses = fetch_seqs_oma(sys.argv[1])
+    fetch_seqs_uniprot(oma_misses)
 
 
 if __name__ == "__main__":

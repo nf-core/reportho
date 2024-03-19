@@ -1,7 +1,0 @@
-name: csvtk_join
-channels:
-  - conda-forge
-  - bioconda
-  - defaults
-dependencies:
-  - bioconda::csvtk=0.26.0

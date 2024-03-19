@@ -1,32 +1,45 @@
 #!/usr/bin/env python3
 
 import sys
-import csv
 
 def main() -> None:
-    if len(sys.argv) < 2:
-        print("Usage: python make_score_table.py <merged_csv>")
+    if len(sys.argv) < 4:
+        print("Usage: python make_comparison.py <oma_group_file> <panther_group_file> <inspector_group_file>")
         sys.exit(1)
 
-    # Read the CSV into a list of lists, it has a header
-    with open(sys.argv[1], "r") as f:
-        reader = csv.reader(f)
-        data = list(reader)
+    oma_ids = []
+    panther_ids = []
+    inspector_ids = []
 
-    # Get the header and the data
-    header = data[0]
-    data = data[1:]
+    with open(sys.argv[1]) as f:
+        for line in f:
+            oma_ids.append(line.strip())
 
-    # Calculate a score column, i.e. the sum of all the columns except the first
-    scores = [sum([int(i) for i in row[1:]]) for row in data]
+    with open(sys.argv[2]) as f:
+        for line in f:
+            panther_ids.append(line.strip())
 
-    # Print the header
-    print("id," + ",".join(header[1:]) + ",score")
+    with open(sys.argv[3]) as f:
+        for line in f:
+            inspector_ids.append(line.strip())
 
-    # Print the data
-    for i, row in enumerate(data):
-        print(row[0] + "," + ",".join(row[1:]) + "," + str(scores[i]))
+    union = set(oma_ids).union(set(panther_ids)).union(set(inspector_ids))
 
+    scores = dict()
+    for i in union:
+        scores[i] = 0
+        if i in oma_ids:
+            scores[i] += 1
+        if i in panther_ids:
+            scores[i] += 1
+        if i in inspector_ids:
+            scores[i] += 1
+
+    sorted_scores = sorted(scores.items(), key=lambda x: x[1], reverse=True)
+
+    print("ID,oma,panther,inspector,score")
+    for k,v in sorted_scores:
+        print(f"{k},{1 if k in oma_ids else 0},{1 if k in panther_ids else 0},{1 if k in inspector_ids else 0},{v}")
 
 if __name__ == "__main__":
     main()

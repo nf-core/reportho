@@ -2,29 +2,20 @@ process FETCH_SEQUENCES_ONLINE {
     tag "${meta.id}"
     label "process_single"
 
-    conda "conda-forge::python=3.11.0 conda-forge::biopython=1.83.0 conda-forge::requests=2.31.0"
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/mulled-v2-bc54124b36864a4af42a9db48b90a404b5869e7e:5258b8e5ba20587b7cbf3e942e973af5045a1e59-0' :
-        'biocontainers/mulled-v2-bc54124b36864a4af42a9db48b90a404b5869e7e:5258b8e5ba20587b7cbf3e942e973af5045a1e59-0' }"
+    // add container here when available
 
     input:
-    tuple val(meta), path(ids), path(query_fasta)
+    tuple val(meta), path(ids)
 
     output:
-    tuple val(meta), path("*_orthologs.fa") , emit: fasta
-    tuple val(meta), path("*_hits.txt")     , emit: hits
-    tuple val(meta), path("*_misses.txt")   , emit: misses
-    path "versions.yml"                     , emit: versions
-
-    when:
-    task.ext.when == null || task.ext.when
+    tuple val(meta), path("orthologs.fa"), emit: fasta
+    path "hits.txt", emit: hits
+    path "misses.txt", emit: misses
+    path "versions.yml", emit: versions
 
     script:
-    prefix    = task.ext.prefix ?: meta.id
-    add_query = params.uniprot_query ? "" : "cat $query_fasta >> ${prefix}_orthologs.fa"
     """
-    fetch_sequences.py $ids $prefix > ${prefix}_orthologs.fa
-    $add_query
+    fetch_sequences.py $ids > orthologs.fa
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":

@@ -2,25 +2,25 @@
 
 suppressMessages(library(ggplot2))
 suppressMessages(library(reshape2))
-suppressMessages(library(dplyr))
+suppressMessages(library(tidyverse))
 suppressMessages(library(ggVennDiagram))
 
 # Command line arguments
 args <- commandArgs(trailingOnly = TRUE)
 if (length(args) < 2) {
-    print("Usage: Rscript comparison_plots.R <input_file> <prefix>")
+    print("Usage: Rscript comparison_plots.R <input_file> <output_dir>")
     quit(status = 1)
 }
 
 # Styles
 text_color <- "#DDDDDD"
-bg_color <- "transparent"
+bg_color <- "#333333"
 
 # Load the data
 data <- read.csv(args[1], header = TRUE, stringsAsFactors = FALSE)
 
 # Melt the data keeping ID and score
-melted_data <- melt(data, id.vars = c("id", "score"), variable.name = "method", value.name = "support") %>%
+melted_data <- melt(data, id.vars = c("ID", "score"), variable.name = "method", value.name = "support") %>%
     filter(support == 1) %>%
     select(-support)
 
@@ -35,56 +35,25 @@ p <- ggplot(melted_crosstable, aes(x = method, y = count, fill = score)) +
     geom_bar(stat = "identity", position = "stack") +
     theme_minimal() +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-    labs(title = "Support for predictions", x = "Database", y = "Number of orthologs", fill = "Support") +
-    scale_fill_manual(values = c("#59B4C3", "#74E291", "#8F7AC2", "#EFF396", "#FF9A8D")) +
+    labs(title = "Support for predictions", x = "Database", y = "Count", fill = "Support") +
+    scale_fill_manual(values = c("#59B4C3", "#74E291", "#EFF396")) +
     theme(legend.position = "right",
         text = element_text(size = 12, color = text_color),
         axis.text.x = element_text(color = text_color),
         axis.text.y = element_text(color = text_color),
-        plot.background = element_rect(color = bg_color, fill = bg_color),
-        panel.background = element_rect(color = bg_color, fill = bg_color))
+        plot.background = element_rect(fill = bg_color),
+        panel.background = element_rect(fill = bg_color))
 
-ggsave(paste0(args[2], "_supports.png"), plot = p, width = 6, height = 10, dpi = 300)
+ggsave(paste0(args[2], "/supports.png"), plot = p, width = 6, height = 10, dpi = 300)
 
 # Make a Venn diagram
-venn.data <- list()
-for (i in colnames(data)[3:ncol(data)-1]) {
-    hits <- (data %>% filter(data[, i] == 1) %>% select(id))$id
-    venn.data[[i]] <- hits
-}
+oma.hits <- (data %>% filter(oma == 1) %>% select(ID))$ID
+panther.hits <- (data %>% filter(panther == 1) %>% select(ID))$ID
+inspector.hits <- (data %>% filter(inspector == 1) %>% select(ID))$ID
+venn.data <- list(OMA = oma.hits, Panther = panther.hits, OrthoInspector = inspector.hits)
 venn.plot <- ggVennDiagram(venn.data, set_color = text_color) +
     theme(legend.position = "none",
         text = element_text(size = 12, color = text_color),
-        plot.background = element_rect(color = bg_color, fill = bg_color),
-        panel.background = element_rect(color = bg_color, fill = bg_color))
-ggsave(paste0(args[2], "_venn.png"), plot = venn.plot, width = 6, height = 6, dpi = 300)
-
-# Make a plot with Jaccard index for each pair of methods
-jaccard <- data.frame(method1 = character(), method2 = character(), jaccard = numeric())
-for (i in 3:ncol(data)-1) {
-    for (j in 3:ncol(data)-1) {
-        if (i == j) {
-            next
-        }
-        method1 <- colnames(data)[i]
-        method2 <- colnames(data)[j]
-        hits1 <- (data %>% filter(data[, i] == 1) %>% select(id))$id
-        hits2 <- (data %>% filter(data[, j] == 1) %>% select(id))$id
-        jaccard <- rbind(jaccard, data.frame(method1 = method1, method2 = method2, jaccard = length(intersect(hits1, hits2)) / length(union(hits1, hits2))))
-    }
-}
-p <- ggplot(jaccard, aes(x = method1, y = method2, fill = jaccard)) +
-    geom_tile() +
-    geom_text(aes(label = round(jaccard, 2)), size=5) +
-    scale_fill_gradient(low = "#59B4C3", high = "#EFF396") +
-    theme_minimal() +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-    labs(title = "Jaccard Index", x = "", y = "", fill = "Jaccard Index") +
-    theme(legend.position = "right",
-        text = element_text(size = 12, color = text_color),
-        axis.text.x = element_text(color = text_color),
-        axis.text.y = element_text(color = text_color),
-        plot.background = element_rect(color = bg_color, fill = bg_color),
-        panel.background = element_rect(color = bg_color, fill = bg_color))
-
-ggsave(paste0(args[2], "_jaccard.png"), plot = p, width = 6, height = 6, dpi = 300)
+        plot.background = element_rect(fill = bg_color),
+        panel.background = element_rect(fill = bg_color))
+ggsave(paste0(args[2], "/venn.png"), plot = venn.plot, width = 6, height = 6, dpi = 300)
