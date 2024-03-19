@@ -15,6 +15,8 @@ include { GET_ORTHOLOGS          } from '../subworkflows/local/get_orthologs'
 include { FETCH_SEQUENCES        } from '../subworkflows/local/fetch_sequences'
 include { FETCH_STRUCTURES       } from '../subworkflows/local/fetch_structures'
 include { ALIGN                  } from '../subworkflows/local/align'
+include { MAKE_TREES             } from '../subworkflows/local/make_trees'
+include { REPORT                 } from '../subworkflows/local/report'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -32,6 +34,8 @@ workflow REPORTHO {
     ch_versions = Channel.empty()
     ch_multiqc_files = Channel.empty()
 
+    ch_query_fasta = params.uniprot_query ? ch_samplesheet.map { [it[0], []] } : ch_samplesheet.map { [it[0], file(it[1])] }
+
     GET_ORTHOLOGS (
         ch_samplesheet
     )
@@ -40,34 +44,54 @@ workflow REPORTHO {
         .mix(GET_ORTHOLOGS.out.versions)
         .set { ch_versions }
 
-    FETCH_SEQUENCES (
-        GET_ORTHOLOGS.out.orthologs
-    )
-
-    ch_versions
-        .mix(FETCH_SEQUENCES.out.versions)
-        .set { ch_versions }
-
-    if (params.use_structures) {
-        FETCH_STRUCTURES (
-            GET_ORTHOLOGS.out.orthologs
+    if (!params.skip_downstream) {
+        FETCH_SEQUENCES (
+            GET_ORTHOLOGS.out.orthologs,
+            ch_query_fasta
         )
 
         ch_versions
-            .mix(FETCH_STRUCTURES.out.versions)
+            .mix(FETCH_SEQUENCES.out.versions)
             .set { ch_versions }
+
+        if (params.use_structures) {
+            FETCH_STRUCTURES (
+                GET_ORTHOLOGS.out.orthologs
+            )
+
+            ch_versions
+                .mix(FETCH_STRUCTURES.out.versions)
+                .set { ch_versions }
+        }
+
+        ch_structures = params.use_structures ? FETCH_STRUCTURES.out.structures : Channel.empty()
+
+        ALIGN (
+            FETCH_SEQUENCES.out.sequences,
+            ch_structures
+        )
+
+        ch_versions
+            .mix(ALIGN.out.versions)
+            .set { ch_versions }
+
+        MAKE_TREES (
+            ALIGN.out.alignment
+        )
+
+        ch_versions
+            .mix(MAKE_TREES.out.versions)
+            .set { ch_versions }
+
+        REPORT (
+            GET_ORTHOLOGS.out.seqinfo,
+            GET_ORTHOLOGS.out.score_table,
+            GET_ORTHOLOGS.out.orthologs,
+            GET_ORTHOLOGS.out.supports_plot,
+            GET_ORTHOLOGS.out.venn_plot,
+            GET_ORTHOLOGS.out.jaccard_plot,
+        )
     }
-
-    ALIGN (
-        FETCH_SEQUENCES.out.sequences,
-        FETCH_STRUCTURES.out.structures
-    )
-
-    ALIGN.out.alignment.view()
-
-    ch_versions
-        .mix(ALIGN.out.versions)
-        .set { ch_versions }
 
     //
     // Collate and save software versions
@@ -75,8 +99,6 @@ workflow REPORTHO {
     ch_versions
         .collectFile(storeDir: "${params.outdir}/pipeline_info", name: 'nf_core_pipeline_software_mqc_versions.yml', sort: true, newLine: true)
         .set { ch_collated_versions }
-
-    ch_collated_versions.view()
 
     //
     // MODULE: MultiQC

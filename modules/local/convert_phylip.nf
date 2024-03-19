@@ -1,6 +1,6 @@
-process WRITE_SEQINFO {
-    tag "$meta.id"
-    label 'process_single'
+process CONVERT_PHYLIP {
+    tag "$input_file"
+    label "process_single"
 
     conda "conda-forge::python=3.11.0 conda-forge::biopython=1.83.0 conda-forge::requests=2.31.0"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
@@ -8,11 +8,11 @@ process WRITE_SEQINFO {
         'biocontainers/mulled-v2-bc54124b36864a4af42a9db48b90a404b5869e7e:5258b8e5ba20587b7cbf3e942e973af5045a1e59-0' }"
 
     input:
-    tuple val(meta), val(uniprot_id)
+    tuple val(meta), path(input_file)
 
     output:
-    tuple val(meta), path("*_id.txt"), path("*_taxid.txt") , emit: seqinfo
-    path "versions.yml"                                    , emit: versions
+    path "*.phy"        , emit: phylip
+    path "versions.yml" , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -20,13 +20,12 @@ process WRITE_SEQINFO {
     script:
     prefix = task.ext.prefix ?: meta.id
     """
-    echo "${uniprot_id}" > ${prefix}_id.txt
-    fetch_oma_taxid_by_id.py $uniprot_id > ${prefix}_taxid.txt
+    clustal2phylip.py $input_file ${prefix}.phy
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":
         Python: \$(python --version | cut -d ' ' -f 2)
-        Python Requests: \$(pip show requests | grep Version | cut -d ' ' -f 2)
+        Biopython: \$(pip show biopython | grep Version | cut -d ' ' -f 2)
     END_VERSIONS
     """
 }

@@ -55,19 +55,123 @@
             "fa_icon": "fas fa-dna",
             "description": "All options related to the ortholog search subworkflow.",
             "properties": {
-                "merge_strategy": {
+                "use_all": {
+                    "type": "boolean",
+                    "default": "true",
+                    "description": "Use all ortholog search methods. Will mix online and local methods if needed. Overrides all individual database flags.",
+                    "help_text": "If set to `true`, the pipeline will use all ortholog search methods.",
+                    "fa_icon": "fas fa-database"
+                },
+                "local_databases": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Use local databases for the analysis. If use_all is set to `true`, online databases might still be used.",
+                    "help_text": "If set to `true`, the pipeline will use local databases for the analysis.",
+                    "fa_icon": "fas fa-database"
+                },
+                "use_oma": {
+                    "type": "boolean",
+                    "default": "true",
+                    "description": "Use OMA for the ortholog search.",
+                    "help_text": "If set to `true`, the pipeline will use OMA for the ortholog search.",
+                    "fa_icon": "fas fa-database"
+                },
+                "oma_path": {
                     "type": "string",
-                    "enum": ["union", "majority", "intersection", "centroid"],
-                    "default": "union",
-                    "description": "The strategy to merge the orthologs.",
-                    "help_text": "Select one of the valid strategies to merge the orthologs.",
-                    "fa_icon": "fas fa-object-group"
+                    "format": "path",
+                    "description": "Path to the OMA database.",
+                    "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the OMA database.",
+                    "fa_icon": "fas fa-database"
+                },
+                "oma_uniprot_path": {
+                    "type": "string",
+                    "format": "path",
+                    "description": "Path to the Uniprot-OMA ID map.",
+                    "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the OMA-Uniprot ID map.",
+                    "fa_icon": "fas fa-database"
+                },
+                "oma_ensembl_path": {
+                    "type": "string",
+                    "format": "path",
+                    "description": "Path to the Ensembl-OMA ID map.",
+                    "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the OMA-Ensembl ID map.",
+                    "fa_icon": "fas fa-database"
+                },
+                "oma_refseq_path": {
+                    "type": "string",
+                    "format": "path",
+                    "description": "Path to the RefSeq-OMA ID map.",
+                    "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the OMA-RefSeq ID map.",
+                    "fa_icon": "fas fa-database"
+                },
+                "use_panther": {
+                    "type": "boolean",
+                    "default": "true",
+                    "description": "Use PANTHER for the ortholog search.",
+                    "help_text": "If set to `true`, the pipeline will use PANTHER for the ortholog search.",
+                    "fa_icon": "fas fa-database"
+                },
+                "panther_path": {
+                    "type": "string",
+                    "format": "path",
+                    "description": "Path to the PANTHER database.",
+                    "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the PANTHER database.",
+                    "fa_icon": "fas fa-database"
+                },
+                "use_inspector": {
+                    "type": "boolean",
+                    "default": "true",
+                    "description": "Use OrthoInspector for the ortholog search.",
+                    "help_text": "If set to `true`, the pipeline will use OrthoInspector for the ortholog search.",
+                    "fa_icon": "fas fa-database"
                 },
                 "inspector_version": {
                     "type": "string",
                     "description": "The version of the OrthoInspector database to use.",
                     "help_text": "This SHOULD be left as the default if working with eukaryotes. Only change if working with bacteria, or an old version is required for reproducibility.",
                     "default": "Eukaryota2019",
+                    "fa_icon": "fas fa-database"
+                },
+                "inspector_path": {
+                    "type": "string",
+                    "format": "path",
+                    "description": "Path to the OrthoInspector database.",
+                    "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the OrthoInspector database.",
+                    "fa_icon": "fas fa-database"
+                },
+                "use_eggnog": {
+                    "type": "boolean",
+                    "default": "true",
+                    "description": "Use EggNOG for the ortholog search.",
+                    "help_text": "If set to `true`, the pipeline will use EggNOG for the ortholog search.",
+                    "fa_icon": "fas fa-database"
+                },
+                "eggnog_path": {
+                    "type": "string",
+                    "format": "path",
+                    "description": "Path to the EggNOG database.",
+                    "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the EggNOG database.",
+                    "fa_icon": "fas fa-database"
+                },
+                "eggnog_idmap_path": {
+                    "type": "string",
+                    "format": "path",
+                    "description": "Path to the EggNOG ID map.",
+                    "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the EggNOG ID map.",
+                    "fa_icon": "fas fa-database"
+                },
+                "use_centroid": {
+                    "type": "boolean",
+                    "default": "true",
+                    "description": "Use centroid strategy for the ortholog search. Overrides min_score.",
+                    "help_text": "If set to `true`, the pipeline will use centroid strategy for the ortholog search.",
+                    "fa_icon": "fas fa-database"
+                },
+                "min_score": {
+                    "type": "number",
+                    "default": 2,
+                    "description": "Minimum score for the ortholog search.",
+                    "help_text": "The minimum score for the ortholog search. If `use_centroid` is set to `true`, this parameter will be ignored.",
                     "fa_icon": "fas fa-database"
                 }
             }
@@ -78,12 +182,33 @@
             "fa_icon": "fas fa-search",
             "description": "All options related to the downstream analysis subworkflows.",
             "properties": {
+                "skip_downstream": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Skip the downstream analysis. Overrides all other downstream options.",
+                    "help_text": "If set to `true`, the pipeline will skip the downstream analysis.",
+                    "fa_icon": "fas fa-search"
+                },
                 "use_structures": {
                     "type": "boolean",
                     "default": "false",
                     "description": "Use structures for the analysis.",
                     "help_text": "If set to `true`, the pipeline will use AlphaFold structures for the analysis.",
                     "fa_icon": "fas fa-dna"
+                },
+                "use_iqtree": {
+                    "type": "boolean",
+                    "default": "true",
+                    "description": "Use IQ-TREE for the phylogenetic analysis.",
+                    "help_text": "If set to `true`, the pipeline will use IQ-TREE for the phylogenetic analysis.",
+                    "fa_icon": "fas fa-tree"
+                },
+                "use_fastme": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Use FastME for the phylogenetic analysis.",
+                    "help_text": "If set to `true`, the pipeline will use FastME for the phylogenetic analysis.",
+                    "fa_icon": "fas fa-tree"
                 }
             }
         },
@@ -288,6 +413,9 @@
         },
         {
             "$ref": "#/definitions/ortholog_options"
+        },
+        {
+            "$ref": "#/definitions/donwstream_options"
         },
         {
             "$ref": "#/definitions/institutional_config_options"
