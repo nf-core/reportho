@@ -93,7 +93,9 @@ nf-core/reportho was originally written by itrujnara.
 We thank the following people for their extensive assistance in the development of this pipeline:
 
 @lsantus
+
 @avignoli
+
 @JoseEspinosa
 
 ## Contributions and Support
