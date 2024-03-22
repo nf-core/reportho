@@ -31,7 +31,9 @@
 1. **Obtain Query Information**: (depends on provided input) identification of Uniprot ID and taxon ID for the query or its closest homolog.
 2. **Fetch Orthologs**: fetching of ortholog predictions from public databases, either through API or from local snapshot.
 3. **Compare and Assemble**: calculation of agreement statistics, creation of ortholog lists, selection of the consensus list.
+
 Steps that follow can be skipped with `--skip_downstream` in batch analysis.
+
 4. **Fetch Sequences**: fetching of protein sequences for the orthologs from Uniprot.
 5. **Fetch Structures**: fetching of protein structure from the AlphaFold Database. Only performed if `--use_structures` is true.
 6. **Align Sequences**: multiple sequence alignment. 3D-COFFEE is used if `--use_structures` is true, T-COFFEE otherwise.
