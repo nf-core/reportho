@@ -129,7 +129,7 @@
                     "type": "string",
                     "description": "The version of the OrthoInspector database to use.",
                     "help_text": "This SHOULD be left as the default if working with eukaryotes. Only change if working with bacteria, or an old version is required for reproducibility.",
-                    "default": "Eukaryota2019",
+                    "default": "Eukaryota2023",
                     "fa_icon": "fas fa-database"
                 },
                 "inspector_path": {
@@ -176,7 +176,7 @@
                 }
             }
         },
-        "donwstream_options": {
+        "downstream_options": {
             "title": "Downstream analysis options",
             "type": "object",
             "fa_icon": "fas fa-search",
@@ -188,6 +188,13 @@
                     "description": "Skip the downstream analysis. Overrides all other downstream options.",
                     "help_text": "If set to `true`, the pipeline will skip the downstream analysis.",
                     "fa_icon": "fas fa-search"
+                },
+                "skip_report": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Skip report generation.",
+                    "help_text": "If set to `true`, the pipeline will not generate a report. Intended for large batch processing.",
+                    "fa_icon": "fas fa-file-lines"
                 },
                 "use_structures": {
                     "type": "boolean",
@@ -415,7 +422,7 @@
             "$ref": "#/definitions/ortholog_options"
         },
         {
-            "$ref": "#/definitions/donwstream_options"
+            "$ref": "#/definitions/downstream_options"
         },
         {
             "$ref": "#/definitions/institutional_config_options"

@@ -16,8 +16,8 @@ def fetch_seq(url: str):
 
 
 def main() -> None:
-    if len(sys.argv) < 2:
-        raise ValueError("Not enough arguments. Usage: fetch_oma_by_sequence.py <fasta> <id_out> <taxid_out>")
+    if len(sys.argv) < 5:
+        raise ValueError("Not enough arguments. Usage: fetch_oma_by_sequence.py <fasta> <id_out> <taxid_out> <exact_out>")
 
     seqs = SeqIO.parse(sys.argv[1], "fasta")
     seq = next(seqs).seq
@@ -29,10 +29,17 @@ def main() -> None:
         raise ValueError("Fetch failed, aborting")
 
     entry: dict = dict()
+
     for it in json["targets"]:
             if it["is_main_isoform"]:
                 entry = it
                 break
+
+    if entry["identified_by"] == "exact match":
+        print("true", file=open(sys.argv[4], 'w'))
+    else:
+        print("false", file=open(sys.argv[4], 'w'))
+
     if entry == dict():
         if len(json["targets"][0]["alternative_isoforms_urls"]) > 0:
             isoform = json["targets"][0]["alternative_isoforms_urls"][0]

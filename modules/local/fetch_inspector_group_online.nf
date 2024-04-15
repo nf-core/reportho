@@ -8,7 +8,7 @@ process FETCH_INSPECTOR_GROUP_ONLINE {
         'biocontainers/mulled-v2-bc54124b36864a4af42a9db48b90a404b5869e7e:5258b8e5ba20587b7cbf3e942e973af5045a1e59-0' }"
 
     input:
-    tuple val(meta), path(uniprot_id), path(taxid)
+    tuple val(meta), path(uniprot_id), path(taxid), path(exact)
     val inspector_version
 
     output:

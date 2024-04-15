@@ -12,7 +12,7 @@ workflow REPORT {
 
     main:
     DUMP_PARAMS(
-        ch_seqinfo.map { it[0] }
+        ch_seqinfo.map { [it[0], it[3]] }
     )
 
     ch_forreport = ch_seqinfo

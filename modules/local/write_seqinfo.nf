@@ -11,8 +11,8 @@ process WRITE_SEQINFO {
     tuple val(meta), val(uniprot_id)
 
     output:
-    tuple val(meta), path("*_id.txt"), path("*_taxid.txt") , emit: seqinfo
-    path "versions.yml"                                    , emit: versions
+    tuple val(meta), path("*_id.txt"), path("*_taxid.txt"), path("*_exact.txt") , emit: seqinfo
+    path "versions.yml"                                                         , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -21,6 +21,7 @@ process WRITE_SEQINFO {
     prefix = task.ext.prefix ?: meta.id
     """
     echo "${uniprot_id}" > ${prefix}_id.txt
+    echo "true" > ${prefix}_exact.txt
     fetch_oma_taxid_by_id.py $uniprot_id > ${prefix}_taxid.txt
 
     cat <<- END_VERSIONS > versions.yml
