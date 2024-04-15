@@ -162,7 +162,7 @@
                 },
                 "use_centroid": {
                     "type": "boolean",
-                    "default": "true",
+                    "default": "false",
                     "description": "Use centroid strategy for the ortholog search. Overrides min_score.",
                     "help_text": "If set to `true`, the pipeline will use centroid strategy for the ortholog search.",
                     "fa_icon": "fas fa-database"
