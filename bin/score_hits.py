@@ -19,8 +19,8 @@ def filter_data(data, threshold):
 
 
 def filter_centroid(data):
-    # get columns except first and last into a list of lists
-    columns = [[float(list(row.values())[i]) for row in data] for i in range(1, len(data[0])-1)]
+    # get columns except first two and last one into a list of lists
+    columns = [[float(list(row.values())[i]) for row in data] for i in range(2, len(data[0])-1)]
     # calculate agreement
     scores = [0 for column in columns]
     for i in range(len(columns)):

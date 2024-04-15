@@ -11,8 +11,8 @@ process CONVERT_PHYLIP {
     tuple val(meta), path(input_file)
 
     output:
-    path "*.phy"        , emit: phylip
-    path "versions.yml" , emit: versions
+    tuple val(meta), path "*.phy", emit: phylip
+    path "versions.yml"          , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
