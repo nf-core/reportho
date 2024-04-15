@@ -18,41 +18,50 @@
 
 ## Introduction
 
-**nf-core/reportho** is a bioinformatics pipeline that ...
+> [!WARNING]
+> This pipeline is still in active development. While the overall design will remain stable, all technical details, such as parameter names, are subject to change without notice.
 
-<!-- TODO nf-core:
-   Complete this sentence with a 2-3 sentence summary of what types of data the pipeline ingests, a brief overview of the
-   major pipeline sections and the types of output it produces. You're giving an overview to someone new
-   to nf-core here, in 15-20 seconds. For an example, see https://github.com/nf-core/rnaseq/blob/master/README.md#introduction
--->
+**nf-core/reportho** is a bioinformatics pipeline that compares and assembles orthology predictions for a query protein. It fetches ortholog lists for a query (or its closest annotated homolog) from public sources, calculates pairwise and global agreement, and generates a consensus list with the desired level of confidence. Optionally, it offers common analysis on the consensus orthologs, such as MSA and phylogeny reconstruction. Additionally, it generates a clean, human-readable report of the results.
 
-<!-- TODO nf-core: Include a figure that guides the user through the major workflow steps. Many nf-core
-     workflows use the "tube map" design for that. See https://nf-co.re/docs/contributing/design_guidelines#examples for examples.   -->
+<!-- Tube map -->
+![nf-core-reportho tube map](docs/images/nf-core-reportho_tube_map_beta.png?raw=true "nf-core-reportho tube map")
+
 <!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->
 
-1. Read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
-2. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
+1. **Obtain Query Information**: (depends on provided input) identification of Uniprot ID and taxon ID for the query or its closest homolog.
+2. **Fetch Orthologs**: fetching of ortholog predictions from public databases, either through API or from local snapshot.
+3. **Compare and Assemble**: calculation of agreement statistics, creation of ortholog lists, selection of the consensus list.
+
+Steps that follow can be skipped with `--skip_downstream` in batch analysis.
+
+4. **Fetch Sequences**: fetching of protein sequences for the orthologs from Uniprot.
+5. **Fetch Structures**: fetching of protein structure from the AlphaFold Database. Only performed if `--use_structures` is true.
+6. **Align Sequences**: multiple sequence alignment. 3D-COFFEE is used if `--use_structures` is true, T-COFFEE otherwise.
+7. **Reconstruct Phylogeny**: character-based phylogenetic reconstruction with ML or ME. Only performed if at least one of `--use_iqtree` or `--use_fastme` is true.
+8. **Generate Report**: human-readable HTML report generation.
 
 ## Usage
 
 > [!NOTE]
 > If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
 
-<!-- TODO nf-core: Describe the minimum required steps to execute the pipeline, e.g. how to prepare samplesheets.
-     Explain what rows and columns represent. For instance (please edit as appropriate):
-
 First, prepare a samplesheet with your input data that looks as follows:
 
 `samplesheet.csv`:
 
 ```csv
-sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
+id,query
+BicD2,data/bicd2.fasta
 ```
 
-Each row represents a fastq file (single-end) or a pair of fastq files (paired end).
+or:
 
--->
+```csv
+id,query
+BicD2,Q8TD16
+```
+
+If using the latter format, you must set `--uniprot_query` to true.
 
 Now, you can run the pipeline using:
 
@@ -83,7 +92,11 @@ nf-core/reportho was originally written by itrujnara.
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 
-<!-- TODO nf-core: If applicable, make list of people who have also contributed -->
+@lsantus
+
+@avignoli
+
+@JoseEspinosa
 
 ## Contributions and Support
 
