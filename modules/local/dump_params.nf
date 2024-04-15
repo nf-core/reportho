@@ -3,7 +3,7 @@ process DUMP_PARAMS {
     label "process_single"
 
     input:
-    val meta
+    tuple val(meta), path(exact)
 
     output:
     tuple val(meta), path("params.yml"), emit: params
@@ -13,10 +13,13 @@ process DUMP_PARAMS {
 
     script:
     """
-    echo <<- END_PARAMS > params.yml
+    cat <<- END_PARAMS > params.yml
+    id: ${meta.id}
     uniprot_query: ${params.uniprot_query}
+    exact_match: \$(cat $exact)
     use_structures: ${params.use_structures}
-    merge_strategy: ${params.merge_strategy}
+    use_centroid: ${params.use_centroid}
+    min_score: ${params.min_score}
     END_PARAMS
     """
 }

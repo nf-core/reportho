@@ -82,7 +82,8 @@ workflow REPORTHO {
         ch_versions
             .mix(MAKE_TREES.out.versions)
             .set { ch_versions }
-
+    }
+    if(!params.skip_report) {
         REPORT (
             GET_ORTHOLOGS.out.seqinfo,
             GET_ORTHOLOGS.out.score_table,

@@ -3,7 +3,7 @@ process FETCH_EGGNOG_GROUP_LOCAL {
     label "process_short"
 
     input:
-    tuple val(meta), path(uniprot_id), path(taxid)
+    tuple val(meta), path(uniprot_id), path(taxid), path(exact)
     path db
     path idmap
 

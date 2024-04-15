@@ -17,11 +17,8 @@ workflow MAKE_TREES {
     ch_meplot   = Channel.empty()
 
     if (params.use_iqtree) {
-        ch_alnfile = ch_alignment.
-            map { meta, path -> path }
-
         IQTREE (
-            ch_alnfile,
+            ch_alignment,
             []
         )
 

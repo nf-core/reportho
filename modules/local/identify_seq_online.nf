@@ -11,8 +11,8 @@ process IDENTIFY_SEQ_ONLINE {
     tuple val(meta), path(fasta)
 
     output:
-    tuple val(meta), path("*_id.txt"), path("*_taxid.txt") , emit: seqinfo
-    path "versions.yml"                                    , emit: versions
+    tuple val(meta), path("*_id.txt"), path("*_taxid.txt"), path("*_exact.txt"), emit: seqinfo
+    path "versions.yml"                                                        , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -20,7 +20,7 @@ process IDENTIFY_SEQ_ONLINE {
     script:
     prefix = task.ext.prefix ?: meta.id
     """
-    fetch_oma_by_sequence.py $fasta id_raw.txt ${prefix}_taxid.txt
+    fetch_oma_by_sequence.py $fasta id_raw.txt ${prefix}_taxid.txt ${prefix}_exact.txt
     uniprotize_oma.py id_raw.txt > ${prefix}_id.txt
 
     cat <<- END_VERSIONS > versions.yml

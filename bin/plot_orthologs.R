@@ -20,7 +20,7 @@ bg_color <- "transparent"
 data <- read.csv(args[1], header = TRUE, stringsAsFactors = FALSE)
 
 # Melt the data keeping ID and score
-melted_data <- melt(data, id.vars = c("id", "score"), variable.name = "method", value.name = "support") %>%
+melted_data <- melt(data, id.vars = c("id", "id_format", "score"), variable.name = "method", value.name = "support") %>%
     filter(support == 1) %>%
     select(-support)
 
@@ -48,7 +48,7 @@ ggsave(paste0(args[2], "_supports.png"), plot = p, width = 6, height = 10, dpi =
 
 # Make a Venn diagram
 venn.data <- list()
-for (i in colnames(data)[3:ncol(data)-1]) {
+for (i in colnames(data)[4:ncol(data)-1]) {
     hits <- (data %>% filter(data[, i] == 1) %>% select(id))$id
     venn.data[[i]] <- hits
 }
@@ -61,8 +61,8 @@ ggsave(paste0(args[2], "_venn.png"), plot = venn.plot, width = 6, height = 6, dp
 
 # Make a plot with Jaccard index for each pair of methods
 jaccard <- data.frame(method1 = character(), method2 = character(), jaccard = numeric())
-for (i in 3:ncol(data)-1) {
-    for (j in 3:ncol(data)-1) {
+for (i in 4:ncol(data)-1) {
+    for (j in 4:ncol(data)-1) {
         if (i == j) {
             next
         }

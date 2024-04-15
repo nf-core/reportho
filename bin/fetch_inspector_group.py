@@ -10,9 +10,12 @@ def fetch_inspector_by_id(uniprot_id: str, db_id: str = "Eukaryota2019"):
         raise ValueError(f"HTTP error: {res.status_code}")
 
     json = res.json()
+    orthologs = set()
     for i in json["data"]:
         for j in i["orthologs"]:
-            print(j)
+            orthologs.add(j)
+
+    print("\n".join(orthologs))
 
 
 def main() -> None:

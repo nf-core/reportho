@@ -259,7 +259,7 @@ workflow GET_ORTHOLOGS {
 
     ch_forfilter = MAKE_SCORE_TABLE.out.score_table
         .combine(ch_query, by: 0)
-        .map { id, score, query, taxid -> [id, score, query] }
+        .map { id, score, query, taxid, exact -> [id, score, query] }
 
     FILTER_HITS (
         ch_forfilter,
@@ -287,6 +287,7 @@ workflow GET_ORTHOLOGS {
     seqinfo         = ch_query
     id              = ch_query.map { it[1] }
     taxid           = ch_query.map { it[2] }
+    exact           = ch_query.map { it[3] }
     orthogroups     = ch_orthogroups
     score_table     = MAKE_SCORE_TABLE.out.score_table
     orthologs       = FILTER_HITS.out.filtered_hits
