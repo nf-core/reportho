@@ -8,7 +8,7 @@ process MAKE_REPORT {
 
 
     input:
-    tuple val(meta), path(id), path(taxid), path(exact), path(score_table), path(filtered_hits), path(support_plot), path(venn_plot), path(jaccard_plot), path(params_file)
+    tuple val(meta), path(id), path(taxid), path(exact), path(score_table), path(filtered_hits), path(support_plot), path(venn_plot), path(jaccard_plot), path(seq_hits), path(seq_misses), path(str_hits), path(str_misses), path(alignment), path(iqtree), path(fastme), path(params_file)
 
     output:
     tuple val(meta), path("*dist/*"), emit: report_files
@@ -17,7 +17,14 @@ process MAKE_REPORT {
     task.ext.when == null || task.ext.when
 
     script:
-    prefix        = task.ext.prefix ?: meta.id
+    prefix = task.ext.prefix ?: meta.id
+    seqhits_cmd = seq_hits ? "cp $seq_hits public/seq_hits.txt" : ''
+    seqmisses_cmd = seq_misses ? "cp $seq_misses public/seq_misses.txt" : ''
+    strhits_cmd = str_hits ? "cp $str_hits public/str_hits.txt" : ''
+    strmisses_cmd = str_misses ? "cp $str_misses public/str_misses.txt" : ''
+    aln_cmd = alignment ? "cp $alignment public/alignment.fa" : ''
+    iqtree_cmd = iqtree ? "cp $iqtree public/iqtree.png" : ''
+    fastme_cmd = fastme ? "cp $fastme public/fastme.png" : ''
     """
     cp -r /app/* .
     cd public
@@ -31,6 +38,13 @@ process MAKE_REPORT {
     cp $venn_plot public/venn.png
     cp $jaccard_plot public/jaccard.png
     cp $params_file public/params.yml
+    $seqhits_cmd
+    $seqmisses_cmd
+    $strhits_cmd
+    $strmisses_cmd
+    $aln_cmd
+    $iqtree_cmd
+    $fastme_cmd
     yarn run build
     echo "python3 -m http.server 0" > dist/${prefix}_run.sh
     mv dist ${prefix}_dist

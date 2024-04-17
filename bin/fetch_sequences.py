@@ -27,7 +27,7 @@ def fetch_seqs_oma(path: str, prefix: str) -> list[str]:
         print(f">{hit[0]}")
         print(hit[1])
 
-    with open(f"{prefix}_hits.txt", 'w') as f:
+    with open(f"{prefix}_seq_hits.txt", 'w') as f:
         for hit in hits:
             print(hit[0], file=f)
 
@@ -41,7 +41,7 @@ def fetch_seqs_uniprot(oma_misses: list, prefix: str) -> None:
     for id in oma_misses:
         res = requests.get(f"https://rest.uniprot.org/uniprotkb/{id}.fasta")
         if res.ok:
-            hits.append((id, res.text))
+            hits.append((id, res.text.split("\n", 1)[1].replace("\n", "")))
         else:
             misses.append(id)
 
@@ -49,11 +49,11 @@ def fetch_seqs_uniprot(oma_misses: list, prefix: str) -> None:
         print(f">{hit[0]}")
         print(hit[1])
 
-    with open(f"{prefix}_hits.txt", 'a') as f:
+    with open(f"{prefix}_seq_hits.txt", 'a') as f:
         for hit in hits:
             print(hit[0], file=f)
 
-    with open(f"{prefix}_misses.txt", 'w') as f:
+    with open(f"{prefix}_seq_misses.txt", 'w') as f:
         for miss in misses:
             print(miss, file=f)
 

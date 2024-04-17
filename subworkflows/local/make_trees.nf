@@ -29,7 +29,8 @@ workflow MAKE_TREES {
             .set { ch_versions }
 
         PLOT_IQTREE (
-            IQTREE.out.phylogeny
+            IQTREE.out.phylogeny,
+            "iqtree"
         )
 
         ch_mlplot = PLOT_IQTREE.out.plot
@@ -50,8 +51,7 @@ workflow MAKE_TREES {
             .set { ch_versions }
 
         FASTME (
-            CONVERT_PHYLIP.out.phylip,
-            []
+            CONVERT_PHYLIP.out.phylip.map { [it[0], it[1], []] }
         )
 
         ch_metree = FASTME.out.nwk
@@ -61,7 +61,8 @@ workflow MAKE_TREES {
             .set { ch_versions }
 
         PLOT_FASTME (
-            FASTME.out.nwk
+            FASTME.out.nwk,
+            "fastme"
         )
 
         ch_meplot = PLOT_FASTME.out.plot

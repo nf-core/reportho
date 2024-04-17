@@ -44,11 +44,23 @@ workflow REPORTHO {
         .mix(GET_ORTHOLOGS.out.versions)
         .set { ch_versions }
 
+    ch_seqhits = ch_samplesheet.map { [it[0], []] }
+    ch_seqmisses = ch_samplesheet.map { [it[0], []] }
+    ch_strhits = ch_samplesheet.map { [it[0], []] }
+    ch_strmisses = ch_samplesheet.map { [it[0], []] }
+    ch_alignment = ch_samplesheet.map { [it[0], []] }
+    ch_iqtree = ch_samplesheet.map { [it[0], []] }
+    ch_fastme = ch_samplesheet.map { [it[0], []] }
+
     if (!params.skip_downstream) {
         FETCH_SEQUENCES (
             GET_ORTHOLOGS.out.orthologs,
             ch_query_fasta
         )
+
+        ch_seqhits = FETCH_SEQUENCES.out.hits
+
+        ch_seqmisses = FETCH_SEQUENCES.out.misses
 
         ch_versions
             .mix(FETCH_SEQUENCES.out.versions)
@@ -58,6 +70,10 @@ workflow REPORTHO {
             FETCH_STRUCTURES (
                 GET_ORTHOLOGS.out.orthologs
             )
+
+            ch_strhits = FETCH_STRUCTURES.out.hits
+
+            ch_strmisses = FETCH_STRUCTURES.out.misses
 
             ch_versions
                 .mix(FETCH_STRUCTURES.out.versions)
@@ -71,6 +87,8 @@ workflow REPORTHO {
             ch_structures
         )
 
+        ch_alignment = ALIGN.out.alignment
+
         ch_versions
             .mix(ALIGN.out.versions)
             .set { ch_versions }
@@ -79,10 +97,14 @@ workflow REPORTHO {
             ALIGN.out.alignment
         )
 
+        ch_iqtree = MAKE_TREES.out.mlplot
+        ch_fastme = MAKE_TREES.out.meplot
+
         ch_versions
             .mix(MAKE_TREES.out.versions)
             .set { ch_versions }
     }
+
     if(!params.skip_report) {
         REPORT (
             GET_ORTHOLOGS.out.seqinfo,
@@ -91,6 +113,13 @@ workflow REPORTHO {
             GET_ORTHOLOGS.out.supports_plot,
             GET_ORTHOLOGS.out.venn_plot,
             GET_ORTHOLOGS.out.jaccard_plot,
+            ch_seqhits,
+            ch_seqmisses,
+            ch_strhits,
+            ch_strmisses,
+            ch_alignment,
+            ch_iqtree,
+            ch_fastme
         )
     }
 
