@@ -8,7 +8,7 @@ process MAKE_REPORT {
 
 
     input:
-    tuple val(meta), path(id), path(taxid), path(exact), path(score_table), path(filtered_hits), path(support_plot), path(venn_plot), path(jaccard_plot), path(seq_hits), path(seq_misses), path(str_hits), path(str_misses), path(alignment), path(iqtree), path(fastme), path(params_file)
+    tuple val(meta), path(id), path(taxid), path(exact), path(score_table), path(filtered_hits), path(support_plot), path(venn_plot), path(jaccard_plot), path(orthostats), path(seq_hits), path(seq_misses), path(str_hits), path(str_misses), path(alignment), path(iqtree), path(fastme), path(params_file)
 
     output:
     tuple val(meta), path("*dist/*"), emit: report_files
@@ -37,6 +37,7 @@ process MAKE_REPORT {
     cp $support_plot public/supports.png
     cp $venn_plot public/venn.png
     cp $jaccard_plot public/jaccard.png
+    cp $orthostats public/orthostats.yml
     cp $params_file public/params.yml
     $seqhits_cmd
     $seqmisses_cmd

@@ -10,6 +10,7 @@ workflow REPORT {
     ch_supportsplot
     ch_vennplot
     ch_jaccardplot
+    ch_orthostats
     ch_seqhits
     ch_seqmisses
     ch_strhits
@@ -31,6 +32,7 @@ workflow REPORT {
         .join(ch_supportsplot, by:0)
         .join(ch_vennplot, by:0)
         .join(ch_jaccardplot, by:0)
+        .join(ch_orthostats, by:0)
         .join(ch_seqhits, by:0)
         .join(ch_seqmisses, by:0)
         .join(ch_strhits, by:0)
