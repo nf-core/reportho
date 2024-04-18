@@ -20,6 +20,9 @@ process DUMP_PARAMS {
     use_structures: ${params.use_structures}
     use_centroid: ${params.use_centroid}
     min_score: ${params.min_score}
+    skip_downstream: ${params.skip_downstream}
+    use_iqtree: ${params.use_iqtree}
+    use_fastme: ${params.use_fastme}
     END_PARAMS
     """
 }

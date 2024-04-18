@@ -11,11 +11,11 @@ process FETCH_AFDB_STRUCTURES {
     tuple val(meta), path(ids)
 
     output:
-    tuple val(meta), path("*.pdb")             , emit: pdb
-    tuple val(meta), path("*_hits.txt")        , emit: hits
-    tuple val(meta), path("*_misses.txt")      , emit: misses
-    tuple val(meta), path("*af_versions.txt")  , emit: af_versions
-    path "versions.yml"                        , emit: versions
+    tuple val(meta), path("*.pdb")           , emit: pdb
+    tuple val(meta), path("*_str_hits.txt")  , emit: hits
+    tuple val(meta), path("*_str_misses.txt"), emit: misses
+    tuple val(meta), path("*af_versions.txt"), emit: af_versions
+    path "versions.yml"                      , emit: versions
 
     when:
     task.ext.when == null || task.ext.when

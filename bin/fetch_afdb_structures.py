@@ -26,11 +26,11 @@ def fetch_structures(path: str, prefix: str):
         else:
             misses.append(id)
 
-    with open(f"{prefix}_hits.txt", 'w') as f:
+    with open(f"{prefix}_str_hits.txt", 'w') as f:
         for hit in hits:
             print(hit, file=f)
 
-    with open(f"{prefix}_misses.txt", 'w') as f:
+    with open(f"{prefix}_str_misses.txt", 'w') as f:
         for miss in misses:
             print(miss, file=f)
 

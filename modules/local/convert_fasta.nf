@@ -1,5 +1,5 @@
-process FETCH_SEQUENCES_ONLINE {
-    tag "${meta.id}"
+process CONVERT_FASTA {
+    tag "$input_file"
     label "process_single"
 
     conda "conda-forge::python=3.11.0 conda-forge::biopython=1.83.0 conda-forge::requests=2.31.0"
@@ -8,29 +8,24 @@ process FETCH_SEQUENCES_ONLINE {
         'biocontainers/mulled-v2-bc54124b36864a4af42a9db48b90a404b5869e7e:5258b8e5ba20587b7cbf3e942e973af5045a1e59-0' }"
 
     input:
-    tuple val(meta), path(ids), path(query_fasta)
+    tuple val(meta), path(input_file)
 
     output:
-    tuple val(meta), path("*_orthologs.fa")  , emit: fasta
-    tuple val(meta), path("*_seq_hits.txt")  , emit: hits
-    tuple val(meta), path("*_seq_misses.txt"), emit: misses
-    path "versions.yml"                      , emit: versions
+    tuple val(meta), path("*.fa"), emit: fasta
+    path "versions.yml"          , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
-    prefix    = task.ext.prefix ?: meta.id
-    add_query = params.uniprot_query ? "" : "cat $query_fasta >> ${prefix}_orthologs.fa"
+    prefix = task.ext.prefix ?: meta.id
     """
-    fetch_sequences.py $ids $prefix > ${prefix}_orthologs.fa
-    $add_query
+    clustal2fasta.py $input_file ${prefix}.fa
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":
         Python: \$(python --version | cut -d ' ' -f 2)
-        Python Requests: \$(pip show requests | grep Version | cut -d ' ' -f 2)
-    \$(get_oma_version.py)
+        Biopython: \$(pip show biopython | grep Version | cut -d ' ' -f 2)
     END_VERSIONS
     """
 }
