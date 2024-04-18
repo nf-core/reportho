@@ -1,4 +1,4 @@
-include { DUMP_PARAMS } from "../../modules/local/dump_params"
+include { DUMP_PARAMS    } from "../../modules/local/dump_params"
 include { MAKE_REPORT } from "../../modules/local/make_report"
 include { CONVERT_FASTA } from "../../modules/local/convert_fasta"
 
