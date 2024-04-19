@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
 
-import requests
-from utils import check_id_mapping_results_ready
 import sys
 
+import requests
+from utils import check_id_mapping_results_ready
+
+
 def uniprot2uniprot(uniprot_names: list[str]) -> list[str]:
+    """
+    Map a list of UniProt names (e.g. BICD2_HUMAN) to UniProt IDs using the UniProt mapping API.
+    """
     if len(uniprot_names) == 0:
         return []
 

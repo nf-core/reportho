@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 
-import requests
 import sys
+
+import requests
 from utils import check_id_mapping_results_ready
 
 
-def ensembl2uniprot(ensembl_ids: list[str]):
+def ensembl2uniprot(ensembl_ids: list[str]) -> list[str]:
+    """
+    Convert a list of Ensembl IDs to UniProt IDs using the UniProt mapping API.
+    """
     if len(ensembl_ids) == 0:
         return []
 
@@ -21,6 +25,7 @@ def ensembl2uniprot(ensembl_ids: list[str]):
 
     job_id = res.json()["jobId"]
 
+    # wait for the job to finish
     check_id_mapping_results_ready(job_id)
 
     res = requests.get(f"https://rest.uniprot.org/idmapping/results/{job_id}")
@@ -35,8 +40,9 @@ def ensembl2uniprot(ensembl_ids: list[str]):
 
 
 def main() -> None:
+    # note: this script is mostly not intended to be used in the command line
     if len(sys.argv) < 2:
-        raise ValueError("Too few arguments. Usage: ensembl2uniprot.py [id]")
+        raise ValueError("Too few arguments. Usage: ensembl2uniprot.py <id>")
 
     print(ensembl2uniprot([sys.argv[1]]))
 

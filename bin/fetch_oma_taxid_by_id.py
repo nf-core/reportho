@@ -1,15 +1,8 @@
 #!/usr/bin/env python3
 
-import requests
 import sys
 
-def fetch_seq(url: str):
-    res = requests.get(url)
-    if not res.ok:
-        print(f"HTTP error. Code: {res.status_code}")
-        return (False, dict())
-    json: dict = res.json()
-    return (True, json)
+from utils import fetch_seq
 
 
 def main() -> None:

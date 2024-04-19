@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
 
-import requests
 import sys
+
+import requests
 from utils import check_id_mapping_results_ready
 
+
 def refseq2uniprot(refseq_ids: list[str]) -> list[str]:
+    """
+    Map a list of RefSeq IDs to UniProt IDs using the UniProt mapping API.
+    """
     if len(refseq_ids) == 0:
         return []
 

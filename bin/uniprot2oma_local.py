@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
 
-import sys
 import gzip
+import sys
+
 
 def uniprot2oma_local(uniprot_path: list[str], idmap_path: str) -> None:
-    with open(uniprot_path[0], "r") as f:
+    """
+    Map a list of UniProt IDs to OMA IDs using a local ID mapping file.
+    """
+    with open(uniprot_path[0]) as f:
         uniprot_ids = f.read().splitlines()
 
     mapping = dict()
@@ -23,7 +27,7 @@ def uniprot2oma_local(uniprot_path: list[str], idmap_path: str) -> None:
 
 def main() -> None:
     if len(sys.argv) < 3:
-        raise ValueError("Too few arguments. Usage: uniprot2oma_local.py [ids] [path]")
+        raise ValueError("Too few arguments. Usage: uniprot2oma_local.py <idmap> <ids>")
 
     uniprot2oma_local(sys.argv[2:], sys.argv[1])
 

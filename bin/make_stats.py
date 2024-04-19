@@ -4,8 +4,10 @@ import csv
 import sys
 
 
-def make_stats(score_table: str):
-    # csv schema: id, [some columns], score
+def make_stats(score_table: str) -> None:
+    """
+    Calculate statistics from a score table.
+    """
     # read csv
     max_score = 0
     with open(score_table) as f:
@@ -30,12 +32,14 @@ def make_stats(score_table: str):
     print(f"percent_max: {round(percent_max,3)}")
     print(f"percent_privates: {round(percent_privates,3)}")
 
-def main():
+
+def main() -> None:
     if len(sys.argv) < 2:
         print("Usage: make_stats.py <score_table>")
         sys.exit(1)
     score_table = sys.argv[1]
     make_stats(score_table)
+
 
 if __name__ == "__main__":
     main()

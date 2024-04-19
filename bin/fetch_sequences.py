@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
 
-import requests
 import sys
 
+import requests
+
+
 def fetch_seqs_oma(path: str, prefix: str) -> list[str]:
+    """
+    Fetch sequences for given UniProt IDs from the OMA database.
+    """
     ids = []
-    with open(path, "r") as f:
+    with open(path) as f:
         ids = f.read().splitlines()
 
     payload = {"ids": ids}
@@ -35,6 +40,9 @@ def fetch_seqs_oma(path: str, prefix: str) -> list[str]:
 
 
 def fetch_seqs_uniprot(oma_misses: list, prefix: str) -> None:
+    """
+    Fetch sequences for given UniProt IDs from the UniProt database. Done second because it is slower.
+    """
     hits = []
     misses = []
 
@@ -60,7 +68,7 @@ def fetch_seqs_uniprot(oma_misses: list, prefix: str) -> None:
 
 def main() -> None:
     if len(sys.argv) < 3:
-        raise ValueError("Too few arguments. Usage: fetch_sequences.py [path] [prefix]")
+        raise ValueError("Too few arguments. Usage: fetch_sequences.py <path> <prefix>")
     oma_misses = fetch_seqs_oma(sys.argv[1], sys.argv[2])
     fetch_seqs_uniprot(oma_misses, sys.argv[2])
 

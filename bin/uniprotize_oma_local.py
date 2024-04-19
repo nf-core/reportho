@@ -3,8 +3,12 @@
 import gzip
 import sys
 
+
 def uniprotize_oma(oma_ids_path: str, ensembl_idmap_path: str, refseq_idmap_path: str) -> None:
-    with open(oma_ids_path, "r") as f:
+    """
+    Map IDs from OMA to UniProt using local Ensembl and RefSeq ID mapping files.
+    """
+    with open(oma_ids_path) as f:
         oma_ids = f.read().splitlines()
 
     ensembl_mapping = dict()
@@ -33,7 +37,7 @@ def uniprotize_oma(oma_ids_path: str, ensembl_idmap_path: str, refseq_idmap_path
 
 def main() -> None:
     if len(sys.argv) < 4:
-        raise ValueError("Too few arguments. Usage: uniprotize_oma.py [ids_path] [ensembl_idmap_path] [refseq_idmap_path]")
+        raise ValueError("Too few arguments. Usage: uniprotize_oma.py <ids_path> <ensembl_idmap> <refseq_idmap>")
 
     uniprotize_oma(sys.argv[1], sys.argv[2], sys.argv[3])
 
