@@ -13,9 +13,9 @@ process FILTER_HITS {
     val min_score
 
     output:
-    tuple val(meta), path('*_minscore_*.txt'), path("*_centroid.txt") , emit: scored_hits
-    tuple val(meta), path('*_filtered_hits.txt')                      , emit: filtered_hits
-    path "versions.yml"                                               , emit: versions
+    tuple val(meta), path('*_minscore_*.txt'), path("*_centroid.txt"), emit: scored_hits
+    tuple val(meta), path('*_filtered_hits.txt')                     , emit: filtered_hits
+    path "versions.yml"                                              , emit: versions
 
     when:
     task.ext.when == null || task.ext.when

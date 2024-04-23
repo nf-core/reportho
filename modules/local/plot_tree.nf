@@ -23,7 +23,7 @@ process PLOT_TREE {
     plot_tree.R $tree $prefix $method
 
     cat <<- END_VERSIONS > versions.yml
-    ${task.process}:
+    "${task.process}":
         R: \$(R --version | head -n 1 | cut -d ' ' -f 3)
     END_VERSIONS
     """

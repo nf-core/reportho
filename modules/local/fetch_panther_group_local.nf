@@ -7,8 +7,8 @@ process FETCH_PANTHER_GROUP_LOCAL {
     path panther_db
 
     output:
-    tuple val(meta), path("*_panther_group.csv") , emit: panther_group
-    path "versions.yml"                          , emit: versions
+    tuple val(meta), path("*_panther_group.csv"), emit: panther_group
+    path "versions.yml"                         , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -21,7 +21,7 @@ process FETCH_PANTHER_GROUP_LOCAL {
     csv_adorn.py ${prefix}_panther_group_raw.txt PANTHER > ${prefix}_panther_group.csv
 
     cat <<- END_VERSIONS > versions.yml
-    ${task.process}:
+    "${task.process}":
         Python: \$(python --version | cut -f2)
     END_VERSIONS
     """

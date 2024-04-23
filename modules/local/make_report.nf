@@ -12,6 +12,7 @@ process MAKE_REPORT {
 
     output:
     tuple val(meta), path("*dist/*"), emit: report_files
+    path "versions.yml"             , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -49,5 +50,13 @@ process MAKE_REPORT {
     yarn run build
     echo "python3 -m http.server 0" > dist/${prefix}_run.sh
     mv dist ${prefix}_dist
+
+    cat <<- END_VERSIONS > versions.yml
+    ${task.process}:
+        Node: \$(node --version)
+        Yarn: \$(yarn --version)
+        React: \$(yarn view react version)
+        Python: \$(python --version | cut -d ' ' -f 2)
+    END_VERSIONS
     """
 }

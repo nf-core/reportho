@@ -12,8 +12,8 @@ process FETCH_INSPECTOR_GROUP_ONLINE {
     val inspector_version
 
     output:
-    tuple val(meta), path("*_inspector_group.csv") , emit: inspector_group
-    path "versions.yml"                            , emit: versions
+    tuple val(meta), path("*_inspector_group.csv"), emit: inspector_group
+    path "versions.yml"                           , emit: versions
 
     when:
     task.ext.when == null || task.ext.when

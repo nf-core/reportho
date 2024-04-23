@@ -8,8 +8,8 @@ process FETCH_EGGNOG_GROUP_LOCAL {
     path idmap
 
     output:
-    tuple val(meta), path("*_eggnog_group.csv") , emit: eggnog_group
-    path "versions.yml"                         , emit: versions
+    tuple val(meta), path("*_eggnog_group.csv"), emit: eggnog_group
+    path "versions.yml"                        , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -23,7 +23,7 @@ process FETCH_EGGNOG_GROUP_LOCAL {
     csv_adorn.py ${prefix}_eggnog_group.txt EggNOG > ${prefix}_eggnog_group.csv
 
     cat <<- END_VERSIONS > versions.yml
-    ${task.process}:
+    "${task.process}":
         Python: \$(python --version | cut -f2)
     END_VERSIONS
     """

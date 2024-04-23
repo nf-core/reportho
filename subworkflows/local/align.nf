@@ -25,6 +25,10 @@ workflow ALIGN {
             ch_for_filter
         )
 
+        ch_versions
+            .mix(FILTER_FASTA.out.versions)
+            .set { ch_versions }
+
         CREATE_TCOFFEETEMPLATE(
             ch_pdb
         )
