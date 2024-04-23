@@ -113,6 +113,7 @@ workflow REPORTHO {
             GET_ORTHOLOGS.out.supports_plot,
             GET_ORTHOLOGS.out.venn_plot,
             GET_ORTHOLOGS.out.jaccard_plot,
+            GET_ORTHOLOGS.out.stats,
             ch_seqhits,
             ch_seqmisses,
             ch_strhits,

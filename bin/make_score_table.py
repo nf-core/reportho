@@ -1,16 +1,20 @@
 #!/usr/bin/env python3
 
-import sys
 import csv
 import re
+import sys
+
 
 def main() -> None:
+    """
+    Get score and format information from a merged CSV file.
+    """
     if len(sys.argv) < 2:
         print("Usage: python make_score_table.py <merged_csv>")
         sys.exit(1)
 
     # Read the CSV into a list of lists, it has a header
-    with open(sys.argv[1], "r") as f:
+    with open(sys.argv[1]) as f:
         reader = csv.reader(f)
         data = list(reader)
 
@@ -18,7 +22,7 @@ def main() -> None:
     header = data[0]
     data = data[1:]
 
-    # Calculate a score column, i.e. the sum of all the columns except the first
+    # Calculate a score column
     scores = [sum([int(i) for i in row[1:]]) for row in data]
 
     # Find database information by ID

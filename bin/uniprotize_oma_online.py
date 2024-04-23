@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
 
-from map_uniprot import map_uniprot
 import sys
 
+from map_uniprot import map_uniprot
+
+
 def main() -> None:
+    """
+    Map IDs from OMA to UniProt IDs.
+    """
     if len(sys.argv) != 2:
         print("Usage: python uniprotize_oma.py <oma_group_file>")
         sys.exit(1)

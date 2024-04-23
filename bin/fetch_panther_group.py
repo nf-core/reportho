@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
 
-import requests
 import sys
 
+import requests
+
+
 def main() -> None:
+    """
+    Fetch members of a Panther group by ID.
+    """
     if len(sys.argv) < 3:
-        raise ValueError("Too few arguments. Usage: fetch_panther_group.py [id] [organism]")
+        raise ValueError("Too few arguments. Usage: fetch_panther_group.py <id> <organism>")
 
     res = requests.get(f"https://www.pantherdb.org/services/oai/pantherdb/ortholog/matchortho?geneInputList={sys.argv[1]}&organism={sys.argv[2]}&orthologType=all")
 

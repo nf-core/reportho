@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
 
-import requests
 import sys
 
+import requests
+
+
 def main() -> None:
+    """
+    Fetch members of an OMA group by ID.
+    """
     if len(sys.argv) < 2:
-        raise ValueError("Too few arguments. Usage: fetch_oma_group_by_id.py [id]")
+        raise ValueError("Too few arguments. Usage: fetch_oma_group_by_id.py <id>")
 
     id = sys.argv[1]
 

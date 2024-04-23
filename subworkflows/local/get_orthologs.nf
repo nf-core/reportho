@@ -13,6 +13,7 @@ include { CSVTK_JOIN as MERGE_CSV      } from "../../modules/nf-core/csvtk/join/
 include { MAKE_SCORE_TABLE             } from "../../modules/local/make_score_table"
 include { FILTER_HITS                  } from "../../modules/local/filter_hits"
 include { PLOT_ORTHOLOGS               } from "../../modules/local/plot_orthologs"
+include { MAKE_STATS                   } from "../../modules/local/make_stats"
 
 workflow GET_ORTHOLOGS {
     take:
@@ -279,6 +280,14 @@ workflow GET_ORTHOLOGS {
         .mix(PLOT_ORTHOLOGS.out.versions)
         .set { ch_versions }
 
+    MAKE_STATS(
+        MAKE_SCORE_TABLE.out.score_table
+    )
+
+    ch_versions
+        .mix(MAKE_STATS.out.versions)
+        .set { ch_versions }
+
     ch_versions
         .collectFile(name: "get_orthologs_versions.yml", sort: true, newLine: true)
         .set { ch_merged_versions }
@@ -294,6 +303,7 @@ workflow GET_ORTHOLOGS {
     supports_plot   = PLOT_ORTHOLOGS.out.supports
     venn_plot       = PLOT_ORTHOLOGS.out.venn
     jaccard_plot    = PLOT_ORTHOLOGS.out.jaccard
+    stats           = MAKE_STATS.out.stats
     versions        = ch_merged_versions
 
 }
