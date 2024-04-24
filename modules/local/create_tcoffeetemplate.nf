@@ -12,8 +12,8 @@ process CREATE_TCOFFEETEMPLATE {
     task.ext.when == null || task.ext.when
 
     script:
-    args   = task.ext.args ?: ''
-    prefix = task.ext.prefix ?: "${meta.id}"
+    def args = task.ext.args ?: ''
+    prefix   = task.ext.prefix ?: "${meta.id}"
     """
     # Prep templates
     for structure in \$(ls *.pdb); do id=`echo \$structure| awk  {'gsub(".pdb", "", \$0); print'}`; echo -e ">"\$id "_P_" "\${id}" >>${prefix}_template.txt ; done
