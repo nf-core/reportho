@@ -11,8 +11,8 @@ process FETCH_OMA_GROUP_ONLINE {
     tuple val(meta), path(uniprot_id), path(taxid), path(exact)
 
     output:
-    tuple val(meta), path("*_oma_group.csv") , emit: oma_group
-    path "versions.yml"                      , emit: versions
+    tuple val(meta), path("*_oma_group.csv"), emit: oma_group
+    path "versions.yml"                     , emit: versions
 
     when:
     task.ext.when == null || task.ext.when

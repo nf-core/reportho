@@ -20,11 +20,17 @@ workflow REPORT {
     ch_fastme
 
     main:
+    ch_versions = Channel.empty()
+
     DUMP_PARAMS(
         ch_seqinfo.map { [it[0], it[3]] }
     )
 
     CONVERT_FASTA(ch_alignment)
+
+    ch_versions
+        .mix(CONVERT_FASTA.out.versions)
+        .set { ch_versions }
 
     ch_forreport = ch_seqinfo
         .join(ch_scoretable, by:0)
@@ -45,4 +51,11 @@ workflow REPORT {
     MAKE_REPORT(
         ch_forreport
     )
+
+    ch_versions
+        .mix(MAKE_REPORT.out.versions)
+        .set { ch_versions }
+
+    emit:
+    versions = ch_versions
 }

@@ -7,6 +7,7 @@ process FILTER_FASTA {
 
     output:
     tuple val(meta), path("*_filtered.fa"), emit: fasta
+    path "versions.yml"                   , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -15,5 +16,10 @@ process FILTER_FASTA {
     prefix = task.ext.prefix ?: meta.id
     """
     filter_fasta.py ${fasta} ${structures} ${prefix}_filtered.fa
+
+    cat <<- END_VERSIONS > versions.yml
+    "${task.process}":
+        Python: \$(python --version | cut -d ' ' -f 2)
+    END_VERSIONS
     """
 }

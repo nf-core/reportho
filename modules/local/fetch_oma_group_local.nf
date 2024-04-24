@@ -10,8 +10,8 @@ process FETCH_OMA_GROUP_LOCAL {
     path refseq_idmap
 
     output:
-    tuple val(meta), path("*_oma_group.csv") , emit: oma_group
-    path "versions.yml"                      , emit: versions
+    tuple val(meta), path("*_oma_group.csv"), emit: oma_group
+    path "versions.yml"                     , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -26,7 +26,7 @@ process FETCH_OMA_GROUP_LOCAL {
     csv_adorn.py ${prefix}_oma_group.txt OMA > ${prefix}_oma_group.csv
 
     cat <<- END_VERSIONS > versions.yml
-    ${task.process}:
+    "${task.process}":
         Python: \$(python --version | cut -f2)
     END_VERSIONS
     """
