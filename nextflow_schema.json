@@ -216,6 +216,18 @@
                     "description": "Use FastME for the phylogenetic analysis.",
                     "help_text": "If set to `true`, the pipeline will use FastME for the phylogenetic analysis.",
                     "fa_icon": "fas fa-tree"
+                },
+                "iqtree_bootstrap": {
+                    "type": "integer",
+                    "default": 0,
+                    "description": "Number of bootstrap replicates for IQ-TREE.",
+                    "fa_icon": "fas fa-rotate"
+                },
+                "fastme_bootstrap": {
+                    "type": "integer",
+                    "default": 0,
+                    "description": "Number of bootstrap replicates for FastME.",
+                    "fa_icon": "fas fa-rotate"
                 }
             }
         },
