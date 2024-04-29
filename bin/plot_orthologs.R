@@ -15,6 +15,7 @@ if (length(args) < 2) {
 # Styles
 text_color <- "#DDDDDD"
 bg_color <- "transparent"
+font_size <- 16
 
 # Load the data
 data <- read.csv(args[1], header = TRUE, stringsAsFactors = FALSE)
@@ -38,9 +39,9 @@ p <- ggplot(melted_crosstable, aes(x = method, y = count, fill = score)) +
     labs(title = "Support for predictions", x = "Database", y = "Number of orthologs", fill = "Support") +
     scale_fill_manual(values = c("#59B4C3", "#74E291", "#8F7AC2", "#EFF396", "#FF9A8D")) +
     theme(legend.position = "right",
-        text = element_text(size = 12, color = text_color),
-        axis.text.x = element_text(color = text_color),
-        axis.text.y = element_text(color = text_color),
+        text = element_text(size = font_size, color = text_color),
+        axis.text.x = element_text(size = font_size, color = text_color),
+        axis.text.y = element_text(size = font_size, color = text_color),
         plot.background = element_rect(color = bg_color, fill = bg_color),
         panel.background = element_rect(color = bg_color, fill = bg_color))
 
@@ -54,7 +55,7 @@ for (i in colnames(data)[4:ncol(data)-1]) {
 }
 venn.plot <- ggVennDiagram(venn.data, set_color = text_color) +
     theme(legend.position = "none",
-        text = element_text(size = 12, color = text_color),
+        text = element_text(size = font_size, color = text_color),
         plot.background = element_rect(color = bg_color, fill = bg_color),
         panel.background = element_rect(color = bg_color, fill = bg_color))
 ggsave(paste0(args[2], "_venn.png"), plot = venn.plot, width = 6, height = 6, dpi = 300)
@@ -81,9 +82,9 @@ p <- ggplot(jaccard, aes(x = method1, y = method2, fill = jaccard)) +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
     labs(title = "Jaccard Index", x = "", y = "", fill = "Jaccard Index") +
     theme(legend.position = "right",
-        text = element_text(size = 12, color = text_color),
-        axis.text.x = element_text(color = text_color),
-        axis.text.y = element_text(color = text_color),
+        text = element_text(size = font_size, color = text_color),
+        axis.text.x = element_text(size = font_size, color = text_color),
+        axis.text.y = element_text(size = font_size, color = text_color),
         plot.background = element_rect(color = bg_color, fill = bg_color),
         panel.background = element_rect(color = bg_color, fill = bg_color))
 
