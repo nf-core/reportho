@@ -1,6 +1,6 @@
 process CONVERT_PHYLIP {
     tag "$input_file"
-    label "process_single"
+    label 'process_single'
 
     conda "conda-forge::python=3.11.0 conda-forge::biopython=1.83.0 conda-forge::requests=2.31.0"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?

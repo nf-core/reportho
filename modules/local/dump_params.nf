@@ -1,6 +1,6 @@
 process DUMP_PARAMS {
     tag "$meta.id"
-    label "process_single"
+    label 'process_single'
 
     input:
     tuple val(meta), path(exact)

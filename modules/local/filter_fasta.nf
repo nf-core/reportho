@@ -1,6 +1,6 @@
 process FILTER_FASTA {
     tag "$meta.id"
-    label "process_single"
+    label 'process_single'
 
     input:
     tuple val(meta), path(fasta), path(structures)
