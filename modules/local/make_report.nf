@@ -48,7 +48,7 @@ process MAKE_REPORT {
     $iqtree_cmd
     $fastme_cmd
     yarn run build
-    echo "python3 -m http.server 0" > dist/${prefix}_run.sh
+    echo "python3 -m http.server 0" > dist/run.sh
     mv dist ${prefix}_dist
 
     cat <<- END_VERSIONS > versions.yml
