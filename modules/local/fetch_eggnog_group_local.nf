@@ -1,6 +1,6 @@
 process FETCH_EGGNOG_GROUP_LOCAL {
     tag "$meta.id"
-    label 'process_short'
+    label 'process_single'
 
     input:
     tuple val(meta), path(uniprot_id), path(taxid), path(exact)
