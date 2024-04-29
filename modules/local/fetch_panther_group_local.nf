@@ -2,6 +2,11 @@ process FETCH_PANTHER_GROUP_LOCAL {
     tag "$meta.id"
     label 'process_single'
 
+    conda "conda-forge::python=3.11.0"
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+        'https://depot.galaxyproject.org/singularity/python:3.11.0' :
+        'biocontainers/python:3.11.0' }"
+
     input:
     tuple val(meta), path(uniprot_id), path(taxid), path(exact)
     path panther_db
