@@ -85,15 +85,13 @@ For more details about the output files and reports, please refer to the
 
 ## Credits
 
-nf-core/reportho was originally written by itrujnara.
+nf-core/reportho was originally written by Igor Trujnara (@itrujnara).
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 
-@lsantus
-
-@avignoli
-
-@JoseEspinosa
+- Luisa Santus (@lsantus)
+- Alessio Vignoli (@avignoli)
+- Jose Espinosa-Carrasco (@JoseEspinosa)
 
 ## Contributions and Support
 
