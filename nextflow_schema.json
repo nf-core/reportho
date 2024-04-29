@@ -168,6 +168,13 @@
                     "description": "Minimum score for the ortholog search.",
                     "help_text": "The minimum score for the ortholog search. If `use_centroid` is set to `true`, this parameter will be ignored.",
                     "fa_icon": "fas fa-database"
+                },
+                "skip_orthoplots": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Skip the ortholog plots.",
+                    "help_text": "If set to `true`, the pipeline will skip the ortholog plots.",
+                    "fa_icon": "fas fa-database"
                 }
             }
         },
@@ -225,6 +232,13 @@
                     "description": "Number of bootstrap replicates for FastME.",
                     "help_text": "If set to `0`, bootstrap will not be performed.",
                     "fa_icon": "fas fa-rotate"
+                },
+                "skip_treeplots": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Skip the tree plots.",
+                    "help_text": "If set to `true`, the pipeline will skip the tree plots.",
+                    "fa_icon": "fas fa-tree"
                 }
             }
         },

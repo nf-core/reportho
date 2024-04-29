@@ -272,13 +272,23 @@ workflow GET_ORTHOLOGS {
         .mix(FILTER_HITS.out.versions)
         .set { ch_versions }
 
-    PLOT_ORTHOLOGS (
-        MAKE_SCORE_TABLE.out.score_table
-    )
+    ch_supportsplot = ch_seqinfo.map { [it[0], []]}
+    ch_vennplot = ch_seqinfo.map { [it[0], []]}
+    ch_jaccardplot = ch_seqinfo.map { [it[0], []]}
 
-    ch_versions
-        .mix(PLOT_ORTHOLOGS.out.versions)
-        .set { ch_versions }
+    if(!params.skip_orthoplots) {
+        PLOT_ORTHOLOGS (
+            MAKE_SCORE_TABLE.out.score_table
+        )
+
+        ch_supportsplot = PLOT_ORTHOLOGS.out.supports
+        ch_vennplot = PLOT_ORTHOLOGS.out.venn
+        ch_jaccardplot = PLOT_ORTHOLOGS.out.jaccard
+
+        ch_versions
+            .mix(PLOT_ORTHOLOGS.out.versions)
+            .set { ch_versions }
+    }
 
     MAKE_STATS(
         MAKE_SCORE_TABLE.out.score_table
@@ -300,9 +310,9 @@ workflow GET_ORTHOLOGS {
     orthogroups     = ch_orthogroups
     score_table     = MAKE_SCORE_TABLE.out.score_table
     orthologs       = FILTER_HITS.out.filtered_hits
-    supports_plot   = PLOT_ORTHOLOGS.out.supports
-    venn_plot       = PLOT_ORTHOLOGS.out.venn
-    jaccard_plot    = PLOT_ORTHOLOGS.out.jaccard
+    supports_plot   = ch_supportsplot
+    venn_plot       = ch_vennplot
+    jaccard_plot    = ch_jaccardplot
     stats           = MAKE_STATS.out.stats
     versions        = ch_merged_versions
 

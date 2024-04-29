@@ -28,16 +28,20 @@ workflow MAKE_TREES {
             .mix(IQTREE.out.versions)
             .set { ch_versions }
 
-        PLOT_IQTREE (
-            IQTREE.out.phylogeny,
-            "iqtree"
-        )
+        ch_mlplot = ch_seqinfo.map { [it[0], []] }
 
-        ch_mlplot = PLOT_IQTREE.out.plot
+        if(!params.skip_treeplots) {
+            PLOT_IQTREE (
+                IQTREE.out.phylogeny,
+                "iqtree"
+            )
 
-        ch_versions
-            .mix(PLOT_IQTREE.out.versions)
-            .set { ch_versions }
+            ch_mlplot = PLOT_IQTREE.out.plot
+
+            ch_versions
+                .mix(PLOT_IQTREE.out.versions)
+                .set { ch_versions }
+        }
     }
 
     if (params.use_fastme) {
@@ -60,16 +64,20 @@ workflow MAKE_TREES {
             .mix(FASTME.out.versions)
             .set { ch_versions }
 
-        PLOT_FASTME (
-            FASTME.out.nwk,
-            "fastme"
-        )
+        ch_meplot = ch_seqinfo.map { [it[0], []] }
 
-        ch_meplot = PLOT_FASTME.out.plot
+        if(!params.skip_treeplots) {
+            PLOT_FASTME (
+                FASTME.out.nwk,
+                "fastme"
+            )
 
-        ch_versions
-            .mix(PLOT_FASTME.out.versions)
-            .set { ch_versions }
+            ch_meplot = PLOT_FASTME.out.plot
+
+            ch_versions
+                .mix(PLOT_FASTME.out.versions)
+                .set { ch_versions }
+        }
     }
 
     emit:
