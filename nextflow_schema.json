@@ -214,7 +214,7 @@
                 },
                 "iqtree_bootstrap": {
                     "type": "integer",
-                    "default": 0,
+                    "default": 100,
                     "description": "Number of bootstrap replicates for IQ-TREE.",
                     "help_text": "If set to `0`, bootstrap will not be performed.",
                     "fa_icon": "fas fa-rotate"
