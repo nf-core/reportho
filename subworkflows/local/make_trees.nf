@@ -28,7 +28,7 @@ workflow MAKE_TREES {
             .mix(IQTREE.out.versions)
             .set { ch_versions }
 
-        ch_mlplot = ch_seqinfo.map { [it[0], []] }
+        ch_mlplot = ch_alignment.map { [it[0], []] }
 
         if(!params.skip_treeplots) {
             PLOT_IQTREE (
@@ -64,7 +64,7 @@ workflow MAKE_TREES {
             .mix(FASTME.out.versions)
             .set { ch_versions }
 
-        ch_meplot = ch_seqinfo.map { [it[0], []] }
+        ch_meplot = ch_alignment.map { [it[0], []] }
 
         if(!params.skip_treeplots) {
             PLOT_FASTME (
