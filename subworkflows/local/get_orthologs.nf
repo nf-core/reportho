@@ -14,6 +14,8 @@ include { MAKE_SCORE_TABLE             } from "../../modules/local/make_score_ta
 include { FILTER_HITS                  } from "../../modules/local/filter_hits"
 include { PLOT_ORTHOLOGS               } from "../../modules/local/plot_orthologs"
 include { MAKE_STATS                   } from "../../modules/local/make_stats"
+include { STATS2CSV                    } from "../../modules/local/stats2csv"
+include { CSVTK_CONCAT as MERGE_STATS  } from "../../modules/nf-core/csvtk/concat/main"
 
 workflow GET_ORTHOLOGS {
     take:
@@ -242,6 +244,8 @@ workflow GET_ORTHOLOGS {
         }
     }
 
+    // Result merging
+
     MERGE_CSV (
         ch_orthogroups.groupTuple()
     )
@@ -249,6 +253,8 @@ workflow GET_ORTHOLOGS {
     ch_versions
         .mix(MERGE_CSV.out.versions)
         .set { ch_versions }
+
+    // Scoring and filtering
 
     MAKE_SCORE_TABLE (
         MERGE_CSV.out.csv
@@ -272,6 +278,8 @@ workflow GET_ORTHOLOGS {
         .mix(FILTER_HITS.out.versions)
         .set { ch_versions }
 
+    // Plotting
+
     ch_supportsplot = ch_query.map { [it[0], []]}
     ch_vennplot     = ch_query.map { [it[0], []]}
     ch_jaccardplot  = ch_query.map { [it[0], []]}
@@ -290,6 +298,8 @@ workflow GET_ORTHOLOGS {
             .set { ch_versions }
     }
 
+    // Stats
+
     MAKE_STATS(
         MAKE_SCORE_TABLE.out.score_table
     )
@@ -298,22 +308,45 @@ workflow GET_ORTHOLOGS {
         .mix(MAKE_STATS.out.versions)
         .set { ch_versions }
 
+    STATS2CSV(
+        MAKE_STATS.out.stats
+    )
+
+    ch_versions
+        .mix(STATS2CSV.out.versions)
+        .set { ch_versions }
+
+    ch_stats = STATS2CSV.out.csv
+        .collect { it[1] }
+        .map { [[id: "all"], it] }
+
+    MERGE_STATS(
+        ch_stats,
+        "csv",
+        "csv"
+    )
+
+    ch_versions
+        .mix(MERGE_STATS.out.versions)
+        .set { ch_versions }
+
     ch_versions
         .collectFile(name: "get_orthologs_versions.yml", sort: true, newLine: true)
         .set { ch_merged_versions }
 
     emit:
-    seqinfo         = ch_query
-    id              = ch_query.map { it[1] }
-    taxid           = ch_query.map { it[2] }
-    exact           = ch_query.map { it[3] }
-    orthogroups     = ch_orthogroups
-    score_table     = MAKE_SCORE_TABLE.out.score_table
-    orthologs       = FILTER_HITS.out.filtered_hits
-    supports_plot   = ch_supportsplot
-    venn_plot       = ch_vennplot
-    jaccard_plot    = ch_jaccardplot
-    stats           = MAKE_STATS.out.stats
-    versions        = ch_merged_versions
+    seqinfo          = ch_query
+    id               = ch_query.map { it[1] }
+    taxid            = ch_query.map { it[2] }
+    exact            = ch_query.map { it[3] }
+    orthogroups      = ch_orthogroups
+    score_table      = MAKE_SCORE_TABLE.out.score_table
+    orthologs        = FILTER_HITS.out.filtered_hits
+    supports_plot    = ch_supportsplot
+    venn_plot        = ch_vennplot
+    jaccard_plot     = ch_jaccardplot
+    stats            = MAKE_STATS.out.stats
+    aggregated_stats = MERGE_STATS.out.csv
+    versions         = ch_merged_versions
 
 }
