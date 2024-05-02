@@ -1,5 +1,8 @@
 #!/usr/bin/env Rscript
 
+# Written by Igor Trujnara, released under the MIT license
+# See https://opensource.org/license/mit for details
+
 suppressMessages(library(ggplot2))
 suppressMessages(library(reshape2))
 suppressMessages(library(dplyr))

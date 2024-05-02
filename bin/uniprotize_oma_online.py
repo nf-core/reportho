@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+# Written by Igor Trujnara, released under the MIT license
+# See https://opensource.org/license/mit for details
+
 import sys
 
 from map_uniprot import map_uniprot
