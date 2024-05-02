@@ -35,10 +35,10 @@ workflow REPORT {
         ch_strmisses = ch_seqinfo.map { [it[0], []] }
     }
 
-    if (!params.use_iqtree) {
+    if (params.skip_iqtree) {
         ch_iqtree = ch_seqinfo.map { [it[0], []] }
     }
-    if (!params.use_fastme) {
+    if (params.skip_fastme) {
         ch_fastme = ch_seqinfo.map { [it[0], []] }
     }
 

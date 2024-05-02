@@ -16,7 +16,7 @@ workflow MAKE_TREES {
     ch_mlplot   = Channel.empty()
     ch_meplot   = Channel.empty()
 
-    if (params.use_iqtree) {
+    if (!params.skip_iqtree) {
         IQTREE (
             ch_alignment,
             []
@@ -44,7 +44,7 @@ workflow MAKE_TREES {
         }
     }
 
-    if (params.use_fastme) {
+    if (!params.skip_fastme) {
 
         CONVERT_PHYLIP (
             ch_alignment

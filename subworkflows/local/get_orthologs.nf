@@ -149,7 +149,7 @@ workflow GET_ORTHOLOGS {
     } else { // online/local separation is used
         // local only
         if (params.local_databases) {
-            if (params.use_oma) {
+            if (!params.skip_oma) {
                 FETCH_OMA_GROUP_LOCAL (
                     ch_query,
                     params.oma_path,
@@ -167,7 +167,7 @@ workflow GET_ORTHOLOGS {
                     .set { ch_versions }
             }
 
-            if (params.use_panther) {
+            if (!params.skip_panther) {
                 FETCH_PANTHER_GROUP_LOCAL (
                     ch_query,
                     params.panther_path
@@ -182,7 +182,7 @@ workflow GET_ORTHOLOGS {
                     .set { ch_versions }
             }
 
-            if(params.use_eggnog) {
+            if(!params.skip_eggnog) {
                 FETCH_EGGNOG_GROUP_LOCAL (
                     ch_query,
                     params.eggnog_path,
@@ -200,7 +200,7 @@ workflow GET_ORTHOLOGS {
             }
         }
         else { // online only
-            if (params.use_oma) {
+            if (!params.skip_oma) {
                 FETCH_OMA_GROUP_ONLINE (
                     ch_query
                 )
@@ -214,7 +214,7 @@ workflow GET_ORTHOLOGS {
                     .set { ch_versions }
 
             }
-            if (params.use_panther) {
+            if (!params.skip_panther) {
                 FETCH_PANTHER_GROUP_ONLINE (
                     ch_query
                 )
@@ -227,7 +227,7 @@ workflow GET_ORTHOLOGS {
                     .mix(FETCH_PANTHER_GROUP_ONLINE.out.versions)
                     .set { ch_versions }
             }
-            if (params.use_inspector) {
+            if (!params.skip_inspector) {
                 FETCH_INSPECTOR_GROUP_ONLINE (
                     ch_query,
                     params.inspector_version
