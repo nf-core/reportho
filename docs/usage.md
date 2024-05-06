@@ -20,11 +20,18 @@ You will need to create a samplesheet with information about the samples you wou
 
 The samplesheet can have as many columns as you desire, however, there is a strict requirement for the first 2 columns to match those defined in the table below.
 
-A final samplesheet file may look something like the one below.
+A final samplesheet file may look something like the one below, with `--uniprot_query` enabled:
 
 ```csv title="samplesheet.csv"
 id,query
 BicD2,Q8TD16
+```
+
+or the one below, otherwise:
+
+```csv title="samplesheet.csv"
+id,query
+BicD2,/home/myuser/data/bicd2.fa
 ```
 
 | Column  | Description                                                                                                                                                         |
