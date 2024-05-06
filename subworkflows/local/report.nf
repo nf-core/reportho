@@ -3,7 +3,15 @@ include { MAKE_REPORT    } from "../../modules/local/make_report"
 include { CONVERT_FASTA } from "../../modules/local/convert_fasta"
 
 workflow REPORT {
+    
     take:
+    uniprot_query,
+    use_structures,
+    use_centroid,
+    min_score,
+    skip_downstream,
+    use_iqtree,
+    use_fastme,
     ch_seqinfo
     ch_scoretable
     ch_filtered

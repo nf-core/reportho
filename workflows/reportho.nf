@@ -107,6 +107,13 @@ workflow REPORTHO {
 
     if(!params.skip_report) {
         REPORT (
+            params.uniprot_query,
+            params.use_structures,
+            params.use_centroid,
+            params.min_score,
+            params.skip_downstream,
+            params.use_iqtree,
+            params.use_fastme,
             GET_ORTHOLOGS.out.seqinfo,
             GET_ORTHOLOGS.out.score_table,
             GET_ORTHOLOGS.out.orthologs,
