@@ -13,8 +13,8 @@ def main() -> None:
         print("Usage: yml2csv.py <id> <input_file> <output_file>")
         sys.exit(1)
 
-    sample_id = sys.argv[1]
-    input_file = sys.argv[2]
+    sample_id   = sys.argv[1]
+    input_file  = sys.argv[2]
     output_file = sys.argv[3]
 
     with open(input_file) as f:
