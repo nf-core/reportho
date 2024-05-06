@@ -113,21 +113,21 @@
                     "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the PANTHER database.",
                     "fa_icon": "fas fa-database"
                 },
-                "skip_inspector": {
+                "skip_orthoinspector": {
                     "type": "boolean",
                     "default": "false",
                     "description": "Skip using OrthoInspector for the ortholog search.",
                     "help_text": "If set to `true`, the pipeline will not use OrthoInspector for the ortholog search.",
                     "fa_icon": "fas fa-database"
                 },
-                "inspector_version": {
+                "orthoinspector_version": {
                     "type": "string",
                     "description": "The version of the OrthoInspector database to use.",
                     "help_text": "This SHOULD be left as the default if working with eukaryotes. Only change if working with bacteria, or an old version is required for reproducibility.",
                     "default": "Eukaryota2023",
                     "fa_icon": "fas fa-database"
                 },
-                "inspector_path": {
+                "orthoinspector_path": {
                     "type": "string",
                     "format": "path",
                     "description": "Path to the OrthoInspector database.",

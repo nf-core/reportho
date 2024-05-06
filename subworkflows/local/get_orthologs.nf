@@ -121,7 +121,7 @@ workflow GET_ORTHOLOGS {
         // OrthoInspector
         FETCH_INSPECTOR_GROUP_ONLINE (
             ch_query,
-            params.inspector_version
+            params.orthoinspector_version
         )
 
         ch_orthogroups
@@ -227,10 +227,10 @@ workflow GET_ORTHOLOGS {
                     .mix(FETCH_PANTHER_GROUP_ONLINE.out.versions)
                     .set { ch_versions }
             }
-            if (!params.skip_inspector) {
+            if (!params.skip_orthoinspector) {
                 FETCH_INSPECTOR_GROUP_ONLINE (
                     ch_query,
-                    params.inspector_version
+                    params.orthoinspector_version
                 )
 
                 ch_orthogroups
