@@ -6,7 +6,6 @@ process MAKE_REPORT {
         'docker://itrujnara/orthologs-report:1.0.0' :
         'itrujnara/orthologs-report:1.0.0' }"
 
-
     input:
     tuple val(meta), path(id), path(taxid), path(exact), path(score_table), path(filtered_hits), path(support_plot), path(venn_plot), path(jaccard_plot), path(orthostats), path(seq_hits), path(seq_misses), path(str_hits), path(str_misses), path(alignment), path(iqtree), path(fastme), path(params_file)
 

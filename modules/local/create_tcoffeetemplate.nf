@@ -2,6 +2,10 @@ process CREATE_TCOFFEETEMPLATE {
     tag "$meta.id"
     label 'process_low'
 
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+        'https://depot.galaxyproject.org/singularity/ubuntu:20.04' :
+        'nf-core/ubuntu:20.04' }"
+
     input:
     tuple val(meta), path(accessory_informations)
 
@@ -16,7 +20,10 @@ process CREATE_TCOFFEETEMPLATE {
     prefix   = task.ext.prefix ?: "${meta.id}"
     """
     # Prep templates
-    for structure in \$(ls *.pdb); do id=`echo \$structure| awk  {'gsub(".pdb", "", \$0); print'}`; echo -e ">"\$id "_P_" "\${id}" >>${prefix}_template.txt ; done
+    for structure in \$(ls *.pdb); do
+        id=`echo \$structure | awk  {'gsub(".pdb", "", \$0); print'}`;
+        echo -e ">"\$id "_P_" "\${id}" >> ${prefix}_template.txt; 
+    done
     """
 
     stub:
