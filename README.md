@@ -27,8 +27,6 @@
 
 ![nf-core-reportho tube map](docs/images/reportho_tube_map.svg?raw=true "nf-core-reportho tube map")
 
-<!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->
-
 1. **Obtain Query Information**: (depends on provided input) identification of Uniprot ID and taxon ID for the query or its closest homolog.
 2. **Fetch Orthologs**: fetching of ortholog predictions from public databases, either through API or from local snapshot.
 3. **Compare and Assemble**: calculation of agreement statistics, creation of ortholog lists, selection of the consensus list.
@@ -66,8 +64,6 @@ If using the latter format, you must set `--uniprot_query` to true.
 
 Now, you can run the pipeline using:
 
-<!-- TODO nf-core: update the following command to include all required parameters for a minimal example -->
-
 ```bash
 nextflow run nf-core/reportho \
    -profile <docker/singularity/.../institute> \
@@ -89,15 +85,13 @@ For more details about the output files and reports, please refer to the
 
 ## Credits
 
-nf-core/reportho was originally written by itrujnara.
+nf-core/reportho was originally written by Igor Trujnara (@itrujnara).
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 
-@lsantus
-
-@avignoli
-
-@JoseEspinosa
+- Luisa Santus (@lsantus)
+- Alessio Vignoli (@avignoli)
+- Jose Espinosa-Carrasco (@JoseEspinosa)
 
 ## Contributions and Support
 
@@ -109,8 +103,6 @@ For further information or help, don't hesitate to get in touch on the [Slack `#
 
 <!-- TODO nf-core: Add citation for pipeline after first release. Uncomment lines below and update Zenodo doi and badge at the top of this file. -->
 <!-- If you use nf-core/reportho for your analysis, please cite it using the following doi: [10.5281/zenodo.XXXXXX](https://doi.org/10.5281/zenodo.XXXXXX) -->
-
-<!-- TODO nf-core: Add bibliography of tools and data used in your pipeline -->
 
 An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
 

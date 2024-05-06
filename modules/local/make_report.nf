@@ -1,6 +1,6 @@
 process MAKE_REPORT {
     tag "$meta.id"
-    label "process_single"
+    label 'process_single'
 
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'docker://itrujnara/orthologs-report:1.0.0' :
@@ -48,7 +48,7 @@ process MAKE_REPORT {
     $iqtree_cmd
     $fastme_cmd
     yarn run build
-    echo "python3 -m http.server 0" > dist/${prefix}_run.sh
+    echo "python3 -m http.server 0" > dist/run.sh
     mv dist ${prefix}_dist
 
     cat <<- END_VERSIONS > versions.yml

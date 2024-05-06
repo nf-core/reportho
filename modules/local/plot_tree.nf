@@ -1,6 +1,6 @@
 process PLOT_TREE {
     tag "$meta.id"
-    label "process_single"
+    label 'process_single'
 
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'docker://itrujnara/plot-tree:1.0.0' :

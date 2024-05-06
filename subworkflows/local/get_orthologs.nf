@@ -14,6 +14,8 @@ include { MAKE_SCORE_TABLE             } from "../../modules/local/make_score_ta
 include { FILTER_HITS                  } from "../../modules/local/filter_hits"
 include { PLOT_ORTHOLOGS               } from "../../modules/local/plot_orthologs"
 include { MAKE_STATS                   } from "../../modules/local/make_stats"
+include { STATS2CSV                    } from "../../modules/local/stats2csv"
+include { CSVTK_CONCAT as MERGE_STATS  } from "../../modules/nf-core/csvtk/concat/main"
 
 workflow GET_ORTHOLOGS {
     take:
@@ -119,7 +121,7 @@ workflow GET_ORTHOLOGS {
         // OrthoInspector
         FETCH_INSPECTOR_GROUP_ONLINE (
             ch_query,
-            params.inspector_version
+            params.orthoinspector_version
         )
 
         ch_orthogroups
@@ -147,7 +149,7 @@ workflow GET_ORTHOLOGS {
     } else { // online/local separation is used
         // local only
         if (params.local_databases) {
-            if (params.use_oma) {
+            if (!params.skip_oma) {
                 FETCH_OMA_GROUP_LOCAL (
                     ch_query,
                     params.oma_path,
@@ -165,7 +167,7 @@ workflow GET_ORTHOLOGS {
                     .set { ch_versions }
             }
 
-            if (params.use_panther) {
+            if (!params.skip_panther) {
                 FETCH_PANTHER_GROUP_LOCAL (
                     ch_query,
                     params.panther_path
@@ -180,7 +182,7 @@ workflow GET_ORTHOLOGS {
                     .set { ch_versions }
             }
 
-            if(params.use_eggnog) {
+            if(!params.skip_eggnog) {
                 FETCH_EGGNOG_GROUP_LOCAL (
                     ch_query,
                     params.eggnog_path,
@@ -198,7 +200,7 @@ workflow GET_ORTHOLOGS {
             }
         }
         else { // online only
-            if (params.use_oma) {
+            if (!params.skip_oma) {
                 FETCH_OMA_GROUP_ONLINE (
                     ch_query
                 )
@@ -212,7 +214,7 @@ workflow GET_ORTHOLOGS {
                     .set { ch_versions }
 
             }
-            if (params.use_panther) {
+            if (!params.skip_panther) {
                 FETCH_PANTHER_GROUP_ONLINE (
                     ch_query
                 )
@@ -225,10 +227,10 @@ workflow GET_ORTHOLOGS {
                     .mix(FETCH_PANTHER_GROUP_ONLINE.out.versions)
                     .set { ch_versions }
             }
-            if (params.use_inspector) {
+            if (!params.skip_orthoinspector) {
                 FETCH_INSPECTOR_GROUP_ONLINE (
                     ch_query,
-                    params.inspector_version
+                    params.orthoinspector_version
                 )
 
                 ch_orthogroups
@@ -242,6 +244,8 @@ workflow GET_ORTHOLOGS {
         }
     }
 
+    // Result merging
+
     MERGE_CSV (
         ch_orthogroups.groupTuple()
     )
@@ -249,6 +253,8 @@ workflow GET_ORTHOLOGS {
     ch_versions
         .mix(MERGE_CSV.out.versions)
         .set { ch_versions }
+
+    // Scoring and filtering
 
     MAKE_SCORE_TABLE (
         MERGE_CSV.out.csv
@@ -272,13 +278,27 @@ workflow GET_ORTHOLOGS {
         .mix(FILTER_HITS.out.versions)
         .set { ch_versions }
 
-    PLOT_ORTHOLOGS (
-        MAKE_SCORE_TABLE.out.score_table
-    )
+    // Plotting
 
-    ch_versions
-        .mix(PLOT_ORTHOLOGS.out.versions)
-        .set { ch_versions }
+    ch_supportsplot = ch_query.map { [it[0], []]}
+    ch_vennplot     = ch_query.map { [it[0], []]}
+    ch_jaccardplot  = ch_query.map { [it[0], []]}
+
+    if(!params.skip_orthoplots) {
+        PLOT_ORTHOLOGS (
+            MAKE_SCORE_TABLE.out.score_table
+        )
+
+        ch_supportsplot = PLOT_ORTHOLOGS.out.supports
+        ch_vennplot     = PLOT_ORTHOLOGS.out.venn
+        ch_jaccardplot  = PLOT_ORTHOLOGS.out.jaccard
+
+        ch_versions
+            .mix(PLOT_ORTHOLOGS.out.versions)
+            .set { ch_versions }
+    }
+
+    // Stats
 
     MAKE_STATS(
         MAKE_SCORE_TABLE.out.score_table
@@ -288,22 +308,45 @@ workflow GET_ORTHOLOGS {
         .mix(MAKE_STATS.out.versions)
         .set { ch_versions }
 
+    STATS2CSV(
+        MAKE_STATS.out.stats
+    )
+
+    ch_versions
+        .mix(STATS2CSV.out.versions)
+        .set { ch_versions }
+
+    ch_stats = STATS2CSV.out.csv
+        .collect { it[1] }
+        .map { [[id: "all"], it] }
+
+    MERGE_STATS(
+        ch_stats,
+        "csv",
+        "csv"
+    )
+
+    ch_versions
+        .mix(MERGE_STATS.out.versions)
+        .set { ch_versions }
+
     ch_versions
         .collectFile(name: "get_orthologs_versions.yml", sort: true, newLine: true)
         .set { ch_merged_versions }
 
     emit:
-    seqinfo         = ch_query
-    id              = ch_query.map { it[1] }
-    taxid           = ch_query.map { it[2] }
-    exact           = ch_query.map { it[3] }
-    orthogroups     = ch_orthogroups
-    score_table     = MAKE_SCORE_TABLE.out.score_table
-    orthologs       = FILTER_HITS.out.filtered_hits
-    supports_plot   = PLOT_ORTHOLOGS.out.supports
-    venn_plot       = PLOT_ORTHOLOGS.out.venn
-    jaccard_plot    = PLOT_ORTHOLOGS.out.jaccard
-    stats           = MAKE_STATS.out.stats
-    versions        = ch_merged_versions
+    seqinfo          = ch_query
+    id               = ch_query.map { it[1] }
+    taxid            = ch_query.map { it[2] }
+    exact            = ch_query.map { it[3] }
+    orthogroups      = ch_orthogroups
+    score_table      = MAKE_SCORE_TABLE.out.score_table
+    orthologs        = FILTER_HITS.out.filtered_hits
+    supports_plot    = ch_supportsplot
+    venn_plot        = ch_vennplot
+    jaccard_plot     = ch_jaccardplot
+    stats            = MAKE_STATS.out.stats
+    aggregated_stats = MERGE_STATS.out.csv
+    versions         = ch_merged_versions
 
 }
