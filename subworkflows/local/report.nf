@@ -5,13 +5,13 @@ include { CONVERT_FASTA } from "../../modules/local/convert_fasta"
 workflow REPORT {
     
     take:
-    uniprot_query,
-    use_structures,
-    use_centroid,
-    min_score,
-    skip_downstream,
-    use_iqtree,
-    use_fastme,
+    uniprot_query
+    use_structures
+    use_centroid
+    min_score
+    skip_downstream
+    use_iqtree
+    use_fastme
     ch_seqinfo
     ch_scoretable
     ch_filtered
@@ -31,7 +31,14 @@ workflow REPORT {
     ch_versions = Channel.empty()
 
     DUMP_PARAMS(
-        ch_seqinfo.map { [it[0], it[3]] }
+        ch_seqinfo.map { [it[0], it[3]] },
+        params.uniprot_query,
+        params.use_structures,
+        params.use_centroid,
+        params.min_score,
+        params.skip_downstream,
+        params.use_iqtree,
+        params.use_fastme
     )
 
     CONVERT_FASTA(ch_alignment)
