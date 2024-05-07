@@ -28,7 +28,7 @@ process CONVERT_PHYLIP {
         Biopython: \$(pip show biopython | grep Version | cut -d ' ' -f 2)
     END_VERSIONS
     """
-    
+
     stub:
     def prefix = task.ext.prefix ?: "${meta.id}"
     """

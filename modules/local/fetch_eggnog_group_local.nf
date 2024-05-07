@@ -37,7 +37,7 @@ process FETCH_EGGNOG_GROUP_LOCAL {
         Python: \$(python --version | cut -f2)
     END_VERSIONS
     """
-    
+
     stub:
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
