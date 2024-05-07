@@ -1,6 +1,11 @@
 process FETCH_PANTHER_GROUP_LOCAL {
     tag "$meta.id"
-    label "process_short"
+    label 'process_single'
+
+    conda "conda-forge::python=3.10.0"
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+        'https://depot.galaxyproject.org/singularity/python:3.10' :
+        'biocontainers/python:3.10' }"
 
     conda "conda-forge::python=3.11.0 conda-forge::biopython=1.83.0 conda-forge::requests=2.31.0"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?

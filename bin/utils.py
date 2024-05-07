@@ -1,3 +1,7 @@
+# Written by Igor Trujnara, released under the MIT license
+# See https://opensource.org/license/mit for details
+# Includes code written by UniProt contributors published under CC-BY 4.0 license
+
 import time
 from typing import Any
 
