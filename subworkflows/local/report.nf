@@ -3,7 +3,7 @@ include { MAKE_REPORT    } from "../../modules/local/make_report"
 include { CONVERT_FASTA } from "../../modules/local/convert_fasta"
 
 workflow REPORT {
-    
+
     take:
     uniprot_query
     use_structures
@@ -57,8 +57,8 @@ workflow REPORT {
         params.use_centroid,
         params.min_score,
         params.skip_downstream,
-        params.use_iqtree,
-        params.use_fastme
+        params.skip_iqtree,
+        params.skip_fastme
     )
 
     if(!params.skip_downstream) {
