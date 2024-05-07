@@ -129,20 +129,22 @@ workflow GET_ORTHOLOGS {
         ch_versions
             .mix(FETCH_INSPECTOR_GROUP_ONLINE.out.versions)
             .set { ch_versions }
+        // TODO check that this is correct
+        if (params.local_databases) {
+            FETCH_EGGNOG_GROUP_LOCAL (
+                ch_query,
+                params.eggnog_path,
+                params.eggnog_idmap_path
+            )
 
-        FETCH_EGGNOG_GROUP_LOCAL (
-            ch_query,
-            params.eggnog_path,
-            params.eggnog_idmap_path
-        )
+            ch_orthogroups
+                .mix(FETCH_EGGNOG_GROUP_LOCAL.out.eggnog_group)
+                .set { ch_orthogroups }
 
-        ch_orthogroups
-            .mix(FETCH_EGGNOG_GROUP_LOCAL.out.eggnog_group)
-            .set { ch_orthogroups }
-
-        ch_versions
-            .mix(FETCH_EGGNOG_GROUP_LOCAL.out.versions)
-            .set { ch_versions }
+            ch_versions
+                .mix(FETCH_EGGNOG_GROUP_LOCAL.out.versions)
+                .set { ch_versions }
+        }
 
     } else { // online/local separation is used
         // local only
