@@ -31,4 +31,16 @@ process FETCH_AFDB_STRUCTURES {
         Python Requests: \$(pip show requests | grep Version | cut -d ' ' -f 2)
     END_VERSIONS
     """
+
+    stub:
+    def prefix = task.ext.prefix ?: "${meta.id}"
+    """
+    touch ${prefix}.phy
+
+    cat <<- END_VERSIONS > versions.yml
+    "${task.process}"
+        Python: \$(python --version | cut -d ' ' -f 2)
+        Python Requests: \$(pip show requests | grep Version | cut -d ' ' -f 2)
+    END_VERSIONS
+    """
 }

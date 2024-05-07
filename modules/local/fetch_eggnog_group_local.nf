@@ -32,5 +32,16 @@ process FETCH_EGGNOG_GROUP_LOCAL {
         Python: \$(python --version | cut -f2)
     END_VERSIONS
     """
+    
+    stub:
+    def prefix = task.ext.prefix ?: "${meta.id}"
+    """
+    touch ${prefix}_eggnog_group.txt
+    touch ${prefix}_eggnog_group.csv
 
+    cat <<- END_VERSIONS > versions.yml
+    "${task.process}":
+        Python: \$(python --version | cut -f2)
+    END_VERSIONS
+    """
 }

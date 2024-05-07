@@ -36,4 +36,14 @@ process FETCH_OMA_GROUP_LOCAL {
     END_VERSIONS
     """
 
+    stub:
+    def prefix = task.ext.prefix ?: "${meta.id}"
+    """
+    touch ${prefix}_oma_group.csv
+
+    cat <<- END_VERSIONS > versions.yml
+    "${task.process}":
+        Python: \$(python --version | cut -f2)
+    END_VERSIONS
+    """
 }

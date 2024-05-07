@@ -58,4 +58,19 @@ process MAKE_REPORT {
         Python: \$(python --version | cut -d ' ' -f 2)
     END_VERSIONS
     """
+
+    stub:
+    def prefix = task.ext.prefix ?: "${meta.id}"
+    """
+    mkdir ${prefix}_dist
+    touch ${prefix}_dist/${prefix}_run.sh
+
+    cat <<- END_VERSIONS > versions.yml
+    ${task.process}:
+        Node: \$(node --version)
+        Yarn: \$(yarn --version)
+        React: \$(yarn view react version)
+        Python: \$(python --version | cut -d ' ' -f 2)
+    END_VERSIONS
+    """
 }

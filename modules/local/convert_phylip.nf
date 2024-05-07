@@ -28,4 +28,16 @@ process CONVERT_PHYLIP {
         Biopython: \$(pip show biopython | grep Version | cut -d ' ' -f 2)
     END_VERSIONS
     """
+    
+    stub:
+    def prefix = task.ext.prefix ?: "${meta.id}"
+    """
+    touch ${prefix}.phy
+
+    cat <<- END_VERSIONS > versions.yml
+    "${task.process}":
+        Python: \$(python --version | cut -d ' ' -f 2)
+        Biopython: \$(pip show biopython | grep Version | cut -d ' ' -f 2)
+    END_VERSIONS
+    """
 }

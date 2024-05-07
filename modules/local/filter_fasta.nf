@@ -27,4 +27,15 @@ process FILTER_FASTA {
         Python: \$(python --version | cut -d ' ' -f 2)
     END_VERSIONS
     """
+
+    stub:
+    def prefix = task.ext.prefix ?: "${meta.id}"
+    """
+    touch ${prefix}_filtered.fa
+
+    cat <<- END_VERSIONS > versions.yml
+    "${task.process}":
+        Python: \$(python --version | cut -f2)
+    END_VERSIONS
+    """
 }

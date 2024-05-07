@@ -32,4 +32,9 @@ process DUMP_PARAMS {
     use_fastme: ${use_fastme}
     END_PARAMS
     """
+
+    stub:
+    """
+    touch params.yml
+    """
 }
