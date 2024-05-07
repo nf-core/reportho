@@ -131,7 +131,7 @@ workflow GET_ORTHOLOGS {
         ch_versions
             .mix(FETCH_INSPECTOR_GROUP_ONLINE.out.versions)
             .set { ch_versions }
-        
+
         FETCH_EGGNOG_GROUP_LOCAL (
             ch_query,
             params.eggnog_path,
@@ -145,7 +145,7 @@ workflow GET_ORTHOLOGS {
         ch_versions
             .mix(FETCH_EGGNOG_GROUP_LOCAL.out.versions)
             .set { ch_versions }
-    } 
+    }
     else { // online/local separation is used
         // local only
         if (params.local_databases) {
