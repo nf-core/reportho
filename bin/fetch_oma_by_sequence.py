@@ -35,7 +35,7 @@ def main() -> None:
                 break
 
     # Write exact match status
-    if entry["identified_by"] == "exact match":
+    if json["identified_by"] == "exact match":
         print("true", file=open(sys.argv[4], 'w'))
     else:
         print("false", file=open(sys.argv[4], 'w'))
