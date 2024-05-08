@@ -28,7 +28,6 @@ workflow GET_ORTHOLOGS {
     ch_orthogroups = Channel.empty()
 
     // Preprocessing - find the ID and taxid of the query sequences
-
     if (!params.uniprot_query) {
         ch_samplesheet
             .map { it -> [it[0], file(it[1])] }
@@ -45,7 +44,8 @@ workflow GET_ORTHOLOGS {
         ch_versions
             .mix(IDENTIFY_SEQ_ONLINE.out.versions)
             .set { ch_versions }
-    } else {
+    } 
+    else {
         WRITE_SEQINFO (
             ch_samplesheet
         )
@@ -78,7 +78,8 @@ workflow GET_ORTHOLOGS {
             ch_versions
                 .mix(FETCH_OMA_GROUP_LOCAL.out.versions)
                 .set { ch_versions }
-        } else {
+        } 
+        else {
             FETCH_OMA_GROUP_ONLINE (
                 ch_query
             )

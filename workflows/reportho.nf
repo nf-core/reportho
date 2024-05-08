@@ -44,13 +44,13 @@ workflow REPORTHO {
         .mix(GET_ORTHOLOGS.out.versions)
         .set { ch_versions }
 
-    ch_seqhits = ch_samplesheet.map { [it[0], []] }
+    ch_seqhits   = ch_samplesheet.map { [it[0], []] }
     ch_seqmisses = ch_samplesheet.map { [it[0], []] }
-    ch_strhits = ch_samplesheet.map { [it[0], []] }
+    ch_strhits   = ch_samplesheet.map { [it[0], []] }
     ch_strmisses = ch_samplesheet.map { [it[0], []] }
     ch_alignment = ch_samplesheet.map { [it[0], []] }
-    ch_iqtree = ch_samplesheet.map { [it[0], []] }
-    ch_fastme = ch_samplesheet.map { [it[0], []] }
+    ch_iqtree    = ch_samplesheet.map { [it[0], []] }
+    ch_fastme    = ch_samplesheet.map { [it[0], []] }
 
     if (!params.skip_downstream) {
         FETCH_SEQUENCES (
