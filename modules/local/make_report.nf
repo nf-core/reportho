@@ -55,7 +55,7 @@ process MAKE_REPORT {
     ${task.process}:
         Node: \$(node --version)
         Yarn: \$(yarn --version)
-        React: \$(yarn info react version | cut -d $'\n' -f 2)
+        React: \$(yarn info react version | cut -d \$'\n' -f 2)
         Python: \$(python --version | cut -d ' ' -f 2)
     END_VERSIONS
     """
