@@ -44,7 +44,7 @@ workflow GET_ORTHOLOGS {
         ch_versions
             .mix(IDENTIFY_SEQ_ONLINE.out.versions)
             .set { ch_versions }
-    } 
+    }
     else {
         WRITE_SEQINFO (
             ch_samplesheet
@@ -78,7 +78,7 @@ workflow GET_ORTHOLOGS {
             ch_versions
                 .mix(FETCH_OMA_GROUP_LOCAL.out.versions)
                 .set { ch_versions }
-        } 
+        }
         else {
             FETCH_OMA_GROUP_ONLINE (
                 ch_query
