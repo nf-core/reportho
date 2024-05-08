@@ -27,4 +27,15 @@ process MAKE_STATS {
         Python: \$(python3 --version | cut -d ' ' -f 2)
     END_VERSIONS
     """
+
+    stub:
+    def prefix = task.ext.prefix ?: "${meta.id}"
+    """
+    touch ${prefix}_stats.yml
+
+    cat <<- END_VERSIONS > versions.yml
+    "${task.process}":
+        Python: \$(python3 --version | cut -d ' ' -f 2)
+    END_VERSIONS
+    """
 }

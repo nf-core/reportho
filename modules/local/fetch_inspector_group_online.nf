@@ -32,4 +32,17 @@ process FETCH_INSPECTOR_GROUP_ONLINE {
         OrthoInspector Database: $inspector_version
     END_VERSIONS
     """
+
+    stub:
+    def prefix = task.ext.prefix ?: "${meta.id}"
+    """
+    touch ${prefix}_inspector_group.csv
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        Python: \$(python --version | cut -d ' ' -f 2)
+        Python Requests: \$(pip show requests | grep Version | cut -d ' ' -f 2)
+        OrthoInspector Database: $inspector_version
+    END_VERSIONS
+    """
 }

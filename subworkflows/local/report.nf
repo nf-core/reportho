@@ -3,7 +3,15 @@ include { MAKE_REPORT    } from "../../modules/local/make_report"
 include { CONVERT_FASTA } from "../../modules/local/convert_fasta"
 
 workflow REPORT {
+
     take:
+    uniprot_query
+    use_structures
+    use_centroid
+    min_score
+    skip_downstream
+    use_iqtree
+    use_fastme
     ch_seqinfo
     ch_scoretable
     ch_filtered
@@ -43,7 +51,14 @@ workflow REPORT {
     }
 
     DUMP_PARAMS(
-        ch_seqinfo.map { [it[0], it[3]] }
+        ch_seqinfo.map { [it[0], it[3]] },
+        params.uniprot_query,
+        params.use_structures,
+        params.use_centroid,
+        params.min_score,
+        params.skip_downstream,
+        params.skip_iqtree,
+        params.skip_fastme
     )
 
     if(!params.skip_downstream) {

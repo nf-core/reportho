@@ -32,4 +32,17 @@ process FILTER_HITS {
         Python: \$(python --version | cut -d ' ' -f 2)
     END_VERSIONS
     """
+
+    stub:
+    def prefix = task.ext.prefix ?: "${meta.id}"
+    """
+    touch ${prefix}_minscore_000.txt
+    touch ${prefix}_centroid.txt
+    touch ${prefix}_filtered_hits.txt
+
+    cat <<- END_VERSIONS > versions.yml
+    "${task.process}":
+        Python: \$(python --version | cut -f2)
+    END_VERSIONS
+    """
 }

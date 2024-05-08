@@ -29,4 +29,18 @@ process IDENTIFY_SEQ_ONLINE {
         Python Requests: \$(pip show requests | grep Version | cut -d ' ' -f 2)
     END_VERSIONS
     """
+
+    stub:
+    def prefix = task.ext.prefix ?: "${meta.id}"
+    """
+    touch ${prefix}_id.txt
+    touch ${prefix}_taxid.txt
+    touch ${prefix}_exact.txt
+
+    cat <<- END_VERSIONS > versions.yml
+    "${task.process}":
+        Python: \$(python --version | cut -d ' ' -f 2)
+        Python Requests: \$(pip show requests | grep Version | cut -d ' ' -f 2)
+    END_VERSIONS
+    """
 }
