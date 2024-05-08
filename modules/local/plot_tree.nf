@@ -24,7 +24,18 @@ process PLOT_TREE {
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":
-        R: \$(R --version | head -n 1 | cut -d ' ' -f 3)
+        r-base: \$(echo \$(R --version 2>&1) | sed 's/^.*R version //; s/ .*\$//')
+    END_VERSIONS
+    """
+
+    stub:
+    prefix = task.ext.prefix ?: meta.id
+    """
+    touch ${prefix}_${method}_tree.png
+
+    cat <<- END_VERSIONS > versions.yml
+    "${task.process}":
+        r-base: \$(echo \$(R --version 2>&1) | sed 's/^.*R version //; s/ .*\$//')
     END_VERSIONS
     """
 }

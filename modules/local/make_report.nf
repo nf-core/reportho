@@ -6,7 +6,6 @@ process MAKE_REPORT {
         'docker://itrujnara/orthologs-report:1.0.0' :
         'itrujnara/orthologs-report:1.0.0' }"
 
-
     input:
     tuple val(meta), path(id), path(taxid), path(exact), path(score_table), path(filtered_hits), path(support_plot), path(venn_plot), path(jaccard_plot), path(orthostats), path(seq_hits), path(seq_misses), path(str_hits), path(str_misses), path(alignment), path(iqtree), path(fastme), path(params_file)
 
@@ -56,6 +55,21 @@ process MAKE_REPORT {
         Node: \$(node --version)
         Yarn: \$(yarn --version)
         React: \$(yarn info react version | cut -d $'\n' -f 2)
+        Python: \$(python --version | cut -d ' ' -f 2)
+    END_VERSIONS
+    """
+
+    stub:
+    def prefix = task.ext.prefix ?: "${meta.id}"
+    """
+    mkdir ${prefix}_dist
+    touch ${prefix}_dist/${prefix}_run.sh
+
+    cat <<- END_VERSIONS > versions.yml
+    ${task.process}:
+        Node: \$(node --version)
+        Yarn: \$(yarn --version)
+        React: \$(yarn view react version)
         Python: \$(python --version | cut -d ' ' -f 2)
     END_VERSIONS
     """

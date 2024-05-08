@@ -33,4 +33,19 @@ process FETCH_SEQUENCES_ONLINE {
     \$(get_oma_version.py)
     END_VERSIONS
     """
+
+    stub:
+    def prefix = task.ext.prefix ?: "${meta.id}"
+    """
+    touch ${prefix}_orthologs.fa
+    touch ${prefix}_seq_hits.txt
+    touch ${prefix}_seq_misses.txt
+
+    cat <<- END_VERSIONS > versions.yml
+    "${task.process}":
+        Python: \$(python --version | cut -d ' ' -f 2)
+        Python Requests: \$(pip show requests | grep Version | cut -d ' ' -f 2)
+    \$(get_oma_version.py)
+    END_VERSIONS
+    """
 }

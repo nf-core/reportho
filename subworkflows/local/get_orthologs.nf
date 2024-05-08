@@ -145,8 +145,8 @@ workflow GET_ORTHOLOGS {
         ch_versions
             .mix(FETCH_EGGNOG_GROUP_LOCAL.out.versions)
             .set { ch_versions }
-
-    } else { // online/local separation is used
+    }
+    else { // online/local separation is used
         // local only
         if (params.local_databases) {
             if (!params.skip_oma) {
