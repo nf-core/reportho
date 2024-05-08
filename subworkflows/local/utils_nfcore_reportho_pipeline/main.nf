@@ -79,8 +79,12 @@ workflow PIPELINE_INITIALISATION {
     Channel
         .fromSamplesheet("input")
         .map {
-            id, query ->
-                [ id, query ]
+            id, query, fasta ->
+                if (query) {
+                    [ id, query ]
+                } else {
+                    [ id, fasta ]
+                }
         }
         .set { ch_samplesheet }
 
