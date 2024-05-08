@@ -32,4 +32,17 @@ process FETCH_PANTHER_GROUP_ONLINE {
         Panther Database: \$(cat panther_version.txt)
     END_VERSIONS
     """
+
+    stub:
+    def prefix = task.ext.prefix ?: "${meta.id}"
+    """
+    touch ${prefix}_panther_group.csv
+
+    cat <<- END_VERSIONS > versions.yml
+    "${task.process}":
+        Python: \$(python --version | cut -d ' ' -f 2)
+        Python Requests: \$(pip show requests | grep Version | cut -d ' ' -f 2)
+        Panther Database: \$(cat panther_version.txt)
+    END_VERSIONS
+    """
 }

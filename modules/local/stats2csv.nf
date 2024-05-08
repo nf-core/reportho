@@ -28,4 +28,16 @@ process STATS2CSV {
         PyYAML: \$(pip show pyyaml | grep Version | cut -d ' ' -f 2)
     END_VERSIONS
     """
+
+    stub:
+    prefix = task.ext.prefix ?: meta.id
+    """
+    touch ${prefix}_stats.csv
+
+    cat <<- END_VERSIONS > versions.yml
+    "${task.process}":
+        Python: \$(python --version | cut -d ' ' -f 2)
+        PyYAML: \$(pip show pyyaml | grep Version | cut -d ' ' -f 2)
+    END_VERSIONS
+    """
 }
