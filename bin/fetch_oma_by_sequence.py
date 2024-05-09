@@ -15,7 +15,6 @@ def main() -> None:
         raise ValueError("Not enough arguments. Usage: fetch_oma_by_sequence.py <fasta> <id_out> <taxid_out> <exact_out>")
 
     seqs = SeqIO.parse(sys.argv[1], "fasta")
-
     seq = next(seqs).seq
 
     # Only use the first sequence, ignore all others
@@ -54,7 +53,6 @@ def main() -> None:
                 raise ValueError("Isoform not found")
 
     print(entry["canonicalid"], file=open(sys.argv[2], "w"))
-
     print(entry["species"]["taxon_id"], file=open(sys.argv[3], "w"))
 
 
