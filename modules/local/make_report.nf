@@ -51,11 +51,10 @@ process MAKE_REPORT {
     mv dist ${prefix}_dist
 
     cat <<- END_VERSIONS > versions.yml
-    ${task.process}:
+    "${task.process}":
         Node: \$(node --version)
         Yarn: \$(yarn --version)
-        React: \$(yarn info react version | cut -d \$'\n' -f 2)
-        Python: \$(python --version | cut -d ' ' -f 2)
+        React: \$(yarn info react version | awk 'NR==2{print;exit}')
     END_VERSIONS
     """
 
@@ -69,8 +68,7 @@ process MAKE_REPORT {
     ${task.process}:
         Node: \$(node --version)
         Yarn: \$(yarn --version)
-        React: \$(yarn view react version)
-        Python: \$(python --version | cut -d ' ' -f 2)
+        React: \$(yarn info react version | awk 'NR==2{print;exit}')
     END_VERSIONS
     """
 }
