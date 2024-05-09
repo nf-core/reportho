@@ -18,9 +18,6 @@
 
 ## Introduction
 
-> [!WARNING]
-> This pipeline is still in active development. While the overall design will remain stable, all technical details, such as parameter names, are subject to change without notice.
-
 **nf-core/reportho** is a bioinformatics pipeline that compares and assembles orthology predictions for a query protein. It fetches ortholog lists for a query (or its closest annotated homolog) from public sources, calculates pairwise and global agreement, and generates a consensus list with the desired level of confidence. Optionally, it offers common analysis on the consensus orthologs, such as MSA and phylogeny reconstruction. Additionally, it generates a clean, human-readable report of the results.
 
 <!-- Tube map -->
