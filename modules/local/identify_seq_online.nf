@@ -21,7 +21,7 @@ process IDENTIFY_SEQ_ONLINE {
     prefix = task.ext.prefix ?: meta.id
     """
     fetch_oma_by_sequence.py $fasta id_raw.txt ${prefix}_taxid.txt ${prefix}_exact.txt
-    uniprotize_oma.py id_raw.txt > ${prefix}_id.txt
+    uniprotize_oma_online.py id_raw.txt > ${prefix}_id.txt
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":
