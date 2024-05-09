@@ -54,7 +54,6 @@ def main() -> None:
                 raise ValueError("Isoform not found")
 
     print(entry["canonicalid"], file=open(sys.argv[2], "w"))
-
     print(entry["species"]["taxon_id"], file=open(sys.argv[3], "w"))
 
 
