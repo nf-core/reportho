@@ -52,7 +52,7 @@ The pipeline has the following notable dependencies:
 | Yarn            | 1.22.19 |
 | React           | 18.3.1  |
 
-At release date, the following database versions were current:
+At release date, the following database versions were current and used for testing the pipeline:
 
 | Database       | Version       |
 | -------------- | ------------- |
