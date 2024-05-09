@@ -27,7 +27,7 @@
                     },
                     "fastqc": {
                         "branch": "master",
-                        "git_sha": "f4ae1d942bd50c5c0b9bd2de1393ce38315ba57c",
+                        "git_sha": "285a50500f9e02578d90b3ce6382ea3c30216acd",
                         "installed_by": ["modules"]
                     },
                     "iqtree": {
@@ -37,7 +37,7 @@
                     },
                     "multiqc": {
                         "branch": "master",
-                        "git_sha": "ccacf6f5de6df3bc6d73b665c1fd2933d8bbc290",
+                        "git_sha": "b7ebe95761cd389603f9cc0e0dc384c0f663815a",
                         "installed_by": ["modules"]
                     },
                     "tcoffee/align": {
@@ -51,7 +51,7 @@
                 "nf-core": {
                     "utils_nextflow_pipeline": {
                         "branch": "master",
-                        "git_sha": "cd08c91373cd00a73255081340e4914485846ba1",
+                        "git_sha": "5caf7640a9ef1d18d765d55339be751bb0969dfa",
                         "installed_by": ["subworkflows"]
                     },
                     "utils_nfcore_pipeline": {
@@ -61,7 +61,7 @@
                     },
                     "utils_nfvalidation_plugin": {
                         "branch": "master",
-                        "git_sha": "cd08c91373cd00a73255081340e4914485846ba1",
+                        "git_sha": "5caf7640a9ef1d18d765d55339be751bb0969dfa",
                         "installed_by": ["subworkflows"]
                     }
                 }
