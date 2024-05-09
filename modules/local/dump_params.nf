@@ -13,8 +13,8 @@ process DUMP_PARAMS {
     val use_centroid
     val min_score
     val skip_downstream
-    val use_iqtree
-    val use_fastme
+    val skip_iqtree
+    val skip_fastme
 
     output:
     tuple val(meta), path("params.yml"), emit: params
@@ -32,8 +32,8 @@ process DUMP_PARAMS {
     use_centroid: ${use_centroid}
     min_score: ${min_score}
     skip_downstream: ${skip_downstream}
-    use_iqtree: ${use_iqtree}
-    use_fastme: ${use_fastme}
+    skip_iqtree: ${skip_iqtree}
+    skip_fastme: ${skip_fastme}
     END_PARAMS
     """
 
