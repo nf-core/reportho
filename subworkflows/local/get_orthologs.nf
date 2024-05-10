@@ -37,7 +37,7 @@ workflow GET_ORTHOLOGS {
 
     ch_query = IDENTIFY_SEQ_ONLINE.out.seqinfo
     ch_versions = ch_versions.mix(IDENTIFY_SEQ_ONLINE.out.versions)
-    
+
     WRITE_SEQINFO (
         ch_samplesheet_query
     )
@@ -107,7 +107,7 @@ workflow GET_ORTHOLOGS {
         ch_orthogroups
             .mix(FETCH_INSPECTOR_GROUP_ONLINE.out.inspector_group)
             .set { ch_orthogroups }
-        
+
         ch_versions = ch_versions.mix(FETCH_INSPECTOR_GROUP_ONLINE.out.versions)
 
         FETCH_EGGNOG_GROUP_LOCAL (

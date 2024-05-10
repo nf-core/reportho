@@ -75,7 +75,7 @@ workflow PIPELINE_INITIALISATION {
 
     //
     // Create channel from input file provided through params.input and check for query
-    //    
+    //
     Channel
         .fromSamplesheet("input")
         .branch {
