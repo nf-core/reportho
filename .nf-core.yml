@@ -1,5 +1,2 @@
 repository_type: pipeline
 nf_core_version: "2.14.1"
-
-files_exist:
-  - lib/nfcore_external_java_deps.jar
