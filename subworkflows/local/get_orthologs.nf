@@ -19,44 +19,31 @@ include { CSVTK_CONCAT as MERGE_STATS  } from "../../modules/nf-core/csvtk/conca
 
 workflow GET_ORTHOLOGS {
     take:
-    ch_samplesheet
+    ch_samplesheet_query
+    ch_samplesheet_fasta
 
     main:
-
     ch_versions    = Channel.empty()
-    ch_queryid     = params.uniprot_query ? ch_samplesheet.map { it[1] } : ch_samplesheet.map { it[0].id }
     ch_orthogroups = Channel.empty()
 
     // Preprocessing - find the ID and taxid of the query sequences
-    if (!params.uniprot_query) {
-        ch_samplesheet
-            .map { it -> [it[0], file(it[1])] }
-            .set { ch_inputfile }
+    ch_samplesheet_fasta
+        .map { it -> [it[0], file(it[1])] }
+        .set { ch_fasta }
 
+    IDENTIFY_SEQ_ONLINE (
+        ch_fasta
+    )
 
-        IDENTIFY_SEQ_ONLINE (
-            ch_inputfile
-        )
+    ch_query = IDENTIFY_SEQ_ONLINE.out.seqinfo
+    ch_versions = ch_versions.mix(IDENTIFY_SEQ_ONLINE.out.versions)
+    
+    WRITE_SEQINFO (
+        ch_samplesheet_query
+    )
 
-        IDENTIFY_SEQ_ONLINE.out.seqinfo
-            .set { ch_query }
-
-        ch_versions
-            .mix(IDENTIFY_SEQ_ONLINE.out.versions)
-            .set { ch_versions }
-    }
-    else {
-        WRITE_SEQINFO (
-            ch_samplesheet
-        )
-
-        WRITE_SEQINFO.out.seqinfo
-            .set { ch_query }
-
-        ch_versions
-            .mix(WRITE_SEQINFO.out.versions)
-            .set { ch_versions }
-    }
+    ch_query = IDENTIFY_SEQ_ONLINE.out.seqinfo.mix(WRITE_SEQINFO.out.seqinfo)
+    ch_versions = ch_versions.mix(WRITE_SEQINFO.out.versions)
 
     // Ortholog fetching
 
@@ -75,9 +62,7 @@ workflow GET_ORTHOLOGS {
                 .mix(FETCH_OMA_GROUP_LOCAL.out.oma_group)
                 .set { ch_orthogroups }
 
-            ch_versions
-                .mix(FETCH_OMA_GROUP_LOCAL.out.versions)
-                .set { ch_versions }
+            ch_versions = ch_versions.mix(FETCH_OMA_GROUP_LOCAL.out.versions)
         }
         else {
             FETCH_OMA_GROUP_ONLINE (
@@ -88,9 +73,7 @@ workflow GET_ORTHOLOGS {
                 .mix(FETCH_OMA_GROUP_ONLINE.out.oma_group)
                 .set { ch_orthogroups }
 
-            ch_versions
-                .mix(FETCH_OMA_GROUP_ONLINE.out.versions)
-                .set { ch_versions }
+            ch_versions = ch_versions.mix(FETCH_OMA_GROUP_ONLINE.out.versions)
         }
         // Panther
         if (params.local_databases) {
@@ -103,9 +86,7 @@ workflow GET_ORTHOLOGS {
                 .mix(FETCH_PANTHER_GROUP_LOCAL.out.panther_group)
                 .set { ch_orthogroups }
 
-            ch_versions
-                .mix(FETCH_PANTHER_GROUP_LOCAL.out.versions)
-                .set { ch_versions }
+            ch_versions = ch_versions.mix(FETCH_PANTHER_GROUP_LOCAL.out.versions)
         } else {
             FETCH_PANTHER_GROUP_ONLINE (
                 ch_query
@@ -115,9 +96,7 @@ workflow GET_ORTHOLOGS {
                 .mix(FETCH_PANTHER_GROUP_ONLINE.out.panther_group)
                 .set { ch_orthogroups }
 
-            ch_versions
-                .mix(FETCH_PANTHER_GROUP_ONLINE.out.versions)
-                .set { ch_versions }
+            ch_versions = ch_versions.mix(FETCH_PANTHER_GROUP_ONLINE.out.versions)
         }
         // OrthoInspector
         FETCH_INSPECTOR_GROUP_ONLINE (
@@ -128,10 +107,8 @@ workflow GET_ORTHOLOGS {
         ch_orthogroups
             .mix(FETCH_INSPECTOR_GROUP_ONLINE.out.inspector_group)
             .set { ch_orthogroups }
-
-        ch_versions
-            .mix(FETCH_INSPECTOR_GROUP_ONLINE.out.versions)
-            .set { ch_versions }
+        
+        ch_versions = ch_versions.mix(FETCH_INSPECTOR_GROUP_ONLINE.out.versions)
 
         FETCH_EGGNOG_GROUP_LOCAL (
             ch_query,
@@ -143,9 +120,7 @@ workflow GET_ORTHOLOGS {
             .mix(FETCH_EGGNOG_GROUP_LOCAL.out.eggnog_group)
             .set { ch_orthogroups }
 
-        ch_versions
-            .mix(FETCH_EGGNOG_GROUP_LOCAL.out.versions)
-            .set { ch_versions }
+        ch_versions = ch_versions.mix(FETCH_EGGNOG_GROUP_LOCAL.out.versions)
     }
     else { // online/local separation is used
         // local only
@@ -163,9 +138,7 @@ workflow GET_ORTHOLOGS {
                     .mix(FETCH_OMA_GROUP_LOCAL.out.oma_group)
                     .set { ch_orthogroups }
 
-                ch_versions
-                    .mix(FETCH_OMA_GROUP_LOCAL.out.versions)
-                    .set { ch_versions }
+                ch_versions = ch_versions.mix(FETCH_OMA_GROUP_LOCAL.out.versions)
             }
 
             if (!params.skip_panther) {
@@ -178,9 +151,7 @@ workflow GET_ORTHOLOGS {
                     .mix(FETCH_PANTHER_GROUP_LOCAL.out.panther_group)
                     .set { ch_orthogroups }
 
-                ch_versions
-                    .mix(FETCH_PANTHER_GROUP_LOCAL.out.versions)
-                    .set { ch_versions }
+                ch_versions = ch_versions.mix(FETCH_PANTHER_GROUP_LOCAL.out.versions)
             }
 
             if(!params.skip_eggnog) {
@@ -194,10 +165,7 @@ workflow GET_ORTHOLOGS {
                     .mix(FETCH_EGGNOG_GROUP_LOCAL.out.eggnog_group)
                     .set { ch_orthogroups }
 
-                ch_versions
-                    .mix(FETCH_EGGNOG_GROUP_LOCAL.out.versions)
-                    .set { ch_versions }
-
+                ch_versions = ch_versions.mix(FETCH_EGGNOG_GROUP_LOCAL.out.versions)
             }
         }
         else { // online only
@@ -210,10 +178,7 @@ workflow GET_ORTHOLOGS {
                     .mix(FETCH_OMA_GROUP_ONLINE.out.oma_group)
                     .set { ch_orthogroups }
 
-                ch_versions
-                    .mix(FETCH_OMA_GROUP_ONLINE.out.versions)
-                    .set { ch_versions }
-
+                ch_versions = ch_versions.mix(FETCH_OMA_GROUP_ONLINE.out.versions)
             }
             if (!params.skip_panther) {
                 FETCH_PANTHER_GROUP_ONLINE (
@@ -224,9 +189,7 @@ workflow GET_ORTHOLOGS {
                     .mix(FETCH_PANTHER_GROUP_ONLINE.out.panther_group)
                     .set { ch_orthogroups }
 
-                ch_versions
-                    .mix(FETCH_PANTHER_GROUP_ONLINE.out.versions)
-                    .set { ch_versions }
+                ch_versions = ch_versions.mix(FETCH_PANTHER_GROUP_ONLINE.out.versions)
             }
             if (!params.skip_orthoinspector) {
                 FETCH_INSPECTOR_GROUP_ONLINE (
@@ -238,9 +201,7 @@ workflow GET_ORTHOLOGS {
                     .mix(FETCH_INSPECTOR_GROUP_ONLINE.out.inspector_group)
                     .set { ch_orthogroups }
 
-                ch_versions
-                    .mix(FETCH_INSPECTOR_GROUP_ONLINE.out.versions)
-                    .set { ch_versions }
+                ch_versions = ch_versions.mix(FETCH_INSPECTOR_GROUP_ONLINE.out.versions)
             }
         }
     }
@@ -251,9 +212,7 @@ workflow GET_ORTHOLOGS {
         ch_orthogroups.groupTuple()
     )
 
-    ch_versions
-        .mix(MERGE_CSV.out.versions)
-        .set { ch_versions }
+    ch_versions = ch_versions.mix(MERGE_CSV.out.versions)
 
     // Scoring and filtering
 
@@ -261,9 +220,7 @@ workflow GET_ORTHOLOGS {
         MERGE_CSV.out.csv
     )
 
-    ch_versions
-        .mix(MAKE_SCORE_TABLE.out.versions)
-        .set { ch_versions }
+    ch_versions = ch_versions.mix(MAKE_SCORE_TABLE.out.versions)
 
     ch_forfilter = MAKE_SCORE_TABLE.out.score_table
         .combine(ch_query, by: 0)
@@ -275,9 +232,7 @@ workflow GET_ORTHOLOGS {
         params.min_score
     )
 
-    ch_versions
-        .mix(FILTER_HITS.out.versions)
-        .set { ch_versions }
+    ch_versions = ch_versions.mix(FILTER_HITS.out.versions)
 
     // Plotting
 
@@ -294,9 +249,7 @@ workflow GET_ORTHOLOGS {
         ch_vennplot     = PLOT_ORTHOLOGS.out.venn
         ch_jaccardplot  = PLOT_ORTHOLOGS.out.jaccard
 
-        ch_versions
-            .mix(PLOT_ORTHOLOGS.out.versions)
-            .set { ch_versions }
+        ch_versions = ch_versions.mix(PLOT_ORTHOLOGS.out.versions)
     }
 
     // Stats
@@ -305,17 +258,13 @@ workflow GET_ORTHOLOGS {
         MAKE_SCORE_TABLE.out.score_table
     )
 
-    ch_versions
-        .mix(MAKE_STATS.out.versions)
-        .set { ch_versions }
+    ch_versions = ch_versions.mix(MAKE_STATS.out.versions)
 
     STATS2CSV(
         MAKE_STATS.out.stats
     )
 
-    ch_versions
-        .mix(STATS2CSV.out.versions)
-        .set { ch_versions }
+    ch_versions = ch_versions.mix(STATS2CSV.out.versions)
 
     ch_stats = STATS2CSV.out.csv
         .collect { it[1] }
@@ -327,9 +276,7 @@ workflow GET_ORTHOLOGS {
         "csv"
     )
 
-    ch_versions
-        .mix(MERGE_STATS.out.versions)
-        .set { ch_versions }
+    ch_versions = ch_versions.mix(MERGE_STATS.out.versions)
 
     ch_versions
         .collectFile(name: "get_orthologs_versions.yml", sort: true, newLine: true)

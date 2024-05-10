@@ -10,7 +10,6 @@ process FETCH_SEQUENCES_ONLINE {
     input:
     tuple val(meta), path(ids), path(query_fasta)
 
-
     output:
     tuple val(meta), path("*_orthologs.fa")  , emit: fasta
     tuple val(meta), path("*_seq_hits.txt")  , emit: hits
@@ -21,11 +20,11 @@ process FETCH_SEQUENCES_ONLINE {
     task.ext.when == null || task.ext.when
 
     script:
-    def args = task.ext.args ?: ''
-    prefix   = task.ext.prefix ?: meta.id
+    def prefix = task.ext.prefix ?: meta.id
+    def add_query = query_fasta == [] ? "" : "cat $query_fasta >> ${prefix}_orthologs.fa"
     """
     fetch_sequences.py $ids $prefix > ${prefix}_orthologs.fa
-    $args
+    $add_query
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":
