@@ -25,9 +25,7 @@ workflow ALIGN {
             ch_for_filter
         )
 
-        ch_versions
-            .mix(FILTER_FASTA.out.versions)
-            .set { ch_versions }
+        ch_versions = ch_versions.mix(FILTER_FASTA.out.versions)
 
         CREATE_TCOFFEETEMPLATE(
             ch_pdb
@@ -52,9 +50,8 @@ workflow ALIGN {
         TCOFFEE_3DALIGN.out.alignment
             .set { ch_alignment }
 
-        ch_versions
-            .mix(TCOFFEE_3DALIGN.out.versions)
-            .set { ch_versions }
+        ch_versions = ch_versions.mix(TCOFFEE_3DALIGN.out.versions)
+
     }
     else {
         TCOFFEE_ALIGN (
@@ -67,9 +64,7 @@ workflow ALIGN {
         TCOFFEE_ALIGN.out.alignment
             .set { ch_alignment }
 
-        ch_versions
-            .mix(TCOFFEE_ALIGN.out.versions)
-            .set { ch_versions }
+        ch_versions = ch_versions.mix(TCOFFEE_ALIGN.out.versions)
     }
 
     emit:

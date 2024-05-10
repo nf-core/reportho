@@ -24,9 +24,7 @@ workflow MAKE_TREES {
 
         ch_mltree = IQTREE.out.phylogeny
 
-        ch_versions
-            .mix(IQTREE.out.versions)
-            .set { ch_versions }
+        ch_versions = ch_versions.mix(IQTREE.out.versions)
 
         ch_mlplot = ch_alignment.map { [it[0], []] }
 
@@ -38,9 +36,7 @@ workflow MAKE_TREES {
 
             ch_mlplot = PLOT_IQTREE.out.plot
 
-            ch_versions
-                .mix(PLOT_IQTREE.out.versions)
-                .set { ch_versions }
+            ch_versions = ch_versions.mix(PLOT_IQTREE.out.versions)
         }
     }
 
@@ -50,9 +46,7 @@ workflow MAKE_TREES {
             ch_alignment
         )
 
-        ch_versions
-            .mix(CONVERT_PHYLIP.out.versions)
-            .set { ch_versions }
+        ch_versions = ch_versions.mix(CONVERT_PHYLIP.out.versions)
 
         FASTME (
             CONVERT_PHYLIP.out.phylip.map { [it[0], it[1], []] }
@@ -60,9 +54,7 @@ workflow MAKE_TREES {
 
         ch_metree = FASTME.out.nwk
 
-        ch_versions
-            .mix(FASTME.out.versions)
-            .set { ch_versions }
+        ch_versions = ch_versions.mix(FASTME.out.versions)
 
         ch_meplot = ch_alignment.map { [it[0], []] }
 
@@ -74,9 +66,7 @@ workflow MAKE_TREES {
 
             ch_meplot = PLOT_FASTME.out.plot
 
-            ch_versions
-                .mix(PLOT_FASTME.out.versions)
-                .set { ch_versions }
+            ch_versions = ch_versions.mix(PLOT_FASTME.out.versions)
         }
     }
 
