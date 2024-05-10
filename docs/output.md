@@ -105,6 +105,8 @@ Plots representing certain aspects of the predictions are generated using `ggplo
 - `orthologs/`
   - `stats/`
     - `*_stats.yml`: A YAML file containing ortholog statistics.
+  - `hits/`
+    - `*_hits.yml`: A YAML file containing hit counts per database.
     </details>
 
 The following statistics of the predictions are calculated:
@@ -179,9 +181,13 @@ The phylogeny can be constructed using maximum likelihood ([IQTREE](http://www.i
   - `*.html`: The report in HTML format.
   - `run.sh`: A script to correctly open the report.
   - Other files necessary for the report.
+- `multiqc/`
+  - `multiqc_report.html`: A MultiQC report containing summary of all samples.
   </details>
 
-The report is generated in the form of a React application. It must be hosted on localhost to work correctly. This can be done manually or with the run script provided.
+The report is generated per sample in the form of a React application. It must be hosted on localhost to work correctly. This can be done manually or with the run script provided.
+
+A single MultiQC report is also generated. It contains a comparison of hit count and statistics for each sample, as well as a list of software versions used in the run.
 
 ### Pipeline information
 
