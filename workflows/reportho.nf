@@ -31,7 +31,7 @@ workflow REPORTHO {
 
     main:
 
-    ch_versions = Channel.empty()
+    ch_versions      = Channel.empty()
     ch_multiqc_files = Channel.empty()
 
     ch_query_fasta = params.uniprot_query ? ch_samplesheet.map { [it[0], []] } : ch_samplesheet.map { [it[0], file(it[1])] }
@@ -44,13 +44,16 @@ workflow REPORTHO {
         .mix(GET_ORTHOLOGS.out.versions)
         .set { ch_versions }
 
-    ch_seqhits = ch_samplesheet.map { [it[0], []] }
+    ch_multiqc_files = ch_multiqc_files.mix(GET_ORTHOLOGS.out.aggregated_stats.map {it[1]})
+    ch_multiqc_files = ch_multiqc_files.mix(GET_ORTHOLOGS.out.aggregated_hits.map {it[1]})
+
+    ch_seqhits   = ch_samplesheet.map { [it[0], []] }
     ch_seqmisses = ch_samplesheet.map { [it[0], []] }
-    ch_strhits = ch_samplesheet.map { [it[0], []] }
+    ch_strhits   = ch_samplesheet.map { [it[0], []] }
     ch_strmisses = ch_samplesheet.map { [it[0], []] }
     ch_alignment = ch_samplesheet.map { [it[0], []] }
-    ch_iqtree = ch_samplesheet.map { [it[0], []] }
-    ch_fastme = ch_samplesheet.map { [it[0], []] }
+    ch_iqtree    = ch_samplesheet.map { [it[0], []] }
+    ch_fastme    = ch_samplesheet.map { [it[0], []] }
 
     if (!params.skip_downstream) {
         FETCH_SEQUENCES (
@@ -141,8 +144,6 @@ workflow REPORTHO {
     softwareVersionsToYAML(ch_versions)
         .collectFile(storeDir: "${params.outdir}/pipeline_info", name: 'nf_core_pipeline_software_mqc_versions.yml', sort: true, newLine: true)
         .set { ch_collated_versions }
-
-    ch_collated_versions.view()
 
     //
     // MultiQC
