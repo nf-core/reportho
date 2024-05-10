@@ -31,7 +31,7 @@ workflow REPORTHO {
 
     main:
 
-    ch_versions = Channel.empty()
+    ch_versions      = Channel.empty()
     ch_multiqc_files = Channel.empty()
 
     ch_query_fasta = params.uniprot_query ? ch_samplesheet.map { [it[0], []] } : ch_samplesheet.map { [it[0], file(it[1])] }
@@ -44,13 +44,16 @@ workflow REPORTHO {
         .mix(GET_ORTHOLOGS.out.versions)
         .set { ch_versions }
 
-    ch_seqhits = ch_samplesheet.map { [it[0], []] }
+    ch_multiqc_files = ch_multiqc_files.mix(GET_ORTHOLOGS.out.aggregated_stats.map {it[1]})
+    ch_multiqc_files = ch_multiqc_files.mix(GET_ORTHOLOGS.out.aggregated_hits.map {it[1]})
+
+    ch_seqhits   = ch_samplesheet.map { [it[0], []] }
     ch_seqmisses = ch_samplesheet.map { [it[0], []] }
-    ch_strhits = ch_samplesheet.map { [it[0], []] }
+    ch_strhits   = ch_samplesheet.map { [it[0], []] }
     ch_strmisses = ch_samplesheet.map { [it[0], []] }
     ch_alignment = ch_samplesheet.map { [it[0], []] }
-    ch_iqtree = ch_samplesheet.map { [it[0], []] }
-    ch_fastme = ch_samplesheet.map { [it[0], []] }
+    ch_iqtree    = ch_samplesheet.map { [it[0], []] }
+    ch_fastme    = ch_samplesheet.map { [it[0], []] }
 
     if (!params.skip_downstream) {
         FETCH_SEQUENCES (
@@ -138,11 +141,51 @@ workflow REPORTHO {
     //
     // Collate and save software versions
     //
-    ch_versions
-        .collectFile(storeDir: "${params.outdir}/pipeline_info", name: 'versions.yml', sort: true, newLine: true)
+    softwareVersionsToYAML(ch_versions)
+        .collectFile(storeDir: "${params.outdir}/pipeline_info", name: 'nf_core_pipeline_software_mqc_versions.yml', sort: true, newLine: true)
         .set { ch_collated_versions }
 
+    //
+    // MultiQC
+    //
+    ch_multiqc_config        = Channel.fromPath(
+        "$projectDir/assets/multiqc_config.yml", checkIfExists: true)
+    ch_multiqc_custom_config = params.multiqc_config ?
+        Channel.fromPath(params.multiqc_config, checkIfExists: true) :
+        Channel.empty()
+    ch_multiqc_logo          = params.multiqc_logo ?
+        Channel.fromPath(params.multiqc_logo, checkIfExists: true) :
+        Channel.empty()
+
+    summary_params      = paramsSummaryMap(
+        workflow, parameters_schema: "nextflow_schema.json")
+    ch_workflow_summary = Channel.value(paramsSummaryMultiqc(summary_params))
+
+    ch_multiqc_custom_methods_description = params.multiqc_methods_description ?
+        file(params.multiqc_methods_description, checkIfExists: true) :
+        file("$projectDir/assets/methods_description_template.yml", checkIfExists: true)
+    ch_methods_description                = Channel.value(
+        methodsDescriptionText(ch_multiqc_custom_methods_description))
+
+    ch_multiqc_files = ch_multiqc_files.mix(
+        ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml'))
+    ch_multiqc_files = ch_multiqc_files.mix(ch_collated_versions)
+    ch_multiqc_files = ch_multiqc_files.mix(
+        ch_methods_description.collectFile(
+            name: 'methods_description_mqc.yaml',
+            sort: true
+        )
+    )
+
+    MULTIQC (
+        ch_multiqc_files.collect(),
+        ch_multiqc_config.toList(),
+        ch_multiqc_custom_config.toList(),
+        ch_multiqc_logo.toList()
+    )
+
     emit:
+    multiqc_report = MULTIQC.out.report.toList()
     versions = ch_collated_versions // channel: [ path(versions.yml) ]
 }
 

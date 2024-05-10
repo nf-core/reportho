@@ -24,7 +24,7 @@ process PLOT_ORTHOLOGS {
     plot_orthologs.R $score_table $prefix
 
     cat <<- END_VERSIONS > versions.yml
-    "${task.process}"
+    "${task.process}":
         r-base: \$(echo \$(R --version 2>&1) | sed 's/^.*R version //; s/ .*\$//')
     END_VERSIONS
     """
