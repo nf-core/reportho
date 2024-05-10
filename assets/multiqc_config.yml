@@ -13,3 +13,71 @@ report_section_order:
 export_plots: true
 
 disable_version_detection: true
+
+run_modules:
+  - custom_content
+
+custom_data:
+  sample_stats:
+    id: "sample_stats"
+    section_name: "Sample Stats"
+    plot_type: "table"
+    anchor: "sample_stats"
+    namespace: "sample_stats"
+    pconfig:
+      id: "sample_stats"
+      title: "Sample statistics"
+  sample_hits:
+    id: "sample_hits"
+    section_name: "Sample Hit Stats"
+    plot_type: "table"
+    anchor: "sample_hits"
+    namespace: "sample_hits"
+    pconfig:
+      id: "sample_hits"
+      title: "Sample hit statistics"
+
+custom_table_header_config:
+  sample_stats:
+    percent_max:
+      title: "Percent Consensus"
+      description: "Percentage of orthologs with max score."
+      hidden: False
+      format: "{:,.3f}"
+    percent_privates:
+      title: "Percent Privates"
+      description: "Percentage of orthologs with score 1."
+      hidden: False
+      format: "{:,.3f}"
+    goodness:
+      title: "Goodness"
+      description: "Goodness of the predictions (see docs for details)."
+      hidden: False
+      format: "{:,.3f}"
+  sample_hits:
+    OMA:
+      title: "OMA"
+      description: "Number of orthologs found by OMA."
+      hidden: False
+      format: "{:,.0f}"
+    PANTHER:
+      title: "PANTHER"
+      description: "Number of orthologs found by PANTHER."
+      hidden: False
+      format: "{:,.0f}"
+    OrthoInspector:
+      title: "OrthoInspector"
+      description: "Number of orthologs found by OrthoInspector."
+      hidden: False
+      format: "{:,.0f}"
+    EggNOG:
+      title: "EggNOG"
+      description: "Number of orthologs found by EggNOG."
+      hidden: False
+      format: "{:,.0f}"
+
+sp:
+  sample_stats:
+    fn: "aggregated_stats.csv"
+  sample_hits:
+    fn: "aggregated_hits.csv"

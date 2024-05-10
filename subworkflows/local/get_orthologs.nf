@@ -13,6 +13,8 @@ include { CSVTK_JOIN as MERGE_CSV      } from "../../modules/nf-core/csvtk/join/
 include { MAKE_SCORE_TABLE             } from "../../modules/local/make_score_table"
 include { FILTER_HITS                  } from "../../modules/local/filter_hits"
 include { PLOT_ORTHOLOGS               } from "../../modules/local/plot_orthologs"
+include { MAKE_HITS_TABLE              } from "../../modules/local/make_hits_table"
+include { CSVTK_CONCAT as MERGE_HITS   } from "../../modules/nf-core/csvtk/concat/main"
 include { MAKE_STATS                   } from "../../modules/local/make_stats"
 include { STATS2CSV                    } from "../../modules/local/stats2csv"
 include { CSVTK_CONCAT as MERGE_STATS  } from "../../modules/nf-core/csvtk/concat/main"
@@ -252,6 +254,30 @@ workflow GET_ORTHOLOGS {
         ch_versions = ch_versions.mix(PLOT_ORTHOLOGS.out.versions)
     }
 
+    // Hits
+
+    MAKE_HITS_TABLE(
+        MERGE_CSV.out.csv
+    )
+
+    ch_versions
+        .mix(MAKE_HITS_TABLE.out.versions)
+        .set { ch_versions }
+
+    ch_hits = MAKE_HITS_TABLE.out.hits_table
+        .collect { it[1] }
+        .map { [[id: "all"], it] }
+
+    MERGE_HITS(
+        ch_hits,
+        "csv",
+        "csv"
+    )
+
+    ch_versions
+        .mix(MERGE_HITS.out.versions)
+        .set { ch_versions }
+
     // Stats
 
     MAKE_STATS(
@@ -294,7 +320,9 @@ workflow GET_ORTHOLOGS {
     venn_plot        = ch_vennplot
     jaccard_plot     = ch_jaccardplot
     stats            = MAKE_STATS.out.stats
+    hits             = MAKE_HITS_TABLE.out.hits_table
     aggregated_stats = MERGE_STATS.out.csv
+    aggregated_hits  = MERGE_HITS.out.csv
     versions         = ch_merged_versions
 
 }
