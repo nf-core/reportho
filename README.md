@@ -44,21 +44,20 @@ Steps that follow can be skipped with `--skip_downstream` in batch analysis.
 
 First, prepare a samplesheet with your input data that looks as follows:
 
-`samplesheet.csv`:
-
-```csv
-id,query
+```csv title="samplesheet.csv"
+id,fasta
 BicD2,data/bicd2.fasta
 ```
 
-or:
+or if you know the UniProt ID of the protein you can provide it directly:
 
-```csv
+```csv title="samplesheet.csv"
 id,query
 BicD2,Q8TD16
 ```
 
-If using the latter format, you must set `--uniprot_query` to true.
+> [!NOTE]
+> If you provide both a FASTA file and a UniProt ID only the later will be used.
 
 Now, you can run the pipeline using:
 
