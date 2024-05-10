@@ -260,9 +260,7 @@ workflow GET_ORTHOLOGS {
         MERGE_CSV.out.csv
     )
 
-    ch_versions
-        .mix(MAKE_HITS_TABLE.out.versions)
-        .set { ch_versions }
+    ch_versions = ch_versions.mix(MAKE_HITS_TABLE.out.versions)
 
     ch_hits = MAKE_HITS_TABLE.out.hits_table
         .collect { it[1] }
@@ -274,9 +272,7 @@ workflow GET_ORTHOLOGS {
         "csv"
     )
 
-    ch_versions
-        .mix(MERGE_HITS.out.versions)
-        .set { ch_versions }
+    ch_versions = ch_versions.mix(MERGE_HITS.out.versions)
 
     // Stats
 
