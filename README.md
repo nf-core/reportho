@@ -57,7 +57,7 @@ BicD2,Q8TD16
 ```
 
 > [!NOTE]
-> If you provide both a FASTA file and a UniProt ID only the later will be used.
+> If you provide both a FASTA file and a UniProt ID only the latter will be used.
 
 Now, you can run the pipeline using:
 
