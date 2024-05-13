@@ -21,7 +21,6 @@ def fetch_structures(path: str, prefix: str) -> None:
 
     for id in ids:
         url = f"https://alphafold.ebi.ac.uk/api/prediction/{id}"
-
         res = safe_get(url)
 
         if res.ok:
