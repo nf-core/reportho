@@ -40,7 +40,7 @@ BicD2,/home/myuser/data/bicd2.fa
 | `query` | The query of the user-specified type. It should be a valid Uniprot accession.                                                                     |
 | `fasta` | It should be a valid path to a FASTA file.                                                                                                        |
 
-An [example samplesheet](../assets/samplesheet.csv) has been provided with the pipeline.
+An [example Uniprot samplesheet](../assets/samplesheet.csv) and [example FASTA samplesheet](../assets/samplesheet_fasta.csv) has been provided with the pipeline.
 
 ## Running the pipeline
 
