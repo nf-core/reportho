@@ -20,12 +20,12 @@ def safe_get(url: str):
         raise RequestException(f"A network issue occurred. Retrying request. Details:\n{e}")
 
 
-def safe_post(url: str, data: dict):
+def safe_post(url: str, data: dict = dict(), json: dict = dict()):
     """
     Post data to a URL and return the response.
     """
     try:
-        return requests.post(url, data=data)
+        return requests.post(url, data=data, json=json)
     except requests.exceptions.RequestException as e:
         raise RequestException(f"A network issue occurred. Retrying request. Details:\n{e}")
 

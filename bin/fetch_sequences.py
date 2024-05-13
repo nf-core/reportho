@@ -18,6 +18,8 @@ def fetch_seqs_oma(path: str, prefix: str) -> list[str]:
 
     payload = {"ids": ids}
 
+    print(payload, file=sys.stderr)
+
     res = safe_post("https://omabrowser.org/api/protein/bulk_retrieve/", json=payload)
 
     if not res.ok:
