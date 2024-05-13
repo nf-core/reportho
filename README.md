@@ -44,7 +44,7 @@ Steps that follow can be skipped with `--skip_downstream` in batch analysis.
 
 First, prepare a samplesheet with your input data that looks as follows:
 
-```csv title="samplesheet.csv"
+```csv title="samplesheet_fasta.csv"
 id,fasta
 BicD2,data/bicd2.fasta
 ```
