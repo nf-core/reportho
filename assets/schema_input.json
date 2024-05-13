@@ -17,8 +17,22 @@
                 "type": "string",
                 "pattern": "^\\S+$",
                 "errorMessage": "A query must be provided"
+            },
+            "fasta": {
+                "type": "string",
+                "format": "file-path",
+                "exists": true,
+                "pattern": "^\\S+\\.fa(sta)?$",
+                "errorMessage": "Fasta file must be provided, cannot contain spaces and must have extension '.fa' or '.fasta'"
             }
+        }
+    },
+    "anyOf": [
+        {
+            "required": ["id", "query"]
         },
-        "required": ["id", "query"]
-    }
+        {
+            "required": ["id", "fasta"]
+        }
+    ]
 }

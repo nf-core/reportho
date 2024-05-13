@@ -74,19 +74,23 @@ workflow PIPELINE_INITIALISATION {
     )
 
     //
-    // Create channel from input file provided through params.input
+    // Create channel from input file provided through params.input and check for query
     //
     Channel
         .fromSamplesheet("input")
-        .map {
-            id, query ->
-                [ id, query ]
+        .branch {
+            id, query, fasta ->
+                query: query != []
+                    return [ id, query ]
+                fasta: query == []
+                    return [ id, fasta ]
         }
         .set { ch_samplesheet }
 
     emit:
-    samplesheet = ch_samplesheet
-    versions    = ch_versions
+    samplesheet_query = ch_samplesheet.query
+    samplesheet_fasta = ch_samplesheet.fasta
+    versions          = ch_versions
 }
 
 /*

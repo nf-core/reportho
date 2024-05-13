@@ -8,7 +8,6 @@ process DUMP_PARAMS {
 
     input:
     tuple val(meta), path(exact)
-    val uniprot_query
     val use_structures
     val use_centroid
     val min_score
@@ -26,7 +25,6 @@ process DUMP_PARAMS {
     """
     cat <<- END_PARAMS > params.yml
     id: ${meta.id}
-    uniprot_query: ${uniprot_query}
     exact_match: \$(cat $exact)
     use_structures: ${use_structures}
     use_centroid: ${use_centroid}

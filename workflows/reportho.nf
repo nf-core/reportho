@@ -27,22 +27,22 @@ include { REPORT                 } from '../subworkflows/local/report'
 workflow REPORTHO {
 
     take:
-    ch_samplesheet // channel: samplesheet read in from --input
+    ch_samplesheet_query // channel: samplesheet query
+    ch_samplesheet_fasta // channel: samplesheet fasta
 
     main:
 
     ch_versions      = Channel.empty()
     ch_multiqc_files = Channel.empty()
-
-    ch_query_fasta = params.uniprot_query ? ch_samplesheet.map { [it[0], []] } : ch_samplesheet.map { [it[0], file(it[1])] }
+    ch_fasta_query   = ch_samplesheet_query.map { [it[0], []] }.mix(ch_samplesheet_fasta.map { [it[0], file(it[1])] })
 
     GET_ORTHOLOGS (
-        ch_samplesheet
+        ch_samplesheet_query,
+        ch_samplesheet_fasta
     )
 
-    ch_versions
-        .mix(GET_ORTHOLOGS.out.versions)
-        .set { ch_versions }
+    ch_versions    = ch_versions.mix(GET_ORTHOLOGS.out.versions)
+    ch_samplesheet = ch_samplesheet_query.mix (ch_samplesheet_fasta)
 
     ch_multiqc_files = ch_multiqc_files.mix(GET_ORTHOLOGS.out.aggregated_stats.map {it[1]})
     ch_multiqc_files = ch_multiqc_files.mix(GET_ORTHOLOGS.out.aggregated_hits.map {it[1]})
@@ -58,16 +58,14 @@ workflow REPORTHO {
     if (!params.skip_downstream) {
         FETCH_SEQUENCES (
             GET_ORTHOLOGS.out.orthologs,
-            ch_query_fasta
+            ch_fasta_query
         )
 
         ch_seqhits = FETCH_SEQUENCES.out.hits
 
         ch_seqmisses = FETCH_SEQUENCES.out.misses
 
-        ch_versions
-            .mix(FETCH_SEQUENCES.out.versions)
-            .set { ch_versions }
+        ch_versions = ch_versions.mix(FETCH_SEQUENCES.out.versions)
 
         if (params.use_structures) {
             FETCH_STRUCTURES (
@@ -78,9 +76,7 @@ workflow REPORTHO {
 
             ch_strmisses = FETCH_STRUCTURES.out.misses
 
-            ch_versions
-                .mix(FETCH_STRUCTURES.out.versions)
-                .set { ch_versions }
+            ch_versions = ch_versions.mix(FETCH_STRUCTURES.out.versions)
         }
 
         ch_structures = params.use_structures ? FETCH_STRUCTURES.out.structures : Channel.empty()
@@ -92,9 +88,7 @@ workflow REPORTHO {
 
         ch_alignment = ALIGN.out.alignment
 
-        ch_versions
-            .mix(ALIGN.out.versions)
-            .set { ch_versions }
+        ch_versions = ch_versions.mix(ALIGN.out.versions)
 
         MAKE_TREES (
             ALIGN.out.alignment
@@ -103,14 +97,11 @@ workflow REPORTHO {
         ch_iqtree = MAKE_TREES.out.mlplot
         ch_fastme = MAKE_TREES.out.meplot
 
-        ch_versions
-            .mix(MAKE_TREES.out.versions)
-            .set { ch_versions }
+        ch_versions = ch_versions.mix(MAKE_TREES.out.versions)
     }
 
     if(!params.skip_report) {
         REPORT (
-            params.uniprot_query,
             params.use_structures,
             params.use_centroid,
             params.min_score,
@@ -133,9 +124,7 @@ workflow REPORTHO {
             ch_fastme
         )
 
-        ch_versions
-            .mix(REPORT.out.versions)
-            .set { ch_versions }
+        ch_versions = ch_versions.mix(REPORT.out.versions)
     }
 
     //

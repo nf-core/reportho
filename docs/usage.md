@@ -18,28 +18,29 @@ You will need to create a samplesheet with information about the samples you wou
 
 ### Full samplesheet
 
-The samplesheet can have as many columns as you desire, however, there is a strict requirement for the first 2 columns to match those defined in the table below.
+The samplesheet can have as many columns as you desire, however, there is a strict requirement for the first 2 columns to match those defined in the tables below.
 
-A final samplesheet file may look something like the one below, with `--uniprot_query` enabled:
+A final samplesheet file may look something like the one below:
 
 ```csv title="samplesheet.csv"
 id,query
 BicD2,Q8TD16
 ```
 
-or the one below, otherwise:
+or the one below, if you provide the sequence of the protein in FASTA format:
 
 ```csv title="samplesheet.csv"
-id,query
+id,fasta
 BicD2,/home/myuser/data/bicd2.fa
 ```
 
-| Column  | Description                                                                                                                                                         |
-| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `id`    | User-defined identifier. It is used to identify output files for the protein. Can be anything descriptive, as long as it does not contain spaces.                   |
-| `query` | The query of the user-specified type. If `--uniprot_query` is `true`, it should be a valid Uniprot accession. Otherwise, it should be a valid path to a FASTA file. |
+| Column  | Description                                                                                                                                       |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`    | User-defined identifier. It is used to identify output files for the protein. Can be anything descriptive, as long as it does not contain spaces. |
+| `query` | The query of the user-specified type. It should be a valid Uniprot accession.                                                                     |
+| `fasta` | It should be a valid path to a FASTA file.                                                                                                        |
 
-An [example samplesheet](../assets/samplesheet.csv) has been provided with the pipeline.
+An [example Uniprot samplesheet](../assets/samplesheet.csv) and [example FASTA samplesheet](../assets/samplesheet_fasta.csv) has been provided with the pipeline.
 
 ## Running the pipeline
 
