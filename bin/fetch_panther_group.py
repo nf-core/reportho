@@ -5,7 +5,7 @@
 
 import sys
 
-import requests
+from utils import safe_get
 
 
 def main() -> None:
@@ -15,7 +15,7 @@ def main() -> None:
     if len(sys.argv) < 3:
         raise ValueError("Too few arguments. Usage: fetch_panther_group.py <id> <organism>")
 
-    res = requests.get(f"https://www.pantherdb.org/services/oai/pantherdb/ortholog/matchortho?geneInputList={sys.argv[1]}&organism={sys.argv[2]}&orthologType=all")
+    res = safe_get(f"https://www.pantherdb.org/services/oai/pantherdb/ortholog/matchortho?geneInputList={sys.argv[1]}&organism={sys.argv[2]}&orthologType=all")
 
     if not res.ok:
         raise ValueError(f"HTTP error: {res.status_code}")
