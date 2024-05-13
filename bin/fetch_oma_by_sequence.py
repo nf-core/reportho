@@ -30,9 +30,9 @@ def main() -> None:
 
     # Find the main isoform
     for it in json["targets"]:
-            if it["is_main_isoform"]:
-                entry = it
-                break
+        if it["is_main_isoform"]:
+            entry = it
+            break
 
     # Write exact match status
     if json["identified_by"] == "exact match":

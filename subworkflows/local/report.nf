@@ -5,7 +5,6 @@ include { CONVERT_FASTA } from "../../modules/local/convert_fasta"
 workflow REPORT {
 
     take:
-    uniprot_query
     use_structures
     use_centroid
     min_score
@@ -52,7 +51,6 @@ workflow REPORT {
 
     DUMP_PARAMS(
         ch_seqinfo.map { [it[0], it[3]] },
-        params.uniprot_query,
         params.use_structures,
         params.use_centroid,
         params.min_score,
@@ -66,9 +64,7 @@ workflow REPORT {
 
         ch_fasta = CONVERT_FASTA.out.fasta
 
-        ch_versions
-            .mix(CONVERT_FASTA.out.versions)
-            .set { ch_versions }
+        ch_versions = ch_versions.mix(CONVERT_FASTA.out.versions)
     }
 
     ch_forreport = ch_seqinfo
@@ -91,9 +87,7 @@ workflow REPORT {
         ch_forreport
     )
 
-    ch_versions
-        .mix(MAKE_REPORT.out.versions)
-        .set { ch_versions }
+    ch_versions = ch_versions.mix(MAKE_REPORT.out.versions)
 
     emit:
     versions = ch_versions
