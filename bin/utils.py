@@ -2,6 +2,7 @@
 # See https://opensource.org/license/mit for details
 # Includes code written by UniProt contributors published under CC-BY 4.0 license
 
+import sys
 import time
 from typing import Any
 
@@ -17,7 +18,8 @@ def safe_get(url: str):
     try:
         return requests.get(url)
     except requests.exceptions.RequestException as e:
-        raise RequestException(f"A network issue occurred. Retrying request. Details:\n{e}")
+        print(f"A network issue occurred. Retrying request. Details:\n{e}", file=sys.stderr)
+        sys.exit(10)
 
 
 def safe_post(url: str, data: dict = dict(), json: dict = dict()):
@@ -27,7 +29,8 @@ def safe_post(url: str, data: dict = dict(), json: dict = dict()):
     try:
         return requests.post(url, data=data, json=json)
     except requests.exceptions.RequestException as e:
-        raise RequestException(f"A network issue occurred. Retrying request. Details:\n{e}")
+        print(f"A network issue occurred. Retrying request. Details:\n{e}", file=sys.stderr)
+        sys.exit(10)
 
 
 def check_id_mapping_results_ready(job_id):
