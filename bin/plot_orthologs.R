@@ -16,9 +16,24 @@ if (length(args) < 2) {
 }
 
 # Styles
-text_color <- "#DDDDDD"
+text_color_darkmode <- "#DDDDDD"
+text_color_lightmode <- "#333333"
 bg_color <- "transparent"
 font_size <- 16
+
+theme_dark <- theme(legend.position = "right",
+        text = element_text(size = font_size, color = text_color_darkmode),
+        axis.text = element_text(size = font_size, color = text_color_darkmode),
+        panel.grid = element_line(color = text_color_darkmode),
+        plot.background = element_rect(color = bg_color, fill = bg_color),
+        panel.background = element_rect(color = bg_color, fill = bg_color))
+
+theme_light <- theme(legend.position = "right",
+        text = element_text(size = font_size, color = text_color_lightmode),
+        axis.text = element_text(size = font_size, color = text_color_lightmode),
+        panel.grid = element_line(color = text_color_lightmode),
+        plot.background = element_rect(color = bg_color, fill = bg_color),
+        panel.background = element_rect(color = bg_color, fill = bg_color))
 
 # Load the data
 data <- read.csv(args[1], header = TRUE, stringsAsFactors = FALSE)
@@ -35,20 +50,20 @@ crosstable <- dcast(melted_data, method ~ score)
 melted_crosstable <- melt(crosstable, id.vars = "method", variable.name = "score", value.name = "count")
 
 # Plot the data
-p <- ggplot(melted_crosstable, aes(x = method, y = count, fill = score)) +
+supports <- ggplot(melted_crosstable, aes(x = method, y = count, fill = score)) +
     geom_bar(stat = "identity", position = "stack") +
     theme_minimal() +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
     labs(title = "Support for predictions", x = "Database", y = "Number of orthologs", fill = "Support") +
-    scale_fill_manual(values = c("#59B4C3", "#74E291", "#8F7AC2", "#EFF396", "#FF9A8D")) +
-    theme(legend.position = "right",
-        text = element_text(size = font_size, color = text_color),
-        axis.text.x = element_text(size = font_size, color = text_color),
-        axis.text.y = element_text(size = font_size, color = text_color),
-        plot.background = element_rect(color = bg_color, fill = bg_color),
-        panel.background = element_rect(color = bg_color, fill = bg_color))
+    scale_fill_manual(values = c("#59B4C3", "#74E291", "#8F7AC2", "#EFF396", "#FF9A8D"))
 
-ggsave(paste0(args[2], "_supports.png"), plot = p, width = 6, height = 10, dpi = 300)
+supports_dark <- supports + theme_dark
+
+ggsave(paste0(args[2], "_supports_dark.png"), plot = supports_dark, width = 6, height = 10, dpi = 300)
+
+supports_light <- supports + theme_light
+
+ggsave(paste0(args[2], "_supports_light.png"), plot = supports_light, width = 6, height = 10, dpi = 300)
 
 # Make a Venn diagram
 venn.data <- list()
@@ -56,12 +71,18 @@ for (i in colnames(data)[4:ncol(data)-1]) {
     hits <- (data %>% filter(data[, i] == 1) %>% select(id))$id
     venn.data[[i]] <- hits
 }
-venn.plot <- ggVennDiagram(venn.data, set_color = text_color) +
-    theme(legend.position = "none",
-        text = element_text(size = font_size, color = text_color),
-        plot.background = element_rect(color = bg_color, fill = bg_color),
-        panel.background = element_rect(color = bg_color, fill = bg_color))
-ggsave(paste0(args[2], "_venn.png"), plot = venn.plot, width = 6, height = 6, dpi = 300)
+
+venn_plot_dark <- ggVennDiagram(venn.data, set_color = text_color_darkmode) +
+    theme_dark +
+    theme(panel.grid = element_blank(), axis.text = element_text(color = "transparent"), legend.position = "none")
+
+ggsave(paste0(args[2], "_venn_dark.png"), plot = venn_plot_dark, width = 6, height = 6, dpi = 300)
+
+venn_plot_light <- ggVennDiagram(venn.data, set_color = text_color_lightmode) +
+    theme_light +
+    theme(panel.grid = element_blank(), axis.text = element_text(color = "transparent"), legend.position = "none")
+
+ggsave(paste0(args[2], "_venn_light.png"), plot = venn_plot_light, width = 6, height = 6, dpi = 300)
 
 # Make a plot with Jaccard index for each pair of methods
 jaccard <- data.frame(method1 = character(), method2 = character(), jaccard = numeric())
@@ -77,18 +98,19 @@ for (i in 4:ncol(data)-1) {
         jaccard <- rbind(jaccard, data.frame(method1 = method1, method2 = method2, jaccard = length(intersect(hits1, hits2)) / length(union(hits1, hits2))))
     }
 }
-p <- ggplot(jaccard, aes(x = method1, y = method2, fill = jaccard)) +
+
+jaccard_plot <- ggplot(jaccard, aes(x = method1, y = method2, fill = jaccard)) +
     geom_tile() +
     geom_text(aes(label = round(jaccard, 2)), size=5) +
     scale_fill_gradient(low = "#59B4C3", high = "#EFF396") +
     theme_minimal() +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-    labs(title = "Jaccard Index", x = "", y = "", fill = "Jaccard Index") +
-    theme(legend.position = "right",
-        text = element_text(size = font_size, color = text_color),
-        axis.text.x = element_text(size = font_size, color = text_color),
-        axis.text.y = element_text(size = font_size, color = text_color),
-        plot.background = element_rect(color = bg_color, fill = bg_color),
-        panel.background = element_rect(color = bg_color, fill = bg_color))
+    labs(x = "", y = "", fill = "Jaccard Index")
 
-ggsave(paste0(args[2], "_jaccard.png"), plot = p, width = 6, height = 6, dpi = 300)
+jaccard_plot_dark <- jaccard_plot + theme_dark
+
+ggsave(paste0(args[2], "_jaccard_dark.png"), plot = jaccard_plot_dark, width = 6, height = 6, dpi = 300)
+
+jaccard_plot_light <- jaccard_plot + theme_light
+
+ggsave(paste0(args[2], "_jaccard_light.png"), plot = jaccard_plot_light, width = 6, height = 6, dpi = 300)

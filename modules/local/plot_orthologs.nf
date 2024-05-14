@@ -10,10 +10,13 @@ process PLOT_ORTHOLOGS {
     tuple val(meta), path(score_table)
 
     output:
-    tuple val(meta), path("*_supports.png") , emit: supports
-    tuple val(meta), path("*_venn.png")     , emit: venn
-    tuple val(meta), path("*_jaccard.png")  , emit: jaccard
-    path "versions.yml"                     , emit: versions
+    tuple val(meta), path("*_supports_dark.png") , emit: supports_dark
+    tuple val(meta), path("*_supports_light.png"), emit: supports_light
+    tuple val(meta), path("*_venn_dark.png")     , emit: venn_dark
+    tuple val(meta), path("*_venn_light.png")    , emit: venn_light
+    tuple val(meta), path("*_jaccard_dark.png")  , emit: jaccard_dark
+    tuple val(meta), path("*_jaccard_light.png") , emit: jaccard_light
+    path "versions.yml"                          , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -32,9 +35,12 @@ process PLOT_ORTHOLOGS {
     stub:
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-    touch ${prefix}_supports.png
-    touch ${prefix}_venn.png
-    touch ${prefix}_jaccard.png
+    touch ${prefix}_supports_dark.png
+    touch ${prefix}_supports_light.png
+    touch ${prefix}_venn_dark.png
+    touch ${prefix}_venn_light.png
+    touch ${prefix}_jaccard_dark.png
+    touch ${prefix}_jaccard_light.png
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":

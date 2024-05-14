@@ -34,7 +34,7 @@ workflow MAKE_TREES {
                 "iqtree"
             )
 
-            ch_mlplot = PLOT_IQTREE.out.plot
+            ch_mlplot = PLOT_IQTREE.out.plot_dark.join(PLOT_IQTREE.out.plot_light, by: 0)
 
             ch_versions = ch_versions.mix(PLOT_IQTREE.out.versions)
         }
@@ -64,7 +64,7 @@ workflow MAKE_TREES {
                 "fastme"
             )
 
-            ch_meplot = PLOT_FASTME.out.plot
+            ch_meplot = PLOT_FASTME.out.plot_dark.join(PLOT_FASTME.out.plot_light, by: 0)
 
             ch_versions = ch_versions.mix(PLOT_FASTME.out.versions)
         }

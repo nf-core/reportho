@@ -94,8 +94,8 @@ workflow REPORTHO {
             ALIGN.out.alignment
         )
 
-        ch_iqtree = MAKE_TREES.out.mlplot
-        ch_fastme = MAKE_TREES.out.meplot
+        ch_iqtree = MAKE_TREES.out.mlplot.map { [it[0], it[1]] }
+        ch_fastme = MAKE_TREES.out.meplot.map { [it[0], it[1]] }
 
         ch_versions = ch_versions.mix(MAKE_TREES.out.versions)
     }
@@ -111,9 +111,9 @@ workflow REPORTHO {
             GET_ORTHOLOGS.out.seqinfo,
             GET_ORTHOLOGS.out.score_table,
             GET_ORTHOLOGS.out.orthologs,
-            GET_ORTHOLOGS.out.supports_plot,
-            GET_ORTHOLOGS.out.venn_plot,
-            GET_ORTHOLOGS.out.jaccard_plot,
+            GET_ORTHOLOGS.out.supports_plot.map { [it[0], it[1]]},
+            GET_ORTHOLOGS.out.venn_plot.map { [it[0], it[1]]},
+            GET_ORTHOLOGS.out.jaccard_plot.map { [it[0], it[1]]},
             GET_ORTHOLOGS.out.stats,
             ch_seqhits,
             ch_seqmisses,
