@@ -5,7 +5,7 @@
 
 import sys
 
-import requests
+from utils import safe_get, safe_post
 
 
 def fetch_seqs_oma(path: str, prefix: str) -> list[str]:
@@ -18,7 +18,9 @@ def fetch_seqs_oma(path: str, prefix: str) -> list[str]:
 
     payload = {"ids": ids}
 
-    res = requests.post("https://omabrowser.org/api/protein/bulk_retrieve/", json=payload)
+    print(payload, file=sys.stderr)
+
+    res = safe_post("https://omabrowser.org/api/protein/bulk_retrieve/", json=payload)
 
     if not res.ok:
         raise ValueError(f"HTTP error: {res.status_code}")
@@ -50,7 +52,7 @@ def fetch_seqs_uniprot(oma_misses: list, prefix: str) -> None:
     misses = []
 
     for id in oma_misses:
-        res = requests.get(f"https://rest.uniprot.org/uniprotkb/{id}.fasta")
+        res = safe_get(f"https://rest.uniprot.org/uniprotkb/{id}.fasta")
         if res.ok:
             hits.append((id, res.text.split("\n", 1)[1].replace("\n", "")))
         else:

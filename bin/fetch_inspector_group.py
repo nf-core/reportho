@@ -5,7 +5,7 @@
 
 import sys
 
-import requests
+from utils import safe_get
 
 
 def fetch_inspector_by_id(uniprot_id: str, db_id: str = "Eukaryota2019") -> None:
@@ -13,7 +13,7 @@ def fetch_inspector_by_id(uniprot_id: str, db_id: str = "Eukaryota2019") -> None
     Fetch orthologs for a given UniProt ID from the OrthoInspector database.
     """
     url = f"https://lbgi.fr/api/orthoinspector/{db_id}/protein/{uniprot_id}/orthologs"
-    res = requests.get(url)
+    res = safe_get(url)
 
     if not res.ok:
         raise ValueError(f"HTTP error: {res.status_code}")

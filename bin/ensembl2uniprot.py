@@ -5,8 +5,7 @@
 
 import sys
 
-import requests
-from utils import check_id_mapping_results_ready
+from utils import check_id_mapping_results_ready, safe_get, safe_post
 
 
 def ensembl2uniprot(ensembl_ids: list[str]) -> list[str]:
@@ -22,7 +21,8 @@ def ensembl2uniprot(ensembl_ids: list[str]) -> list[str]:
         "to": "UniProtKB"
     }
 
-    res = requests.post("https://rest.uniprot.org/idmapping/run", data=payload)
+    res = safe_post("https://rest.uniprot.org/idmapping/run", data=payload)
+
     if not res.ok:
         raise ValueError(f"HTTP error: {res.status_code}")
 
@@ -31,7 +31,7 @@ def ensembl2uniprot(ensembl_ids: list[str]) -> list[str]:
     # wait for the job to finish
     check_id_mapping_results_ready(job_id)
 
-    res = requests.get(f"https://rest.uniprot.org/idmapping/results/{job_id}")
+    res = safe_get(f"https://rest.uniprot.org/idmapping/results/{job_id}")
 
     json = res.json()
 

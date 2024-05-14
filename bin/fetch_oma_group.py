@@ -5,7 +5,7 @@
 
 import sys
 
-import requests
+from utils import safe_get
 
 
 def main() -> None:
@@ -17,7 +17,7 @@ def main() -> None:
 
     id = sys.argv[1]
 
-    res = requests.get(f"https://omabrowser.org/api/group/{id}")
+    res = safe_get(f"https://omabrowser.org/api/group/{id}")
 
     if not res.ok:
         raise ValueError(f"HTTP error: {res.status_code}")
