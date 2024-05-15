@@ -21,20 +21,17 @@ text_color_lightmode <- "#333333"
 bg_color <- "transparent"
 font_size <- 16
 
-theme_dark <- theme(legend.position = "right",
-        text = element_text(size = font_size, color = text_color_darkmode),
-        axis.text = element_text(size = font_size, color = text_color_darkmode),
-        panel.grid = element_line(color = text_color_darkmode),
+customize_theme <- function(font_size, text_color, bg_color) {
+  theme(legend.position = "right",
+        text = element_text(size = font_size, color = text_color),
+        axis.text = element_text(size = font_size, color = text_color),
+        panel.grid = element_line(color = text_color),
         plot.background = element_rect(color = bg_color, fill = bg_color),
         panel.background = element_rect(color = bg_color, fill = bg_color))
+}
 
-theme_light <- theme(legend.position = "right",
-        text = element_text(size = font_size, color = text_color_lightmode),
-        axis.text = element_text(size = font_size, color = text_color_lightmode),
-        panel.grid = element_line(color = text_color_lightmode),
-        plot.background = element_rect(color = bg_color, fill = bg_color),
-        panel.background = element_rect(color = bg_color, fill = bg_color))
-
+theme_dark <- customize_theme(font_size, text_color_darkmode, bg_color)
+theme_light <- customize_theme(font_size, text_color_lightmode, bg_color)
 # Load the data
 data <- read.csv(args[1], header = TRUE, stringsAsFactors = FALSE)
 
