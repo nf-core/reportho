@@ -28,6 +28,14 @@ workflow GET_ORTHOLOGS {
     ch_versions    = Channel.empty()
     ch_orthogroups = Channel.empty()
 
+    fasta_input = false
+    ch_samplesheet_fasta.ifEmpty {
+        fasta_input = true
+    }
+    if (fasta_input && params.offline_run) {
+        error "Offline run is currently not supported with fasta files as input."
+    }
+
     // Preprocessing - find the ID and taxid of the query sequences
     ch_samplesheet_fasta
         .map { it -> [it[0], file(it[1])] }
@@ -41,13 +49,18 @@ workflow GET_ORTHOLOGS {
     ch_versions = ch_versions.mix(IDENTIFY_SEQ_ONLINE.out.versions)
 
     WRITE_SEQINFO (
-        ch_samplesheet_query
+        ch_samplesheet_query,
+        params.offline_run
     )
 
     ch_query = IDENTIFY_SEQ_ONLINE.out.seqinfo.mix(WRITE_SEQINFO.out.seqinfo)
     ch_versions = ch_versions.mix(WRITE_SEQINFO.out.versions)
 
     // Ortholog fetching
+
+    if(params.use_all && params.offline_run) {
+        warning("Trying to use online databases in offline mode. Are you sure?") // TODO: make a warning
+    }
 
     if(params.use_all) {
         // OMA
