@@ -64,7 +64,7 @@ workflow MAKE_TREES {
                 "fastme"
             )
 
-            ch_meplot = PLOT_FASTME.out.plot_dark.join(PLOT_FASTME.out.plot_light, by: 0)
+            ch_meplot = PLOT_FASTME.out.plot
 
             ch_versions = ch_versions.mix(PLOT_FASTME.out.versions)
         }
