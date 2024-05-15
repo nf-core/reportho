@@ -22,7 +22,7 @@ bg_color <- "transparent"
 font_size <- 16
 
 customize_theme <- function(font_size, text_color, bg_color) {
-  theme(legend.position = "right",
+    theme(legend.position = "right",
         text = element_text(size = font_size, color = text_color),
         axis.text = element_text(size = font_size, color = text_color),
         panel.grid = element_line(color = text_color),
