@@ -247,9 +247,9 @@ workflow GET_ORTHOLOGS {
             MAKE_SCORE_TABLE.out.score_table
         )
 
-        ch_supportsplot = PLOT_ORTHOLOGS.out.supports_dark.join(PLOT_ORTHOLOGS.out.supports_light, by: 0)
-        ch_vennplot     = PLOT_ORTHOLOGS.out.venn_dark.join(PLOT_ORTHOLOGS.out.venn_light, by: 0)
-        ch_jaccardplot  = PLOT_ORTHOLOGS.out.jaccard_dark.join(PLOT_ORTHOLOGS.out.jaccard_light, by: 0)
+        ch_supportsplot = PLOT_ORTHOLOGS.out.supports
+        ch_vennplot     = PLOT_ORTHOLOGS.out.venn
+        ch_jaccardplot  = PLOT_ORTHOLOGS.out.jaccard
 
         ch_versions = ch_versions.mix(PLOT_ORTHOLOGS.out.versions)
     }
