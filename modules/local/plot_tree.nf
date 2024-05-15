@@ -11,8 +11,7 @@ process PLOT_TREE {
     val method
 
     output:
-    tuple val(meta), path("*_dark.png") , emit: plot_dark
-    tuple val(meta), path("*_light.png"), emit: plot_light
+    tuple val(meta), path("*_light.png"), path("*_dark.png") , emit: plot
     path "versions.yml"                 , emit: versions
 
     when:
