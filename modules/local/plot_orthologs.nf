@@ -10,12 +10,9 @@ process PLOT_ORTHOLOGS {
     tuple val(meta), path(score_table)
 
     output:
-    tuple val(meta), path("*_supports_dark.png") , emit: supports_dark
-    tuple val(meta), path("*_supports_light.png"), emit: supports_light
-    tuple val(meta), path("*_venn_dark.png")     , emit: venn_dark
-    tuple val(meta), path("*_venn_light.png")    , emit: venn_light
-    tuple val(meta), path("*_jaccard_dark.png")  , emit: jaccard_dark
-    tuple val(meta), path("*_jaccard_light.png") , emit: jaccard_light
+    tuple val(meta), path("*_supports_light.png"), path("*_supports_dark.png"), emit: supports
+    tuple val(meta), path("*_venn_light.png"), path("*_venn_dark.png")        , emit: venn
+    tuple val(meta), path("*_jaccard_light.png"), path("*_jaccard_dark.png")  , emit: jaccard
     path "versions.yml"                          , emit: versions
 
     when:
