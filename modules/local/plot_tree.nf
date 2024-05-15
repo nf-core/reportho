@@ -11,8 +11,8 @@ process PLOT_TREE {
     val method
 
     output:
-    tuple val(meta), path("*.png"), emit: plot
-    path "versions.yml"           , emit: versions
+    tuple val(meta), path("*_light.png"), path("*_dark.png") , emit: plot
+    path "versions.yml"                 , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -31,7 +31,8 @@ process PLOT_TREE {
     stub:
     prefix = task.ext.prefix ?: meta.id
     """
-    touch ${prefix}_${method}_tree.png
+    touch ${prefix}_${method}_tree_dark.png
+    touch ${prefix}_${method}_tree_light.png
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":
