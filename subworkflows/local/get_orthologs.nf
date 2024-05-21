@@ -61,7 +61,6 @@ workflow GET_ORTHOLOGS {
     // Ortholog fetching
     if(params.offline_run && params.use_all) {
         log.warn("Both '--use_all' and '--offline_run' parameters have been specified!\nThose databases that can't be run offline will be run online.")
-        log.warn("Trying to use online databases in offline mode. Are you sure?")
     }
 
     if(params.use_all) {
