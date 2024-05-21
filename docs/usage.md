@@ -85,6 +85,26 @@ outdir: './results/'
 
 You can also generate such `YAML`/`JSON` files via [nf-core/launch](https://nf-co.re/launch).
 
+### Database snapshots
+
+If you want to use local database copies for the run, you must provide the required files using the appropriate params. See the parameter documentation for details. Below you can find a list of files to provide, as named by the FTP service of the respective databases.
+
+| Parameter           | File name                 |
+| ------------------- | ------------------------- |
+| `oma_path`          | `oma-groups.txt.gz`       |
+| `oma_uniprot_path`  | `oma-uniprot.txt.gz`      |
+| `oma_ensembl_path`  | `oma-ensembl.txt.gz`      |
+| `oma_refseq_path`   | `oma-refseq.txt.gz`       |
+| `panther_path`      | `AllOrthologs.txt`        |
+| `eggnog_path`       | `1_members.tsv.gz`        |
+| `eggnog_idmap_path` | `latest.Eukaryota.tsv.gz` |
+
+### Running offline
+
+With large input sizes, you might want to run the pipeline locally, without runtime access to APIs. There are two main parameters used to achieve this. If you want to use local databases, set `--local_databases` to `true`. Remember to set `--use_all` to `false` to ensure the database step is run fully offline. If your input is especially large, you can also skip the initial online identification steps by setting `--offline_run` to `true`. Note that FASTA input will not work with this option enabled. For your convenience, there is an `offline` profile provided that sets all the required options for a fully offline run. Keep in mind that the options only affect ortholog finding, and the downstream analysis still requires connection to obtain sequences and structures.
+
+While those options allow the pipeline to run its steps offline, the pipeline requires certain configuration files and container images that are downloaded from the internet. If you wish to run the pipeline on a machine without a connection, you can pre-download the required files with `nf-core download`. See [the nf-core tools documentation](https://nf-co.re/docs/nf-core-tools/pipelines/download) for details.
+
 ### Updating the pipeline
 
 When you run the above command, Nextflow automatically pulls the pipeline code from GitHub and stores it as a cached version. When running the pipeline after this, it will always use the cached version if available - even if the pipeline has been updated since. To make sure that you're running the latest version of the pipeline, make sure that you regularly update the cached version of the pipeline:
