@@ -59,8 +59,8 @@ workflow GET_ORTHOLOGS {
     ch_versions = ch_versions.mix(WRITE_SEQINFO.out.versions)
 
     // Ortholog fetching
-
-        warning("Both '--use_all' and '--offline_run' parameters have been specified!\nThose databases that can't be run offline will be run online.")
+    if(params.offline_run && params.use_all) {
+        log.warn("Both '--use_all' and '--offline_run' parameters have been specified!\nThose databases that can't be run offline will be run online.")
         log.warn("Trying to use online databases in offline mode. Are you sure?")
     }
 
