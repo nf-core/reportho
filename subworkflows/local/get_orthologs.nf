@@ -28,18 +28,20 @@ workflow GET_ORTHOLOGS {
     ch_versions    = Channel.empty()
     ch_orthogroups = Channel.empty()
 
-    fasta_input = false
+    fasta_input = true
     ch_samplesheet_fasta.ifEmpty {
-        fasta_input = true
+        fasta_input = false
     }
     if (fasta_input && params.offline_run) {
-        error "Offline run is currently not supported with fasta files as input."
+        log.warn("You are using FASTA input in an offline run. Online identification will be used. Be aware it might cause rate limit issues.")
     }
 
     // Preprocessing - find the ID and taxid of the query sequences
     ch_samplesheet_fasta
         .map { it -> [it[0], file(it[1])] }
         .set { ch_fasta }
+
+    ch_fasta.view()
 
     IDENTIFY_SEQ_ONLINE (
         ch_fasta
@@ -59,7 +61,7 @@ workflow GET_ORTHOLOGS {
     // Ortholog fetching
 
     if(params.use_all && params.offline_run) {
-        warning("Trying to use online databases in offline mode. Are you sure?") // TODO: make a warning
+        log.warn("Trying to use online databases in offline mode. Are you sure?")
     }
 
     if(params.use_all) {
@@ -128,7 +130,10 @@ workflow GET_ORTHOLOGS {
         FETCH_EGGNOG_GROUP_LOCAL (
             ch_query,
             params.eggnog_path,
-            params.eggnog_idmap_path
+            params.eggnog_idmap_path,
+            params.oma_ensembl_path,
+            params.oma_refseq_path,
+            params.offline_run
         )
 
         ch_orthogroups
@@ -173,7 +178,10 @@ workflow GET_ORTHOLOGS {
                 FETCH_EGGNOG_GROUP_LOCAL (
                     ch_query,
                     params.eggnog_path,
-                    params.eggnog_idmap_path
+                    params.eggnog_idmap_path,
+                    params.oma_ensembl_path,
+                    params.oma_refseq_path,
+                    params.offline_run
                 )
 
                 ch_orthogroups
