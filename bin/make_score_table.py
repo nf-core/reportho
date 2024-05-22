@@ -21,6 +21,9 @@ def main() -> None:
         reader = csv.reader(f)
         data = list(reader)
 
+    if not data:
+        return
+
     # Get the header and the data
     header = data[0]
     data = data[1:]

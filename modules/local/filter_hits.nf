@@ -21,11 +21,12 @@ process FILTER_HITS {
     task.ext.when == null || task.ext.when
 
     script:
-    prefix = task.ext.prefix ?: meta.id
-    filter = use_centroid ? "cat ${prefix}_centroid.txt" : "cat ${prefix}_minscore_${min_score}.txt"
+    prefix     = task.ext.prefix ?: meta.id
+    targetfile = use_centroid ? "${prefix}_centroid.txt" : "${prefix}_minscore_${min_score}.txt"
     """
     score_hits.py $score_table $prefix $queryid
-    $filter > ${prefix}_filtered_hits.txt
+    touch $targetfile
+    cat $targetfile > ${prefix}_filtered_hits.txt
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":
