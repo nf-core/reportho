@@ -26,6 +26,7 @@ process FILTER_HITS {
     """
     score_hits.py $score_table $prefix $queryid
     touch $targetfile
+    touch ${prefix}_centroid.txt
     cat $targetfile > ${prefix}_filtered_hits.txt
 
     cat <<- END_VERSIONS > versions.yml
