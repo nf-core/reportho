@@ -32,6 +32,7 @@ workflow GET_ORTHOLOGS {
     ch_samplesheet_fasta.ifEmpty {
         fasta_input = false
     }
+    ch_samplesheet_fasta.view()
     if (fasta_input && params.offline_run) {
         log.warn("You are using FASTA input in an offline run. Online identification will be used. Be aware it might cause rate limit issues.")
     }

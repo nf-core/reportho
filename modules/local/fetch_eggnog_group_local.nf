@@ -31,7 +31,7 @@ process FETCH_EGGNOG_GROUP_LOCAL {
     prefix = task.ext.prefix ?: meta.id
     """
     uniprotid=\$(zcat $eggnog_idmap | grep \$(cat $uniprot_id) | cut -f2 | cut -d',' -f1)
-    zcat $db | grep \$uniprotid | cut -f 5 | tr ',' '\\n' | awk -F'.' '{ print \$2 }' > ${prefix}_eggnog_group_raw.txt
+    zcat $db | grep \$uniprotid | cut -f 5 | tr ',' '\\n' | awk -F'.' '{ print \$2 }' > ${prefix}_eggnog_group_raw.txt || test -f ${prefix}_eggnog_group_raw.txt
     uniprotize_oma_local.py ${prefix}_eggnog_group_raw.txt $ensembl_idmap $refseq_idmap > ${prefix}_eggnog_group.txt
     touch ${prefix}_eggnog_group.txt
     csv_adorn.py ${prefix}_eggnog_group.txt EggNOG > ${prefix}_eggnog_group.csv
