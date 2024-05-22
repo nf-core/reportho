@@ -29,7 +29,7 @@ def uniprotize_oma(oma_ids_path: str, ensembl_idmap_path: str, refseq_idmap_path
         for line in f:
             items = line.split()
             if items[0] not in refseq_mapping and "_" not in items[1]:
-                refseq_mapping[items[0]] = items[1]
+                refseq_mapping[items[0]] = items[1].split(";")[0]
 
     refseq_ids_mapped = [refseq_mapping[i] for i in ensembl_ids_unmapped if i in refseq_mapping]
     refseq_ids_unmapped = [i for i in ensembl_ids_unmapped if i not in refseq_mapping]
