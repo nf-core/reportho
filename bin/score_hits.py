@@ -62,6 +62,10 @@ def main():
 
     # load data
     data = load_data_from_csv(sys.argv[1])
+
+    if not data:
+        return
+
     prefix = sys.argv[2]
     with open(sys.argv[3]) as f:
         query = f.read().strip()

@@ -15,7 +15,10 @@ def make_stats(score_table: str) -> None:
     max_score = 0
     with open(score_table) as f:
         reader = csv.reader(f)
-        header = next(reader) # skip header
+        try:
+            header = next(reader) # skip header
+        except StopIteration:
+            return
         max_score = len(header) - 3
         scores = [float(row[-1]) for row in reader]
 

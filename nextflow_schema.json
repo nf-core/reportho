@@ -63,6 +63,13 @@
                     "help_text": "If set to `true`, the pipeline will use local databases for the analysis.",
                     "fa_icon": "fas fa-database"
                 },
+                "offline_run": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Run the pipeline in offline mode. Overrides all online database flags.",
+                    "help_text": "If set to `true`, the pipeline will run in offline mode. `local_databases` must be set separately.",
+                    "fa_icon": "fas fa-database"
+                },
                 "skip_oma": {
                     "type": "boolean",
                     "default": "false",

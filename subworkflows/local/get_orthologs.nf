@@ -28,10 +28,21 @@ workflow GET_ORTHOLOGS {
     ch_versions    = Channel.empty()
     ch_orthogroups = Channel.empty()
 
+    fasta_input = true
+    ch_samplesheet_fasta.ifEmpty {
+        fasta_input = false
+    }
+    ch_samplesheet_fasta.view()
+    if (fasta_input && params.offline_run) {
+        log.warn("You are using FASTA input in an offline run. Online identification will be used. Be aware it might cause rate limit issues.")
+    }
+
     // Preprocessing - find the ID and taxid of the query sequences
     ch_samplesheet_fasta
         .map { it -> [it[0], file(it[1])] }
         .set { ch_fasta }
+
+    ch_fasta.view()
 
     IDENTIFY_SEQ_ONLINE (
         ch_fasta
@@ -41,13 +52,17 @@ workflow GET_ORTHOLOGS {
     ch_versions = ch_versions.mix(IDENTIFY_SEQ_ONLINE.out.versions)
 
     WRITE_SEQINFO (
-        ch_samplesheet_query
+        ch_samplesheet_query,
+        params.offline_run
     )
 
     ch_query = IDENTIFY_SEQ_ONLINE.out.seqinfo.mix(WRITE_SEQINFO.out.seqinfo)
     ch_versions = ch_versions.mix(WRITE_SEQINFO.out.versions)
 
     // Ortholog fetching
+    if(params.offline_run && params.use_all) {
+        log.warn("Both '--use_all' and '--offline_run' parameters have been specified!\nThose databases that can't be run offline will be run online.")
+    }
 
     if(params.use_all) {
         // OMA
@@ -115,7 +130,10 @@ workflow GET_ORTHOLOGS {
         FETCH_EGGNOG_GROUP_LOCAL (
             ch_query,
             params.eggnog_path,
-            params.eggnog_idmap_path
+            params.eggnog_idmap_path,
+            params.oma_ensembl_path,
+            params.oma_refseq_path,
+            params.offline_run
         )
 
         ch_orthogroups
@@ -160,7 +178,10 @@ workflow GET_ORTHOLOGS {
                 FETCH_EGGNOG_GROUP_LOCAL (
                     ch_query,
                     params.eggnog_path,
-                    params.eggnog_idmap_path
+                    params.eggnog_idmap_path,
+                    params.oma_ensembl_path,
+                    params.oma_refseq_path,
+                    params.offline_run
                 )
 
                 ch_orthogroups
