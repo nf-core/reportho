@@ -33,7 +33,21 @@ customize_theme <- function(font_size, text_color, bg_color) {
 theme_dark <- customize_theme(font_size, text_color_darkmode, bg_color)
 theme_light <- customize_theme(font_size, text_color_lightmode, bg_color)
 # Load the data
-data <- read.csv(args[1], header = TRUE, stringsAsFactors = FALSE)
+fallback_plot <- function() {
+    ggplot() +
+        theme_minimal() +
+        theme(panel.grid = element_blank(), axis.text = element_text(color = "transparent"), legend.position = "none")
+}
+empty_plots <- function(e) {
+    ggsave(paste0(args[2], "_supports_dark.png"), plot = fallback_plot(), width = 6, height = 10, dpi = 300)
+    ggsave(paste0(args[2], "_supports_light.png"), plot = fallback_plot(), width = 6, height = 10, dpi = 300)
+    ggsave(paste0(args[2], "_venn_dark.png"), plot = fallback_plot(), width = 6, height = 6, dpi = 300)
+    ggsave(paste0(args[2], "_venn_light.png"), plot = fallback_plot(), width = 6, height = 6, dpi = 300)
+    ggsave(paste0(args[2], "_jaccard_dark.png"), plot = fallback_plot(), width = 6, height = 6, dpi = 300)
+    ggsave(paste0(args[2], "_jaccard_light.png"), plot = fallback_plot(), width = 6, height = 6, dpi = 300)
+    quit(save = "no", status = 0)
+}
+data <- tryCatch(read.csv(args[1], header = TRUE, stringsAsFactors = FALSE), error = empty_plots)
 
 # Melt the data keeping ID and score
 melted_data <- melt(data, id.vars = c("id", "id_format", "score"), variable.name = "method", value.name = "support") %>%

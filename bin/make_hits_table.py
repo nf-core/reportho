@@ -20,6 +20,10 @@ def main() -> None:
         reader = csv.DictReader(f)
         data = list(reader)
 
+    if not data:
+        print("id")
+        return
+
     sample_id = sys.argv[2]
 
     # Get list of databases

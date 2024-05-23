@@ -20,6 +20,11 @@ def main() -> None:
     with open(input_file) as f:
         data = yaml.safe_load(f)
 
+    if not data:
+        with open(output_file, "w") as f:
+            print("id,percent_max,percent_privates,goodness", file=f)
+        return
+
     with open(output_file, "w") as f:
         print("id,percent_max,percent_privates,goodness", file=f)
         print(f"{sample_id},{data['percent_max']},{data['percent_privates']},{data['goodness']}", file=f)
