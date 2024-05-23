@@ -24,11 +24,21 @@ process CREATE_TCOFFEETEMPLATE {
         id=`echo \$structure | awk  {'gsub(".pdb", "", \$0); print'}`;
         echo -e ">"\$id "_P_" "\${id}" >> ${prefix}_template.txt;
     done
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        bash: \$(echo \$(bash --version | grep -Eo 'version [[:alnum:].]+' | sed 's/version //'))
+    END_VERSIONS
     """
 
     stub:
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     touch ${prefix}_template.txt
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        bash: \$(echo \$(bash --version | grep -Eo 'version [[:alnum:].]+' | sed 's/version //'))
+    END_VERSIONS
     """
 }
