@@ -28,13 +28,13 @@ workflow GET_ORTHOLOGS {
     ch_versions     = Channel.empty()
     ch_orthogroups  = Channel.empty()
 
-    ch_oma_groups   = Channel.fromPath(params.oma_path).first()
-    ch_oma_uniprot  = Channel.fromPath(params.oma_uniprot_path).first()
-    ch_oma_ensembl  = Channel.fromPath(params.oma_ensembl_path).first()
-    ch_oma_refseq   = Channel.fromPath(params.oma_refseq_path).first()
-    ch_panther      = Channel.fromPath(params.panther_path).first()
-    ch_eggnog       = Channel.fromPath(params.eggnog_path).first()
-    ch_eggnog_idmap = Channel.fromPath(params.eggnog_idmap_path).first()
+    ch_oma_groups   = params.oma_path ? Channel.value(file(params.oma_path)) : Channel.empty()
+    ch_oma_uniprot  = params.oma_uniprot_path ? Channel.value(file(params.oma_uniprot_path)) : Channel.empty()
+    ch_oma_ensembl  = params.oma_ensembl_path ? Channel.value(file(params.oma_ensembl_path)) : Channel.empty()
+    ch_oma_refseq   = params.oma_refseq_path ? Channel.value(file(params.oma_refseq_path)) : Channel.empty()
+    ch_panther      = params.panther_path ? Channel.value(file(params.panther_path)) : Channel.empty()
+    ch_eggnog       = params.eggnog_path ? Channel.value(file(params.eggnog_path)) : Channel.empty()
+    ch_eggnog_idmap = params.eggnog_idmap_path ? Channel.value(file(params.eggnog_idmap_path)) : Channel.empty()
 
     fasta_input = true
     ch_samplesheet_fasta.ifEmpty {
