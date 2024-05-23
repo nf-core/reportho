@@ -33,10 +33,20 @@ process DUMP_PARAMS {
     skip_iqtree: ${skip_iqtree}
     skip_fastme: ${skip_fastme}
     END_PARAMS
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        cat: \$(echo \$(cat --version 2>&1) | sed 's/^.*coreutils) //; s/ .*\$//')
+    END_VERSIONS
     """
 
     stub:
     """
     touch params.yml
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        cat: \$(echo \$(cat --version 2>&1) | sed 's/^.*coreutils) //; s/ .*\$//')
+    END_VERSIONS
     """
 }

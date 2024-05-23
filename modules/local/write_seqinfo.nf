@@ -32,4 +32,18 @@ process WRITE_SEQINFO {
         Python Requests: \$(pip show requests | grep Version | cut -d ' ' -f 2)
     END_VERSIONS
     """
+
+    stub:
+    prefix = task.ext.prefix ?: meta.id
+    """
+    touch ${prefix}_id.txt
+    touch ${prefix}_exact.txt
+    touch ${prefix}_taxid.txt
+
+    cat <<- END_VERSIONS > versions.yml
+    "${task.process}":
+        Python: \$(python --version | cut -d ' ' -f 2)
+        Python Requests: \$(pip show requests | grep Version | cut -d ' ' -f 2)
+    END_VERSIONS
+    """
 }
