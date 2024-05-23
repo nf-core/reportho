@@ -7,12 +7,12 @@
                 "nf-core": {
                     "csvtk/concat": {
                         "branch": "master",
-                        "git_sha": "3f5420aa22e00bd030a2556dfdffc9e164ec0ec5",
+                        "git_sha": "cfe2a24902bfdfe8132f11461ffda92d257f9f09",
                         "installed_by": ["modules"]
                     },
                     "csvtk/join": {
                         "branch": "master",
-                        "git_sha": "3f5420aa22e00bd030a2556dfdffc9e164ec0ec5",
+                        "git_sha": "5e0c5677ea33b3d4c3793244035a191bd03e6736",
                         "installed_by": ["modules"]
                     },
                     "fastme": {
@@ -37,7 +37,7 @@
                     },
                     "tcoffee/align": {
                         "branch": "master",
-                        "git_sha": "5caf7640a9ef1d18d765d55339be751bb0969dfa",
+                        "git_sha": "5c82ca0a942f2793859bb2f25601eb69c50590dc",
                         "installed_by": ["modules"]
                     }
                 }

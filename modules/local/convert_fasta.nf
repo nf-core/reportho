@@ -18,7 +18,7 @@ process CONVERT_FASTA {
     task.ext.when == null || task.ext.when
 
     script:
-    prefix = task.ext.prefix ?: meta.id
+    def prefix = task.ext.prefix ?: meta.id
     """
     clustal2fasta.py $input_file ${prefix}.fa
 
