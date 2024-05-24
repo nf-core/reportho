@@ -83,15 +83,20 @@ for (i in colnames(data)[4:ncol(data)-1]) {
     venn.data[[i]] <- hits
 }
 
-venn_plot_dark <- ggVennDiagram(venn.data, set_color = text_color_darkmode) +
-    theme_dark +
-    theme(panel.grid = element_blank(), axis.text = element_text(color = "transparent"), legend.position = "none")
+if (length(venn.data) < 2) { # If there are less than 2 methods, ggVenn does not work
+    venn_plot_dark <- fallback_plot()
+    venn_plot_light <- fallback_plot()
+} else {
+    venn_plot_dark <- ggVennDiagram(venn.data, set_color = text_color_darkmode) +
+        theme_dark +
+        theme(panel.grid = element_blank(), axis.text = element_text(color = "transparent"), legend.position = "none")
+
+    venn_plot_light <- ggVennDiagram(venn.data, set_color = text_color_lightmode) +
+        theme_light +
+        theme(panel.grid = element_blank(), axis.text = element_text(color = "transparent"), legend.position = "none")
+}
 
 ggsave(paste0(args[2], "_venn_dark.png"), plot = venn_plot_dark, width = 6, height = 6, dpi = 300)
-
-venn_plot_light <- ggVennDiagram(venn.data, set_color = text_color_lightmode) +
-    theme_light +
-    theme(panel.grid = element_blank(), axis.text = element_text(color = "transparent"), legend.position = "none")
 
 ggsave(paste0(args[2], "_venn_light.png"), plot = venn_plot_light, width = 6, height = 6, dpi = 300)
 
