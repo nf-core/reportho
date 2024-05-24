@@ -25,8 +25,16 @@ workflow GET_ORTHOLOGS {
     ch_samplesheet_fasta
 
     main:
-    ch_versions    = Channel.empty()
-    ch_orthogroups = Channel.empty()
+    ch_versions     = Channel.empty()
+    ch_orthogroups  = Channel.empty()
+
+    ch_oma_groups   = params.oma_path ? Channel.value(file(params.oma_path)) : Channel.empty()
+    ch_oma_uniprot  = params.oma_uniprot_path ? Channel.value(file(params.oma_uniprot_path)) : Channel.empty()
+    ch_oma_ensembl  = params.oma_ensembl_path ? Channel.value(file(params.oma_ensembl_path)) : Channel.empty()
+    ch_oma_refseq   = params.oma_refseq_path ? Channel.value(file(params.oma_refseq_path)) : Channel.empty()
+    ch_panther      = params.panther_path ? Channel.value(file(params.panther_path)) : Channel.empty()
+    ch_eggnog       = params.eggnog_path ? Channel.value(file(params.eggnog_path)) : Channel.empty()
+    ch_eggnog_idmap = params.eggnog_idmap_path ? Channel.value(file(params.eggnog_idmap_path)) : Channel.empty()
 
     fasta_input = true
     ch_samplesheet_fasta.ifEmpty {
@@ -69,10 +77,10 @@ workflow GET_ORTHOLOGS {
         if (params.local_databases) {
             FETCH_OMA_GROUP_LOCAL (
                 ch_query,
-                params.oma_path,
-                params.oma_uniprot_path,
-                params.oma_ensembl_path,
-                params.oma_refseq_path
+                ch_oma_groups,
+                ch_oma_uniprot,
+                ch_oma_ensembl,
+                ch_oma_refseq
             )
 
             ch_orthogroups
@@ -96,7 +104,7 @@ workflow GET_ORTHOLOGS {
         if (params.local_databases) {
             FETCH_PANTHER_GROUP_LOCAL (
                 ch_query,
-                params.panther_path
+                ch_panther
             )
 
             ch_orthogroups
@@ -129,10 +137,10 @@ workflow GET_ORTHOLOGS {
 
         FETCH_EGGNOG_GROUP_LOCAL (
             ch_query,
-            params.eggnog_path,
-            params.eggnog_idmap_path,
-            params.oma_ensembl_path,
-            params.oma_refseq_path,
+            ch_eggnog,
+            ch_eggnog_idmap,
+            ch_oma_ensembl,
+            ch_oma_refseq,
             params.offline_run
         )
 
@@ -148,10 +156,10 @@ workflow GET_ORTHOLOGS {
             if (!params.skip_oma) {
                 FETCH_OMA_GROUP_LOCAL (
                     ch_query,
-                    params.oma_path,
-                    params.oma_uniprot_path,
-                    params.oma_ensembl_path,
-                    params.oma_refseq_path
+                    ch_oma_groups,
+                    ch_oma_uniprot,
+                    ch_oma_ensembl,
+                    ch_oma_refseq
                 )
 
                 ch_orthogroups
@@ -164,7 +172,7 @@ workflow GET_ORTHOLOGS {
             if (!params.skip_panther) {
                 FETCH_PANTHER_GROUP_LOCAL (
                     ch_query,
-                    params.panther_path
+                    ch_panther
                 )
 
                 ch_orthogroups
@@ -177,10 +185,10 @@ workflow GET_ORTHOLOGS {
             if(!params.skip_eggnog) {
                 FETCH_EGGNOG_GROUP_LOCAL (
                     ch_query,
-                    params.eggnog_path,
-                    params.eggnog_idmap_path,
-                    params.oma_ensembl_path,
-                    params.oma_refseq_path,
+                    ch_eggnog,
+                    ch_eggnog_idmap,
+                    ch_oma_ensembl,
+                    ch_oma_refseq,
                     params.offline_run
                 )
 

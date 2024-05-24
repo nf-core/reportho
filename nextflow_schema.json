@@ -80,6 +80,7 @@
                 "oma_path": {
                     "type": "string",
                     "format": "path",
+                    "exists": true,
                     "description": "Path to the OMA database.",
                     "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the OMA database.",
                     "fa_icon": "fas fa-database"
@@ -87,6 +88,7 @@
                 "oma_uniprot_path": {
                     "type": "string",
                     "format": "path",
+                    "exists": true,
                     "description": "Path to the Uniprot-OMA ID map.",
                     "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the OMA-Uniprot ID map.",
                     "fa_icon": "fas fa-database"
@@ -94,6 +96,7 @@
                 "oma_ensembl_path": {
                     "type": "string",
                     "format": "path",
+                    "exists": true,
                     "description": "Path to the Ensembl-OMA ID map.",
                     "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the OMA-Ensembl ID map.",
                     "fa_icon": "fas fa-database"
@@ -101,6 +104,7 @@
                 "oma_refseq_path": {
                     "type": "string",
                     "format": "path",
+                    "exists": true,
                     "description": "Path to the RefSeq-OMA ID map.",
                     "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the OMA-RefSeq ID map.",
                     "fa_icon": "fas fa-database"
@@ -115,6 +119,7 @@
                 "panther_path": {
                     "type": "string",
                     "format": "path",
+                    "exists": true,
                     "description": "Path to the PANTHER database.",
                     "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the PANTHER database.",
                     "fa_icon": "fas fa-database"
@@ -136,6 +141,7 @@
                 "orthoinspector_path": {
                     "type": "string",
                     "format": "path",
+                    "exists": true,
                     "description": "Path to the OrthoInspector database.",
                     "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the OrthoInspector database.",
                     "fa_icon": "fas fa-database"
@@ -150,6 +156,7 @@
                 "eggnog_path": {
                     "type": "string",
                     "format": "path",
+                    "exists": true,
                     "description": "Path to the EggNOG database.",
                     "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the EggNOG database.",
                     "fa_icon": "fas fa-database"
@@ -157,6 +164,7 @@
                 "eggnog_idmap_path": {
                     "type": "string",
                     "format": "path",
+                    "exists": true,
                     "description": "Path to the EggNOG ID map.",
                     "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the EggNOG ID map.",
                     "fa_icon": "fas fa-database"
