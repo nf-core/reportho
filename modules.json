@@ -12,7 +12,7 @@
                     },
                     "csvtk/join": {
                         "branch": "master",
-                        "git_sha": "5e0c5677ea33b3d4c3793244035a191bd03e6736",
+                        "git_sha": "614abbf126f287a3068dc86997b2e1b6a93abe20",
                         "installed_by": ["modules"]
                     },
                     "fastme": {
