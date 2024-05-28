@@ -24,7 +24,7 @@ process FETCH_OMA_GROUP_LOCAL {
     script:
     prefix = task.ext.prefix ?: meta.id
     """
-    # Obtain the OMA ID fort the given Uniprot ID of the query protein
+    # Obtain the OMA ID for the given Uniprot ID of the query protein
     omaid=\$(uniprot2oma_local.py $uniprot_idmap $uniprot_id)
 
     # Perform the database search for the given query in OMA
