@@ -36,14 +36,12 @@ workflow GET_ORTHOLOGS {
     ch_eggnog       = params.eggnog_path ? Channel.value(file(params.eggnog_path)) : Channel.empty()
     ch_eggnog_idmap = params.eggnog_idmap_path ? Channel.value(file(params.eggnog_idmap_path)) : Channel.empty()
 
-    fasta_input = true
-    ch_samplesheet_fasta.ifEmpty {
-        fasta_input = false
-    }
-    ch_samplesheet_fasta.view()
-    if (fasta_input && params.offline_run) {
-        log.warn("You are using FASTA input in an offline run. Online identification will be used. Be aware it might cause rate limit issues.")
-    }
+    ch_samplesheet_fasta.map {
+        if (params.offline_run) {
+            error "Tried to use FASTA input in an offline run. Aborting pipeline for user safety."
+        }
+        return it
+    }.set { ch_samplesheet_fasta }
 
     // Preprocessing - find the ID and taxid of the query sequences
 
@@ -67,10 +65,6 @@ workflow GET_ORTHOLOGS {
     ch_versions = ch_versions.mix(WRITE_SEQINFO.out.versions)
 
     // Ortholog fetching
-
-    if(params.offline_run && params.use_all) {
-        log.warn("Both '--use_all' and '--offline_run' parameters have been specified!\nThose databases that can't be run offline will be run online.")
-    }
 
     // OMA
 
