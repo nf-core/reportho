@@ -101,11 +101,17 @@ If you want to use local database copies for the run, you must provide the requi
 | `eggnog_path`       | `1_members.tsv.gz`        |
 | `eggnog_idmap_path` | `latest.Eukaryota.tsv.gz` |
 
+If you need reduced versions of the local databases for testing, you can find them [here](https://github.com/nf-core/test-datasets/tree/reportho/testdata/databases). Note that they were designed to work with the [test samplesheet](https://github.com/nf-core/test-datasets/blob/reportho/testdata/samplesheet/samplesheet.csv) and will likely not provide any result for other queries.
+
 ### Running offline
 
-With large input sizes, you might want to run the pipeline locally, without runtime access to APIs. There are two main parameters used to achieve this. If you want to use local databases, set `--local_databases` to `true`. Remember to set `--use_all` to `false` to ensure the database step is run fully offline. If your input is especially large, you can also skip the initial online identification steps by setting `--offline_run` to `true`. Note that FASTA input will not work with this option enabled. You can check `test_offline.config` to see the required options for a fully offline run. Keep in mind that the options only affect ortholog finding, and the downstream analysis still requires connection to obtain sequences and structures.
+With large input sizes, you might want to run the pipeline locally, without runtime access to APIs. There are two main parameters used to achieve this. If you want to use local databases, set `--local_databases` to `true`. Remember to set `--use_all` to `false` to ensure the database step is run fully offline. If your input is especially large, you can also skip the initial online identification steps by setting `--offline_run` to `true`. Note that FASTA input will not work with this option enabled, and the pipeline will be aborted if this is attempted. You can check `test_offline.config` to see the required options for a fully offline run. Keep in mind that the options only affect ortholog finding, and the downstream analysis still requires connection to obtain sequences and structures.
 
 While those options allow the pipeline to run its steps offline, the pipeline requires certain configuration files and container images that are downloaded from the internet. If you wish to run the pipeline on a machine without a connection, you can pre-download the required files with `nf-core download`. See [the nf-core tools documentation](https://nf-co.re/docs/nf-core-tools/pipelines/download) for details.
+
+### Downstream analysis
+
+Downstream analysis relies on online resources to obtain sequences and structures, and thus cannot be run offline. For your convenience, it will be automatically disabled if you enable `offline_run`. Note that in case some sequences or structures cannot be obtained, the corresponding ortholog will be excluded from the alignment and phylogeny. In particular, only the orthologs with both a sequence and a structure available will be retained if `use_structures` is enabled.
 
 ### Updating the pipeline
 
