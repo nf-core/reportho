@@ -14,7 +14,7 @@ from utils import fetch_seq
 # The sequence is passed as a FASTA file
 # If the sequence is not found, the script exits with an error
 # It outputs 3 files:
-# 1. The canonical ID of the sequence 
+# 1. The canonical ID of the sequence
 # 2. The taxonomy ID of the species
 # 3. A boolean indicating if the sequence was an exact match
 

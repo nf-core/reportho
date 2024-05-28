@@ -29,7 +29,7 @@ process FETCH_OMA_GROUP_LOCAL {
 
     # Perform the database search for the given query in OMA
     zcat $db | grep \$omaid | head -1 | cut -f3- | awk '{gsub(/\\t/,"\\n"); print}' > ${prefix}_oma_group_oma.txt || test -f ${prefix}_oma_group_oma.txt
-    
+
     # Convert the OMA ids to Uniprot, Ensembl and RefSeq ids
     oma2uniprot_local.py $uniprot_idmap ${prefix}_oma_group_oma.txt > ${prefix}_oma_group_raw.txt
     uniprotize_oma_local.py ${prefix}_oma_group_raw.txt $ensembl_idmap $refseq_idmap > ${prefix}_oma_group.txt
