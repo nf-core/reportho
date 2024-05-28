@@ -19,13 +19,13 @@
 
 ## Introduction
 
-**nf-core/reportho** is a bioinformatics pipeline that compares and assembles orthology predictions for a query protein. It fetches ortholog lists for a query (or its closest annotated homolog) from public sources, calculates pairwise and global agreement, and generates a consensus list with the desired level of confidence. Optionally, it offers common analysis on the consensus orthologs, such as MSA and phylogeny reconstruction. Additionally, it generates a clean, human-readable report of the results.
+**nf-core/reportho** is a bioinformatics pipeline that compares and summarizes orthology predictions for one or a set of query proteins. For each query (or its closest annotated homolog), it fetches ortholog lists from public databases, calculates the agreement of the obtained predictions(pairwise and global) and finally generates a consensus list of orthologs with the desired level of confidence. Optionally, it offers common analysis on the consensus orthologs, such as MSA and phylogeny reconstruction. Additionally, it generates a clean, human-readable report of the results.
 
 <!-- Tube map -->
 
 ![nf-core-reportho tube map](docs/images/reportho_tube_map.svg?raw=true "nf-core-reportho tube map")
 
-1. **Obtain Query Information**: (depends on provided input) identification of Uniprot ID and taxon ID for the query or its closest homolog.
+1. **Obtain Query Information**: identification of Uniprot ID and taxon ID for the query (or its closest homolog if the fasta file is used as input instead of the Uniprot ID).
 2. **Fetch Orthologs**: fetching of ortholog predictions from public databases, either through API or from local snapshot.
 3. **Compare and Assemble**: calculation of agreement statistics, creation of ortholog lists, selection of the consensus list.
 
@@ -47,6 +47,7 @@ First, prepare a samplesheet with your input data that looks as follows:
 ```csv title="samplesheet_fasta.csv"
 id,fasta
 BicD2,data/bicd2.fasta
+HBB,data/hbb.fasta
 ```
 
 or if you know the UniProt ID of the protein you can provide it directly:
@@ -54,6 +55,7 @@ or if you know the UniProt ID of the protein you can provide it directly:
 ```csv title="samplesheet.csv"
 id,query
 BicD2,Q8TD16
+HBB,P68871
 ```
 
 > [!NOTE]
@@ -82,13 +84,13 @@ For more details about the output files and reports, please refer to the
 
 ## Credits
 
-nf-core/reportho was originally written by Igor Trujnara (@itrujnara).
+nf-core/reportho was originally written by Igor Trujnara ([@itrujnara](https://github.com/itrujnara)).
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 
-- Luisa Santus (@lsantus)
-- Alessio Vignoli (@avignoli)
-- Jose Espinosa-Carrasco (@JoseEspinosa)
+- Luisa Santus ([@lsantus](https://github.com/luisas))
+- Alessio Vignoli ([@alessiovignoli](https://github.com/alessiovignoli))
+- Jose Espinosa-Carrasco ([@JoseEspinosa](https://github.com/JoseEspinosa))
 
 ## Contributions and Support
 
