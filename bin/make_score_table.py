@@ -48,6 +48,9 @@ def main() -> None:
 
     # Print the data
     for i, row in enumerate(data):
+        # this if cleans up the stupid hack from csv_adorn
+        if scores[i] == 0:
+            continue
         print(row[0] + "," + id_formats[i] + "," + ",".join(row[1:]) + "," + str(scores[i]))
 
 

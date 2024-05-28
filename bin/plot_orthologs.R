@@ -49,6 +49,10 @@ empty_plots <- function(e) {
 }
 data <- tryCatch(read.csv(args[1], header = TRUE, stringsAsFactors = FALSE), error = empty_plots)
 
+if (nrow(data) == 0) {
+    empty_plots()
+}
+
 # Melt the data keeping ID and score
 melted_data <- melt(data, id.vars = c("id", "id_format", "score"), variable.name = "method", value.name = "support") %>%
     filter(support == 1) %>%

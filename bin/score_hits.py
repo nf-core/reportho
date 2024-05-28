@@ -41,7 +41,7 @@ def filter_centroid(data) -> list:
         if sum([column[i] for column in columns]) > 1:
             for j in range(len(columns[i])):
                 scores[i] += columns[i][j]
-    ratios = [scores[i] / sum(columns[i]) for i in range(len(columns))]
+    ratios = [scores[i] / sum(columns[i]) if sum(columns[i]) else 0 for i in range(len(columns))]
 
     # get index of highest ratio
     centroid = ratios.index(max(ratios))

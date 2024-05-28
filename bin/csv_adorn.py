@@ -12,8 +12,13 @@ def csv_adorn(path: str, header: str) -> None:
     """
     print(f"id,{header}")
     with open(path) as f:
+        any_data = False
         for line in f:
+            any_data = True
             print(line.strip() + ",1")
+        if not any_data:
+            # this is a stupid hack, but the only way we found that does not break modularity
+            print("nothing,0")
 
 
 def main() -> None:

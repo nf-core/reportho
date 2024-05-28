@@ -24,11 +24,11 @@ def make_stats(score_table: str) -> None:
 
     # calculate stats
     n = len(scores)
-    mode = max(set(scores), key=scores.count)
-    mean = sum(scores) / n
+    mode = max(set(scores), key=scores.count) if scores else 0
+    mean = sum(scores) / n if n else 0
     goodness = mean / max_score
-    percent_max = sum(score == max_score for score in scores) / n
-    percent_privates = sum(score == 1 for score in scores) / n
+    percent_max = sum(score == max_score for score in scores) / n if n else 0
+    percent_privates = sum(score == 1 for score in scores) / n if n else 0
 
     # print stats as yaml
     print(f"n: {n}")
