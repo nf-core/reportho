@@ -2,9 +2,8 @@ process PLOT_TREE {
     tag "$meta.id"
     label 'process_single'
 
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'docker://itrujnara/plot-tree:1.0.0' :
-        'itrujnara/plot-tree:1.0.0' }"
+    conda "bioconda::bioconductor-treeio=1.26.0 bioconda::bioconductor-ggtree=3.10.0 conda-forge::r-ggplot2=3.5.1"
+    container "community.wave.seqera.io/library/bioconductor-ggtree_bioconductor-treeio_r-ggplot2:54fc04b8b0f7b6c7"
 
     input:
     tuple val(meta), path(tree)

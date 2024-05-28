@@ -2,9 +2,8 @@ process PLOT_ORTHOLOGS {
     tag "$meta.id"
     label 'process_single'
 
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'docker://itrujnara/plot-orthologs:1.0.1' :
-        'itrujnara/plot-orthologs:1.0.1' }"
+    conda     "conda-forge::r-tidyverse=2.0.0 conda-forge::r-reshape2=1.4.4 conda-forge::r-ggvenndiagram=1.5.2"
+    container "community.wave.seqera.io/library/r-ggvenndiagram_r-reshape2_r-tidyverse:6ab82708ae578c26"
 
     input:
     tuple val(meta), path(score_table)
