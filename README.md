@@ -88,7 +88,7 @@ nf-core/reportho was originally written by Igor Trujnara ([@itrujnara](https://g
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 
-- Luisa Santus ([@lsantus](https://github.com/luisas))
+- Luisa Santus ([@luisas](https://github.com/luisas))
 - Alessio Vignoli ([@alessiovignoli](https://github.com/alessiovignoli))
 - Jose Espinosa-Carrasco ([@JoseEspinosa](https://github.com/JoseEspinosa))
 
