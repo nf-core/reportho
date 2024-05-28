@@ -18,7 +18,7 @@ def safe_get(url: str):
         return requests.get(url, timeout = 300)
     except requests.exceptions.Timeout as e:
         print(f"Request timed out. This might be due to a server issue. If this persists, try again later. Details:\n{e}", file=sys.stderr)
-        sys.exit(9)
+        sys.exit(10)
     except requests.exceptions.RequestException as e:
         print(f"A network issue occurred. Retrying request. Details:\n{e}", file=sys.stderr)
         sys.exit(10)
@@ -32,7 +32,7 @@ def safe_post(url: str, data: dict = dict(), json: dict = dict()):
         return requests.post(url, data = data, json = json, timeout = 300)
     except requests.exceptions.Timeout as e:
         print(f"Request timed out. This might be due to a server issue. If this persists, try again later. Details:\n{e}", file=sys.stderr)
-        sys.exit(9)
+        sys.exit(10)
     except requests.exceptions.RequestException as e:
         print(f"A network issue occurred. Retrying request. Details:\n{e}", file=sys.stderr)
         sys.exit(10)
