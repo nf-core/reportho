@@ -30,25 +30,6 @@ workflow REPORT {
     ch_versions  = Channel.empty()
     ch_fasta     = ch_seqinfo.map { [it[0], []] }
 
-    if(params.skip_downstream) {
-        ch_seqhits   = ch_seqinfo.map { [it[0], []] }
-        ch_seqmisses = ch_seqinfo.map { [it[0], []] }
-        ch_strhits   = ch_seqinfo.map { [it[0], []] }
-        ch_strmisses = ch_seqinfo.map { [it[0], []] }
-        ch_alignment = ch_seqinfo.map { [it[0], []] }
-    }
-    else if(!params.use_structures) {
-        ch_strhits   = ch_seqinfo.map { [it[0], []] }
-        ch_strmisses = ch_seqinfo.map { [it[0], []] }
-    }
-
-    if (params.skip_iqtree) {
-        ch_iqtree = ch_seqinfo.map { [it[0], []] }
-    }
-    if (params.skip_fastme) {
-        ch_fastme = ch_seqinfo.map { [it[0], []] }
-    }
-
     DUMP_PARAMS(
         ch_seqinfo.map { [it[0], it[3]] },
         params.use_structures,
