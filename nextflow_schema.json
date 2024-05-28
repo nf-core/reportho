@@ -29,6 +29,18 @@
                     "description": "The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.",
                     "fa_icon": "fas fa-folder-open"
                 },
+                "output_more": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Output more files, including specific prediction lists.",
+                    "fa_icon": "fas fa-folder-open"
+                },
+                "output_all": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Output all files, including intermediate files. Intended for debugging.",
+                    "fa_icon": "fas fa-folder-open"
+                },
                 "email": {
                     "type": "string",
                     "description": "Email address for completion summary.",
