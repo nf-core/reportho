@@ -46,8 +46,8 @@ workflow NFCORE_REPORTHO {
         samplesheet_fasta,
     )
 
-    // emit:
-    // multiqc_report = REPORTHO.out.multiqc_report // channel: /path/to/multiqc_report.html
+    emit:
+    multiqc_report = REPORTHO.out.multiqc_report // channel: /path/to/multiqc_report.html
 
 }
 /*

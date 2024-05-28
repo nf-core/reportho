@@ -17,6 +17,7 @@ process DUMP_PARAMS {
 
     output:
     tuple val(meta), path("params.yml"), emit: params
+    path("versions.yml"), emit: versions
 
     when:
     task.ext.when == null || task.ext.when

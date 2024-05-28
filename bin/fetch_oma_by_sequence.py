@@ -9,6 +9,14 @@ from warnings import warn
 from Bio import SeqIO
 from utils import fetch_seq
 
+# Script overview:
+# Fetches the OMA entry for a given protein sequence
+# The sequence is passed as a FASTA file
+# If the sequence is not found, the script exits with an error
+# It outputs 3 files:
+# 1. The canonical ID of the sequence
+# 2. The taxonomy ID of the species
+# 3. A boolean indicating if the sequence was an exact match
 
 def main() -> None:
     if len(sys.argv) < 5:
