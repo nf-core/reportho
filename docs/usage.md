@@ -111,7 +111,7 @@ While those options allow the pipeline to run its steps offline, the pipeline re
 
 ### Downstream analysis
 
-Downstream analysis relies on online resources to obtain sequences and structures, and thus cannot be run offline. For your convenience, it will be automatically disabled if you enable `offline_run`. Note that in case some sequences or structures cannot be obtained, the corresponding ortholog will be excluded from the alignment and phylogeny. In particular, only the orthologs with both a sequence and a structure available will be retained if `use_structures` is enabled.
+Downstream analysis (i.e. MSA and phylogeny) relies on online resources to obtain sequences and structures, and thus cannot be run offline. For your convenience, it will be automatically disabled if you enable `offline_run`. Note that in case some sequences or structures cannot be obtained, the corresponding ortholog will be excluded from the alignment and phylogeny. In particular, only the orthologs with both a sequence and a structure available will be retained if `use_structures` is enabled.
 
 ### Updating the pipeline
 
