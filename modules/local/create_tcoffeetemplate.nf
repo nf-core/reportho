@@ -11,6 +11,7 @@ process CREATE_TCOFFEETEMPLATE {
 
     output:
     tuple val (meta), path("*_template.txt"), emit: template
+    path("versions.yml"), emit: versions
 
     when:
     task.ext.when == null || task.ext.when

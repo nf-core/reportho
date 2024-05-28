@@ -50,8 +50,6 @@ workflow GET_ORTHOLOGS {
         .map { it -> [it[0], file(it[1])] }
         .set { ch_fasta }
 
-    ch_fasta.view()
-
     IDENTIFY_SEQ_ONLINE (
         ch_fasta
     )
@@ -135,6 +133,7 @@ workflow GET_ORTHOLOGS {
 
         ch_versions = ch_versions.mix(FETCH_INSPECTOR_GROUP_ONLINE.out.versions)
 
+        // EggNOG
         FETCH_EGGNOG_GROUP_LOCAL (
             ch_query,
             ch_eggnog,

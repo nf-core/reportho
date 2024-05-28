@@ -25,6 +25,7 @@ A final samplesheet file may look something like the one below:
 ```csv title="samplesheet.csv"
 id,query
 BicD2,Q8TD16
+HBB,P68871
 ```
 
 or the one below, if you provide the sequence of the protein in FASTA format:
@@ -32,6 +33,7 @@ or the one below, if you provide the sequence of the protein in FASTA format:
 ```csv title="samplesheet.csv"
 id,fasta
 BicD2,/home/myuser/data/bicd2.fa
+HBB,/home/myuser/data/hbb.fa
 ```
 
 | Column  | Description                                                                                                                                       |
