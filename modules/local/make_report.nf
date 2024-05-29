@@ -55,6 +55,7 @@ process MAKE_REPORT {
 
     # create the run script
     echo "python3 -m http.server 0" > dist/run.sh
+    chmod u+x dist/run.sh
 
     # add prefix to directory name
     mv dist ${prefix}_dist
