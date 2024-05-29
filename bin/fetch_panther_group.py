@@ -21,9 +21,12 @@ def main() -> None:
         raise ValueError(f"HTTP error: {res.status_code}")
 
     json = res.json()
-    for i in json["search"]["mapping"]["mapped"]:
-        uniprot_id = i["target_gene"].split("|")[-1].split("=")[-1]
-        print(f"{uniprot_id}")
+    try:
+        for i in json["search"]["mapping"]["mapped"]:
+            uniprot_id = i["target_gene"].split("|")[-1].split("=")[-1]
+            print(f"{uniprot_id}")
+    except KeyError:
+        pass # yes, I mean this, we just want to return an empty file if nothing is found
     print(f"{json['search']['product']['content']} {json['search']['product']['version']}", file=sys.stderr)
 
 if __name__ == "__main__":

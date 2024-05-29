@@ -18,8 +18,6 @@ def fetch_seqs_oma(path: str, prefix: str) -> list[str]:
 
     payload = {"ids": ids}
 
-    print(payload, file=sys.stderr)
-
     res = safe_post("https://omabrowser.org/api/protein/bulk_retrieve/", json=payload)
 
     if not res.ok:
@@ -54,7 +52,10 @@ def fetch_seqs_uniprot(oma_misses: list, prefix: str) -> None:
     for id in oma_misses:
         res = safe_get(f"https://rest.uniprot.org/uniprotkb/{id}.fasta")
         if res.ok:
-            hits.append((id, res.text.split("\n", 1)[1].replace("\n", "")))
+            try:
+                hits.append((id, res.text.split("\n", 1)[1].replace("\n", "")))
+            except IndexError:
+                misses.append(id)
         else:
             misses.append(id)
 
