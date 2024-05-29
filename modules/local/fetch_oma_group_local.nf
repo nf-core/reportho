@@ -23,11 +23,11 @@ process FETCH_OMA_GROUP_LOCAL {
     prefix = task.ext.prefix ?: meta.id
     """
     # Obtain the OMA ID for the given Uniprot ID of the query protein
-    omaid=\$(uniprot2oma_local.py $uniprot_idmap $uniprot_id)
+    uniprot2oma_local.py $uniprot_idmap $uniprot_id > oma_id.txt || test -f oma_id.txt
 
     # Perform the database search for the given query in OMA
     touch ${prefix}_oma_group_oma.txt
-    zcat $db | rg \$omaid | head -1 | cut -f3- | awk '{gsub(/\\t/,"\\n"); print}' > ${prefix}_oma_group_oma.txt || test -f ${prefix}_oma_group_oma.txt
+    zcat $db | rg \$(cat oma_id.txt) | head -1 | cut -f3- | awk '{gsub(/\\t/,"\\n"); print}' > ${prefix}_oma_group_oma.txt || test -f ${prefix}_oma_group_oma.txt
 
     # Convert the OMA ids to Uniprot, Ensembl and RefSeq ids
     oma2uniprot_local.py $uniprot_idmap ${prefix}_oma_group_oma.txt > ${prefix}_oma_group_raw.txt
