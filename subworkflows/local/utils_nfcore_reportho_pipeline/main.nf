@@ -74,6 +74,11 @@ workflow PIPELINE_INITIALISATION {
     )
 
     //
+    // Validate parameters
+    //
+    validateParameters()
+
+    //
     // Create channel from input file provided through params.input and check for query
     //
     Channel
@@ -139,6 +144,31 @@ workflow PIPELINE_COMPLETION {
     FUNCTIONS
 ========================================================================================
 */
+
+//
+// Validate parameters
+//
+def validateParameters() {
+    validateOfflineSettings()
+}
+
+def validateOfflineSettings() {
+    if (params.offline_run) {
+        if (!params.local_databases) {
+            params.local_databases = true
+            log.warn("Offline mode enabled, setting 'local_databases' to 'true'")
+        }
+        if (!params.skip_downstream) {
+            params.skip_downstream = true
+            log.warn("Offline mode enabled, setting 'skip_downstream' to 'true'")
+        }
+        if (params.use_all) {
+            log.warn("Offline run set with 'use_all', only local databases will be used")
+        }
+    } else if (params.use_all && params.local_databases) {
+        log.warn("Local databases set with 'use_all', only local databases will be used")
+    }
+}
 
 
 //

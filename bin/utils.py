@@ -7,7 +7,6 @@ import time
 from typing import Any
 
 import requests
-from requests.exceptions import RequestException
 
 POLLING_INTERVAL = 0.5
 
@@ -16,7 +15,10 @@ def safe_get(url: str):
     Get a URL and return the response.
     """
     try:
-        return requests.get(url)
+        return requests.get(url, timeout = 300)
+    except requests.exceptions.Timeout as e:
+        print(f"Request timed out. This might be due to a server issue. If this persists, try again later. Details:\n{e}", file=sys.stderr)
+        sys.exit(10)
     except requests.exceptions.RequestException as e:
         print(f"A network issue occurred. Retrying request. Details:\n{e}", file=sys.stderr)
         sys.exit(10)
@@ -27,7 +29,10 @@ def safe_post(url: str, data: dict = dict(), json: dict = dict()):
     Post data to a URL and return the response.
     """
     try:
-        return requests.post(url, data=data, json=json)
+        return requests.post(url, data = data, json = json, timeout = 300)
+    except requests.exceptions.Timeout as e:
+        print(f"Request timed out. This might be due to a server issue. If this persists, try again later. Details:\n{e}", file=sys.stderr)
+        sys.exit(10)
     except requests.exceptions.RequestException as e:
         print(f"A network issue occurred. Retrying request. Details:\n{e}", file=sys.stderr)
         sys.exit(10)

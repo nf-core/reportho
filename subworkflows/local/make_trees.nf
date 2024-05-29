@@ -11,10 +11,10 @@ workflow MAKE_TREES {
     main:
 
     ch_versions = Channel.empty()
-    ch_mltree   = Channel.empty()
-    ch_metree   = Channel.empty()
-    ch_mlplot   = Channel.empty()
-    ch_meplot   = Channel.empty()
+    ch_mltree   = ch_alignment.map { [it[0], []] }
+    ch_metree   = ch_alignment.map { [it[0], []] }
+    ch_mlplot   = ch_alignment.map { [it[0], []] }
+    ch_meplot   = ch_alignment.map { [it[0], []] }
 
     if (!params.skip_iqtree) {
         IQTREE (
@@ -25,8 +25,6 @@ workflow MAKE_TREES {
         ch_mltree = IQTREE.out.phylogeny
 
         ch_versions = ch_versions.mix(IQTREE.out.versions)
-
-        ch_mlplot = ch_alignment.map { [it[0], []] }
 
         if(!params.skip_treeplots) {
             PLOT_IQTREE (
@@ -55,8 +53,6 @@ workflow MAKE_TREES {
         ch_metree = FASTME.out.nwk
 
         ch_versions = ch_versions.mix(FASTME.out.versions)
-
-        ch_meplot = ch_alignment.map { [it[0], []] }
 
         if(!params.skip_treeplots) {
             PLOT_FASTME (
