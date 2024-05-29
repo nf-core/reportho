@@ -4,8 +4,8 @@ process PLOT_TREE {
 
     conda "bioconda::bioconductor-treeio=1.26.0 bioconda::bioconductor-ggtree=3.10.0 conda-forge::r-ggplot2=3.5.1"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        "oras://community.wave.seqera.io/library/bioconductor-ggtree_bioconductor-treeio_r-ggplot2:89a30ee47c501fe4" :
-        "community.wave.seqera.io/library/bioconductor-ggtree_bioconductor-treeio_r-ggplot2:54fc04b8b0f7b6c7" }"
+        'oras://community.wave.seqera.io/library/bioconductor-ggtree_bioconductor-treeio_r-ggplot2:89a30ee47c501fe4' :
+        'community.wave.seqera.io/library/bioconductor-ggtree_bioconductor-treeio_r-ggplot2:54fc04b8b0f7b6c7' }"
 
     input:
     tuple val(meta), path(tree)

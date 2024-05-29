@@ -4,8 +4,8 @@ process FETCH_PANTHER_GROUP_LOCAL {
 
     conda "conda-forge::python=3.12.3 conda-forge::ripgrep=14.1.0"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        "oras://community.wave.seqera.io/library/python_ripgrep:6f07fd6cbda0142b" :
-        "container "community.wave.seqera.io/library/python_ripgrep:324b372792aae9ce" }"
+        'oras://community.wave.seqera.io/library/python_ripgrep:6f07fd6cbda0142b' :
+        'container "community.wave.seqera.io/library/python_ripgrep:324b372792aae9ce' }"
 
     input:
     tuple val(meta), path(uniprot_id), path(taxid), path(exact)
