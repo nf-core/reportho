@@ -21,8 +21,13 @@ process FETCH_INSPECTOR_GROUP_ONLINE {
     script:
     prefix = task.ext.prefix ?: meta.id
     """
+    # get the Uniprot ID
     uniprot_id=\$(cat $uniprot_id)
+
+    # get the OrthoInspector group from the API
     fetch_inspector_group.py \$uniprot_id $inspector_version > ${prefix}_inspector_group.txt
+
+    # convert output to CSV
     csv_adorn.py ${prefix}_inspector_group.txt OrthoInspector > ${prefix}_inspector_group.csv
 
     cat <<-END_VERSIONS > versions.yml

@@ -20,11 +20,11 @@ process WRITE_SEQINFO {
 
     script:
     prefix = task.ext.prefix ?: meta.id
-    tax_command = offline_run ? "echo 'UNKNOWN' > ${prefix}_taxid.txt" : "fetch_oma_taxid_by_id.py $uniprot_id > ${prefix}_taxid.txt"
+    tax_command = offline_run ? "echo 'UNKNOWN'" : "fetch_oma_taxid_by_id.py $uniprot_id"
     """
     echo "${uniprot_id}" > ${prefix}_id.txt
     echo "true" > ${prefix}_exact.txt
-    $tax_command
+    $tax_command > ${prefix}_taxid.txt
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":
