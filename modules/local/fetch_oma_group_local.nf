@@ -26,6 +26,7 @@ process FETCH_OMA_GROUP_LOCAL {
     omaid=\$(uniprot2oma_local.py $uniprot_idmap $uniprot_id)
 
     # Perform the database search for the given query in OMA
+    touch ${prefix}_oma_group_oma.txt
     zcat $db | rg \$omaid | head -1 | cut -f3- | awk '{gsub(/\\t/,"\\n"); print}' > ${prefix}_oma_group_oma.txt || test -f ${prefix}_oma_group_oma.txt
 
     # Convert the OMA ids to Uniprot, Ensembl and RefSeq ids

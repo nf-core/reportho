@@ -23,10 +23,22 @@ process FETCH_EGGNOG_GROUP_LOCAL {
     script:
     prefix = task.ext.prefix ?: meta.id
     """
+    # get the Uniprot ID from the ID map
     uniprotid=\$(zcat $eggnog_idmap | grep \$(cat $uniprot_id) | cut -f2 | cut -d',' -f1)
+
+    # create the file for "null safety"
+    touch ${prefix}_eggnog_group_raw.txt
+
+    # get the OMA IDs from the database
     zcat $db | grep \$uniprotid | cut -f 5 | tr ',' '\\n' | awk -F'.' '{ print \$2 }' > ${prefix}_eggnog_group_raw.txt || test -f ${prefix}_eggnog_group_raw.txt
+
+    # convert IDs to Uniprot
     uniprotize_oma_local.py ${prefix}_eggnog_group_raw.txt $ensembl_idmap $refseq_idmap > ${prefix}_eggnog_group.txt
+
+    # create the other file
     touch ${prefix}_eggnog_group.txt
+
+    # convert output to CSV
     csv_adorn.py ${prefix}_eggnog_group.txt EggNOG > ${prefix}_eggnog_group.csv
 
     cat <<- END_VERSIONS > versions.yml
