@@ -18,7 +18,10 @@ def main() -> None:
     if not success:
         raise ValueError("Fetch failed, aborting")
 
-    print(json["species"]["taxon_id"])
+    try:
+        print(json["species"]["taxon_id"])
+    except KeyError:
+        print("1") # default to root if no taxid is found
 
 
 if __name__ == "__main__":
