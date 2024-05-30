@@ -4,7 +4,7 @@ process MAKE_REPORT {
 
     // Exit if running this module with -profile conda / -profile mamba
     if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
-        error("Local RUN_ALPHAFOLD2_MSA module does not support Conda. Please use Docker / Singularity / Podman instead.")
+        error("Local MAKE_REPORT module does not support Conda. Please use Docker / Singularity / Podman instead.")
     }
 
     container "itrujnara/orthologs-report:1.0.0"
