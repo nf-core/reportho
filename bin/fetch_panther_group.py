@@ -27,7 +27,11 @@ def main() -> None:
             print(f"{uniprot_id}")
     except KeyError:
         pass # yes, I mean this, we just want to return an empty file if nothing is found
-    print(f"{json['search']['product']['content']} {json['search']['product']['version']}", file=sys.stderr)
+
+    try:
+        print(f"{json['search']['product']['content']} {json['search']['product']['version']}", file=sys.stderr)
+    except KeyError:
+        print("error", file=sys.stderr)
 
 if __name__ == "__main__":
     main()

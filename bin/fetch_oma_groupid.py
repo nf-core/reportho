@@ -4,8 +4,9 @@
 # See https://opensource.org/license/mit for details
 
 import sys
+from warnings import warn
 
-from utils import fetch_seq, safe_get
+from utils import safe_get
 
 
 def main() -> None:
@@ -16,11 +17,16 @@ def main() -> None:
         raise ValueError("Not enough arguments. Usage: fetch_oma_groupid.py <filename>")
 
     prot_id = sys.argv[1]
-    success, json = fetch_seq(f"https://omabrowser.org/api/protein/{prot_id}")
+    res = safe_get(f"https://omabrowser.org/api/protein/{prot_id}")
 
-    if not success:
+    if res.status_code == 404:
+        warn("ID not found")
+        print("0")
+        return
+    elif not res.ok:
         raise ValueError("Fetch failed, aborting")
 
+    json = res.json()
     entry: dict = dict()
     if json["is_main_isoform"]:
         entry = json
