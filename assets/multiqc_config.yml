@@ -75,6 +75,11 @@ custom_table_header_config:
       description: "Number of orthologs found by EggNOG."
       hidden: False
       format: "{:,.0f}"
+    total:
+      title: "Total"
+      description: "Total number of orthologs found."
+      hidden: False
+      format: "{:,.0f}"
 
 sp:
   sample_stats:
