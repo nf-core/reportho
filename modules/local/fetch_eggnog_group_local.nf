@@ -58,7 +58,7 @@ process FETCH_EGGNOG_GROUP_LOCAL {
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":
-        Python: \$(python --version | cut -d' ' -f2)
+        python: \$(python --version | sed 's/Python //g')
         ripgrep: \$(rg --version | head -n1 | cut -d' ' -f2)
     END_VERSIONS
     """
