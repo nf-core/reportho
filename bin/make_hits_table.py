@@ -33,10 +33,10 @@ def main() -> None:
     sums = {db: sum(int(row[db]) for row in data) for db in databases}
 
     # Print the header
-    print("id," + ",".join(databases))
+    print("id," + ",".join(databases) + ",total")
 
     # Print the data
-    print(sample_id + "," + ",".join(str(sums[db]) for db in databases))
+    print(sample_id + "," + ",".join(str(sums[db]) for db in databases) + "," + str(len(data) - 1))
 
 if __name__ == "__main__":
     main()

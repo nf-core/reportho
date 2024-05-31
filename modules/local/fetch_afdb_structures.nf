@@ -35,7 +35,10 @@ process FETCH_AFDB_STRUCTURES {
     stub:
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-    touch ${prefix}.phy
+    touch example.pdb
+    touch ${prefix}_str_hits.txt
+    touch ${prefix}_str_misses.txt
+    touch ${prefix}_af_versions.txt
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}"

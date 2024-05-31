@@ -20,9 +20,14 @@ process FETCH_PANTHER_GROUP_ONLINE {
     script:
     prefix = task.ext.prefix ?: meta.id
     """
+    # get Uniprot ID and TaxID
     uniprot_id=\$(cat $uniprot_id)
     taxid=\$(cat $taxid)
-    fetch_panther_group.py \$uniprot_id \$taxid > ${prefix}_panther_group.txt 2> panther_version.txt
+
+    # fetch PANTHER group from API
+    fetch_panther_group.py \$uniprot_id \$taxid > ${prefix}_panther_group.txt || test -f ${prefix}_panther_group.txt
+
+    # convert output to CSV
     csv_adorn.py ${prefix}_panther_group.txt PANTHER > ${prefix}_panther_group.csv
 
     cat <<-END_VERSIONS > versions.yml

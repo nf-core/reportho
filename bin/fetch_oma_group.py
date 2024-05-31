@@ -4,7 +4,7 @@
 # See https://opensource.org/license/mit for details
 
 import sys
-
+from warnings import warn
 from utils import safe_get
 
 
@@ -19,7 +19,10 @@ def main() -> None:
 
     res = safe_get(f"https://omabrowser.org/api/group/{id}")
 
-    if not res.ok:
+    if res.status_code == 404:
+        warn("ID not found")
+        return
+    elif not res.ok:
         raise ValueError(f"HTTP error: {res.status_code}")
 
     json = res.json()

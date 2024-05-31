@@ -20,10 +20,19 @@ process FETCH_OMA_GROUP_ONLINE {
     script:
     prefix = task.ext.prefix ?: meta.id
     """
+    # get uniprot ID
     uniprot_id=\$(cat ${uniprot_id})
+
+    # fetch OMA group ID from API
     groupid=\$(fetch_oma_groupid.py \$uniprot_id)
+
+    # fetch OMA group from API
     fetch_oma_group.py \$groupid > oma_group_raw.txt
+
+    # convert OMA group to Uniprot IDs
     uniprotize_oma_online.py oma_group_raw.txt > ${prefix}_oma_group.txt
+
+    # convert output to CSV
     csv_adorn.py ${prefix}_oma_group.txt OMA > ${prefix}_oma_group.csv
 
     cat <<-END_VERSIONS > versions.yml

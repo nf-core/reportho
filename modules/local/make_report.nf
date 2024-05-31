@@ -29,9 +29,12 @@ process MAKE_REPORT {
     iqtree_cmd = iqtree ? "cp $iqtree public/iqtree.png" : ''
     fastme_cmd = fastme ? "cp $fastme public/fastme.png" : ''
     """
+    # copy project files
     cp -r /app/* .
     cd public
     ls | grep -v logo | xargs rm # this is a hack, fix later
+
+    # copy input files
     cd ..
     cp $id public/id.txt
     cp $taxid public/taxid.txt
@@ -49,8 +52,15 @@ process MAKE_REPORT {
     $aln_cmd
     $iqtree_cmd
     $fastme_cmd
+
+    # build the report
     yarn run build
+
+    # create the run script
     echo "python3 -m http.server 0" > dist/run.sh
+    chmod u+x dist/run.sh
+
+    # add prefix to directory name
     mv dist ${prefix}_dist
 
     cat <<- END_VERSIONS > versions.yml
