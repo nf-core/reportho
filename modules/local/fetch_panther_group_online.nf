@@ -25,7 +25,7 @@ process FETCH_PANTHER_GROUP_ONLINE {
     taxid=\$(cat $taxid)
 
     # fetch PANTHER group from API
-    fetch_panther_group.py \$uniprot_id \$taxid > ${prefix}_panther_group.txt 2> panther_version.txt || test -f ${prefix}_panther_group.txt
+    fetch_panther_group.py \$uniprot_id \$taxid > ${prefix}_panther_group.txt || test -f ${prefix}_panther_group.txt
 
     # convert output to CSV
     csv_adorn.py ${prefix}_panther_group.txt PANTHER > ${prefix}_panther_group.csv
