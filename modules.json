@@ -20,11 +20,6 @@
                         "git_sha": "5f4e755fdc22c6e40d740ab27ea9b1004e806cb5",
                         "installed_by": ["modules"]
                     },
-                    "fastqc": {
-                        "branch": "master",
-                        "git_sha": "285a50500f9e02578d90b3ce6382ea3c30216acd",
-                        "installed_by": ["modules"]
-                    },
                     "iqtree": {
                         "branch": "master",
                         "git_sha": "ba03053ffa300ccdd044545131ba033b73f327fe",

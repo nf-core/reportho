@@ -82,6 +82,10 @@ To see the results of an example test run with a full size dataset refer to the 
 For more details about the output files and reports, please refer to the
 [output documentation](https://nf-co.re/reportho/output).
 
+## Report image
+
+The code to create the image producing the pipeline report is available under [this](https://github.com/itrujnara/orthologs-report) GitHub repository.
+
 ## Credits
 
 nf-core/reportho was originally written by Igor Trujnara ([@itrujnara](https://github.com/itrujnara)).

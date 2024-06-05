@@ -10,7 +10,7 @@ The directories listed below will be created in the results directory after the 
 
 The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes data using the following steps:
 
-- [Query identification](#fastqc) - obtaining basic information on the query
+- [Query identification](#query-identification) - obtaining basic information on the query
 - [Ortholog fetching](#ortholog-fetching) - obtaining ortholog predictions from public databases
 - [Ortholog scoring](#ortholog-scoring) - creation of a score table
 - [Ortholog filtering](#ortholog-filtering) - selection of final ortholog list

@@ -188,13 +188,6 @@
                     "description": "Minimum score for the ortholog search.",
                     "help_text": "The minimum score for the ortholog search. If `use_centroid` is set to `true`, this parameter will be ignored.",
                     "fa_icon": "fas fa-database"
-                },
-                "skip_orthoplots": {
-                    "type": "boolean",
-                    "default": "false",
-                    "description": "Skip the ortholog plots.",
-                    "help_text": "If set to `true`, the pipeline will skip the ortholog plots.",
-                    "fa_icon": "fas fa-database"
                 }
             }
         },
@@ -225,20 +218,6 @@
                     "help_text": "If set to `true`, the pipeline will use AlphaFold structures for the analysis.",
                     "fa_icon": "fas fa-dna"
                 },
-                "skip_iqtree": {
-                    "type": "boolean",
-                    "default": "false",
-                    "description": "Skip using IQ-TREE for the phylogenetic analysis.",
-                    "help_text": "If set to `true`, the pipeline will not use IQ-TREE for the phylogenetic analysis.",
-                    "fa_icon": "fas fa-tree"
-                },
-                "skip_fastme": {
-                    "type": "boolean",
-                    "default": "false",
-                    "description": "Skip using FastME for the phylogenetic analysis.",
-                    "help_text": "If set to `true`, the pipeline will not use FastME for the phylogenetic analysis.",
-                    "fa_icon": "fas fa-tree"
-                },
                 "iqtree_bootstrap": {
                     "type": "integer",
                     "default": 1000,
@@ -252,13 +231,47 @@
                     "description": "Number of bootstrap replicates for FastME.",
                     "help_text": "If set to `0`, bootstrap will not be performed.",
                     "fa_icon": "fas fa-rotate"
+                }
+            }
+        },
+        "process_skipping_options": {
+            "title": "Process skipping options",
+            "type": "object",
+            "fa_icon": "fas fa-fast-forward",
+            "description": "Options to skip various steps within the workflow.",
+            "properties": {
+                "skip_orthoplots": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Skip the ortholog plots.",
+                    "help_text": "If set to `true`, the pipeline will skip the ortholog plots.",
+                    "fa_icon": "fas fa-fast-forward"
+                },
+                "skip_iqtree": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Skip using IQ-TREE for the phylogenetic analysis.",
+                    "help_text": "If set to `true`, the pipeline will not use IQ-TREE for the phylogenetic analysis.",
+                    "fa_icon": "fas fa-fast-forward"
+                },
+                "skip_fastme": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Skip using FastME for the phylogenetic analysis.",
+                    "help_text": "If set to `true`, the pipeline will not use FastME for the phylogenetic analysis.",
+                    "fa_icon": "fas fa-fast-forward"
                 },
                 "skip_treeplots": {
                     "type": "boolean",
                     "default": "false",
                     "description": "Skip the tree plots.",
                     "help_text": "If set to `true`, the pipeline will skip the tree plots.",
-                    "fa_icon": "fas fa-tree"
+                    "fa_icon": "fas fa-fast-forward"
+                },
+                "skip_multiqc": {
+                    "type": "boolean",
+                    "description": "Skip MultiQC.",
+                    "fa_icon": "fas fa-fast-forward"
                 }
             }
         },
@@ -473,6 +486,9 @@
         },
         {
             "$ref": "#/definitions/downstream_options"
+        },
+        {
+            "$ref": "#/definitions/process_skipping_options"
         },
         {
             "$ref": "#/definitions/institutional_config_options"
