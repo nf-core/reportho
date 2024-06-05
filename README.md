@@ -84,7 +84,7 @@ For more details about the output files and reports, please refer to the
 
 ## Report image
 
-The code to create the image producing the pipeline report is available under [this](https://github.com/itrujnara/orthologs-report) GitHub report.
+The code to create the image producing the pipeline report is available under [this](https://github.com/itrujnara/orthologs-report) GitHub repository.
 
 ## Credits
 
