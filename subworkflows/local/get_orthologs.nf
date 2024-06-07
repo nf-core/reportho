@@ -53,7 +53,6 @@ workflow GET_ORTHOLOGS {
         ch_fasta
     )
 
-    ch_query = IDENTIFY_SEQ_ONLINE.out.seqinfo
     ch_versions = ch_versions.mix(IDENTIFY_SEQ_ONLINE.out.versions)
 
     WRITE_SEQINFO (
