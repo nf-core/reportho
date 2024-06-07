@@ -11,11 +11,12 @@ include { softwareVersionsToYAML } from '../subworkflows/nf-core/utils_nfcore_pi
 include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_reportho_pipeline'
 
 include { GET_ORTHOLOGS          } from '../subworkflows/local/get_orthologs'
-include { FETCH_SEQUENCES        } from '../subworkflows/local/fetch_sequences'
-include { FETCH_STRUCTURES       } from '../subworkflows/local/fetch_structures'
 include { ALIGN                  } from '../subworkflows/local/align'
 include { MAKE_TREES             } from '../subworkflows/local/make_trees'
 include { REPORT                 } from '../subworkflows/local/report'
+
+include { FETCH_SEQUENCES_ONLINE } from '../subworkflows/local/fetch_sequences_online'
+include { FETCH_AFDB_STRUCTURES  } from '../subworkflows/local/fetch_afdb_structures'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -55,30 +56,31 @@ workflow REPORTHO {
     ch_fastme    = ch_samplesheet.map { [it[0], []] }
 
     if (!params.skip_downstream) {
-        FETCH_SEQUENCES (
-            GET_ORTHOLOGS.out.orthologs,
-            ch_fasta_query
+        ch_sequences_input = GET_ORTHOLOGS.out.orthologs.join(ch_fasta_query)
+
+        FETCH_SEQUENCES_ONLINE (
+            ch_sequences_input
         )
 
-        ch_seqhits = FETCH_SEQUENCES.out.hits
+        ch_seqhits = FETCH_SEQUENCES_ONLINE.out.hits
 
-        ch_seqmisses = FETCH_SEQUENCES.out.misses
+        ch_seqmisses = FETCH_SEQUENCES_ONLINE.out.misses
 
-        ch_versions = ch_versions.mix(FETCH_SEQUENCES.out.versions)
+        ch_versions = ch_versions.mix(FETCH_SEQUENCES_ONLINE.out.versions)
 
         if (params.use_structures) {
-            FETCH_STRUCTURES (
+            FETCH_AFDB_STRUCTURES (
                 GET_ORTHOLOGS.out.orthologs
             )
 
-            ch_strhits = FETCH_STRUCTURES.out.hits
+            ch_strhits = FETCH_AFDB_STRUCTURES.out.hits
 
-            ch_strmisses = FETCH_STRUCTURES.out.misses
+            ch_strmisses = FETCH_AFDB_STRUCTURES.out.misses
 
-            ch_versions = ch_versions.mix(FETCH_STRUCTURES.out.versions)
+            ch_versions = ch_versions.mix(FETCH_AFDB_STRUCTURES.out.versions)
         }
 
-        ch_structures = params.use_structures ? FETCH_STRUCTURES.out.structures : Channel.empty()
+        ch_structures = params.use_structures ? FETCH_AFDB_STRUCTURES.out.structures : Channel.empty()
 
         ALIGN (
             FETCH_SEQUENCES.out.sequences,
