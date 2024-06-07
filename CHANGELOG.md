@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [v1.0.0](https://github.com/nf-core/reportho/releases/tag/1.0.0) - Magnificent Mainsail - [2024-06-06]
+## [v1.0.0](https://github.com/nf-core/reportho/releases/tag/1.0.0) - Magnificent Mainsail - [2024-06-07]
 
 Although its location and design may vary greatly, the mainsail is always a key source of propulsion for a ship.
 
@@ -29,10 +29,6 @@ The pipeline was created. In particular, it has the following features:
 - creation of an ortholog list with user-defined criteria
 - basic downstream analysis of the obtained ortholog list
 - generation of a human-readable report
-
-### `Fixed`
-
-Nothing yet.
 
 ### `Dependencies`
 
@@ -60,7 +56,3 @@ At release date, the following database versions were current and used for testi
 | PANTHER        | 18            |
 | OrthoInspector | Eukaryota2023 |
 | EggNOG         | 5.0           |
-
-### `Deprecated`
-
-Nothing.

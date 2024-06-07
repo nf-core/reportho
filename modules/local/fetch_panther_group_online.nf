@@ -11,7 +11,7 @@ process FETCH_PANTHER_GROUP_ONLINE {
     tuple val(meta), path(uniprot_id), path(taxid), path(exact)
 
     output:
-    tuple val(meta), path("*_panther_group.csv"), emit:panther_group
+    tuple val(meta), path("*_panther_group.csv"), emit: panther_group
     path "versions.yml"                         , emit: versions
 
     when:

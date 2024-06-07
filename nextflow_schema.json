@@ -65,7 +65,7 @@
                 "local_databases": {
                     "type": "boolean",
                     "default": "false",
-                    "description": "Use local databases for the analysis. If use_all is set to `true`, online databases might still be used.",
+                    "description": "Use local databases for the analysis.",
                     "help_text": "If set to `true`, the pipeline will use local databases for the analysis.",
                     "fa_icon": "fas fa-database"
                 },
