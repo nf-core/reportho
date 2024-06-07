@@ -15,8 +15,8 @@ include { ALIGN                  } from '../subworkflows/local/align'
 include { MAKE_TREES             } from '../subworkflows/local/make_trees'
 include { REPORT                 } from '../subworkflows/local/report'
 
-include { FETCH_SEQUENCES_ONLINE } from '../subworkflows/local/fetch_sequences_online'
-include { FETCH_AFDB_STRUCTURES  } from '../subworkflows/local/fetch_afdb_structures'
+include { FETCH_SEQUENCES_ONLINE } from '../modules/local/fetch_sequences_online'
+include { FETCH_AFDB_STRUCTURES  } from '../modules/local/fetch_afdb_structures'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
