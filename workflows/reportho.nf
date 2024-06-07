@@ -36,9 +36,24 @@ workflow REPORTHO {
     ch_multiqc_files = Channel.empty()
     ch_fasta_query   = ch_samplesheet_query.map { [it[0], []] }.mix(ch_samplesheet_fasta.map { [it[0], file(it[1])] })
 
+    ch_oma_groups   = params.oma_path ? Channel.value(file(params.oma_path)) : Channel.empty()
+    ch_oma_uniprot  = params.oma_uniprot_path ? Channel.value(file(params.oma_uniprot_path)) : Channel.empty()
+    ch_oma_ensembl  = params.oma_ensembl_path ? Channel.value(file(params.oma_ensembl_path)) : Channel.empty()
+    ch_oma_refseq   = params.oma_refseq_path ? Channel.value(file(params.oma_refseq_path)) : Channel.empty()
+    ch_panther      = params.panther_path ? Channel.value(file(params.panther_path)) : Channel.empty()
+    ch_eggnog       = params.eggnog_path ? Channel.value(file(params.eggnog_path)) : Channel.empty()
+    ch_eggnog_idmap = params.eggnog_idmap_path ? Channel.value(file(params.eggnog_idmap_path)) : Channel.empty()
+
     GET_ORTHOLOGS (
         ch_samplesheet_query,
-        ch_samplesheet_fasta
+        ch_samplesheet_fasta,
+        ch_oma_groups,
+        ch_oma_uniprot,
+        ch_oma_ensembl,
+        ch_oma_refseq,
+        ch_panther,
+        ch_eggnog,
+        ch_eggnog_idmap
     )
 
     ch_versions    = ch_versions.mix(GET_ORTHOLOGS.out.versions)
