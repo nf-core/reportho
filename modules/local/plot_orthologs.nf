@@ -14,7 +14,7 @@ process PLOT_ORTHOLOGS {
     tuple val(meta), path("*_supports_light.png"), path("*_supports_dark.png"), emit: supports
     tuple val(meta), path("*_venn_light.png"), path("*_venn_dark.png")        , emit: venn
     tuple val(meta), path("*_jaccard_light.png"), path("*_jaccard_dark.png")  , emit: jaccard
-    path "versions.yml"                          , emit: versions
+    path "versions.yml"                                                       , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
