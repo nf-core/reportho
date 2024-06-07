@@ -98,7 +98,7 @@ workflow REPORTHO {
         ch_structures = params.use_structures ? FETCH_AFDB_STRUCTURES.out.structures : Channel.empty()
 
         ALIGN (
-            FETCH_SEQUENCES_ONLINE.out.sequences,
+            FETCH_SEQUENCES_ONLINE.out.fasta,
             ch_structures
         )
 
