@@ -29,6 +29,12 @@
                     "description": "The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.",
                     "fa_icon": "fas fa-folder-open"
                 },
+                "output_intermediates": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Output intermediate files, including specific prediction lists.",
+                    "fa_icon": "fas fa-folder-open"
+                },
                 "email": {
                     "type": "string",
                     "description": "Email address for completion summary.",
@@ -43,34 +49,229 @@
                 }
             }
         },
-        "reference_genome_options": {
-            "title": "Reference genome options",
+        "ortholog_options": {
+            "title": "Ortholog search options",
             "type": "object",
             "fa_icon": "fas fa-dna",
-            "description": "Reference genome related files and options required for the workflow.",
+            "description": "All options related to the ortholog search subworkflow.",
             "properties": {
-                "genome": {
-                    "type": "string",
-                    "description": "Name of iGenomes reference.",
-                    "fa_icon": "fas fa-book",
-                    "help_text": "If using a reference genome configured in the pipeline using iGenomes, use this parameter to give the ID for the reference. This is then used to build the full paths for all required reference genome files e.g. `--genome GRCh38`. \n\nSee the [nf-core website docs](https://nf-co.re/usage/reference_genomes) for more details."
-                },
-                "fasta": {
-                    "type": "string",
-                    "format": "file-path",
-                    "exists": true,
-                    "mimetype": "text/plain",
-                    "pattern": "^\\S+\\.fn?a(sta)?(\\.gz)?$",
-                    "description": "Path to FASTA genome file.",
-                    "help_text": "This parameter is *mandatory* if `--genome` is not specified. If you don't have a BWA index available this will be generated for you automatically. Combine with `--save_reference` to save BWA index for future runs.",
-                    "fa_icon": "far fa-file-code"
-                },
-                "igenomes_ignore": {
+                "use_all": {
                     "type": "boolean",
-                    "description": "Do not load the iGenomes reference config.",
-                    "fa_icon": "fas fa-ban",
-                    "hidden": true,
-                    "help_text": "Do not load `igenomes.config` when running the pipeline. You may choose this option if you observe clashes between custom parameters and those supplied in `igenomes.config`."
+                    "default": "false",
+                    "description": "Use all ortholog search methods. Will mix online and local methods if needed. Overrides all individual database flags.",
+                    "help_text": "If set to `true`, the pipeline will use all ortholog search methods.",
+                    "fa_icon": "fas fa-database"
+                },
+                "local_databases": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Use local databases for the analysis.",
+                    "help_text": "If set to `true`, the pipeline will use local databases for the analysis.",
+                    "fa_icon": "fas fa-database"
+                },
+                "offline_run": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Run the pipeline in offline mode. Overrides all online database flags.",
+                    "help_text": "If set to `true`, the pipeline will run in offline mode. `local_databases` must be set separately.",
+                    "fa_icon": "fas fa-database"
+                },
+                "skip_oma": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Skip using OMA for the ortholog search.",
+                    "help_text": "If set to `true`, the pipeline will not use OMA for the ortholog search.",
+                    "fa_icon": "fas fa-database"
+                },
+                "oma_path": {
+                    "type": "string",
+                    "format": "path",
+                    "exists": true,
+                    "description": "Path to the OMA database.",
+                    "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the OMA database.",
+                    "fa_icon": "fas fa-database"
+                },
+                "oma_uniprot_path": {
+                    "type": "string",
+                    "format": "path",
+                    "exists": true,
+                    "description": "Path to the Uniprot-OMA ID map.",
+                    "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the OMA-Uniprot ID map.",
+                    "fa_icon": "fas fa-database"
+                },
+                "oma_ensembl_path": {
+                    "type": "string",
+                    "format": "path",
+                    "exists": true,
+                    "description": "Path to the Ensembl-OMA ID map.",
+                    "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the OMA-Ensembl ID map.",
+                    "fa_icon": "fas fa-database"
+                },
+                "oma_refseq_path": {
+                    "type": "string",
+                    "format": "path",
+                    "exists": true,
+                    "description": "Path to the RefSeq-OMA ID map.",
+                    "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the OMA-RefSeq ID map.",
+                    "fa_icon": "fas fa-database"
+                },
+                "skip_panther": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Skip using PANTHER for the ortholog search.",
+                    "help_text": "If set to `true`, the pipeline will not use PANTHER for the ortholog search.",
+                    "fa_icon": "fas fa-database"
+                },
+                "panther_path": {
+                    "type": "string",
+                    "format": "path",
+                    "exists": true,
+                    "description": "Path to the PANTHER database.",
+                    "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the PANTHER database.",
+                    "fa_icon": "fas fa-database"
+                },
+                "skip_orthoinspector": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Skip using OrthoInspector for the ortholog search.",
+                    "help_text": "If set to `true`, the pipeline will not use OrthoInspector for the ortholog search.",
+                    "fa_icon": "fas fa-database"
+                },
+                "orthoinspector_version": {
+                    "type": "string",
+                    "description": "The version of the OrthoInspector database to use.",
+                    "help_text": "This SHOULD be left as the default if working with eukaryotes. Only change if working with bacteria, or an old version is required for reproducibility.",
+                    "default": "Eukaryota2023",
+                    "fa_icon": "fas fa-database"
+                },
+                "orthoinspector_path": {
+                    "type": "string",
+                    "format": "path",
+                    "exists": true,
+                    "description": "Path to the OrthoInspector database.",
+                    "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the OrthoInspector database.",
+                    "fa_icon": "fas fa-database"
+                },
+                "skip_eggnog": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Use EggNOG for the ortholog search.",
+                    "help_text": "If set to `true`, the pipeline will not use EggNOG for the ortholog search.",
+                    "fa_icon": "fas fa-database"
+                },
+                "eggnog_path": {
+                    "type": "string",
+                    "format": "path",
+                    "exists": true,
+                    "description": "Path to the EggNOG database.",
+                    "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the EggNOG database.",
+                    "fa_icon": "fas fa-database"
+                },
+                "eggnog_idmap_path": {
+                    "type": "string",
+                    "format": "path",
+                    "exists": true,
+                    "description": "Path to the EggNOG ID map.",
+                    "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the EggNOG ID map.",
+                    "fa_icon": "fas fa-database"
+                },
+                "use_centroid": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Use centroid strategy for the ortholog search. Overrides min_score.",
+                    "help_text": "If set to `true`, the pipeline will use centroid strategy for the ortholog search.",
+                    "fa_icon": "fas fa-database"
+                },
+                "min_score": {
+                    "type": "number",
+                    "default": 2,
+                    "description": "Minimum score for the ortholog search.",
+                    "help_text": "The minimum score for the ortholog search. If `use_centroid` is set to `true`, this parameter will be ignored.",
+                    "fa_icon": "fas fa-database"
+                }
+            }
+        },
+        "downstream_options": {
+            "title": "Downstream analysis options",
+            "type": "object",
+            "fa_icon": "fas fa-search",
+            "description": "All options related to the downstream analysis subworkflows.",
+            "properties": {
+                "skip_downstream": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Skip the downstream analysis. Overrides all other downstream options.",
+                    "help_text": "If set to `true`, the pipeline will skip the downstream analysis.",
+                    "fa_icon": "fas fa-search"
+                },
+                "skip_report": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Skip report generation.",
+                    "help_text": "If set to `true`, the pipeline will not generate a report. Intended for large batch processing.",
+                    "fa_icon": "fas fa-file-lines"
+                },
+                "use_structures": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Use structures for the analysis.",
+                    "help_text": "If set to `true`, the pipeline will use AlphaFold structures for the analysis.",
+                    "fa_icon": "fas fa-dna"
+                },
+                "iqtree_bootstrap": {
+                    "type": "integer",
+                    "default": 1000,
+                    "description": "Number of bootstrap replicates for IQ-TREE.",
+                    "help_text": "If set to `0`, bootstrap will not be performed.",
+                    "fa_icon": "fas fa-rotate"
+                },
+                "fastme_bootstrap": {
+                    "type": "integer",
+                    "default": 100,
+                    "description": "Number of bootstrap replicates for FastME.",
+                    "help_text": "If set to `0`, bootstrap will not be performed.",
+                    "fa_icon": "fas fa-rotate"
+                }
+            }
+        },
+        "process_skipping_options": {
+            "title": "Process skipping options",
+            "type": "object",
+            "fa_icon": "fas fa-fast-forward",
+            "description": "Options to skip various steps within the workflow.",
+            "properties": {
+                "skip_orthoplots": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Skip the ortholog plots.",
+                    "help_text": "If set to `true`, the pipeline will skip the ortholog plots.",
+                    "fa_icon": "fas fa-fast-forward"
+                },
+                "skip_iqtree": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Skip using IQ-TREE for the phylogenetic analysis.",
+                    "help_text": "If set to `true`, the pipeline will not use IQ-TREE for the phylogenetic analysis.",
+                    "fa_icon": "fas fa-fast-forward"
+                },
+                "skip_fastme": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Skip using FastME for the phylogenetic analysis.",
+                    "help_text": "If set to `true`, the pipeline will not use FastME for the phylogenetic analysis.",
+                    "fa_icon": "fas fa-fast-forward"
+                },
+                "skip_treeplots": {
+                    "type": "boolean",
+                    "default": "false",
+                    "description": "Skip the tree plots.",
+                    "help_text": "If set to `true`, the pipeline will skip the tree plots.",
+                    "fa_icon": "fas fa-fast-forward"
+                },
+                "skip_multiqc": {
+                    "type": "boolean",
+                    "description": "Skip MultiQC.",
+                    "fa_icon": "fas fa-fast-forward"
                 }
             }
         },
@@ -265,6 +466,13 @@
                     "description": "Validation of parameters in lenient more.",
                     "hidden": true,
                     "help_text": "Allows string values that are parseable as numbers or booleans. For further information see [JSONSchema docs](https://github.com/everit-org/json-schema#lenient-mode)."
+                },
+                "pipelines_testdata_base_path": {
+                    "type": "string",
+                    "fa_icon": "far fa-check-circle",
+                    "description": "Base URL or local path to location of pipeline test dataset files",
+                    "default": "https://raw.githubusercontent.com/nf-core/test-datasets/",
+                    "hidden": true
                 }
             }
         }
@@ -274,7 +482,13 @@
             "$ref": "#/definitions/input_output_options"
         },
         {
-            "$ref": "#/definitions/reference_genome_options"
+            "$ref": "#/definitions/ortholog_options"
+        },
+        {
+            "$ref": "#/definitions/downstream_options"
+        },
+        {
+            "$ref": "#/definitions/process_skipping_options"
         },
         {
             "$ref": "#/definitions/institutional_config_options"
