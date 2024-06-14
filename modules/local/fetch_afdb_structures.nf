@@ -26,7 +26,7 @@ process FETCH_AFDB_STRUCTURES {
     fetch_afdb_structures.py $ids $prefix 2> ${prefix}_af_versions.txt
 
     cat <<- END_VERSIONS > versions.yml
-    "${task.process}"
+    "${task.process}":
         Python: \$(python --version | cut -d ' ' -f 2)
         Python Requests: \$(pip show requests | grep Version | cut -d ' ' -f 2)
     END_VERSIONS
@@ -41,7 +41,7 @@ process FETCH_AFDB_STRUCTURES {
     touch ${prefix}_af_versions.txt
 
     cat <<- END_VERSIONS > versions.yml
-    "${task.process}"
+    "${task.process}":
         Python: \$(python --version | cut -d ' ' -f 2)
         Python Requests: \$(pip show requests | grep Version | cut -d ' ' -f 2)
     END_VERSIONS
