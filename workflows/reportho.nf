@@ -95,7 +95,7 @@ workflow REPORTHO {
             ch_versions = ch_versions.mix(FETCH_AFDB_STRUCTURES.out.versions)
         }
 
-        ch_structures = params.use_structures ? FETCH_AFDB_STRUCTURES.out.structures : Channel.empty()
+        ch_structures = params.use_structures ? FETCH_AFDB_STRUCTURES.out.pdb : Channel.empty()
 
         ALIGN (
             FETCH_SEQUENCES_ONLINE.out.fasta,
