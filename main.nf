@@ -66,7 +66,7 @@ workflow {
         params.outdir,
         params.input
     )
-    
+
     //
     // WORKFLOW: Run main workflow
     //
