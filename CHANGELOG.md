@@ -5,7 +5,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## v1.1.0dev - [date]
 
-Initial release of nf-core/reportho, created with the [nf-core](https://nf-co.re/) template.
+## [v1.0.1](https://github.com/nf-core/reportho/releases/tag/1.0.1) [2024-06-14]
+
+### `Fixed`
+
+- Fixed minor bugs that caused compilation errors in the structural alignment section
+- Restricted publishing of intermediate files
+
+## [v1.0.0](https://github.com/nf-core/reportho/releases/tag/1.0.0) - Magnificent Mainsail - [2024-06-11]
+
+Although its location and design may vary greatly, the mainsail is always a key source of propulsion for a ship.
+
+This is the initial release of nf-core/reportho, created with the [nf-core](https://nf-co.re/) template.
+
+### `Credits`
+
+The following people have made significant contributions to the release through design, development and review:
+
+- [Igor Trujnara](https://github.com/itrujnara)
+- [Luisa Santus](https://github.com/luisas)
+- [Jose Espinosa-Carrasco](https://github.com/JoseEspinosa)
+- [Alessio Vignoli](https://github.com/alessiovignoli)
+
+We also thank everyone else from the nf-core community who has participated in planning and development.
 
 ### `Added`
 
