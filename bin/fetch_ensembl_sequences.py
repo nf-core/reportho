@@ -69,8 +69,8 @@ def main():
     ids_invalid = set(ids) - ids_valid
 
     prefix = sys.argv[3]
-    list_to_file(list(ids_valid), f"{prefix}_ensembl_hits.txt")
-    list_to_file(list(ids_invalid), f"{prefix}_ensembl_misses.txt")
+    list_to_file(list(ids_valid), f"{prefix}_ensembl_seq_hits.txt")
+    list_to_file(list(ids_invalid), f"{prefix}_ensembl_seq_misses.txt")
 
 
 if __name__ == "__main__":
