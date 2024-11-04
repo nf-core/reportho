@@ -1,8 +1,13 @@
+#!/usr/bin/env python3
+
+# Written by Igor Trujnara, released under the MIT license
+# See https://opensource.org/license/mit for details
+
 import sys
 from xml.dom import minidom
 
 from Bio import Entrez
-from utils import SequenceInfo, split_ids
+from utils import list_to_file, SequenceInfo, split_ids
 
 
 def get_taxid(node: minidom.Element) -> str:
@@ -43,7 +48,16 @@ def main() -> None:
     with open(sys.argv[1], "r") as f:
         ids = f.read().splitlines()
     seqs = fetch_sequences(ids)
-    for s in seqs:
+    seqs_valid = [i for i in seqs if i.is_valid()]
+
+    ids_valid = set([i.prot_id for i in seqs_valid])
+    ids_invalid = set(ids) - ids_valid
+
+    prefix = sys.argv[2]
+    list_to_file(list(ids_valid), f"{prefix}_refseq_seq_hits.txt")
+    list_to_file(list(ids_invalid), f"{prefix}_refseq_seq_misses.txt")
+
+    for s in seqs_valid:
         print(s)
 
 
