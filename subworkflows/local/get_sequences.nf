@@ -62,8 +62,8 @@ workflow GET_SEQUENCES {
     ch_misses   = ch_misses.mix(FETCH_OMA_SEQUENCES.out.misses)
     ch_versions = ch_versions.mix(FETCH_OMA_SEQUENCES.out.versions)
 
-    ch_fasta_grouped = ch_fasta.groupTuple()
-    ch_hits_grouped = ch_hits.groupTuple()
+    ch_fasta_grouped  = ch_fasta.groupTuple()
+    ch_hits_grouped   = ch_hits.groupTuple()
     ch_misses_grouped = ch_misses.groupTuple()
 
     CONCAT_FASTA(ch_fasta_grouped)
