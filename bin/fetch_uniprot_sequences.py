@@ -58,8 +58,8 @@ def main():
     ids_invalid = set(ids) - ids_valid
 
     prefix = sys.argv[2]
-    list_to_file(list(ids_valid), f"{prefix}_uniprot_hits.txt")
-    list_to_file(list(ids_invalid), f"{prefix}_uniprot_misses.txt")
+    list_to_file(list(ids_valid), f"{prefix}_uniprot_seq_hits.txt")
+    list_to_file(list(ids_invalid), f"{prefix}_uniprot_seq_misses.txt")
 
 
 if __name__ == "__main__":
