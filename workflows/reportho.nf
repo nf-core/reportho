@@ -11,12 +11,13 @@ include { softwareVersionsToYAML } from '../subworkflows/nf-core/utils_nfcore_pi
 include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_reportho_pipeline'
 
 include { GET_ORTHOLOGS          } from '../subworkflows/local/get_orthologs'
+include { GET_SEQUENCES          } from '../subworkflows/local/get_sequences'
 include { SCORE_ORTHOLOGS        } from '../subworkflows/local/score_orthologs'
 include { ALIGN                  } from '../subworkflows/local/align'
 include { MAKE_TREES             } from '../subworkflows/local/make_trees'
 include { REPORT                 } from '../subworkflows/local/report'
 
-include { FETCH_SEQUENCES_ONLINE } from '../modules/local/fetch_sequences_online'
+include { FETCH_OMA_SEQUENCES    } from '../modules/local/fetch_oma_sequences'
 include { FETCH_AFDB_STRUCTURES  } from '../modules/local/fetch_afdb_structures'
 
 /*
@@ -57,7 +58,14 @@ workflow REPORTHO {
         ch_eggnog_idmap
     )
 
-    ch_versions    = ch_versions.mix(GET_ORTHOLOGS.out.versions)
+    ch_versions = ch_versions.mix(GET_ORTHOLOGS.out.versions)
+    
+    GET_SEQUENCES (
+        GET_ORTHOLOGS.out.orthologs,
+        ch_fasta_query
+    )
+
+    ch_versions = ch_versions.mix(GET_SEQUENCES.out.versions)
 
     SCORE_ORTHOLOGS (
         GET_ORTHOLOGS.out.seqinfo,
@@ -82,15 +90,15 @@ workflow REPORTHO {
     if (!params.skip_downstream) {
         ch_sequences_input = SCORE_ORTHOLOGS.out.orthologs.join(ch_fasta_query)
 
-        FETCH_SEQUENCES_ONLINE (
+        FETCH_OMA_SEQUENCES (
             ch_sequences_input
         )
 
-        ch_seqhits = FETCH_SEQUENCES_ONLINE.out.hits
+        ch_seqhits = FETCH_OMA_SEQUENCES.out.hits
 
-        ch_seqmisses = FETCH_SEQUENCES_ONLINE.out.misses
+        ch_seqmisses = FETCH_OMA_SEQUENCES.out.misses
 
-        ch_versions = ch_versions.mix(FETCH_SEQUENCES_ONLINE.out.versions)
+        ch_versions = ch_versions.mix(FETCH_OMA_SEQUENCES.out.versions)
 
         if (params.use_structures) {
             FETCH_AFDB_STRUCTURES (
@@ -107,7 +115,7 @@ workflow REPORTHO {
         ch_structures = params.use_structures ? FETCH_AFDB_STRUCTURES.out.pdb : Channel.empty()
 
         ALIGN (
-            FETCH_SEQUENCES_ONLINE.out.fasta,
+            FETCH_OMA_SEQUENCES.out.fasta,
             ch_structures
         )
 
