@@ -14,7 +14,7 @@ process FETCH_REFSEQ_SEQUENCES {
     tuple val(meta), path("*_refseq_sequences.fa")  , emit: fasta
     tuple val(meta), path("*_refseq_seq_hits.txt")  , emit: hits
     tuple val(meta), path("*_refseq_seq_misses.txt"), emit: misses
-    path "versions.yml"                          , emit: versions
+    path "versions.yml"                             , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
