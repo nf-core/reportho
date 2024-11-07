@@ -22,8 +22,8 @@ def fetch_slice(ids: list[str], idmap: dict[str,str]) -> list[SequenceInfo]:
             if not json1[entry]:
                 continue
             hits[entry] = SequenceInfo(prot_id = entry,
-                                     taxid = idmap[json1[entry]["species"]],
-                                     sequence = None)
+                                        taxid = idmap[json1[entry]["species"]],
+                                        sequence = None)
 
     # fetch sequence information
     params = {"type": "protein"}
@@ -47,7 +47,7 @@ def fetch_ensembl(ids: list[str], idmap_path: str) -> list[SequenceInfo]:
     with open(idmap_path) as f:
         for it in csv.reader(f):
             taxon_map[it[0]] = it[1]
-    
+
     seqs = []
     for s in split_ids(ids, 100):
         seqs = seqs + fetch_slice(s, taxon_map)

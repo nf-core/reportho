@@ -166,6 +166,6 @@ workflow GET_ORTHOLOGS {
     taxid       = ch_query.map { it[2] }
     exact       = ch_query.map { it[3] }
     orthogroups = ch_orthogroups
-    orthologs   = MERGE_CSV.out.csv     
+    orthologs   = MERGE_CSV.out.csv
     versions    = ch_merged_versions
 }

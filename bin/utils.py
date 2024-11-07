@@ -112,10 +112,10 @@ class SequenceInfo():
 
     def __str__(self):
         return f">{self.prot_id}|{self.taxid}\n{self.sequence}"
-    
+
     def is_valid(self):
         return self.taxid is not None and self.sequence is not None
-    
+
 
 def list_to_file(items: list, path: str):
     """

@@ -18,7 +18,7 @@ def fetch_slice(ids: list[str]) -> list[SeqIO.SeqRecord]:
                        headers = headers)
     if not res.ok:
         return []
-    
+
     tmp = io.StringIO(res.content.decode())
     seqs = SeqIO.parse(tmp, "fasta")
 
@@ -44,7 +44,7 @@ def to_seqinfo(entry: SeqIO.SeqRecord) -> SequenceInfo:
 def main():
     if len(sys.argv) < 3:
         raise ValueError("Too few arguments. Usage: fetch_uniprot_sequences.py <ids_path> <prefix>")
-    
+
     with open(sys.argv[1]) as f:
         ids = f.read().splitlines()
 
