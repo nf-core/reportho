@@ -93,7 +93,7 @@ def split_ids_by_format(ids: list[str]) -> dict[str, list[str]]:
             ids_format["ensembl"].append(i)
         elif re.match(r"(AC|AP|NC|NG|NM|NP|NR|NT|NW|WP|XM|XP|XR|YP|ZP)_\d+", i):
             ids_format["refseq"].append(i)
-        elif re.match(r"[A-Z]{5}[0-9]{5}"):
+        elif re.match(r"[A-Z]{5}[0-9]{5}", i):
             ids_format["oma"].append(i)
         else:
             ids_format["unknown"].append(i)
