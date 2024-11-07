@@ -2,7 +2,6 @@ process CONVERT_FASTA {
     tag "$input_file"
     label 'process_single'
 
-    // THINGS ARE WRONG HERE, FIXME WHEN SEQERA CONTAINTAINERS START TO COOPERATE
     conda "conda-forge::python=3.12.0 conda-forge::biopython=1.84.0 conda-forge::requests=2.32.3"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/mulled-v2-bc54124b36864a4af42a9db48b90a404b5869e7e:5258b8e5ba20587b7cbf3e942e973af5045a1e59-0' :
