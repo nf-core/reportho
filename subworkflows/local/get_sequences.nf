@@ -19,8 +19,8 @@ workflow GET_SEQUENCES {
     SPLIT_ID_FORMAT(ch_ids)
     ch_versions = ch_versions.mix(SPLIT_ID_FORMAT.out.versions)
 
-    ch_idfiles = SPLIT_ID_FORMAT.out.ids_split.transpose().branch {
-        it -> 
+    ch_id_files = SPLIT_ID_FORMAT.out.ids_split.transpose().branch {
+        it ->
             uniprot: it[1] =~ /uniprot/
             ensembl: it[1] =~ /ensembl/
             refseq: it[1] =~ /refseq/
@@ -32,7 +32,7 @@ workflow GET_SEQUENCES {
     ch_hits   = Channel.empty()
     ch_misses = Channel.empty()
 
-    FETCH_UNIPROT_SEQUENCES(ch_idfiles.uniprot.join(ch_query_fasta))
+    FETCH_UNIPROT_SEQUENCES(ch_id_files.uniprot.join(ch_query_fasta))
     ch_fasta    = ch_fasta.mix(FETCH_UNIPROT_SEQUENCES.out.fasta)
     ch_hits     = ch_hits.mix(FETCH_UNIPROT_SEQUENCES.out.hits)
     ch_misses   = ch_misses.mix(FETCH_UNIPROT_SEQUENCES.out.misses)
@@ -42,7 +42,7 @@ workflow GET_SEQUENCES {
     ch_versions = ch_versions.mix(FETCH_ENSEMBL_IDMAP.out.versions)
 
     FETCH_ENSEMBL_SEQUENCES(
-        ch_idfiles.ensembl.join(ch_query_fasta),
+        ch_id_files.ensembl.join(ch_query_fasta),
         FETCH_ENSEMBL_IDMAP.out.idmap
     )
     ch_fasta    = ch_fasta.mix(FETCH_ENSEMBL_SEQUENCES.out.fasta)
@@ -50,13 +50,13 @@ workflow GET_SEQUENCES {
     ch_misses   = ch_misses.mix(FETCH_ENSEMBL_SEQUENCES.out.misses)
     ch_versions = ch_versions.mix(FETCH_ENSEMBL_SEQUENCES.out.versions)
 
-    FETCH_REFSEQ_SEQUENCES(ch_idfiles.refseq.join(ch_query_fasta))
+    FETCH_REFSEQ_SEQUENCES(ch_id_files.refseq.join(ch_query_fasta))
     ch_fasta    = ch_fasta.mix(FETCH_REFSEQ_SEQUENCES.out.fasta)
     ch_hits     = ch_hits.mix(FETCH_REFSEQ_SEQUENCES.out.hits)
     ch_misses   = ch_misses.mix(FETCH_REFSEQ_SEQUENCES.out.misses)
     ch_versions = ch_versions.mix(FETCH_REFSEQ_SEQUENCES.out.versions)
 
-    FETCH_OMA_SEQUENCES(ch_idfiles.oma.join(ch_query_fasta))
+    FETCH_OMA_SEQUENCES(ch_id_files.oma.join(ch_query_fasta))
     ch_fasta    = ch_fasta.mix(FETCH_OMA_SEQUENCES.out.fasta)
     ch_hits     = ch_hits.mix(FETCH_OMA_SEQUENCES.out.hits)
     ch_misses   = ch_misses.mix(FETCH_OMA_SEQUENCES.out.misses)
@@ -72,7 +72,7 @@ workflow GET_SEQUENCES {
     CONCAT_HITS(ch_hits_grouped)
     ch_versions.mix(CONCAT_HITS.out.versions)
 
-    ch_misses_mixed = ch_misses_grouped.join(ch_idfiles.unknown).map {
+    ch_misses_mixed = ch_misses_grouped.join(ch_id_files.unknown).map {
         meta, misses, unknown -> [meta, misses + [unknown]]
     }
     CONCAT_MISSES(ch_misses_mixed)
