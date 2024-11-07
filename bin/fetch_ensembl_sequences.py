@@ -34,7 +34,7 @@ def fetch_slice(ids: list[str], idmap: dict[str,str]) -> list[SequenceInfo]:
     json2 = res2.json()
     if json2:
         for entry in json2:
-            if type(entry) != type(dict()):
+            if type(entry) is not type(dict()):
                 continue
             if hits.get(entry["query"], None) is not None:
                 hits[entry["query"]].sequence = entry["seq"]
