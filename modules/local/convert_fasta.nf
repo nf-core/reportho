@@ -2,10 +2,10 @@ process CONVERT_FASTA {
     tag "$input_file"
     label 'process_single'
 
-    conda "conda-forge::python=3.11.0 conda-forge::biopython=1.83.0 conda-forge::requests=2.31.0"
+    conda "conda-forge::python=3.12.0 conda-forge::biopython=1.84.0 conda-forge::requests=2.32.3"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/mulled-v2-bc54124b36864a4af42a9db48b90a404b5869e7e:5258b8e5ba20587b7cbf3e942e973af5045a1e59-0' :
-        'biocontainers/mulled-v2-bc54124b36864a4af42a9db48b90a404b5869e7e:5258b8e5ba20587b7cbf3e942e973af5045a1e59-0' }"
+        'community.wave.seqera.io/library/python_requests_biopython:3c0f15f68130f062' }"
 
     input:
     tuple val(meta), path(input_file)
