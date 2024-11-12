@@ -20,6 +20,11 @@
                         "git_sha": "614abbf126f287a3068dc86997b2e1b6a93abe20",
                         "installed_by": ["modules"]
                     },
+                    "diamond/cluster": {
+                        "branch": "master",
+                        "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
+                        "installed_by": ["modules"]
+                    },
                     "fastme": {
                         "branch": "master",
                         "git_sha": "5f4e755fdc22c6e40d740ab27ea9b1004e806cb5",
