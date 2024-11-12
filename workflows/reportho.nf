@@ -12,6 +12,7 @@ include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_repo
 
 include { GET_ORTHOLOGS          } from '../subworkflows/local/get_orthologs'
 include { GET_SEQUENCES          } from '../subworkflows/local/get_sequences'
+include { MERGE_IDS              } from '../subworkflows/local/merge_ids'
 include { SCORE_ORTHOLOGS        } from '../subworkflows/local/score_orthologs'
 include { ALIGN                  } from '../subworkflows/local/align'
 include { MAKE_TREES             } from '../subworkflows/local/make_trees'
@@ -66,6 +67,10 @@ workflow REPORTHO {
     )
 
     ch_versions = ch_versions.mix(GET_SEQUENCES.out.versions)
+
+    MERGE_IDS (
+        GET_SEQUENCES.out.fasta
+    )
 
     SCORE_ORTHOLOGS (
         GET_ORTHOLOGS.out.seqinfo,
