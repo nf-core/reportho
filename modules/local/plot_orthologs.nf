@@ -20,7 +20,7 @@ process PLOT_ORTHOLOGS {
     task.ext.when == null || task.ext.when
 
     script:
-    prefix = task.ext.prefix ?: meta.id
+    def prefix = task.ext.prefix ?: meta.id
     """
     plot_orthologs.R $score_table $prefix
 

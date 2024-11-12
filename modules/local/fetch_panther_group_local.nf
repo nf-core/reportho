@@ -19,7 +19,7 @@ process FETCH_PANTHER_GROUP_LOCAL {
     task.ext.when == null || task.ext.when
 
     script:
-    prefix = task.ext.prefix ?: meta.id
+    def prefix = task.ext.prefix ?: meta.id
     """
     id=\$(cat ${uniprot_id})
     touch ${prefix}_panther_group_raw.txt

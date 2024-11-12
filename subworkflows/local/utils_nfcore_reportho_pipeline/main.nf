@@ -178,11 +178,11 @@ def validateInputSamplesheet(input) {
     def (fasta, uniprot_id) = input[1..2]
 
     if (!fasta & !uniprot_id) {
-        error("Either 'fasta' or 'uniprot_id' must be provided in the samplesheet")
+        log.error("Either 'fasta' or 'uniprot_id' must be provided in the samplesheet")
     }
 
     if (fasta & uniprot_id) {
-        warn("Both 'fasta' and 'uniprot_id' provided in the samplesheet, defaulting to 'uniprot_id'")
+        log.warn("Both 'fasta' and 'uniprot_id' provided in the samplesheet, defaulting to 'uniprot_id'")
     }
 
     return input

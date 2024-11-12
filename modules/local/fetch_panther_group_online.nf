@@ -18,7 +18,7 @@ process FETCH_PANTHER_GROUP_ONLINE {
     task.ext.when == null || task.ext.when
 
     script:
-    prefix = task.ext.prefix ?: meta.id
+    def prefix = task.ext.prefix ?: meta.id
     """
     # get Uniprot ID and TaxID
     uniprot_id=\$(cat $uniprot_id)

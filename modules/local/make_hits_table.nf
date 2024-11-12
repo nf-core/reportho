@@ -18,7 +18,7 @@ process MAKE_HITS_TABLE {
     task.ext.when == null || task.ext.when
 
     script:
-    prefix = task.ext.prefix ?: meta.id
+    def prefix = task.ext.prefix ?: meta.id
     """
     make_hits_table.py $merged_csv ${meta.id} > ${prefix}_hits_table.csv
 

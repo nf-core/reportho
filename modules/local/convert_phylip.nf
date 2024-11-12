@@ -18,7 +18,7 @@ process CONVERT_PHYLIP {
     task.ext.when == null || task.ext.when
 
     script:
-    prefix = task.ext.prefix ?: meta.id
+    def prefix = task.ext.prefix ?: meta.id
     """
     clustal2phylip.py $input_file ${prefix}.phy
 

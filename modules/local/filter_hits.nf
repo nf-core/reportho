@@ -21,7 +21,7 @@ process FILTER_HITS {
     task.ext.when == null || task.ext.when
 
     script:
-    prefix     = task.ext.prefix ?: meta.id
+    def prefix     = task.ext.prefix ?: meta.id
     targetfile = use_centroid ? "${prefix}_centroid.txt" : "${prefix}_minscore_${min_score}.txt"
     """
     score_hits.py $score_table $prefix $queryid

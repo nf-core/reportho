@@ -18,7 +18,7 @@ process MAKE_SCORE_TABLE {
     task.ext.when == null || task.ext.when
 
     script:
-    prefix = task.ext.prefix ?: meta.id
+    def prefix = task.ext.prefix ?: meta.id
     """
     make_score_table.py $merged_csv > ${prefix}_score_table.csv
 

@@ -18,7 +18,7 @@ process IDENTIFY_SEQ_ONLINE {
     task.ext.when == null || task.ext.when
 
     script:
-    prefix = task.ext.prefix ?: meta.id
+    def prefix = task.ext.prefix ?: meta.id
     """
     fetch_oma_by_sequence.py $fasta id_raw.txt ${prefix}_taxid.txt ${prefix}_exact.txt
     uniprotize_oma_online.py id_raw.txt > ${prefix}_id.txt

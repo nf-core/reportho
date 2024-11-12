@@ -18,7 +18,7 @@ process SPLIT_ID_FORMAT {
     task.ext.when == null || task.ext.when
 
     script:
-    prefix = task.ext.prefix ?: meta.id
+    def prefix = task.ext.prefix ?: meta.id
     """
     cut -d ',' -f 1 $ids | tail -n +2 > tmp
     split_id_format.py tmp $prefix

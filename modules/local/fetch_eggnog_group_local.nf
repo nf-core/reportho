@@ -23,7 +23,7 @@ process FETCH_EGGNOG_GROUP_LOCAL {
     task.ext.when == null || task.ext.when
 
     script:
-    prefix = task.ext.prefix ?: meta.id
+    def prefix = task.ext.prefix ?: meta.id
     """
     # get the EggNOG ID from the ID map
     zcat $eggnog_idmap | grep \$(cat $uniprot_id) | cut -f2 | cut -d',' -f1 > eggnog_id.txt || test -f eggnog_id.txt
