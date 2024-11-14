@@ -5,6 +5,7 @@ include { GAWK as POSTPROCESS_DIAMOND } from '../../modules/nf-core/gawk/main.nf
 include { GAWK as GROUP_DIAMOND       } from '../../modules/nf-core/gawk/main.nf'
 include { CAT_CAT as MERGE_DIAMOND    } from '../../modules/nf-core/cat/cat/main.nf'
 include { CAT_CAT as MERGE_ALL        } from '../../modules/nf-core/cat/cat/main.nf'
+include { GAWK as REDUCE_IDMAP        } from '../../modules/nf-core/gawk/main.nf'
 
 workflow MERGE_IDS {
     take:
@@ -81,6 +82,15 @@ workflow MERGE_IDS {
 
     ch_id_clusters = ch_id_clusters.mix(MERGE_ALL.out.file_out)
 
+    // Reduce idmap
+    REDUCE_IDMAP (
+        MERGE_ALL.out.file_out,
+        []
+    )
+
+    ch_id_map = REDUCE_IDMAP.out.output
+
     emit:
     ch_id_clusters
+    ch_id_map
 }
