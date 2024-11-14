@@ -30,6 +30,11 @@
                         "git_sha": "5f4e755fdc22c6e40d740ab27ea9b1004e806cb5",
                         "installed_by": ["modules"]
                     },
+                    "gawk": {
+                        "branch": "master",
+                        "git_sha": "97321eded31a12598837a476d3615300af413bb7",
+                        "installed_by": ["modules"]
+                    },
                     "iqtree": {
                         "branch": "master",
                         "git_sha": "ba03053ffa300ccdd044545131ba033b73f327fe",
