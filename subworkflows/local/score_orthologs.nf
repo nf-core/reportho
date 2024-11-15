@@ -11,13 +11,14 @@ workflow SCORE_ORTHOLOGS {
     take:
     ch_query
     ch_orthologs
+    ch_id_map
 
     main:
     // Scoring and filtering
     ch_versions = Channel.empty()
 
     MAKE_SCORE_TABLE (
-        ch_orthologs
+        ch_orthologs.join(ch_id_map)
     )
 
     ch_versions = ch_versions.mix(MAKE_SCORE_TABLE.out.versions)
