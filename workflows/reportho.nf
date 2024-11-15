@@ -62,6 +62,7 @@ workflow REPORTHO {
     ch_versions = ch_versions.mix(GET_ORTHOLOGS.out.versions)
 
     if (!params.offline_run && (!params.skip_merge || !params.skip_downstream))
+    {
         GET_SEQUENCES (
             GET_ORTHOLOGS.out.orthologs,
             ch_fasta_query
