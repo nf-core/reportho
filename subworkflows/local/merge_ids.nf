@@ -91,6 +91,7 @@ workflow MERGE_IDS {
     ch_id_map = REDUCE_IDMAP.out.output
 
     emit:
-    ch_id_clusters
-    ch_id_map
+    id_clusters = ch_id_clusters
+    id_map      = ch_id_map
+    versions    = ch_versions
 }
