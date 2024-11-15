@@ -61,16 +61,23 @@ workflow REPORTHO {
 
     ch_versions = ch_versions.mix(GET_ORTHOLOGS.out.versions)
 
-    GET_SEQUENCES (
-        GET_ORTHOLOGS.out.orthologs,
-        ch_fasta_query
-    )
+    if (!params.offline_run && (!params.skip_merge || !params.skip_downstream))
+        GET_SEQUENCES (
+            GET_ORTHOLOGS.out.orthologs,
+            ch_fasta_query
+        )
 
-    ch_versions = ch_versions.mix(GET_SEQUENCES.out.versions)
+        ch_versions = ch_versions.mix(GET_SEQUENCES.out.versions)
+    }
 
-    MERGE_IDS (
-        GET_SEQUENCES.out.fasta
-    )
+    if (!params.offline_run && !params.skip_merge)
+    {
+        MERGE_IDS (
+            GET_SEQUENCES.out.fasta
+        )
+
+        ch_versions = ch_versions.mix(MERGE_IDS.out.versions)
+    }
 
     SCORE_ORTHOLOGS (
         GET_ORTHOLOGS.out.seqinfo,
