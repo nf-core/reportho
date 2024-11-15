@@ -18,7 +18,7 @@ process FILTER_FASTA {
     task.ext.when == null || task.ext.when
 
     script:
-    prefix = task.ext.prefix ?: meta.id
+    def prefix = task.ext.prefix ?: meta.id
     """
     filter_fasta.py ${fasta} ${structures} ${prefix}_filtered.fa
 

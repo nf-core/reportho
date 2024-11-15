@@ -21,7 +21,7 @@ process FETCH_AFDB_STRUCTURES {
     task.ext.when == null || task.ext.when
 
     script:
-    prefix = task.ext.prefix ?: meta.id
+    def prefix = task.ext.prefix ?: meta.id
     """
     fetch_afdb_structures.py $ids $prefix 2> ${prefix}_af_versions.txt
 

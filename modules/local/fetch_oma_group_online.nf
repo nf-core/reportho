@@ -18,7 +18,7 @@ process FETCH_OMA_GROUP_ONLINE {
     task.ext.when == null || task.ext.when
 
     script:
-    prefix = task.ext.prefix ?: meta.id
+    def prefix = task.ext.prefix ?: meta.id
     """
     # get uniprot ID
     uniprot_id=\$(cat ${uniprot_id})

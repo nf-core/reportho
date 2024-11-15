@@ -18,7 +18,7 @@ process MAKE_STATS {
     task.ext.when == null || task.ext.when
 
     script:
-    prefix = task.ext.prefix ?: meta.id
+    def prefix = task.ext.prefix ?: meta.id
     """
     make_stats.py ${score_table} > ${prefix}_stats.yml
 

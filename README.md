@@ -1,7 +1,7 @@
 <h1>
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/nf-core-reportho_logo_dark.png">
-    <img alt="nf-core/reportho" src="docs/images/nf-core-reportho_logo_light.png">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/nf-core-reportho_logo_hex_dark.png">
+    <img alt="nf-core/reportho" src="docs/images/nf-core-reportho_logo_hex_light.png">
   </picture>
 </h1>
 

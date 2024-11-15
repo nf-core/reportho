@@ -22,7 +22,7 @@ process FETCH_OMA_GROUP_LOCAL {
     task.ext.when == null || task.ext.when
 
     script:
-    prefix = task.ext.prefix ?: meta.id
+    def prefix = task.ext.prefix ?: meta.id
     """
     # Obtain the OMA ID for the given Uniprot ID of the query protein
     uniprot2oma_local.py $uniprot_idmap $uniprot_id > oma_id.txt || test -f oma_id.txt

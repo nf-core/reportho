@@ -2,11 +2,6 @@ process MAKE_REPORT {
     tag "$meta.id"
     label 'process_single'
 
-    // Exit if running this module with -profile conda / -profile mamba
-    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
-        error("Local MAKE_REPORT module does not support Conda. Please use Docker / Singularity / Podman instead.")
-    }
-
     container "nf-core/reportho-orthologs-report:1.0.0"
 
     input:
@@ -20,7 +15,12 @@ process MAKE_REPORT {
     task.ext.when == null || task.ext.when
 
     script:
-    prefix = task.ext.prefix ?: meta.id
+    // Exit if running this module with -profile conda / -profile mamba
+    if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
+        error("Local MAKE_REPORT module does not support Conda. Please use Docker / Singularity / Podman instead.")
+    }
+
+    def prefix = task.ext.prefix ?: meta.id
     seqhits_cmd = seq_hits ? "cp $seq_hits public/seq_hits.txt" : ''
     seqmisses_cmd = seq_misses ? "cp $seq_misses public/seq_misses.txt" : ''
     strhits_cmd = str_hits ? "cp $str_hits public/str_hits.txt" : ''

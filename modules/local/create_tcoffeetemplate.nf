@@ -17,8 +17,7 @@ process CREATE_TCOFFEETEMPLATE {
     task.ext.when == null || task.ext.when
 
     script:
-    def args = task.ext.args ?: ''
-    prefix   = task.ext.prefix ?: "${meta.id}"
+    def prefix   = task.ext.prefix ?: "${meta.id}"
     """
     # Prep templates
     for structure in \$(ls *.pdb); do
