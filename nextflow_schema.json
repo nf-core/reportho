@@ -175,7 +175,7 @@
                     "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the EggNOG ID map.",
                     "fa_icon": "fas fa-database"
                 },
-                "skip_merging": {
+                "skip_merge": {
                     "type": "boolean",
                     "default": "false",
                     "description": "Skip merging IDs based on sequence.",
