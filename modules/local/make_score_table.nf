@@ -19,8 +19,10 @@ process MAKE_SCORE_TABLE {
 
     script:
     def prefix = task.ext.prefix ?: meta.id
+    def idarg  = id_map ? "cat ${id_map} > idmap" : "touch idmap"
     """
-    make_score_table.py $merged_csv $id_map > ${prefix}_score_table.csv
+    $idarg
+    make_score_table.py $merged_csv idmap > ${prefix}_score_table.csv
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":
