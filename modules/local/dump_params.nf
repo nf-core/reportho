@@ -12,9 +12,6 @@ process DUMP_PARAMS {
     val use_structures
     val use_centroid
     val min_score
-    val skip_downstream
-    val skip_iqtree
-    val skip_fastme
 
     output:
     tuple val(meta), path("params.yml"), emit: params
@@ -31,9 +28,6 @@ process DUMP_PARAMS {
     use_structures: ${use_structures}
     use_centroid: ${use_centroid}
     min_score: ${min_score}
-    skip_downstream: ${skip_downstream}
-    skip_iqtree: ${skip_iqtree}
-    skip_fastme: ${skip_fastme}
     END_PARAMS
 
     cat <<-END_VERSIONS > versions.yml

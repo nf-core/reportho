@@ -5,7 +5,7 @@ process MAKE_REPORT {
     container "nf-core/reportho-orthologs-report:1.0.0"
 
     input:
-    tuple val(meta), path(id), path(taxid), path(exact), path(score_table), path(filtered_hits), path(support_plot), path(venn_plot), path(jaccard_plot), path(orthostats), path(seq_hits), path(seq_misses), path(str_hits), path(str_misses), path(alignment), path(iqtree), path(fastme), path(params_file)
+    tuple val(meta), path(id), path(taxid), path(exact), path(score_table), path(filtered_hits), path(support_plot), path(venn_plot), path(jaccard_plot), path(orthostats), path(seq_hits), path(seq_misses), path(params_file)
 
     output:
     tuple val(meta), path("*dist/*"), emit: report_files
@@ -20,14 +20,9 @@ process MAKE_REPORT {
         error("Local MAKE_REPORT module does not support Conda. Please use Docker / Singularity / Podman instead.")
     }
 
-    def prefix = task.ext.prefix ?: meta.id
-    seqhits_cmd = seq_hits ? "cp $seq_hits public/seq_hits.txt" : ''
+    def prefix    = task.ext.prefix ?: meta.id
+    seqhits_cmd   = seq_hits ? "cp $seq_hits public/seq_hits.txt" : ''
     seqmisses_cmd = seq_misses ? "cp $seq_misses public/seq_misses.txt" : ''
-    strhits_cmd = str_hits ? "cp $str_hits public/str_hits.txt" : ''
-    strmisses_cmd = str_misses ? "cp $str_misses public/str_misses.txt" : ''
-    aln_cmd = alignment ? "cp $alignment public/alignment.fa" : ''
-    iqtree_cmd = iqtree ? "cp $iqtree public/iqtree.png" : ''
-    fastme_cmd = fastme ? "cp $fastme public/fastme.png" : ''
     """
     # copy project files
     cp -r /app/* .
@@ -47,11 +42,6 @@ process MAKE_REPORT {
     cp $params_file public/params.yml
     $seqhits_cmd
     $seqmisses_cmd
-    $strhits_cmd
-    $strmisses_cmd
-    $aln_cmd
-    $iqtree_cmd
-    $fastme_cmd
 
     # build the report
     yarn run build
