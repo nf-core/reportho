@@ -14,12 +14,7 @@ include { GET_ORTHOLOGS          } from '../subworkflows/local/get_orthologs'
 include { GET_SEQUENCES          } from '../subworkflows/local/get_sequences'
 include { MERGE_IDS              } from '../subworkflows/local/merge_ids'
 include { SCORE_ORTHOLOGS        } from '../subworkflows/local/score_orthologs'
-include { ALIGN                  } from '../subworkflows/local/align'
-include { MAKE_TREES             } from '../subworkflows/local/make_trees'
 include { REPORT                 } from '../subworkflows/local/report'
-
-include { FETCH_OMA_SEQUENCES    } from '../modules/local/fetch_oma_sequences'
-include { FETCH_AFDB_STRUCTURES  } from '../modules/local/fetch_afdb_structures'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
