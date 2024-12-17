@@ -46,7 +46,7 @@ workflow PIPELINE_INITIALISATION {
         outdir,
         workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1
     )
-    
+
     //
     // Validate parameters and generate parameter summary to stdout
     //
@@ -109,7 +109,7 @@ workflow PIPELINE_COMPLETION {
     main:
     summary_params = paramsSummaryMap(workflow, parameters_schema: "nextflow_schema.json")
     def multiqc_reports = multiqc_report.toList()
-    
+
     //
     // Completion email and summary
     //
