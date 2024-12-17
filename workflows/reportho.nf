@@ -42,6 +42,9 @@ workflow REPORTHO {
     ch_eggnog       = params.eggnog_path ? Channel.value(file(params.eggnog_path)) : Channel.empty()
     ch_eggnog_idmap = params.eggnog_idmap_path ? Channel.value(file(params.eggnog_idmap_path)) : Channel.empty()
 
+    ch_seqhits   = ch_samplesheet_query.map { [it[0], []] }
+    ch_seqmisses = ch_samplesheet_query.map { [it[0], []] }
+
     GET_ORTHOLOGS (
         ch_samplesheet_query,
         ch_samplesheet_fasta,
@@ -56,12 +59,18 @@ workflow REPORTHO {
 
     ch_versions = ch_versions.mix(GET_ORTHOLOGS.out.versions)
 
+    ch_seqs = ch_samplesheet_query.map { [it[0], []] }
+
     if (!params.offline_run && (!params.skip_merge || !params.skip_downstream))
     {
         GET_SEQUENCES (
             GET_ORTHOLOGS.out.orthologs,
             ch_fasta_query
         )
+
+        ch_seqs      = GET_SEQUENCES.out.fasta
+        ch_seqhits   = GET_SEQUENCES.out.hits
+        ch_seqmisses = GET_SEQUENCES.out.misses
 
         ch_versions = ch_versions.mix(GET_SEQUENCES.out.versions)
     }
@@ -71,7 +80,7 @@ workflow REPORTHO {
     if (!params.offline_run && !params.skip_merge)
     {
         MERGE_IDS (
-            GET_SEQUENCES.out.fasta
+            ch_seqs
         )
 
         ch_versions = ch_versions.mix(MERGE_IDS.out.versions)
@@ -91,9 +100,6 @@ workflow REPORTHO {
 
     ch_multiqc_files = ch_multiqc_files.mix(SCORE_ORTHOLOGS.out.aggregated_stats.map {it[1]})
     ch_multiqc_files = ch_multiqc_files.mix(SCORE_ORTHOLOGS.out.aggregated_hits.map {it[1]})
-
-    ch_seqhits   = GET_SEQUENCES.out.hits
-    ch_seqmisses = GET_SEQUENCES.out.misses
 
     if(!params.skip_report) {
         REPORT (
