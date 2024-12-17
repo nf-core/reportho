@@ -14,12 +14,7 @@ include { GET_ORTHOLOGS          } from '../subworkflows/local/get_orthologs'
 include { GET_SEQUENCES          } from '../subworkflows/local/get_sequences'
 include { MERGE_IDS              } from '../subworkflows/local/merge_ids'
 include { SCORE_ORTHOLOGS        } from '../subworkflows/local/score_orthologs'
-include { ALIGN                  } from '../subworkflows/local/align'
-include { MAKE_TREES             } from '../subworkflows/local/make_trees'
 include { REPORT                 } from '../subworkflows/local/report'
-
-include { FETCH_OMA_SEQUENCES    } from '../modules/local/fetch_oma_sequences'
-include { FETCH_AFDB_STRUCTURES  } from '../modules/local/fetch_afdb_structures'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -47,6 +42,9 @@ workflow REPORTHO {
     ch_eggnog       = params.eggnog_path ? Channel.value(file(params.eggnog_path)) : Channel.empty()
     ch_eggnog_idmap = params.eggnog_idmap_path ? Channel.value(file(params.eggnog_idmap_path)) : Channel.empty()
 
+    ch_seqhits   = ch_samplesheet_query.map { [it[0], []] }
+    ch_seqmisses = ch_samplesheet_query.map { [it[0], []] }
+
     GET_ORTHOLOGS (
         ch_samplesheet_query,
         ch_samplesheet_fasta,
@@ -61,6 +59,8 @@ workflow REPORTHO {
 
     ch_versions = ch_versions.mix(GET_ORTHOLOGS.out.versions)
 
+    ch_seqs = ch_samplesheet_query.map { [it[0], []] }
+
     if (!params.offline_run && (!params.skip_merge || !params.skip_downstream))
     {
         GET_SEQUENCES (
@@ -68,21 +68,30 @@ workflow REPORTHO {
             ch_fasta_query
         )
 
+        ch_seqs      = GET_SEQUENCES.out.fasta
+        ch_seqhits   = GET_SEQUENCES.out.hits
+        ch_seqmisses = GET_SEQUENCES.out.misses
+
         ch_versions = ch_versions.mix(GET_SEQUENCES.out.versions)
     }
+
+    ch_id_map = ch_fasta_query.map { [it[0], []] }
 
     if (!params.offline_run && !params.skip_merge)
     {
         MERGE_IDS (
-            GET_SEQUENCES.out.fasta
+            ch_seqs
         )
 
         ch_versions = ch_versions.mix(MERGE_IDS.out.versions)
+
+        ch_id_map = MERGE_IDS.out.id_map
     }
 
     SCORE_ORTHOLOGS (
         GET_ORTHOLOGS.out.seqinfo,
-        GET_ORTHOLOGS.out.orthologs
+        GET_ORTHOLOGS.out.orthologs,
+        ch_id_map
     )
 
     ch_versions = ch_versions.mix(SCORE_ORTHOLOGS.out.versions)
@@ -92,68 +101,11 @@ workflow REPORTHO {
     ch_multiqc_files = ch_multiqc_files.mix(SCORE_ORTHOLOGS.out.aggregated_stats.map {it[1]})
     ch_multiqc_files = ch_multiqc_files.mix(SCORE_ORTHOLOGS.out.aggregated_hits.map {it[1]})
 
-    ch_seqhits   = ch_samplesheet.map { [it[0], []] }
-    ch_seqmisses = ch_samplesheet.map { [it[0], []] }
-    ch_strhits   = ch_samplesheet.map { [it[0], []] }
-    ch_strmisses = ch_samplesheet.map { [it[0], []] }
-    ch_alignment = ch_samplesheet.map { [it[0], []] }
-    ch_iqtree    = ch_samplesheet.map { [it[0], []] }
-    ch_fastme    = ch_samplesheet.map { [it[0], []] }
-
-    if (!params.skip_downstream) {
-        ch_sequences_input = SCORE_ORTHOLOGS.out.orthologs.join(ch_fasta_query)
-
-        FETCH_OMA_SEQUENCES (
-            ch_sequences_input
-        )
-
-        ch_seqhits = FETCH_OMA_SEQUENCES.out.hits
-
-        ch_seqmisses = FETCH_OMA_SEQUENCES.out.misses
-
-        ch_versions = ch_versions.mix(FETCH_OMA_SEQUENCES.out.versions)
-
-        if (params.use_structures) {
-            FETCH_AFDB_STRUCTURES (
-                SCORE_ORTHOLOGS.out.orthologs
-            )
-
-            ch_strhits = FETCH_AFDB_STRUCTURES.out.hits
-
-            ch_strmisses = FETCH_AFDB_STRUCTURES.out.misses
-
-            ch_versions = ch_versions.mix(FETCH_AFDB_STRUCTURES.out.versions)
-        }
-
-        ch_structures = params.use_structures ? FETCH_AFDB_STRUCTURES.out.pdb : Channel.empty()
-
-        ALIGN (
-            FETCH_OMA_SEQUENCES.out.fasta,
-            ch_structures
-        )
-
-        ch_alignment = ALIGN.out.alignment
-
-        ch_versions = ch_versions.mix(ALIGN.out.versions)
-
-        MAKE_TREES (
-            ALIGN.out.alignment
-        )
-
-        ch_iqtree = MAKE_TREES.out.mlplot.map { [it[0], it[1]] }
-        ch_fastme = MAKE_TREES.out.meplot.map { [it[0], it[1]] }
-
-        ch_versions = ch_versions.mix(MAKE_TREES.out.versions)
-    }
-
     if(!params.skip_report) {
         REPORT (
             params.use_structures,
             params.use_centroid,
             params.min_score,
-            params.skip_downstream,
-            params.skip_iqtree,
-            params.skip_fastme,
             GET_ORTHOLOGS.out.seqinfo,
             SCORE_ORTHOLOGS.out.score_table,
             SCORE_ORTHOLOGS.out.orthologs,
@@ -162,12 +114,7 @@ workflow REPORTHO {
             SCORE_ORTHOLOGS.out.jaccard_plot.map { [it[0], it[2]]},
             SCORE_ORTHOLOGS.out.stats,
             ch_seqhits,
-            ch_seqmisses,
-            ch_strhits,
-            ch_strmisses,
-            ch_alignment,
-            ch_iqtree,
-            ch_fastme
+            ch_seqmisses
         )
 
         ch_versions = ch_versions.mix(REPORT.out.versions)
