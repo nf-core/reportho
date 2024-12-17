@@ -1,5 +1,5 @@
 {
-    "markdown.styles": ["public/vscode_markdown.css"]
+    "markdown.styles": ["public/vscode_markdown.css"],
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
     "cSpell.words": ["ORTHOLOGS"]
