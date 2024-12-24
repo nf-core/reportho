@@ -8,8 +8,8 @@ process MAKE_REPORT {
     tuple val(meta), path(id), path(taxid), path(exact), path(score_table), path(filtered_hits), path(support_plot), path(venn_plot), path(jaccard_plot), path(orthostats), path(seq_hits), path(seq_misses), path(params_file)
 
     output:
-    tuple val(meta), path("*dist/*"), emit: report_files
-    path "versions.yml"             , emit: versions
+    tuple val(meta), path("${prefix}/*"), emit: report_files
+    path "versions.yml"                 , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -20,7 +20,7 @@ process MAKE_REPORT {
         error("Local MAKE_REPORT module does not support Conda. Please use Docker / Singularity / Podman instead.")
     }
 
-    def prefix    = task.ext.prefix ?: meta.id
+    prefix        = task.ext.prefix ?: meta.id
     seqhits_cmd   = seq_hits ? "cp $seq_hits public/seq_hits.txt" : ''
     seqmisses_cmd = seq_misses ? "cp $seq_misses public/seq_misses.txt" : ''
     """
@@ -50,8 +50,8 @@ process MAKE_REPORT {
     echo "python3 -m http.server 0" > dist/run.sh
     chmod u+x dist/run.sh
 
-    # add prefix to directory name
-    mv dist ${prefix}_dist
+    # change output directory name
+    mv dist ${prefix}
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":
@@ -62,10 +62,9 @@ process MAKE_REPORT {
     """
 
     stub:
-    def prefix = task.ext.prefix ?: "${meta.id}"
     """
-    mkdir ${prefix}_dist
-    touch ${prefix}_dist/${prefix}_run.sh
+    mkdir ${prefix}
+    touch ${prefix}/run.sh
 
     cat <<- END_VERSIONS > versions.yml
     ${task.process}:
