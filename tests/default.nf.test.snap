@@ -1,0 +1,323 @@
+{
+    "Params: default - stub": {
+        "content": [
+            27,
+            {
+                "FETCH_ENSEMBL_IDMAP": {
+                    "Python": "3.11.0",
+                    "Python Requests": "2.31.0"
+                },
+                "FETCH_UNIPROT_SEQUENCES": {
+                    "Python": "3.11.0",
+                    "Python Requests": "2.31.0"
+                },
+                "MAKE_HITS_TABLE": {
+                    "Python": "3.11.0"
+                },
+                "MERGE_HITS": {
+                    "csvtk": "0.30.0"
+                },
+                "MERGE_CSV": {
+                    "csvtk": "0.30.0"
+                },
+                "FETCH_INSPECTOR_GROUP_ONLINE": {
+                    "Python": "3.11.0",
+                    "Python Requests": "2.31.0",
+                    "OrthoInspector Database": "Eukaryota2023"
+                },
+                "FETCH_PANTHER_GROUP_ONLINE": {
+                    "Python": "3.11.0",
+                    "Python Requests": "2.31.0",
+                    "Panther Database": null
+                },
+                "WRITE_SEQINFO": {
+                    "Python": "3.11.0",
+                    "Python Requests": "2.31.0"
+                },
+                "FETCH_OMA_GROUP_ONLINE": {
+                    "Python": "3.11.0",
+                    "Python Requests": "2.31.0",
+                    "OMA Database": "All.Jul2024",
+                    "OMA API": 1.1
+                },
+                "SPLIT_ID_FORMAT": {
+                    "Python": "3.12.7"
+                },
+                "SPLIT_TAXIDS": {
+                    "awk": "mawk 1.3.4 20200120"
+                },
+                "Workflow": {
+                    "nf-core/reportho": "v1.1.0dev"
+                }
+            },
+            [
+                "multiqc",
+                "multiqc/multiqc_data",
+                "multiqc/multiqc_plots",
+                "multiqc/multiqc_report.html",
+                "pipeline_info",
+                "pipeline_info/nf_core_pipeline_software_mqc_versions.yml",
+                "score",
+                "score/aggregated_hits.csv",
+                "sequences",
+                "sequences/BicD2",
+                "sequences/BicD2/BicD2_orthologs.txt",
+                "sequences/HBB",
+                "sequences/HBB/HBB_orthologs.txt"
+            ],
+            [
+                "multiqc_plots:md5,d41d8cd98f00b204e9800998ecf8427e",
+                "multiqc_report.html:md5,d41d8cd98f00b204e9800998ecf8427e",
+                "nf_core_pipeline_software_mqc_versions.yml:md5,764044e3a5531974ab13dd4fbfafa909",
+                "params_2025-01-08_17-11-39.json:md5,f34847f1697dae21de1e0b03ada779d8",
+                "aggregated_hits.csv:md5,d41d8cd98f00b204e9800998ecf8427e",
+                "BicD2_orthologs.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
+                "HBB_orthologs.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.10.3"
+        },
+        "timestamp": "2025-01-08T17:11:52.546593"
+    },
+    "Params: default": {
+        "content": [
+            244,
+            {
+                "DIAMOND_CLUSTER": {
+                    "diamond": "2.1.9"
+                },
+                "FETCH_ENSEMBL_IDMAP": {
+                    "Python": "3.11.0",
+                    "Python Requests": "2.31.0"
+                },
+                "FETCH_ENSEMBL_SEQUENCES": {
+                    "Python": "3.11.0",
+                    "Python Requests": "2.31.0"
+                },
+                "FETCH_OMA_SEQUENCES": {
+                    "Python": "3.11.0",
+                    "Python Requests": "2.31.0",
+                    "OMA Database": "All.Jul2024",
+                    "OMA API": 1.1
+                },
+                "FETCH_PANTHER_GROUP_ONLINE": {
+                    "Python": "3.11.0",
+                    "Python Requests": "2.31.0",
+                    "Panther Database": null
+                },
+                "WRITE_SEQINFO": {
+                    "Python": "3.11.0",
+                    "Python Requests": "2.31.0"
+                },
+                "MERGE_CSV": {
+                    "csvtk": "0.30.0"
+                },
+                "FETCH_INSPECTOR_GROUP_ONLINE": {
+                    "Python": "3.11.0",
+                    "Python Requests": "2.31.0",
+                    "OrthoInspector Database": "Eukaryota2023"
+                },
+                "FETCH_OMA_GROUP_ONLINE": {
+                    "Python": "3.11.0",
+                    "Python Requests": "2.31.0",
+                    "OMA Database": "All.Jul2024",
+                    "OMA API": 1.1
+                },
+                "FETCH_REFSEQ_SEQUENCES": {
+                    "Python": "3.11.0",
+                    "Python Requests": "2.31.0"
+                },
+                "FETCH_UNIPROT_SEQUENCES": {
+                    "Python": "3.11.0",
+                    "Python Requests": "2.31.0"
+                },
+                "GROUP_DIAMOND": {
+                    "gawk": "5.3.0"
+                },
+                "MAKE_REPORT": {
+                    "Node": "v22.1.0",
+                    "Yarn": "1.22.19",
+                    "React": "19.0.0"
+                },
+                "MERGE_ALL": {
+                    "pigz": "2.3.4"
+                },
+                "MERGE_DIAMOND": {
+                    "pigz": "2.3.4"
+                },
+                "MERGE_FASTA_IDS": {
+                    "gawk": "5.3.0"
+                },
+                "MERGE_HITS": {
+                    "csvtk": "0.30.0"
+                },
+                "MERGE_STATS": {
+                    "csvtk": "0.30.0"
+                },
+                "MAKE_SCORE_TABLE": {
+                    "Python": "3.11.0"
+                },
+                "STATS2CSV": {
+                    "Python": "3.9.6",
+                    "PyYAML": "5.4.1"
+                },
+                "MAKE_HITS_TABLE": {
+                    "Python": "3.11.0"
+                },
+                "MAKE_STATS": {
+                    "Python": "3.11.0"
+                },
+                "FILTER_HITS": {
+                    "Python": "3.11.0"
+                },
+                "PLOT_ORTHOLOGS": {
+                    "r-base": "4.3.3"
+                },
+                "POSTPROCESS_DIAMOND": {
+                    "gawk": "5.3.0"
+                },
+                "SPLIT_ID_FORMAT": {
+                    "Python": "3.12.7"
+                },
+                "SPLIT_TAXIDS": {
+                    "awk": "mawk 1.3.4 20200120"
+                },
+                "Workflow": {
+                    "nf-core/reportho": "v1.1.0dev"
+                }
+            },
+            [
+                "multiqc",
+                "multiqc/multiqc_data",
+                "multiqc/multiqc_data/multiqc.log",
+                "multiqc/multiqc_data/multiqc_citations.txt",
+                "multiqc/multiqc_data/multiqc_data.json",
+                "multiqc/multiqc_data/multiqc_software_versions.txt",
+                "multiqc/multiqc_data/multiqc_sources.txt",
+                "multiqc/multiqc_report.html",
+                "pipeline_info",
+                "pipeline_info/nf_core_pipeline_software_mqc_versions.yml",
+                "report",
+                "report/BicD2",
+                "report/BicD2/filtered_hits.txt",
+                "report/BicD2/id.txt",
+                "report/BicD2/index.html",
+                "report/BicD2/jaccard.png",
+                "report/BicD2/nf-core-logo-square.png",
+                "report/BicD2/orthostats.yml",
+                "report/BicD2/params.yml",
+                "report/BicD2/run.sh",
+                "report/BicD2/score_table.csv",
+                "report/BicD2/seq_hits.txt",
+                "report/BicD2/seq_misses.txt",
+                "report/BicD2/supports.png",
+                "report/BicD2/taxid.txt",
+                "report/BicD2/venn.png",
+                "report/HBB",
+                "report/HBB/filtered_hits.txt",
+                "report/HBB/id.txt",
+                "report/HBB/index.html",
+                "report/HBB/jaccard.png",
+                "report/HBB/nf-core-logo-square.png",
+                "report/HBB/orthostats.yml",
+                "report/HBB/params.yml",
+                "report/HBB/run.sh",
+                "report/HBB/score_table.csv",
+                "report/HBB/seq_hits.txt",
+                "report/HBB/seq_misses.txt",
+                "report/HBB/supports.png",
+                "report/HBB/taxid.txt",
+                "report/HBB/venn.png",
+                "score",
+                "score/BicD2",
+                "score/BicD2/BicD2_score_table.csv",
+                "score/BicD2/plots",
+                "score/BicD2/plots/BicD2_jaccard_dark.png",
+                "score/BicD2/plots/BicD2_jaccard_light.png",
+                "score/BicD2/plots/BicD2_supports_dark.png",
+                "score/BicD2/plots/BicD2_supports_light.png",
+                "score/BicD2/plots/BicD2_venn_dark.png",
+                "score/BicD2/plots/BicD2_venn_light.png",
+                "score/HBB",
+                "score/HBB/HBB_score_table.csv",
+                "score/HBB/plots",
+                "score/HBB/plots/HBB_jaccard_dark.png",
+                "score/HBB/plots/HBB_jaccard_light.png",
+                "score/HBB/plots/HBB_supports_dark.png",
+                "score/HBB/plots/HBB_supports_light.png",
+                "score/HBB/plots/HBB_venn_dark.png",
+                "score/HBB/plots/HBB_venn_light.png",
+                "score/aggregated_hits.csv",
+                "score/aggregated_stats.csv",
+                "sequences",
+                "sequences/BicD2",
+                "sequences/BicD2/BicD2_orthologs.txt",
+                "sequences/HBB",
+                "sequences/HBB/HBB_orthologs.txt"
+            ],
+            [
+                "multiqc.log:md5,e916a07d4b89e0c04275b80cc6fa3bb0",
+                "multiqc_citations.txt:md5,4c806e63a283ec1b7e78cdae3a923d4f",
+                "multiqc_data.json:md5,60335682a00b99b37ad9d18b6609e832",
+                "multiqc_software_versions.txt:md5,2044214259032d48dd28b954dac91090",
+                "multiqc_sources.txt:md5,d2a044df39ce3c6abe5cdc2d67473490",
+                "multiqc_report.html:md5,30519496133e46555f3b5978fe8b491d",
+                "nf_core_pipeline_software_mqc_versions.yml:md5,f7cdca686a0e4911bfb69d2d8cc1e15f",
+                "params_2025-01-08_17-10-05.json:md5,3bab223811bb16d519907f9bfa10b1e2",
+                "filtered_hits.txt:md5,667b99a98d234e3318e780afb439020b",
+                "id.txt:md5,5e567f80b3e124f6cbfd9d78ec056d7e",
+                "index.html:md5,d2924367ac26ee7679cfdc080ebeeb02",
+                "jaccard.png:md5,f73249fb0ae8ece344b2fa3dd7757889",
+                "nf-core-logo-square.png:md5,c75fc79ef1c32addaa038e02e74f0e84",
+                "orthostats.yml:md5,bd78e74e3620359766fa8e4c5620fabb",
+                "params.yml:md5,92074eac8692024d76e26586a979bb1b",
+                "run.sh:md5,314e387b677968e93bc66776a09cad8a",
+                "score_table.csv:md5,f31283acfea31e8dbbeff24d48cce78b",
+                "seq_hits.txt:md5,09fc2aec2e6bdc010d3969fdccbb67ca",
+                "seq_misses.txt:md5,873cc1ad122d1ad6380f43ecffa29ab1",
+                "supports.png:md5,33b1ba35d063fc5b21a25fac673163db",
+                "taxid.txt:md5,d8ce74354d0ddf337bd304faca270ff7",
+                "venn.png:md5,72913c4b8f8496c2d71f0284abff7ded",
+                "filtered_hits.txt:md5,d41c347d7aff712b0bd87a32b646853f",
+                "id.txt:md5,a366b91927c9eb9d123e04ea6e741741",
+                "index.html:md5,d2924367ac26ee7679cfdc080ebeeb02",
+                "jaccard.png:md5,7fcef7f81e2b5c4e7479d03d2266b8d6",
+                "nf-core-logo-square.png:md5,c75fc79ef1c32addaa038e02e74f0e84",
+                "orthostats.yml:md5,53cdca0a67fbc88737baaaecca01e730",
+                "params.yml:md5,7cc8272fce367776ea18038ba0aeaa91",
+                "run.sh:md5,314e387b677968e93bc66776a09cad8a",
+                "score_table.csv:md5,7e47ee88e4e79d6e7ee65a4a4da58157",
+                "seq_hits.txt:md5,41429504693ee747c19b0e7c9a0aa751",
+                "seq_misses.txt:md5,0f56707a8267e3d2c6b9ec535bcac39c",
+                "supports.png:md5,5717da9cbc6884f02cd4026888756543",
+                "taxid.txt:md5,d8ce74354d0ddf337bd304faca270ff7",
+                "venn.png:md5,066eb7554725fc76297e49d92ad8fe45",
+                "BicD2_score_table.csv:md5,f31283acfea31e8dbbeff24d48cce78b",
+                "BicD2_jaccard_dark.png:md5,f73249fb0ae8ece344b2fa3dd7757889",
+                "BicD2_jaccard_light.png:md5,1d4bb5a94c73c821f9bdcc47539606c3",
+                "BicD2_supports_dark.png:md5,33b1ba35d063fc5b21a25fac673163db",
+                "BicD2_supports_light.png:md5,a0f9e4a30ccd284de3e013f128980782",
+                "BicD2_venn_dark.png:md5,72913c4b8f8496c2d71f0284abff7ded",
+                "BicD2_venn_light.png:md5,cee3d284719e9a45a1063c6dce148fe2",
+                "HBB_score_table.csv:md5,7e47ee88e4e79d6e7ee65a4a4da58157",
+                "HBB_jaccard_dark.png:md5,7fcef7f81e2b5c4e7479d03d2266b8d6",
+                "HBB_jaccard_light.png:md5,5a827c283cee92aef9bf6af3a0899f5c",
+                "HBB_supports_dark.png:md5,5717da9cbc6884f02cd4026888756543",
+                "HBB_supports_light.png:md5,8e8da841250befc2a250836daf5be7e0",
+                "HBB_venn_dark.png:md5,066eb7554725fc76297e49d92ad8fe45",
+                "HBB_venn_light.png:md5,b324ce43efcdf9e17fa530548c903466",
+                "aggregated_hits.csv:md5,0b52ac768f54a4e89912fc0d53945130",
+                "aggregated_stats.csv:md5,8b3da1b7189f9802a0fafa81b1e7d84d",
+                "BicD2_orthologs.txt:md5,c4eeca88e50f1b19859b4e192705c9eb",
+                "HBB_orthologs.txt:md5,ff00502a5920187b8e2d8682565d6cb8"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.10.3"
+        },
+        "timestamp": "2025-01-08T17:11:33.488519"
+    }
+}
