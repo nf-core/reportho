@@ -3,19 +3,20 @@
         "content": [
             27,
             {
-                "FETCH_ENSEMBL_IDMAP": {
+                "FETCH_OMA_GROUP_ONLINE": {
+                    "Python": "3.11.0",
+                    "Python Requests": "2.31.0",
+                    "OMA Database": "All.Jul2024",
+                    "OMA API": 1.1
+                },
+                "WRITE_SEQINFO": {
                     "Python": "3.11.0",
                     "Python Requests": "2.31.0"
                 },
-                "FETCH_UNIPROT_SEQUENCES": {
+                "FETCH_PANTHER_GROUP_ONLINE": {
                     "Python": "3.11.0",
-                    "Python Requests": "2.31.0"
-                },
-                "MAKE_HITS_TABLE": {
-                    "Python": "3.11.0"
-                },
-                "MERGE_HITS": {
-                    "csvtk": "0.30.0"
+                    "Python Requests": "2.31.0",
+                    "Panther Database": null
                 },
                 "MERGE_CSV": {
                     "csvtk": "0.30.0"
@@ -25,29 +26,28 @@
                     "Python Requests": "2.31.0",
                     "OrthoInspector Database": "Eukaryota2023"
                 },
-                "FETCH_PANTHER_GROUP_ONLINE": {
-                    "Python": "3.11.0",
-                    "Python Requests": "2.31.0",
-                    "Panther Database": null
+                "SPLIT_TAXIDS": {
+                    "awk": "mawk 1.3.4 20200120"
                 },
-                "WRITE_SEQINFO": {
+                "FETCH_ENSEMBL_IDMAP": {
                     "Python": "3.11.0",
                     "Python Requests": "2.31.0"
                 },
-                "FETCH_OMA_GROUP_ONLINE": {
-                    "Python": "3.11.0",
-                    "Python Requests": "2.31.0",
-                    "OMA Database": "All.Jul2024",
-                    "OMA API": 1.1
+                "Workflow": {
+                    "nf-core/reportho": "v1.1.0dev"
                 },
                 "SPLIT_ID_FORMAT": {
                     "Python": "3.12.7"
                 },
-                "SPLIT_TAXIDS": {
-                    "awk": "mawk 1.3.4 20200120"
+                "FETCH_UNIPROT_SEQUENCES": {
+                    "Python": "3.11.0",
+                    "Python Requests": "2.31.0"
                 },
-                "Workflow": {
-                    "nf-core/reportho": "v1.1.0dev"
+                "MERGE_HITS": {
+                    "csvtk": "0.30.0"
+                },
+                "MAKE_HITS_TABLE": {
+                    "Python": "3.11.0"
                 }
             },
             [
@@ -67,10 +67,6 @@
             ],
             [
                 "multiqc_plots:md5,d41d8cd98f00b204e9800998ecf8427e",
-                "multiqc_report.html:md5,d41d8cd98f00b204e9800998ecf8427e",
-                "nf_core_pipeline_software_mqc_versions.yml:md5,764044e3a5531974ab13dd4fbfafa909",
-                "params_2025-01-08_17-11-39.json:md5,f34847f1697dae21de1e0b03ada779d8",
-                "aggregated_hits.csv:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "BicD2_orthologs.txt:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "HBB_orthologs.txt:md5,d41d8cd98f00b204e9800998ecf8427e"
             ]
@@ -79,37 +75,21 @@
             "nf-test": "0.9.2",
             "nextflow": "24.10.3"
         },
-        "timestamp": "2025-01-08T17:11:52.546593"
+        "timestamp": "2025-01-14T16:49:41.988446"
     },
     "Params: default": {
         "content": [
             244,
             {
-                "DIAMOND_CLUSTER": {
-                    "diamond": "2.1.9"
-                },
-                "FETCH_ENSEMBL_IDMAP": {
+                "WRITE_SEQINFO": {
                     "Python": "3.11.0",
                     "Python Requests": "2.31.0"
                 },
-                "FETCH_ENSEMBL_SEQUENCES": {
-                    "Python": "3.11.0",
-                    "Python Requests": "2.31.0"
-                },
-                "FETCH_OMA_SEQUENCES": {
+                "FETCH_OMA_GROUP_ONLINE": {
                     "Python": "3.11.0",
                     "Python Requests": "2.31.0",
                     "OMA Database": "All.Jul2024",
                     "OMA API": 1.1
-                },
-                "FETCH_PANTHER_GROUP_ONLINE": {
-                    "Python": "3.11.0",
-                    "Python Requests": "2.31.0",
-                    "Panther Database": null
-                },
-                "WRITE_SEQINFO": {
-                    "Python": "3.11.0",
-                    "Python Requests": "2.31.0"
                 },
                 "MERGE_CSV": {
                     "csvtk": "0.30.0"
@@ -119,45 +99,64 @@
                     "Python Requests": "2.31.0",
                     "OrthoInspector Database": "Eukaryota2023"
                 },
-                "FETCH_OMA_GROUP_ONLINE": {
+                "FETCH_PANTHER_GROUP_ONLINE": {
+                    "Python": "3.11.0",
+                    "Python Requests": "2.31.0",
+                    "Panther Database": null
+                },
+                "MERGE_ALL": {
+                    "pigz": "2.3.4"
+                },
+                "SPLIT_TAXIDS": {
+                    "awk": "mawk 1.3.4 20200120"
+                },
+                "POSTPROCESS_DIAMOND": {
+                    "gawk": "5.3.0"
+                },
+                "MERGE_FASTA_IDS": {
+                    "gawk": "5.3.0"
+                },
+                "MERGE_DIAMOND": {
+                    "pigz": "2.3.4"
+                },
+                "FETCH_ENSEMBL_SEQUENCES": {
+                    "Python": "3.11.0",
+                    "Python Requests": "2.31.0"
+                },
+                "FETCH_ENSEMBL_IDMAP": {
+                    "Python": "3.11.0",
+                    "Python Requests": "2.31.0"
+                },
+                "Workflow": {
+                    "nf-core/reportho": "v1.1.0dev"
+                },
+                "SPLIT_ID_FORMAT": {
+                    "Python": "3.12.7"
+                },
+                "GROUP_DIAMOND": {
+                    "gawk": "5.3.0"
+                },
+                "FETCH_OMA_SEQUENCES": {
                     "Python": "3.11.0",
                     "Python Requests": "2.31.0",
                     "OMA Database": "All.Jul2024",
                     "OMA API": 1.1
                 },
-                "FETCH_REFSEQ_SEQUENCES": {
-                    "Python": "3.11.0",
-                    "Python Requests": "2.31.0"
-                },
                 "FETCH_UNIPROT_SEQUENCES": {
                     "Python": "3.11.0",
                     "Python Requests": "2.31.0"
                 },
-                "GROUP_DIAMOND": {
-                    "gawk": "5.3.0"
-                },
-                "MAKE_REPORT": {
-                    "Node": "v22.1.0",
-                    "Yarn": "1.22.19",
-                    "React": "19.0.0"
-                },
-                "MERGE_ALL": {
-                    "pigz": "2.3.4"
-                },
-                "MERGE_DIAMOND": {
-                    "pigz": "2.3.4"
-                },
-                "MERGE_FASTA_IDS": {
-                    "gawk": "5.3.0"
-                },
                 "MERGE_HITS": {
                     "csvtk": "0.30.0"
                 },
-                "MERGE_STATS": {
-                    "csvtk": "0.30.0"
-                },
-                "MAKE_SCORE_TABLE": {
+                "FILTER_HITS": {
                     "Python": "3.11.0"
+                },
+                "MAKE_STATS": {
+                    "Python": "3.11.0"
+                },
+                "PLOT_ORTHOLOGS": {
+                    "r-base": "4.3.3"
                 },
                 "STATS2CSV": {
                     "Python": "3.9.6",
@@ -166,26 +165,23 @@
                 "MAKE_HITS_TABLE": {
                     "Python": "3.11.0"
                 },
-                "MAKE_STATS": {
+                "MERGE_STATS": {
+                    "csvtk": "0.30.0"
+                },
+                "MAKE_SCORE_TABLE": {
                     "Python": "3.11.0"
                 },
-                "FILTER_HITS": {
-                    "Python": "3.11.0"
+                "MAKE_REPORT": {
+                    "Node": "v22.1.0",
+                    "Yarn": "1.22.19",
+                    "React": "19.0.0"
                 },
-                "PLOT_ORTHOLOGS": {
-                    "r-base": "4.3.3"
+                "DIAMOND_CLUSTER": {
+                    "diamond": "2.1.9"
                 },
-                "POSTPROCESS_DIAMOND": {
-                    "gawk": "5.3.0"
-                },
-                "SPLIT_ID_FORMAT": {
-                    "Python": "3.12.7"
-                },
-                "SPLIT_TAXIDS": {
-                    "awk": "mawk 1.3.4 20200120"
-                },
-                "Workflow": {
-                    "nf-core/reportho": "v1.1.0dev"
+                "FETCH_REFSEQ_SEQUENCES": {
+                    "Python": "3.11.0",
+                    "Python Requests": "2.31.0"
                 }
             },
             [
@@ -258,66 +254,54 @@
                 "sequences/HBB/HBB_orthologs.txt"
             ],
             [
-                "multiqc.log:md5,e916a07d4b89e0c04275b80cc6fa3bb0",
                 "multiqc_citations.txt:md5,4c806e63a283ec1b7e78cdae3a923d4f",
-                "multiqc_data.json:md5,60335682a00b99b37ad9d18b6609e832",
-                "multiqc_software_versions.txt:md5,2044214259032d48dd28b954dac91090",
                 "multiqc_sources.txt:md5,d2a044df39ce3c6abe5cdc2d67473490",
-                "multiqc_report.html:md5,30519496133e46555f3b5978fe8b491d",
-                "nf_core_pipeline_software_mqc_versions.yml:md5,f7cdca686a0e4911bfb69d2d8cc1e15f",
-                "params_2025-01-08_17-10-05.json:md5,3bab223811bb16d519907f9bfa10b1e2",
-                "filtered_hits.txt:md5,667b99a98d234e3318e780afb439020b",
+                "filtered_hits.txt:md5,664cbdaf79165df709498a1624b2c90d",
                 "id.txt:md5,5e567f80b3e124f6cbfd9d78ec056d7e",
                 "index.html:md5,d2924367ac26ee7679cfdc080ebeeb02",
-                "jaccard.png:md5,f73249fb0ae8ece344b2fa3dd7757889",
+                "jaccard.png:md5,e8a980ee2cfa17adae0059e1d6e3447a",
                 "nf-core-logo-square.png:md5,c75fc79ef1c32addaa038e02e74f0e84",
-                "orthostats.yml:md5,bd78e74e3620359766fa8e4c5620fabb",
+                "orthostats.yml:md5,34c13e02e023788a0bdd5ecd7eeab697",
                 "params.yml:md5,92074eac8692024d76e26586a979bb1b",
                 "run.sh:md5,314e387b677968e93bc66776a09cad8a",
-                "score_table.csv:md5,f31283acfea31e8dbbeff24d48cce78b",
-                "seq_hits.txt:md5,09fc2aec2e6bdc010d3969fdccbb67ca",
-                "seq_misses.txt:md5,873cc1ad122d1ad6380f43ecffa29ab1",
-                "supports.png:md5,33b1ba35d063fc5b21a25fac673163db",
+                "seq_hits.txt:md5,87ad11e14609eddd907fa57c6310178c",
+                "seq_misses.txt:md5,4b0aa902bf13f5abfba8fba34661eade",
+                "supports.png:md5,3e147b6f964ef2ef2c590ce031c19506",
                 "taxid.txt:md5,d8ce74354d0ddf337bd304faca270ff7",
-                "venn.png:md5,72913c4b8f8496c2d71f0284abff7ded",
-                "filtered_hits.txt:md5,d41c347d7aff712b0bd87a32b646853f",
+                "venn.png:md5,1a500dae6790bfa91e879fc3245c6a51",
+                "filtered_hits.txt:md5,b433baad1d263ce37c70400b824682fc",
                 "id.txt:md5,a366b91927c9eb9d123e04ea6e741741",
                 "index.html:md5,d2924367ac26ee7679cfdc080ebeeb02",
-                "jaccard.png:md5,7fcef7f81e2b5c4e7479d03d2266b8d6",
+                "jaccard.png:md5,79edfd737a3cbf78b03462071fc9fd67",
                 "nf-core-logo-square.png:md5,c75fc79ef1c32addaa038e02e74f0e84",
-                "orthostats.yml:md5,53cdca0a67fbc88737baaaecca01e730",
+                "orthostats.yml:md5,9fdd23068d7f9cba6a75e01a98fa4590",
                 "params.yml:md5,7cc8272fce367776ea18038ba0aeaa91",
                 "run.sh:md5,314e387b677968e93bc66776a09cad8a",
-                "score_table.csv:md5,7e47ee88e4e79d6e7ee65a4a4da58157",
-                "seq_hits.txt:md5,41429504693ee747c19b0e7c9a0aa751",
-                "seq_misses.txt:md5,0f56707a8267e3d2c6b9ec535bcac39c",
-                "supports.png:md5,5717da9cbc6884f02cd4026888756543",
+                "seq_hits.txt:md5,af1aa6c75e67b3418c7ee2cebff1d121",
+                "seq_misses.txt:md5,c85dc8ec3bedc2fd9777a20048e7efc5",
+                "supports.png:md5,5ca76274b0255a7a4d96119ee5d2da11",
                 "taxid.txt:md5,d8ce74354d0ddf337bd304faca270ff7",
-                "venn.png:md5,066eb7554725fc76297e49d92ad8fe45",
-                "BicD2_score_table.csv:md5,f31283acfea31e8dbbeff24d48cce78b",
-                "BicD2_jaccard_dark.png:md5,f73249fb0ae8ece344b2fa3dd7757889",
-                "BicD2_jaccard_light.png:md5,1d4bb5a94c73c821f9bdcc47539606c3",
-                "BicD2_supports_dark.png:md5,33b1ba35d063fc5b21a25fac673163db",
-                "BicD2_supports_light.png:md5,a0f9e4a30ccd284de3e013f128980782",
-                "BicD2_venn_dark.png:md5,72913c4b8f8496c2d71f0284abff7ded",
-                "BicD2_venn_light.png:md5,cee3d284719e9a45a1063c6dce148fe2",
-                "HBB_score_table.csv:md5,7e47ee88e4e79d6e7ee65a4a4da58157",
-                "HBB_jaccard_dark.png:md5,7fcef7f81e2b5c4e7479d03d2266b8d6",
-                "HBB_jaccard_light.png:md5,5a827c283cee92aef9bf6af3a0899f5c",
-                "HBB_supports_dark.png:md5,5717da9cbc6884f02cd4026888756543",
-                "HBB_supports_light.png:md5,8e8da841250befc2a250836daf5be7e0",
-                "HBB_venn_dark.png:md5,066eb7554725fc76297e49d92ad8fe45",
-                "HBB_venn_light.png:md5,b324ce43efcdf9e17fa530548c903466",
-                "aggregated_hits.csv:md5,0b52ac768f54a4e89912fc0d53945130",
-                "aggregated_stats.csv:md5,8b3da1b7189f9802a0fafa81b1e7d84d",
-                "BicD2_orthologs.txt:md5,c4eeca88e50f1b19859b4e192705c9eb",
-                "HBB_orthologs.txt:md5,ff00502a5920187b8e2d8682565d6cb8"
+                "venn.png:md5,18c30bcd5526686d83d29e58440745ae",
+                "BicD2_jaccard_dark.png:md5,e8a980ee2cfa17adae0059e1d6e3447a",
+                "BicD2_jaccard_light.png:md5,088c062f283969360f6a2b15c68934f4",
+                "BicD2_supports_dark.png:md5,3e147b6f964ef2ef2c590ce031c19506",
+                "BicD2_supports_light.png:md5,7b538b6dc49d5c9b6c3df3c5e400fd7d",
+                "BicD2_venn_dark.png:md5,1a500dae6790bfa91e879fc3245c6a51",
+                "BicD2_venn_light.png:md5,b29ecc9e42ae09678224d3ccb5dbe197",
+                "HBB_jaccard_dark.png:md5,79edfd737a3cbf78b03462071fc9fd67",
+                "HBB_jaccard_light.png:md5,137507d444a66aa5ac3de0c62ad3f27c",
+                "HBB_supports_dark.png:md5,5ca76274b0255a7a4d96119ee5d2da11",
+                "HBB_supports_light.png:md5,2b153fcb39b02dff6ef55e800ef4d148",
+                "HBB_venn_dark.png:md5,18c30bcd5526686d83d29e58440745ae",
+                "HBB_venn_light.png:md5,727e770a269f08751b114f02aed8d00c",
+                "BicD2_orthologs.txt:md5,22dc455d5be23043904dd32788bc36e9",
+                "HBB_orthologs.txt:md5,5e5f84c0a013d524828aa1c3b569a21a"
             ]
         ],
         "meta": {
             "nf-test": "0.9.2",
             "nextflow": "24.10.3"
         },
-        "timestamp": "2025-01-08T17:11:33.488519"
+        "timestamp": "2025-01-14T16:49:22.685479"
     }
 }

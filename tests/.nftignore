@@ -1,0 +1,12 @@
+multiqc.log
+**/*_orthologs.txt
+**/*seq_hits.txt
+**/*seq_misses.txt
+**/*score_table.csv
+**/*.png
+**/*aggregated*
+**/multiqc.log
+**/multiqc_data.json
+**/multiqc_software_versions.txt
+**/multiqc_report.html
+pipeline_info/*
