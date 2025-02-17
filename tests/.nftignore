@@ -3,6 +3,8 @@ multiqc.log
 **/*seq_hits.txt
 **/*seq_misses.txt
 **/*score_table.csv
+**/orthostats.yml
+**/filtered_hits.txt
 **/*.png
 **/*aggregated*
 **/multiqc.log
