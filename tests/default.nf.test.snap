@@ -89,11 +89,6 @@
                     "Python": "3.11.0",
                     "Python Requests": "2.31.0"
                 },
-                "FETCH_INSPECTOR_GROUP_ONLINE": {
-                    "Python": "3.11.0",
-                    "Python Requests": "2.31.0",
-                    "OrthoInspector Database": "Eukaryota2023"
-                },
                 "WRITE_SEQINFO": {
                     "Python": "3.11.0",
                     "Python Requests": "2.31.0"
@@ -114,6 +109,6 @@
             "nf-test": "0.9.2",
             "nextflow": "24.10.3"
         },
-        "timestamp": "2025-02-17T12:23:38.281096"
+        "timestamp": "2025-02-17T12:27:39.114986"
     }
 }
