@@ -74,7 +74,8 @@ workflow REPORTHO {
         ch_versions = ch_versions.mix(GET_SEQUENCES.out.versions)
     }
 
-    ch_id_map = ch_fasta_query.map { [it[0], []] }
+    ch_id_map   = ch_fasta_query.map { [it[0], []] }
+    ch_clusters = ch_fasta_query.map { [it[0], []] }
 
     if (!params.offline_run && !params.skip_merge)
     {
@@ -94,7 +95,7 @@ workflow REPORTHO {
         ch_id_map,
         ch_clusters,
         params.skip_merge,
-        params.skip_plots
+        params.skip_orthoplots
     )
 
     ch_versions = ch_versions.mix(SCORE_ORTHOLOGS.out.versions)
@@ -116,7 +117,9 @@ workflow REPORTHO {
             SCORE_ORTHOLOGS.out.jaccard_plot.map { [it[0], it[2]]},
             SCORE_ORTHOLOGS.out.stats,
             ch_seqhits,
-            ch_seqmisses
+            ch_seqmisses,
+            SCORE_ORTHOLOGS.out.merge,
+            ch_clusters
         )
 
         ch_versions = ch_versions.mix(REPORT.out.versions)

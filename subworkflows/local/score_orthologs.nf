@@ -130,7 +130,9 @@ workflow SCORE_ORTHOLOGS {
     jaccard_plot     = ch_jaccardplot
     stats            = MAKE_STATS.out.stats
     hits             = MAKE_HITS_TABLE.out.hits_table
+    merge            = MAKE_MERGE_TABLE.out.merge_table
     aggregated_stats = MERGE_STATS.out.csv
     aggregated_hits  = MERGE_HITS.out.csv
+    aggregated_merge = MERGE_MERGE.out.csv
     versions         = ch_versions
 }
