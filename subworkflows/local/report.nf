@@ -4,7 +4,6 @@ include { MAKE_REPORT } from "../../modules/local/make_report"
 workflow REPORT {
 
     take:
-    use_structures
     use_centroid
     min_score
     ch_seqinfo
@@ -23,7 +22,6 @@ workflow REPORT {
 
     DUMP_PARAMS(
         ch_seqinfo.map { [it[0], it[3]] },
-        params.use_structures,
         params.use_centroid,
         params.min_score,
     )
