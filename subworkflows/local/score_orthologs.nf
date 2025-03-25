@@ -3,6 +3,8 @@ include { FILTER_HITS                  } from "../../modules/local/filter_hits"
 include { PLOT_ORTHOLOGS               } from "../../modules/local/plot_orthologs"
 include { MAKE_HITS_TABLE              } from "../../modules/local/make_hits_table"
 include { CSVTK_CONCAT as MERGE_HITS   } from "../../modules/nf-core/csvtk/concat/main"
+include { MAKE_MERGE_TABLE             } from "../../modules/local/make_merge_table"
+include { CSVTK_CONCAT as MERGE_MERGE  } from "../../modules/nf-core/csvtk/concat/main"
 include { MAKE_STATS                   } from "../../modules/local/make_stats"
 include { STATS2CSV                    } from "../../modules/local/stats2csv"
 include { CSVTK_CONCAT as MERGE_STATS  } from "../../modules/nf-core/csvtk/concat/main"
@@ -12,6 +14,9 @@ workflow SCORE_ORTHOLOGS {
     ch_query
     ch_orthologs
     ch_id_map
+    ch_clusters
+    skip_merge
+    skip_plots
 
     main:
     // Scoring and filtering
@@ -41,7 +46,7 @@ workflow SCORE_ORTHOLOGS {
     ch_vennplot     = ch_query.map { [it[0], []]}
     ch_jaccardplot  = ch_query.map { [it[0], []]}
 
-    if(!params.skip_orthoplots) {
+    if(!skip_plots) {
         PLOT_ORTHOLOGS (
             MAKE_SCORE_TABLE.out.score_table
         )
@@ -73,6 +78,33 @@ workflow SCORE_ORTHOLOGS {
 
     ch_versions = ch_versions.mix(MERGE_HITS.out.versions)
 
+    ch_merge_table      = Channel.empty()
+    ch_aggregated_merge = Channel.empty()
+
+    if(!skip_merge) {
+        MAKE_MERGE_TABLE (
+            ch_clusters
+        )
+
+        ch_versions = ch_versions.mix(MAKE_MERGE_TABLE.out.versions)
+
+        ch_merge_table = MAKE_MERGE_TABLE.out.merge_table
+
+        ch_merge = MAKE_MERGE_TABLE.out.merge_table
+            .collect { it[1] }
+            .map { [[id: "all"], it] }
+
+        MERGE_MERGE(
+            ch_merge,
+            "csv",
+            "csv"
+        )
+
+        ch_versions = ch_versions.mix(MERGE_MERGE.out.versions)
+
+        ch_aggregated_merge = MERGE_MERGE.out.csv
+    }
+
     // Stats
 
     MAKE_STATS(
@@ -99,10 +131,6 @@ workflow SCORE_ORTHOLOGS {
 
     ch_versions = ch_versions.mix(MERGE_STATS.out.versions)
 
-    ch_versions
-        .collectFile(name: "score_orthologs_versions.yml", sort: true, newLine: true)
-        .set { ch_merged_versions }
-
     emit:
     score_table      = MAKE_SCORE_TABLE.out.score_table
     orthologs        = FILTER_HITS.out.filtered_hits
@@ -111,7 +139,9 @@ workflow SCORE_ORTHOLOGS {
     jaccard_plot     = ch_jaccardplot
     stats            = MAKE_STATS.out.stats
     hits             = MAKE_HITS_TABLE.out.hits_table
+    merge            = ch_merge_table
     aggregated_stats = MERGE_STATS.out.csv
     aggregated_hits  = MERGE_HITS.out.csv
-    versions         = ch_merged_versions
+    aggregated_merge = ch_aggregated_merge
+    versions         = ch_versions
 }

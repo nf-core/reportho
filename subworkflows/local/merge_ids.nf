@@ -88,6 +88,8 @@ workflow MERGE_IDS {
         []
     )
 
+    ch_versions = ch_versions.mix(REDUCE_IDMAP.out.versions)
+
     ch_id_map = REDUCE_IDMAP.out.output
 
     emit:
