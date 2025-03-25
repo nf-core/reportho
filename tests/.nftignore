@@ -4,6 +4,8 @@ multiqc.log
 **/*seq_misses.txt
 **/*score_table.csv
 **/orthostats.yml
+**/*clusters.csv
+**/*merge_stats.csv
 **/filtered_hits.txt
 **/*.png
 **/*aggregated*

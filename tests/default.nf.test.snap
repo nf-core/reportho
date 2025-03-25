@@ -274,17 +274,13 @@
             [
                 "multiqc_citations.txt:md5,4c806e63a283ec1b7e78cdae3a923d4f",
                 "multiqc_sources.txt:md5,d2a044df39ce3c6abe5cdc2d67473490",
-                "clusters.csv:md5,b9565a7cd50cb29cbe8138a0d05bf704",
                 "id.txt:md5,5e567f80b3e124f6cbfd9d78ec056d7e",
                 "index.html:md5,d2924367ac26ee7679cfdc080ebeeb02",
-                "merge_stats.csv:md5,03e3c80de50ec9efa9279f8a4c6e57d3",
                 "params.yml:md5,2c51160074527dbda5ddee27964bd5ee",
                 "run.sh:md5,314e387b677968e93bc66776a09cad8a",
                 "taxid.txt:md5,d8ce74354d0ddf337bd304faca270ff7",
-                "clusters.csv:md5,674573b828a3df2e537db54657947b3a",
                 "id.txt:md5,a366b91927c9eb9d123e04ea6e741741",
                 "index.html:md5,d2924367ac26ee7679cfdc080ebeeb02",
-                "merge_stats.csv:md5,dfb3d272eb0528740ba1203d7d924aaa",
                 "params.yml:md5,1075f089d3cb1d179f5523238ccfb5a6",
                 "run.sh:md5,314e387b677968e93bc66776a09cad8a",
                 "taxid.txt:md5,d8ce74354d0ddf337bd304faca270ff7"
@@ -294,6 +290,6 @@
             "nf-test": "0.9.0",
             "nextflow": "24.10.4"
         },
-        "timestamp": "2025-03-25T11:51:36.706285"
+        "timestamp": "2025-03-25T12:57:46.155132"
     }
 }
