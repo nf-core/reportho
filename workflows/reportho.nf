@@ -85,13 +85,17 @@ workflow REPORTHO {
 
         ch_versions = ch_versions.mix(MERGE_IDS.out.versions)
 
-        ch_id_map = MERGE_IDS.out.id_map
+        ch_id_map   = MERGE_IDS.out.id_map
+        ch_clusters = MERGE_IDS.out.id_clusters
     }
 
     SCORE_ORTHOLOGS (
         GET_ORTHOLOGS.out.seqinfo,
         GET_ORTHOLOGS.out.orthologs,
-        ch_id_map
+        ch_id_map,
+        ch_clusters,
+        params.skip_merge,
+        params.skip_plots
     )
 
     ch_versions = ch_versions.mix(SCORE_ORTHOLOGS.out.versions)
@@ -103,7 +107,6 @@ workflow REPORTHO {
 
     if(!params.skip_report) {
         REPORT (
-            params.use_structures,
             params.use_centroid,
             params.min_score,
             GET_ORTHOLOGS.out.seqinfo,
