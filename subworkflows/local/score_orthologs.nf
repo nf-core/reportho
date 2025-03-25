@@ -122,10 +122,6 @@ workflow SCORE_ORTHOLOGS {
 
     ch_versions = ch_versions.mix(MERGE_STATS.out.versions)
 
-    ch_versions
-        .collectFile(name: "score_orthologs_versions.yml", sort: true, newLine: true)
-        .set { ch_merged_versions }
-
     emit:
     score_table      = MAKE_SCORE_TABLE.out.score_table
     orthologs        = FILTER_HITS.out.filtered_hits
@@ -136,5 +132,5 @@ workflow SCORE_ORTHOLOGS {
     hits             = MAKE_HITS_TABLE.out.hits_table
     aggregated_stats = MERGE_STATS.out.csv
     aggregated_hits  = MERGE_HITS.out.csv
-    versions         = ch_merged_versions
+    versions         = ch_versions
 }

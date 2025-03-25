@@ -5,6 +5,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## v1.1.0dev - [date]
 
+### `Credits`
+
+We thank Daniel Májer from Gabaldón Lab for his assistance in implementing sequence merging.
+
+### `Added`
+
+- The pipeline can now download sequences from UniProt, RefSeq and Ensembl
+- Identification of synonymous identifiers using Diamond
+
+### `Removed`
+
+- MSA and phylogeny modules; an nf-core/multiplesequencealign samplesheet generator will be added in a later version
+
+### `Changed`
+
+- Minor refactors in local modules
+
+### `Fixed`
+
+- The pipeline should not crash if no orthologs are found for a query; please inform us if you identify any issues
+
+### `Dependencies`
+
+The following dependencies have changed:
+
+| Program  | Old version | New version |
+| -------- | ----------- | ----------- |
+| Diamond  |             | 2.1.9       |
+| T-COFFEE | 13.46.0     |             |
+
 ## [v1.0.1](https://github.com/nf-core/reportho/releases/tag/1.0.1) [2024-06-14]
 
 ### `Fixed`

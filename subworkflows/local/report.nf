@@ -26,6 +26,8 @@ workflow REPORT {
         params.min_score,
     )
 
+    ch_versions = ch_versions.mix(DUMP_PARAMS.out.versions)
+
     ch_forreport = ch_seqinfo
         .join(ch_scoretable, by:0)
         .join(ch_filtered, by:0)

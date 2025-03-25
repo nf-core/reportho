@@ -1,0 +1,116 @@
+{
+    "Params: default - stub": {
+        "content": [
+            27,
+            null,
+            [
+                "multiqc",
+                "multiqc/multiqc_data",
+                "multiqc/multiqc_plots",
+                "multiqc/multiqc_report.html",
+                "pipeline_info",
+                "pipeline_info/nf_core_reportho_software_mqc_versions.yml",
+                "score",
+                "score/aggregated_hits.csv",
+                "sequences",
+                "sequences/BicD2",
+                "sequences/BicD2/BicD2_orthologs.txt",
+                "sequences/HBB",
+                "sequences/HBB/HBB_orthologs.txt"
+            ],
+            [
+                
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.10.4"
+        },
+        "timestamp": "2025-02-18T13:53:29.453836"
+    },
+    "Params: default": {
+        "content": [
+            29,
+            null,
+            [
+                "multiqc",
+                "multiqc/multiqc_data",
+                "multiqc/multiqc_data/multiqc.log",
+                "multiqc/multiqc_data/multiqc_citations.txt",
+                "multiqc/multiqc_data/multiqc_data.json",
+                "multiqc/multiqc_data/multiqc_software_versions.txt",
+                "multiqc/multiqc_data/multiqc_sources.txt",
+                "multiqc/multiqc_report.html",
+                "pipeline_info",
+                "pipeline_info/nf_core_reportho_software_mqc_versions.yml",
+                "report",
+                "report/BicD2",
+                "report/BicD2/filtered_hits.txt",
+                "report/BicD2/id.txt",
+                "report/BicD2/index.html",
+                "report/BicD2/jaccard.png",
+                "report/BicD2/nf-core-logo-square.png",
+                "report/BicD2/orthostats.yml",
+                "report/BicD2/params.yml",
+                "report/BicD2/run.sh",
+                "report/BicD2/score_table.csv",
+                "report/BicD2/supports.png",
+                "report/BicD2/taxid.txt",
+                "report/BicD2/venn.png",
+                "report/HBB",
+                "report/HBB/filtered_hits.txt",
+                "report/HBB/id.txt",
+                "report/HBB/index.html",
+                "report/HBB/jaccard.png",
+                "report/HBB/nf-core-logo-square.png",
+                "report/HBB/orthostats.yml",
+                "report/HBB/params.yml",
+                "report/HBB/run.sh",
+                "report/HBB/score_table.csv",
+                "report/HBB/supports.png",
+                "report/HBB/taxid.txt",
+                "report/HBB/venn.png",
+                "score",
+                "score/BicD2",
+                "score/BicD2/BicD2_score_table.csv",
+                "score/BicD2/plots",
+                "score/BicD2/plots/BicD2_jaccard_dark.png",
+                "score/BicD2/plots/BicD2_jaccard_light.png",
+                "score/BicD2/plots/BicD2_supports_dark.png",
+                "score/BicD2/plots/BicD2_supports_light.png",
+                "score/BicD2/plots/BicD2_venn_dark.png",
+                "score/BicD2/plots/BicD2_venn_light.png",
+                "score/HBB",
+                "score/HBB/HBB_score_table.csv",
+                "score/HBB/plots",
+                "score/HBB/plots/HBB_jaccard_dark.png",
+                "score/HBB/plots/HBB_jaccard_light.png",
+                "score/HBB/plots/HBB_supports_dark.png",
+                "score/HBB/plots/HBB_supports_light.png",
+                "score/HBB/plots/HBB_venn_dark.png",
+                "score/HBB/plots/HBB_venn_light.png",
+                "score/aggregated_hits.csv",
+                "score/aggregated_stats.csv"
+            ],
+            [
+                "multiqc_citations.txt:md5,4c806e63a283ec1b7e78cdae3a923d4f",
+                "multiqc_sources.txt:md5,d2a044df39ce3c6abe5cdc2d67473490",
+                "id.txt:md5,5e567f80b3e124f6cbfd9d78ec056d7e",
+                "index.html:md5,d2924367ac26ee7679cfdc080ebeeb02",
+                "params.yml:md5,92074eac8692024d76e26586a979bb1b",
+                "run.sh:md5,314e387b677968e93bc66776a09cad8a",
+                "taxid.txt:md5,7c4867f67cee84ab22d9c77d24f7073c",
+                "id.txt:md5,a366b91927c9eb9d123e04ea6e741741",
+                "index.html:md5,d2924367ac26ee7679cfdc080ebeeb02",
+                "params.yml:md5,7cc8272fce367776ea18038ba0aeaa91",
+                "run.sh:md5,314e387b677968e93bc66776a09cad8a",
+                "taxid.txt:md5,7c4867f67cee84ab22d9c77d24f7073c"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.10.4"
+        },
+        "timestamp": "2025-02-18T13:53:11.421449"
+    }
+}

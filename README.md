@@ -19,7 +19,7 @@
 
 ## Introduction
 
-**nf-core/reportho** is a bioinformatics pipeline that compares and summarizes orthology predictions for one or a set of query proteins. For each query (or its closest annotated homolog), it fetches ortholog lists from public databases, calculates the agreement of the obtained predictions(pairwise and global) and finally generates a consensus list of orthologs with the desired level of confidence. Optionally, it offers common analysis on the consensus orthologs, such as MSA and phylogeny reconstruction. Additionally, it generates a clean, human-readable report of the results.
+**nf-core/reportho** is a bioinformatics pipeline that compares and summarizes orthology predictions for one or a set of query proteins. For each query (or its closest annotated homolog), it fetches ortholog lists from public databases, identifies synonymous identifiers based on sequences, calculates the agreement of the obtained predictions (pairwise and global) and finally generates a consensus list of orthologs with the desired level of confidence. Additionally, it generates a clean, human-readable report of the results.
 
 <!-- Tube map -->
 
@@ -27,15 +27,13 @@
 
 1. **Obtain Query Information**: identification of Uniprot ID and taxon ID for the query (or its closest homolog if the fasta file is used as input instead of the Uniprot ID).
 2. **Fetch Orthologs**: fetching of ortholog predictions from public databases, either through API or from local snapshot.
-3. **Compare and Assemble**: calculation of agreement statistics, creation of ortholog lists, selection of the consensus list.
 
-Steps that follow can be skipped with `--skip_downstream` in batch analysis.
+Steps 3 and 4 can be skipped with `--skip_merge`.
 
-4. **Fetch Sequences**: fetching of protein sequences for the orthologs from Uniprot.
-5. **Fetch Structures**: fetching of protein structure from the AlphaFold Database. Only performed if `--use_structures` is true.
-6. **Align Sequences**: multiple sequence alignment. 3D-COFFEE is used if `--use_structures` is true, T-COFFEE otherwise.
-7. **Reconstruct Phylogeny**: character-based phylogenetic reconstruction with ML or ME. Only performed if at least one of `--use_iqtree` or `--use_fastme` is true.
-8. **Generate Report**: human-readable HTML report generation.
+3. **Fetch Sequences**: fetching of sequences of identified orthologs.
+4. **Merge Synonymous Identifiers**: identification of synonymous identifiers based on sequence identity.
+5. **Compare and Assemble**: calculation of agreement statistics, creation of ortholog lists, selection of the consensus list.
+6. **Generate Report**: human-readable HTML report generation.
 
 ## Usage
 

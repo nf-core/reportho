@@ -156,10 +156,6 @@ workflow GET_ORTHOLOGS {
 
     ch_versions = ch_versions.mix(MERGE_CSV.out.versions)
 
-    ch_versions
-        .collectFile(name: "get_orthologs_versions.yml", sort: true, newLine: true)
-        .set { ch_merged_versions }
-
     emit:
     seqinfo     = ch_query
     id          = ch_query.map { it[1] }
@@ -167,5 +163,5 @@ workflow GET_ORTHOLOGS {
     exact       = ch_query.map { it[3] }
     orthogroups = ch_orthogroups
     orthologs   = MERGE_CSV.out.csv
-    versions    = ch_merged_versions
+    versions    = ch_versions
 }
