@@ -22,6 +22,7 @@ nextflow_pipeline {
                 panther_path      = pipelines_testdata_base_path + 'databases/AllOrthologs-mini.txt'
                 eggnog_path       = pipelines_testdata_base_path + 'databases/1_members-mini.tsv.gz'
                 eggnog_idmap_path = pipelines_testdata_base_path + 'databases/latest.Eukaryota-mini.tsv.gz'
+                skip_merge        = true
                 min_score         = 2
                 skip_downstream   = true
             }
@@ -38,7 +39,7 @@ nextflow_pipeline {
                     // Number of successful tasks
                     workflow.trace.succeeded().size(),
                     // pipeline versions.yml file for multiqc from which Nextflow version is removed because we tests pipelines on multiple Nextflow versions
-                    removeNextflowVersion("$outputDir/pipeline_info/nf_core_pipeline_software_mqc_versions.yml"),
+                    removeNextflowVersion("$outputDir/pipeline_info/nf_core_reportho_software_mqc_versions.yml"),
                     // All stable path name, with a relative path
                     stable_name,
                     // All files with stable contents
@@ -70,7 +71,7 @@ nextflow_pipeline {
                     // Number of successful tasks
                     workflow.trace.succeeded().size(),
                     // pipeline versions.yml file for multiqc from which Nextflow version is removed because we tests pipelines on multiple Nextflow versions
-                    removeNextflowVersion("$outputDir/pipeline_info/nf_core_pipeline_software_mqc_versions.yml"),
+                    removeNextflowVersion("$outputDir/pipeline_info/nf_core_reportho_software_mqc_versions.yml"),
                     // All stable path name, with a relative path
                     stable_name,
                     // All files with stable contents
