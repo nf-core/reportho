@@ -5,7 +5,7 @@ process MAKE_REPORT {
     container "nf-core/reportho-orthologs-report:1.0.0"
 
     input:
-    tuple val(meta), path(id), path(taxid), path(exact), path(score_table), path(filtered_hits), path(support_plot), path(venn_plot), path(jaccard_plot), path(orthostats), path(seq_hits), path(seq_misses), path(params_file)
+    tuple val(meta), path(id), path(taxid), path(exact), path(score_table), path(filtered_hits), path(support_plot), path(venn_plot), path(jaccard_plot), path(orthostats), path(seq_hits), path(seq_misses), path(merge_stats), path(clusters), path(params_file)
 
     output:
     tuple val(meta), path("${prefix}/*"), emit: report_files
@@ -20,9 +20,11 @@ process MAKE_REPORT {
         error("Local MAKE_REPORT module does not support Conda. Please use Docker / Singularity / Podman instead.")
     }
 
-    prefix        = task.ext.prefix ?: meta.id
-    seqhits_cmd   = seq_hits ? "cp $seq_hits public/seq_hits.txt" : ''
-    seqmisses_cmd = seq_misses ? "cp $seq_misses public/seq_misses.txt" : ''
+    prefix         = task.ext.prefix ?: meta.id
+    seqhits_cmd    = seq_hits ? "cp $seq_hits public/seq_hits.txt" : ''
+    seqmisses_cmd  = seq_misses ? "cp $seq_misses public/seq_misses.txt" : ''
+    mergestats_cmd = merge_stats ? "cp $merge_stats public/merge_stats.csv" : ''
+    clusters_cmd   = clusters ? "cp $clusters public/clusters.csv" : ''
     """
     # copy project files
     cp -r /app/* .
@@ -40,6 +42,8 @@ process MAKE_REPORT {
     cp $jaccard_plot public/jaccard.png
     cp $orthostats public/orthostats.yml
     cp $params_file public/params.yml
+    $mergestats_cmd
+    $clusters_cmd
     $seqhits_cmd
     $seqmisses_cmd
 

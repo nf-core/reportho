@@ -15,6 +15,8 @@ workflow REPORT {
     ch_orthostats
     ch_seqhits
     ch_seqmisses
+    ch_mergestats
+    ch_clusters
 
     main:
     ch_versions  = Channel.empty()
@@ -24,6 +26,9 @@ workflow REPORT {
         ch_seqinfo.map { [it[0], it[3]] },
         params.use_centroid,
         params.min_score,
+        params.skip_merge,
+        params.min_identity,
+        params.min_coverage
     )
 
     ch_versions = ch_versions.mix(DUMP_PARAMS.out.versions)
@@ -37,6 +42,8 @@ workflow REPORT {
         .join(ch_orthostats, by:0)
         .join(ch_seqhits, by:0)
         .join(ch_seqmisses, by:0)
+        .join(ch_mergestats, by:0)
+        .join(ch_clusters, by:0)
         .join(DUMP_PARAMS.out.params, by:0)
 
     MAKE_REPORT(
