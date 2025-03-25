@@ -78,12 +78,17 @@ workflow SCORE_ORTHOLOGS {
 
     ch_versions = ch_versions.mix(MERGE_HITS.out.versions)
 
+    ch_merge_table      = Channel.empty()
+    ch_aggregated_merge = Channel.empty()
+
     if(!skip_merge) {
         MAKE_MERGE_TABLE (
             ch_clusters
         )
 
         ch_versions = ch_versions.mix(MAKE_MERGE_TABLE.out.versions)
+
+        ch_merge_table = MAKE_MERGE_TABLE.out.merge_table
 
         ch_merge = MAKE_MERGE_TABLE.out.merge_table
             .collect { it[1] }
@@ -94,6 +99,10 @@ workflow SCORE_ORTHOLOGS {
             "csv",
             "csv"
         )
+
+        ch_versions = ch_versions.mix(MERGE_MERGE.out.versions)
+
+        ch_aggregated_merge = MERGE_MERGE.out.csv
     }
 
     // Stats
@@ -130,9 +139,9 @@ workflow SCORE_ORTHOLOGS {
     jaccard_plot     = ch_jaccardplot
     stats            = MAKE_STATS.out.stats
     hits             = MAKE_HITS_TABLE.out.hits_table
-    merge            = MAKE_MERGE_TABLE.out.merge_table
+    merge            = ch_merge_table
     aggregated_stats = MERGE_STATS.out.csv
     aggregated_hits  = MERGE_HITS.out.csv
-    aggregated_merge = MERGE_MERGE.out.csv
+    aggregated_merge = ch_aggregated_merge
     versions         = ch_versions
 }
