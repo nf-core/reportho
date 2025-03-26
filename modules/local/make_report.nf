@@ -2,7 +2,7 @@ process MAKE_REPORT {
     tag "$meta.id"
     label 'process_single'
 
-    container "nf-core/reportho-orthologs-report:1.0.0"
+    container "nf-core/reportho-orthologs-report:1.1.0"
 
     input:
     tuple val(meta), path(id), path(taxid), path(exact), path(score_table), path(filtered_hits), path(support_plot), path(venn_plot), path(jaccard_plot), path(orthostats), path(seq_hits), path(seq_misses), path(merge_stats), path(clusters), path(params_file)
