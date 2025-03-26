@@ -12,14 +12,12 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 
 - [Query identification](#query-identification) - obtaining basic information on the query
 - [Ortholog fetching](#ortholog-fetching) - obtaining ortholog predictions from public databases
+- [Sequence fetching](#sequence-fetching) - obtaining ortholog sequences form public databases
+- [ID merging](#id-merging) - merging identifiers based on their sequence
 - [Ortholog scoring](#ortholog-scoring) - creation of a score table
 - [Ortholog filtering](#ortholog-filtering) - selection of final ortholog list
 - [Ortholog plotting](#ortholog-plotting) - creation of plots describing the predictions
 - [Ortholog statistics](#ortholog-statistics) - calculation of several statistics about the predictions
-- [Sequence fetching](#sequence-fetching) - obtaining ortholog sequences form public databases
-- [Structure fetching](#structure-fetching) - obtaining ortholog structures from AlphaFoldDB
-- [MSA](#msa) - alignment of ortholog sequences
-- [Tree reconstruction](#tree-reconstruction) - creation of phylogenies with ML or ME
 - [Report generation](#report-generation) - creation of a human-readable report
 - [Pipeline information](#pipeline-information) - basic information about the pipeline run
 
@@ -52,6 +50,36 @@ Ortholog predictions are fetched from the databases. Each database can be used l
 - PANTHER (online and local)
 - OrthoInspector (online)
 - EggNOG (local).
+
+### Sequence fetching
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `sequences/`
+  - `*_orthologs.fa`: A FASTA file containing all ortholog sequences that could be found.
+  - `*_seq_hits.txt`: The list of all orthologs whose sequence was found.
+  - `*_seq_misses.txt`: The list of all orthologs whose sequence was not found.
+  </details>
+
+If identifier merging is performed, protein sequences of all orthologs in FASTA format are fetched. The identifiers are split by their format (based on regex) and sequences are fetched from the corresponding databases. Identifiers of unsupported format are automatically registered as misses. The currently supported sequence databases are:
+
+- Uniprot
+- RefSeq
+- Ensembl
+- OMA
+
+### Identifier merging
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `merge/`
+  - `*_clusters.tsv`: A TSV file containing the clusters found by Diamond (including singletons)
+  - `*_idmap.tsv`: A TSV file containing only non-singleton clusters, used for scoring.
+  </details>
+
+In some cases, multiple identifiers might refer to the same sequence. This step uses Diamond to identify such cases and construct a table of possible synonymous IDs. If this table seems incorrect, merge parameter tuning might be necessary.
 
 ### Ortholog scoring
 
@@ -114,63 +142,6 @@ The following statistics of the predictions are calculated:
 - percentage of consensus - the fraction of predictions which are supported by all the sources
 - percentage of privates - the fractions of predictions which are supported by only 1 source
 - goodness - the ratio of the real sum of scores to the theoretical maximum (i.e. the number of databases times the number of predictions).
-
-### Sequence fetching
-
-<details markdown="1">
-<summary>Output files</summary>
-
-- `sequences/`
-  - `*_orthologs.fa`: A FASTA file containing all ortholog sequences that could be found.
-  - `*_seq_hits.txt`: The list of all orthologs whose sequence was found.
-  - `*_seq_misses.txt`: The list of all orthologs whose sequence was not found.
-  </details>
-
-If downstream analysis is performed, protein sequences of all orthologs in FASTA format are fetched. The primary source of sequences is [OMA](http://omabrowser.org) due to its fast API. IDs not found in OMA are sent to [Uniprot](http://uniprot.org). Anything not found in Uniprot is considered a miss.
-
-### Structure fetching
-
-<details markdown="1">
-<summary>Output files</summary>
-
-- `sequences/`
-  - `*.pdb`: PDB files with structures of the orthologs, obtained from AlphaFoldDB.
-  - `*_af_versions.txt`: Versions of the AlphaFold structures.
-  - `*_str_hits.txt`: The list of all orthologs whose structure was found.
-  - `*_str_misses.txt`: The list of all orthologs whose structure was not found.
-  </details>
-
-If `--use_structures` is set, structures from the alignment are obtained from AlphaFoldDB. For feasibility of AlphaFold structures for MSA, check [Baltzis et al. 2022](http://doi.org/10.1093/bioinformatics/btac625).
-
-### MSA
-
-<details markdown="1">
-<summary>Output files</summary>
-
-- `alignment/`
-  - `*.aln`: A multiple sequence alignment of the orthologs in Clustal format.
-  </details>
-
-Multiple sequence alignment is performed using [T-COFFEE](https://tcoffee.org). 3D-COFFEE mode is used if `--use_structures` is set. Otherwise, default mode is used.
-
-### Tree reconstruction
-
-<details markdown="1">
-<summary>Output files</summary>
-
-- `trees/`
-  - `iqtree/`
-    - `*.treefile`: The IQTREE phylogeny in Newick format.
-    - `*.ufboot`: Bootstrap trees, if generated.
-  - `fastme/`
-    - `*.nwk`: The FastME phylogeny in Newick format.
-    - `*.bootstrap`: The bootstrap trees, if generated.
-  - `plots/`
-    - `*_iqtree_tree.png`: The IQTREE phylogeny as an image.
-    - `*_fastme_tree.png`: The FastME phylogeny as an image.
-    </details>
-
-The phylogeny can be constructed using maximum likelihood ([IQTREE](http://www.iqtree.org/)) or minimum evolution ([FastME](http://www.atgc-montpellier.fr/fastme/)).
 
 ### Report generation
 
