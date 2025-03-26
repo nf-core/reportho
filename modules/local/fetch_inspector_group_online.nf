@@ -1,6 +1,6 @@
 process FETCH_INSPECTOR_GROUP_ONLINE {
     tag "$meta.id"
-    label 'process_short'
+    label 'process_low'
 
     conda "conda-forge::python=3.11.0 conda-forge::biopython=1.83.0 conda-forge::requests=2.31.0"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?

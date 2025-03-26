@@ -137,8 +137,7 @@ workflow GET_ORTHOLOGS {
             ch_eggnog,
             ch_eggnog_idmap,
             ch_oma_ensembl,
-            ch_oma_refseq,
-            params.offline_run
+            ch_oma_refseq
         )
 
         ch_orthogroups
