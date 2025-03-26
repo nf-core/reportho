@@ -1,6 +1,6 @@
 process FETCH_ENSEMBL_IDMAP {
     tag "idmap"
-    label 'process_single'
+    label 'process_short'
 
     conda "conda-forge::python=3.11.0 conda-forge::requests=2.31.0"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
