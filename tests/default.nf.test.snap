@@ -279,17 +279,15 @@
                 "sequences/HBB/HBB_orthologs.txt"
             ],
             [
-                "BicD2_clusters.tsv:md5,6f9029347a1d33d82d74fdd0aeb19515",
-                "BicD2_idmap.tsv:md5,499e3a1f48ad32ef7a4088fd9079eb8a",
-                "HBB_clusters.tsv:md5,4cffd0c842201bcecf3eb36373975c00",
-                "HBB_idmap.tsv:md5,cca430817fa0e6512b9c597af691c43d",
                 "multiqc_citations.txt:md5,4c806e63a283ec1b7e78cdae3a923d4f",
                 "multiqc_sources.txt:md5,d2a044df39ce3c6abe5cdc2d67473490",
+                "clusters.csv:md5,3fb5a089b2d079cbe01d00b298efef36",
                 "id.txt:md5,5e567f80b3e124f6cbfd9d78ec056d7e",
                 "index.html:md5,f65df95dd6ecc78a557b5b0ed9081b92",
                 "params.yml:md5,2c51160074527dbda5ddee27964bd5ee",
                 "run.sh:md5,314e387b677968e93bc66776a09cad8a",
                 "taxid.txt:md5,d8ce74354d0ddf337bd304faca270ff7",
+                "clusters.csv:md5,c8bbdda6107e0a25b73230a632955963",
                 "id.txt:md5,a366b91927c9eb9d123e04ea6e741741",
                 "index.html:md5,f65df95dd6ecc78a557b5b0ed9081b92",
                 "params.yml:md5,1075f089d3cb1d179f5523238ccfb5a6",
@@ -301,6 +299,6 @@
             "nf-test": "0.9.0",
             "nextflow": "24.10.4"
         },
-        "timestamp": "2025-03-26T14:06:30.26916"
+        "timestamp": "2025-03-26T14:20:50.308951"
     }
 }
