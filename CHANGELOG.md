@@ -3,7 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v1.1.0dev - [date]
+## v1.1.0dev - Reliable Rudder - [date]
+
+The rudder is a control surface which is used to turn the ship. It is the main (and sometimes only) direct source of directional control.
+
+This is the second release of reportho. The main change is the addition of identifier merging, which is supposed to alleviate issues related to synonymous IDs. We have removed the MSA and phylogeny modules, as we want to chain into other purpose-built nf-core pipelines instead (especially `multiplesequencealign`). If your analysis relies on these functionalities, you can keep using 1.0.1 for now.
 
 ### `Credits`
 

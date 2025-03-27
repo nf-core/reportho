@@ -6,7 +6,7 @@
 
 ## Introduction
 
-<!-- TODO nf-core: Add documentation about anything specific to running your pipeline. For general topics, please point to (and add to) the main nf-core website. -->
+reportho is a pipeline for the retrieval of pre-computed ortholog predictions for specific genes, as well as the comparative analysis of predictions from multiple sources. It works for all eukaryotic species with sufficient annotation, and given proper setup also for bacteria and archaea. Support for viral genes is not guaranteed. For optimal results, use proteins from Uniprot as input.
 
 ## Samplesheet input
 
@@ -108,9 +108,13 @@ With large input sizes, you might want to run the pipeline locally, without runt
 
 While those options allow the pipeline to run its steps offline, the pipeline requires certain configuration files and container images that are downloaded from the internet. If you wish to run the pipeline on a machine without a connection, you can pre-download the required files with `nf-core download`. See [the nf-core tools documentation](https://nf-co.re/docs/nf-core-tools/pipelines/download) for details.
 
-### Downstream analysis
+### Sequence fetching
 
-Downstream analysis (i.e. MSA and phylogeny) relies on online resources to obtain sequences and structures, and thus cannot be run offline. For your convenience, it will be automatically disabled if you enable `offline_run`. Note that in case some sequences or structures cannot be obtained, the corresponding ortholog will be excluded from the alignment and phylogeny. In particular, only the orthologs with both a sequence and a structure available will be retained if `use_structures` is enabled.
+Identifier merging relies on online resources to obtain sequences, and thus cannot be run offline. For your convenience, it will be automatically disabled if you enable `offline_run`. Note that in case some sequences cannot be obtained, the corresponding ortholog will be excluded from merging, and its ID will be passed on as-is.
+
+### ID merging
+
+Identifier merging is performed using `diamond cluster`. By default, the threshold for clustering is 90% identity at 80% coverage. These values can be adjusted by setting the `min_identity` and `min_coverage` parameters.
 
 ### Updating the pipeline
 
