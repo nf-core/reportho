@@ -50,7 +50,7 @@
                     "Python Requests": "2.31.0"
                 },
                 "Workflow": {
-                    "nf-core/reportho": "v1.1.0dev"
+                    "nf-core/reportho": "v1.1.0"
                 }
             },
             [
@@ -76,7 +76,7 @@
             "nf-test": "0.9.0",
             "nextflow": "24.10.4"
         },
-        "timestamp": "2025-03-25T11:38:42.12001"
+        "timestamp": "2025-03-27T17:20:36.615582"
     },
     "Params: default": {
         "content": [
@@ -130,7 +130,7 @@
                     "Python Requests": "2.31.0"
                 },
                 "Workflow": {
-                    "nf-core/reportho": "v1.1.0dev"
+                    "nf-core/reportho": "v1.1.0"
                 }
             },
             [
@@ -187,6 +187,6 @@
             "nf-test": "0.9.0",
             "nextflow": "24.10.4"
         },
-        "timestamp": "2025-03-27T14:54:41.578683"
+        "timestamp": "2025-03-27T17:20:03.562595"
     }
 }
