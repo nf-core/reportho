@@ -1,6 +1,6 @@
 process MAKE_REPORT {
     tag "$meta.id"
-    label 'process_single'
+    label 'process_short'
 
     container "nf-core/orthologs-report:1.1.0"
 

@@ -1,6 +1,6 @@
 process DUMP_PARAMS {
     tag "$meta.id"
-    label 'process_single'
+    label 'process_short'
 
     conda "conda-forge::coreutils=9.5"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?

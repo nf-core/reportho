@@ -1,6 +1,6 @@
 process PLOT_ORTHOLOGS {
     tag "$meta.id"
-    label 'process_single'
+    label 'process_short'
 
     conda     "conda-forge::r-tidyverse=2.0.0 conda-forge::r-reshape2=1.4.4 conda-forge::r-ggvenndiagram=1.5.2"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
