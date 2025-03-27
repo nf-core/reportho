@@ -4,7 +4,7 @@ process SPLIT_ID_FORMAT {
 
     conda "conda-forge::python=3.12.0 conda-forge::requests=2.32.3"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/mulled-v2-bc54124b36864a4af42a9db48b90a404b5869e7e:5258b8e5ba20587b7cbf3e942e973af5045a1e59-0' : // TODO: update Singularity container
+        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/d8/d8b42c52e7158a5653a34efac01b601c9dbf7ff09788f48e50daeaf63081a93b/data' :
         'community.wave.seqera.io/library/python_requests:d5c4de7f9dd08da2' }"
 
     input:
