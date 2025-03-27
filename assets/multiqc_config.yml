@@ -36,6 +36,15 @@ custom_data:
     pconfig:
       id: "sample_hits"
       title: "Sample hit statistics"
+  sample_merge:
+    id: "sample_merge"
+    section_name: "Sample Merge Stats"
+    plot_type: "table"
+    anchor: "sample_merge"
+    namespace: "sample_merge"
+    pconfig:
+      id: "sample_merge"
+      title: "Sample merge statistics"
 
 custom_table_header_config:
   sample_stats:
@@ -80,9 +89,32 @@ custom_table_header_config:
       description: "Total number of orthologs found."
       hidden: False
       format: "{:,.0f}"
+  sample_merge:
+    one:
+      title: "Unique"
+      description: "Number of unique identifiers."
+      hidden: False
+      format: "{:,.0f}"
+    many:
+      title: "Clusters"
+      description: "Number of identifier clusters."
+      hidden: False
+      format: "{:,.0f}"
+    in_clusters:
+      title: "IDs in Clusters"
+      description: "Number of identifiers in clusters."
+      hidden: False
+      format: "{:,.0f}"
+    total:
+      title: "Total"
+      description: "Total number of identifiers."
+      hidden: False
+      format: "{:,.0f}"
 
 sp:
   sample_stats:
     fn: "aggregated_stats.csv"
   sample_hits:
     fn: "aggregated_hits.csv"
+  sample_merge:
+    fn: "aggregated_merge.csv"
