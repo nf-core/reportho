@@ -1,6 +1,6 @@
 process FETCH_EGGNOG_GROUP_LOCAL {
     tag "$meta.id"
-    label 'process_single'
+    label 'process_short'
 
     conda "conda-forge::python=3.12.3 conda-forge::ripgrep=14.1.0"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
@@ -13,7 +13,6 @@ process FETCH_EGGNOG_GROUP_LOCAL {
     path eggnog_idmap
     path ensembl_idmap
     path refseq_idmap
-    val offline_run
 
     output:
     tuple val(meta), path("*_eggnog_group.csv"), emit: eggnog_group

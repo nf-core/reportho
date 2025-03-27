@@ -1,6 +1,6 @@
 process STATS2CSV {
     tag "$meta.id"
-    label 'process_single'
+    label 'process_short'
 
     conda "conda-forge::python=3.11.0 conda-forge::pyyaml=5.4.1"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
