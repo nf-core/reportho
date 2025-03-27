@@ -296,16 +296,7 @@
             ],
             [
                 "multiqc_citations.txt:md5,4c806e63a283ec1b7e78cdae3a923d4f",
-                "multiqc_sample_hits.txt:md5,6499ecc3c849adc6633d932ce1d2b8aa",
-                "multiqc_sample_merge.txt:md5,bc13250164263893071c6cc5d3715535",
-                "multiqc_sample_stats.txt:md5,21dfc0a52cd84ac74fb1cd20c49c5520",
                 "multiqc_sources.txt:md5,d2a044df39ce3c6abe5cdc2d67473490",
-                "sample_hits.pdf:md5,1542795eb54f373367bf0dfbf892cf6f",
-                "sample_merge.pdf:md5,359e0aa22a4689f1162ed1ca8da6a95d",
-                "sample_stats.pdf:md5,0c4a53f4e8762ca9f01a3c53e5c0903b",
-                "sample_hits.svg:md5,8774fa1a11066e99ff423f1499493836",
-                "sample_merge.svg:md5,d1547b19f3edf0acf956ac870ff1ec41",
-                "sample_stats.svg:md5,8dd7c1dc92911b71b174e1392d0ffd80",
                 "id.txt:md5,5e567f80b3e124f6cbfd9d78ec056d7e",
                 "index.html:md5,f65df95dd6ecc78a557b5b0ed9081b92",
                 "params.yml:md5,2c51160074527dbda5ddee27964bd5ee",
@@ -322,6 +313,6 @@
             "nf-test": "0.9.0",
             "nextflow": "24.10.4"
         },
-        "timestamp": "2025-03-27T13:43:38.798996"
+        "timestamp": "2025-03-27T15:07:52.653947"
     }
 }

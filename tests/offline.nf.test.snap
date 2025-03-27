@@ -180,19 +180,13 @@
             ],
             [
                 "multiqc_citations.txt:md5,4c806e63a283ec1b7e78cdae3a923d4f",
-                "multiqc_sample_hits.txt:md5,696d1125527fd44e70bf3ef1c7fd3366",
-                "multiqc_sample_stats.txt:md5,71e98c77ec1664eccebcf2b1490373d7",
-                "multiqc_sources.txt:md5,d2a044df39ce3c6abe5cdc2d67473490",
-                "sample_hits.pdf:md5,38494005edafd548553a2e02a36a6070",
-                "sample_stats.pdf:md5,3d598fafffe136c051b0eea093086f54",
-                "sample_hits.svg:md5,227ebf16a3d2ca08387679fae3c94ba7",
-                "sample_stats.svg:md5,10b6d003354a834b59dd0a0920b552e8"
+                "multiqc_sources.txt:md5,d2a044df39ce3c6abe5cdc2d67473490"
             ]
         ],
         "meta": {
             "nf-test": "0.9.0",
             "nextflow": "24.10.4"
         },
-        "timestamp": "2025-03-27T13:45:04.243318"
+        "timestamp": "2025-03-27T14:54:41.578683"
     }
 }

@@ -15,4 +15,7 @@ multiqc.log
 **/multiqc_data.json
 **/multiqc_software_versions.txt
 **/multiqc_report.html
+**/multiqc_sample_*.txt
+**/*.pdf
+**/*.svg
 pipeline_info/*
