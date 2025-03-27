@@ -173,6 +173,9 @@ If `-profile` is not specified, the pipeline will run locally and expect all sof
   - A generic configuration profile to enable [Wave](https://seqera.io/wave/) containers. Use together with one of the above (requires Nextflow ` 24.03.0-edge` or later).
 - `conda`
   - A generic configuration profile to be used with [Conda](https://conda.io/docs/). Please only use Conda as a last resort i.e. when it's not possible to run the pipeline with Docker, Singularity, Podman, Shifter, Charliecloud, or Apptainer.
+- `array`
+  - A generic configuration profile to be used on HPC environment. It sets a default value for the [array](https://www.nextflow.io/docs/latest/reference/process.html#array) directive per each process. It's use is intended to help the HPC schedulers on resources allocation, by bundling tasks that belongs to the same process in packets of fixed size.  
+
 
 ### `-resume`
 
