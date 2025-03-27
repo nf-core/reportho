@@ -1,6 +1,6 @@
 process FETCH_OMA_GROUP_LOCAL {
     tag "$meta.id"
-    label 'process_single'
+    label 'process_short'
 
     conda "conda-forge::python=3.12.3 conda-forge::ripgrep=14.1.0"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
