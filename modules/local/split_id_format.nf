@@ -2,10 +2,10 @@ process SPLIT_ID_FORMAT {
     tag "$meta.id"
     label 'process_short'
 
-    conda "conda-forge::python=3.12.0 conda-forge::requests=2.32.3"
+    conda "conda-forge::python=3.12.9 conda-forge::requests=2.32.3"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/d8/d8b42c52e7158a5653a34efac01b601c9dbf7ff09788f48e50daeaf63081a93b/data' :
-        'community.wave.seqera.io/library/python_requests:d5c4de7f9dd08da2' }"
+        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/1c/1c915e07bc896c1ee384b521d49f45e1244c18299f88ad0b02fa8d221f0a7c7e/data' :
+        'community.wave.seqera.io/library/python_requests:222028ddf1c9e3c2' }"
 
     input:
     tuple val(meta), path(ids)
