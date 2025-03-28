@@ -2,10 +2,10 @@ process FETCH_ENSEMBL_IDMAP {
     tag "idmap"
     label 'process_short'
 
-    conda "conda-forge::python=3.11.0 conda-forge::requests=2.31.0"
+    conda "conda-forge::python=3.12.9 conda-forge::requests=2.32.3"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/mulled-v2-bc54124b36864a4af42a9db48b90a404b5869e7e:5258b8e5ba20587b7cbf3e942e973af5045a1e59-0' :
-        'biocontainers/mulled-v2-bc54124b36864a4af42a9db48b90a404b5869e7e:5258b8e5ba20587b7cbf3e942e973af5045a1e59-0' }"
+        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/1c/1c915e07bc896c1ee384b521d49f45e1244c18299f88ad0b02fa8d221f0a7c7e/data' :
+        'community.wave.seqera.io/library/python_requests:222028ddf1c9e3c2' }"
 
     output:
     path "ensembl_idmap.csv", emit: idmap
