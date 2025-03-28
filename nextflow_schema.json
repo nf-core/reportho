@@ -188,13 +188,13 @@
                 },
                 "min_identity": {
                     "type": "number",
-                    "default": 0.9,
+                    "default": 90,
                     "fa_icon": "fas fa-dna",
                     "description": "Minimum sequence identity in Diamond"
                 },
                 "min_coverage": {
                     "type": "number",
-                    "default": 0.8,
+                    "default": 80,
                     "fa_icon": "fas fa-dna",
                     "description": "Minimum sequence coverage in Diamond"
                 }
