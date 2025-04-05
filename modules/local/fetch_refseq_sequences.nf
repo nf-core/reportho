@@ -20,7 +20,7 @@ process FETCH_REFSEQ_SEQUENCES {
     task.ext.when == null || task.ext.when
 
     script:
-    def prefix = task.ext.prefix ?: meta.id
+    def prefix    = task.ext.prefix ?: meta.id
     def add_query = query_fasta == [] ? "" : "cat $query_fasta >> ${prefix}_orthologs.fa"
     """
     fetch_refseq_sequences.py $ids $prefix > ${prefix}_refseq_sequences.fa
