@@ -3,15 +3,15 @@
 # Written by Igor Trujnara, released under the MIT license
 # See https://opensource.org/license/mit for details
 
+"""Map RefSeq IDs to UniProt IDs using the UniProt mapping API."""
+
 import sys
 
 from utils import check_id_mapping_results_ready, safe_get, safe_post
 
 
 def refseq2uniprot(refseq_ids: list[str]) -> list[str]:
-    """
-    Map a list of RefSeq IDs to UniProt IDs using the UniProt mapping API.
-    """
+    """Map a list of RefSeq IDs to UniProt IDs using the UniProt mapping API."""
     if len(refseq_ids) == 0:
         return []
 

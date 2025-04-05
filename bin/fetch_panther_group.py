@@ -3,6 +3,8 @@
 # Written by Igor Trujnara, released under the MIT license
 # See https://opensource.org/license/mit for details
 
+"""Fetch members of a Panther group by ID."""
+
 import sys
 from warnings import warn
 
@@ -10,9 +12,6 @@ from utils import safe_get
 
 
 def main() -> None:
-    """
-    Fetch members of a Panther group by ID.
-    """
     if len(sys.argv) < 3:
         raise ValueError("Too few arguments. Usage: fetch_panther_group.py <id> <organism>")
 

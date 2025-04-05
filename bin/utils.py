@@ -2,6 +2,8 @@
 # See https://opensource.org/license/mit for details
 # Includes code written by UniProt contributors published under CC-BY 4.0 license
 
+"""Utility functions and classes for the fetching scripts."""
+
 from collections import defaultdict as dd
 from dataclasses import dataclass
 import re
@@ -14,9 +16,9 @@ import requests
 POLLING_INTERVAL = 0.5
 
 def safe_get(url: str, **kwargs) -> requests.Response:
-    """
-    Get a URL and return the response.
-    """
+    """Make a GET request to a URL and return the response.
+
+    Raise if the request times out or if there is a network issue."""
     try:
         return requests.get(url, timeout = 300, **kwargs)
     except requests.exceptions.Timeout as e:
@@ -28,9 +30,9 @@ def safe_get(url: str, **kwargs) -> requests.Response:
 
 
 def safe_post(url: str, **kwargs) -> requests.Response:
-    """
-    Post data to a URL and return the response.
-    """
+    """Make a POST request to a URL and return the response.
+
+    Raise if the request times out or if there is a network issue."""
     try:
         return requests.post(url, timeout = 300, **kwargs)
     except requests.exceptions.Timeout as e:
@@ -42,9 +44,7 @@ def safe_post(url: str, **kwargs) -> requests.Response:
 
 
 def check_id_mapping_results_ready(job_id: str) -> bool:
-    """
-    Wait until the ID mapping job is finished.
-    """
+    """Wait until the UniProt ID mapping job is finished."""
     while True:
         request = safe_get(f"https://rest.uniprot.org/idmapping/status/{job_id}")
         j = request.json()
@@ -59,9 +59,7 @@ def check_id_mapping_results_ready(job_id: str) -> bool:
 
 
 def fetch_seq(url: str) -> tuple[bool, dict]:
-    """
-    Get JSON from a URL.
-    """
+    """Get JSON from a URL."""
     res = safe_get(url)
     if not res.ok:
         print(f"HTTP error. Code: {res.status_code}")
@@ -71,9 +69,7 @@ def fetch_seq(url: str) -> tuple[bool, dict]:
 
 
 def split_ids(ids: list[str], slice_size: int) -> list[list[str]]:
-    """
-    Split a list into chunks of given size. Useful for APIs with limited batch size.
-    """
+    """Split a list into chunks of given size. Useful for APIs with limited batch size."""
     slices = []
     for i in range(0, len(ids), slice_size):
         slices.append(ids[i:min(i + slice_size, len(ids))])
@@ -81,9 +77,7 @@ def split_ids(ids: list[str], slice_size: int) -> list[list[str]]:
 
 
 def split_ids_by_format(ids: list[str]) -> dict[str, list[str]]:
-    """
-    Split protein IDs by database format.
-    """
+    """Split protein IDs by database format."""
     ids_format = dd(list)
 
     for i in ids:
@@ -103,9 +97,7 @@ def split_ids_by_format(ids: list[str]) -> dict[str, list[str]]:
 
 @dataclass
 class SequenceInfo():
-    """
-    Information about a sequence for the fetching step.
-    """
+    """Information about a sequence for the fetching step."""
     prot_id: str
     taxid: str
     sequence: str
@@ -118,10 +110,9 @@ class SequenceInfo():
 
 
 def list_to_file(items: list, path: str):
-    """
-    Print all elements of a list to a text file, one item per line.
-    Warning: will overwrite the text file if it exists.
-    """
+    """Print all elements of a list to a text file, one item per line.
+
+    Warning: will overwrite the text file if it exists."""
     with open(path, 'w') as f:
         for i in items:
             f.write(i + '\n')

@@ -3,6 +3,8 @@
 # Written by Igor Trujnara, released under the MIT license
 # See https://opensource.org/license/mit for details
 
+"""Get OMA group ID from a UniProt ID."""
+
 import sys
 from warnings import warn
 
@@ -10,9 +12,6 @@ from utils import safe_get
 
 
 def main() -> None:
-    """
-    Get OMA group ID from a UniProt ID.
-    """
     if len(sys.argv) < 2:
         raise ValueError("Not enough arguments. Usage: fetch_oma_groupid.py <filename>")
 

@@ -3,12 +3,18 @@
 # Written by Igor Trujnara, released under the MIT license
 # See https://opensource.org/license/mit for details
 
+"""Split a list of protein IDs into different files based on their identifier format.
+
+The splitting is done based on official accession regexes for UniProt, Ensembl, and RefSeq.
+The regex for OMA is inferred based on the format description."""
+
 import sys
 
 from utils import split_ids_by_format
 
 
 def split_ids(ids: list[str], prefix: str) -> None:
+    """Split a list of protein IDs into different files based on their identifier format."""
     file_uniprot = open(f"{prefix}_uniprot_ids.txt", 'w')
     file_ensembl = open(f"{prefix}_ensembl_ids.txt", 'w')
     file_refseq = open(f"{prefix}_refseq_ids.txt", 'w')
