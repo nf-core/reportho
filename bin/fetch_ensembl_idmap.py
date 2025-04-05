@@ -3,6 +3,8 @@
 # Written by Igor Trujnara, released under the MIT license
 # See https://opensource.org/license/mit for details
 
+# This script fetches Ensembl species identifiers and their NCBI taxon IDs for the Ensembl API.
+
 import requests
 
 
