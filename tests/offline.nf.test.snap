@@ -40,10 +40,10 @@
                     "csvtk": "0.30.0"
                 },
                 "SPLIT_ID_FORMAT": {
-                    "Python": "3.12.7"
+                    "Python": "3.12.9"
                 },
                 "SPLIT_TAXIDS": {
-                    "awk": "mawk 1.3.4 20200120"
+                    "awk": "5.3.1"
                 },
                 "WRITE_SEQINFO": {
                     "Python": "3.11.0",
@@ -76,7 +76,7 @@
             "nf-test": "0.9.0",
             "nextflow": "24.10.4"
         },
-        "timestamp": "2025-03-27T17:20:36.615582"
+        "timestamp": "2025-03-28T10:41:15.978409"
     },
     "Params: default": {
         "content": [
@@ -187,6 +187,6 @@
             "nf-test": "0.9.0",
             "nextflow": "24.10.4"
         },
-        "timestamp": "2025-03-27T17:20:03.562595"
+        "timestamp": "2025-03-28T11:14:19.570776"
     }
 }
