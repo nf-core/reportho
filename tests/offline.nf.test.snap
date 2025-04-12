@@ -7,8 +7,8 @@
                     "cat": 8.3
                 },
                 "FETCH_ENSEMBL_IDMAP": {
-                    "Python": "3.11.0",
-                    "Python Requests": "2.31.0"
+                    "Python": "3.12.9",
+                    "Python Requests": "2.32.3"
                 },
                 "FETCH_INSPECTOR_GROUP_ONLINE": {
                     "Python": "3.11.0",
@@ -76,7 +76,7 @@
             "nf-test": "0.9.0",
             "nextflow": "24.10.4"
         },
-        "timestamp": "2025-03-28T10:41:15.978409"
+        "timestamp": "2025-04-12T15:55:48.401748"
     },
     "Params: default": {
         "content": [
