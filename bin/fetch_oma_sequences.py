@@ -3,15 +3,15 @@
 # Written by Igor Trujnara, released under the MIT license
 # See https://opensource.org/license/mit for details
 
+"""Fetch protein sequences from the OMA database using the OMA REST API."""
+
 import sys
 
 from utils import list_to_file, safe_post, SequenceInfo, split_ids
 
 
 def fetch_slice(ids: list[str]) -> list[SequenceInfo]:
-    """
-    Fetch sequences for given UniProt IDs from the OMA database.
-    """
+    """Fetch sequences for given UniProt IDs from the OMA database."""
     payload = {"ids": ids}
 
     res = safe_post("https://omabrowser.org/api/protein/bulk_retrieve/", json=payload)
@@ -31,6 +31,7 @@ def fetch_slice(ids: list[str]) -> list[SequenceInfo]:
 
 
 def fetch_seqs_oma(ids: list[str]) -> list[SequenceInfo]:
+    """Fetch sequences for given UniProt IDs from the OMA database in slices of 100."""
     seqs = []
     for s in split_ids(ids, 100):
         seqs = seqs + fetch_slice(s)

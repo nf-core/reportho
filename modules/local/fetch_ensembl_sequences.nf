@@ -15,13 +15,14 @@ process FETCH_ENSEMBL_SEQUENCES {
     tuple val(meta), path("*_ensembl_sequences.fa")  , emit: fasta
     tuple val(meta), path("*_ensembl_seq_hits.txt")  , emit: hits
     tuple val(meta), path("*_ensembl_seq_misses.txt"), emit: misses
+    tuple val(meta), path("*_orthologs.fa")          , emit: orthologs, optional: true
     path "versions.yml"                              , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
-    def prefix = task.ext.prefix ?: meta.id
+    def prefix    = task.ext.prefix ?: meta.id
     def add_query = query_fasta == [] ? "" : "cat $query_fasta >> ${prefix}_orthologs.fa"
     """
     fetch_ensembl_sequences.py $ids $ensembl_idmap $prefix > ${prefix}_ensembl_sequences.fa

@@ -3,12 +3,15 @@
 # Written by Igor Trujnara, released under the MIT license
 # See https://opensource.org/license/mit for details
 
+"""Fetch protein sequences from Ensembl using the Ensembl REST API."""
+
 import csv
 import sys
 
 from utils import list_to_file, safe_post, SequenceInfo, split_ids
 
 def fetch_slice(ids: list[str], idmap: dict[str,str]) -> list[SequenceInfo]:
+    """Fetch taxon IDs and sequences for given protein IDs from Ensembl."""
     hits = {}
     # fetch taxon information
     payload = {"ids": ids}
@@ -43,6 +46,7 @@ def fetch_slice(ids: list[str], idmap: dict[str,str]) -> list[SequenceInfo]:
 
 
 def fetch_ensembl(ids: list[str], idmap_path: str) -> list[SequenceInfo]:
+    """Fetch taxon IDs and sequences for given protein IDs from Ensembl in slices of 100."""
     taxon_map = {}
     with open(idmap_path) as f:
         for it in csv.reader(f):

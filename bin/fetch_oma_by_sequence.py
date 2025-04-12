@@ -3,6 +3,8 @@
 # Written by Igor Trujnara, released under the MIT license
 # See https://opensource.org/license/mit for details
 
+"""Fetch OMA entry for a given protein sequence from the OMA browser API."""
+
 import sys
 from warnings import warn
 

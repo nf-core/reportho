@@ -3,14 +3,14 @@
 # Written by Igor Trujnara, released under the MIT license
 # See https://opensource.org/license/mit for details
 
+"""Calculate statistics from a score table."""
+
 import csv
 import sys
 
 
 def make_stats(score_table: str) -> None:
-    """
-    Calculate statistics from a score table.
-    """
+    """Calculate statistics from a score table."""
     # read csv
     max_score = 0
     with open(score_table) as f:

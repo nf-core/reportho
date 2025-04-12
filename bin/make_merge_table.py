@@ -3,13 +3,12 @@
 # Written by Igor Trujnara, released under the MIT license
 # See https://opensource.org/license/mit for details
 
+"""Convert Diamond output into a CSV summary table."""
+
 import sys
 
 
 def main() -> None:
-    """
-    Convert numbers of hits into CSV.
-    """
     if len(sys.argv) < 3:
         print("Usage: python make_hit_table.py <clusters> <sample_id>")
         sys.exit(1)

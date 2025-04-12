@@ -3,15 +3,14 @@
 # Written by Igor Trujnara, released under the MIT license
 # See https://opensource.org/license/mit for details
 
+"""Get score and format information from a merged CSV file."""
+
 import csv
 import re
 import sys
 
 
 def main() -> None:
-    """
-    Get score and format information from a merged CSV file.
-    """
     if len(sys.argv) < 3:
         print("Usage: python make_score_table.py <merged_csv> <diamond_mapping>")
         sys.exit(1)

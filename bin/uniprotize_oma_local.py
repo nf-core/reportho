@@ -3,14 +3,14 @@
 # Written by Igor Trujnara, released under the MIT license
 # See https://opensource.org/license/mit for details
 
+"""Map OMA IDs to UniProt using local Ensembl and RefSeq ID mapping files."""
+
 import gzip
 import sys
 
 
 def uniprotize_oma(oma_ids_path: str, ensembl_idmap_path: str, refseq_idmap_path: str) -> None:
-    """
-    Map IDs from OMA to UniProt using local Ensembl and RefSeq ID mapping files.
-    """
+    """Map IDs from OMA to UniProt using local Ensembl and RefSeq ID mapping files."""
     with open(oma_ids_path) as f:
         oma_ids = f.read().splitlines()
 

@@ -3,6 +3,8 @@
 # Written by Igor Trujnara, released under the MIT license
 # See https://opensource.org/license/mit for details
 
+"""Fetch OMA taxon ID by UniProt ID."""
+
 import sys
 from warnings import warn
 

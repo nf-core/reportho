@@ -3,6 +3,8 @@
 # Written by Igor Trujnara, released under the MIT license
 # See https://opensource.org/license/mit for details
 
+"""Fetch protein sequences from the UniProt database using the UniProt REST API."""
+
 import io
 import sys
 
@@ -11,6 +13,7 @@ from utils import list_to_file, safe_get, SequenceInfo, split_ids
 
 
 def fetch_slice(ids: list[str]) -> list[SeqIO.SeqRecord]:
+    """Fetch sequences for given UniProt IDs from the EBI database."""
     payload: dict[str,str] = {"accession": ','.join(ids)}
     headers: dict[str,str] = {"Accept": "text/x-fasta"}
     res = safe_get("https://www.ebi.ac.uk/proteins/api/proteins",
@@ -26,6 +29,10 @@ def fetch_slice(ids: list[str]) -> list[SeqIO.SeqRecord]:
 
 
 def fetch_ebi(ids: list[str]) -> list[SequenceInfo]:
+    """Fetch sequences for given UniProt IDs from the EBI database in slices of 100.
+
+    Note: The EBI database contains UniProt data and allows batch requests.
+    """
     seqs = []
     for s in split_ids(ids, 100):
         seqs = seqs + fetch_slice(s)
@@ -33,6 +40,7 @@ def fetch_ebi(ids: list[str]) -> list[SequenceInfo]:
 
 
 def to_seqinfo(entry: SeqIO.SeqRecord) -> SequenceInfo:
+    """Convert a SeqRecord object to a custom SequenceInfo object."""
     prot_id = entry.description.split('|')[1]
     taxid = entry.description.split("OX=")[1].split(' ')[0]
     seq = str(entry.seq)

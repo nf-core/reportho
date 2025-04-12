@@ -3,15 +3,15 @@
 # Written by Igor Trujnara, released under the MIT license
 # See https://opensource.org/license/mit for details
 
+"""Convert Ensembl IDs to UniProt IDs using the UniProt mapping API."""
+
 import sys
 
 from utils import check_id_mapping_results_ready, safe_get, safe_post
 
 
 def ensembl2uniprot(ensembl_ids: list[str]) -> list[str]:
-    """
-    Convert a list of Ensembl IDs to UniProt IDs using the UniProt mapping API.
-    """
+    """Convert a list of Ensembl IDs to UniProt IDs using the UniProt mapping API."""
     if len(ensembl_ids) == 0:
         return []
 

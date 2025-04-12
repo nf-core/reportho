@@ -3,6 +3,8 @@
 # Written by Igor Trujnara, released under the MIT license
 # See https://opensource.org/license/mit for details
 
+"""Fetch protein sequences from the RefSeq database using the NCBI eutils API."""
+
 import sys
 from xml.dom import minidom
 
@@ -11,21 +13,25 @@ from utils import list_to_file, SequenceInfo, split_ids
 
 
 def get_taxid(node: minidom.Element) -> str:
+    """Extract the taxid from the XML object."""
     taxid = node.getElementsByTagName("TSeq_taxid")[0].firstChild.wholeText
     return taxid
 
 
 def get_sequence(node: minidom.Element) -> str:
+    """Extract the sequence from the XML object."""
     seq = node.getElementsByTagName("TSeq_sequence")[0].firstChild.wholeText
     return seq
 
 
 def get_prot_id(node: minidom.Element) -> str:
+    """Extract the protein ID from the XML object."""
     prot_id = node.getElementsByTagName("TSeq_accver")[0].firstChild.wholeText.split(".")[0]
     return prot_id
 
 
 def fetch_slice(ids: list[str], db: str = "protein") -> list[SequenceInfo]:
+    """Fetch sequences for given protein IDs from the RefSeq database."""
     id_string = ",".join(ids)
     fasta = Entrez.efetch(db=db, id=id_string, rettype="fasta", retmode="xml")
     seqs = minidom.parse(fasta).getElementsByTagName("TSeq")
@@ -35,6 +41,7 @@ def fetch_slice(ids: list[str], db: str = "protein") -> list[SequenceInfo]:
 
 
 def fetch_sequences(ids: list[str], db: str = "protein") -> list[SequenceInfo]:
+    """Fetch sequences for given protein IDs from the RefSeq database in slices of 100."""
     seqs = []
     for s in split_ids(ids, 100):
         seqs += fetch_slice(s, db)
