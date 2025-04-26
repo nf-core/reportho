@@ -17,7 +17,7 @@ We thank Daniel Májer from Gabaldón Lab for his assistance in implementing seq
 
 - The pipeline can now download sequences from UniProt, RefSeq and Ensembl
 - Identification of synonymous identifiers using Diamond
-- Array specific profile inside custom config, coupled with the above improves averall cluster usage and increses scheduler friendliness
+- Array specific profile inside custom config, coupled with the above improves overall cluster usage and increases scheduler friendliness
 
 ### `Removed`
 
