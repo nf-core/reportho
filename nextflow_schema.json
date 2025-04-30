@@ -29,6 +29,11 @@
                     "description": "The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.",
                     "fa_icon": "fas fa-folder-open"
                 },
+                "output_intermediates": {
+                    "type": "boolean",
+                    "description": "Output intermediate files, including specific prediction lists.",
+                    "fa_icon": "fas fa-folder-open"
+                },
                 "email": {
                     "type": "string",
                     "description": "Email address for completion summary.",
@@ -40,6 +45,191 @@
                     "type": "string",
                     "description": "MultiQC report title. Printed as page header, used for filename if not otherwise specified.",
                     "fa_icon": "fas fa-file-signature"
+                }
+            }
+        },
+        "ortholog_options": {
+            "title": "Ortholog search options",
+            "type": "object",
+            "fa_icon": "fas fa-dna",
+            "description": "All options related to the ortholog search subworkflow.",
+            "properties": {
+                "use_all": {
+                    "type": "boolean",
+                    "description": "Use all ortholog search methods. Will mix online and local methods if needed. Overrides all individual database flags.",
+                    "help_text": "If set to `true`, the pipeline will use all ortholog search methods.",
+                    "fa_icon": "fas fa-database"
+                },
+                "local_databases": {
+                    "type": "boolean",
+                    "description": "Use local databases for the analysis.",
+                    "help_text": "If set to `true`, the pipeline will use local databases for the analysis.",
+                    "fa_icon": "fas fa-database"
+                },
+                "offline_run": {
+                    "type": "boolean",
+                    "description": "Run the pipeline in offline mode. Overrides all online database flags.",
+                    "help_text": "If set to `true`, the pipeline will run in offline mode. `local_databases` must be set separately.",
+                    "fa_icon": "fas fa-server"
+                },
+                "skip_oma": {
+                    "type": "boolean",
+                    "description": "Skip using OMA for the ortholog search.",
+                    "help_text": "If set to `true`, the pipeline will not use OMA for the ortholog search.",
+                    "fa_icon": "fas fa-angle-double-right"
+                },
+                "oma_path": {
+                    "type": "string",
+                    "format": "path",
+                    "exists": true,
+                    "description": "Path to the OMA database.",
+                    "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the OMA database.",
+                    "fa_icon": "fas fa-folder"
+                },
+                "oma_uniprot_path": {
+                    "type": "string",
+                    "format": "path",
+                    "exists": true,
+                    "description": "Path to the Uniprot-OMA ID map.",
+                    "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the OMA-Uniprot ID map.",
+                    "fa_icon": "fas fa-folder"
+                },
+                "oma_ensembl_path": {
+                    "type": "string",
+                    "format": "path",
+                    "exists": true,
+                    "description": "Path to the Ensembl-OMA ID map.",
+                    "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the OMA-Ensembl ID map.",
+                    "fa_icon": "fas fa-folder"
+                },
+                "oma_refseq_path": {
+                    "type": "string",
+                    "format": "path",
+                    "exists": true,
+                    "description": "Path to the RefSeq-OMA ID map.",
+                    "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the OMA-RefSeq ID map.",
+                    "fa_icon": "fas fa-folder"
+                },
+                "skip_panther": {
+                    "type": "boolean",
+                    "description": "Skip using PANTHER for the ortholog search.",
+                    "help_text": "If set to `true`, the pipeline will not use PANTHER for the ortholog search.",
+                    "fa_icon": "fas fa-angle-double-right"
+                },
+                "panther_path": {
+                    "type": "string",
+                    "format": "path",
+                    "exists": true,
+                    "description": "Path to the PANTHER database.",
+                    "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the PANTHER database.",
+                    "fa_icon": "fas fa-folder"
+                },
+                "skip_orthoinspector": {
+                    "type": "boolean",
+                    "description": "Skip using OrthoInspector for the ortholog search.",
+                    "help_text": "If set to `true`, the pipeline will not use OrthoInspector for the ortholog search.",
+                    "fa_icon": "fas fa-angle-double-right"
+                },
+                "orthoinspector_version": {
+                    "type": "string",
+                    "description": "The version of the OrthoInspector database to use.",
+                    "help_text": "This SHOULD be left as the default if working with eukaryotes. Only change if working with bacteria, or an old version is required for reproducibility.",
+                    "default": "Eukaryota2023",
+                    "fa_icon": "fas fa-code-branch"
+                },
+                "orthoinspector_path": {
+                    "type": "string",
+                    "format": "path",
+                    "exists": true,
+                    "description": "Path to the OrthoInspector database.",
+                    "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the OrthoInspector database.",
+                    "fa_icon": "fas fa-folder"
+                },
+                "skip_eggnog": {
+                    "type": "boolean",
+                    "description": "Use EggNOG for the ortholog search.",
+                    "help_text": "If set to `true`, the pipeline will not use EggNOG for the ortholog search.",
+                    "fa_icon": "fas fa-angle-double-right"
+                },
+                "eggnog_path": {
+                    "type": "string",
+                    "format": "path",
+                    "exists": true,
+                    "description": "Path to the EggNOG database.",
+                    "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the EggNOG database.",
+                    "fa_icon": "fas fa-folder"
+                },
+                "eggnog_idmap_path": {
+                    "type": "string",
+                    "format": "path",
+                    "exists": true,
+                    "description": "Path to the EggNOG ID map.",
+                    "help_text": "If `local_databases` is set to `true`, the pipeline will use this path to the EggNOG ID map.",
+                    "fa_icon": "fas fa-folder"
+                },
+                "skip_merge": {
+                    "type": "boolean",
+                    "description": "Skip merging IDs based on sequence.",
+                    "help_text": "If set to `true`, the pipeline will skip merging the ortholog search results.",
+                    "fa_icon": "fas fa-angle-double-right"
+                },
+                "use_centroid": {
+                    "type": "boolean",
+                    "description": "Use centroid strategy for the ortholog search. Overrides min_score.",
+                    "help_text": "If set to `true`, the pipeline will use centroid strategy for the ortholog search.",
+                    "fa_icon": "far fa-chart-bar"
+                },
+                "min_score": {
+                    "type": "number",
+                    "default": 2,
+                    "description": "Minimum score for the ortholog search.",
+                    "help_text": "The minimum score for the ortholog search. If `use_centroid` is set to `true`, this parameter will be ignored.",
+                    "fa_icon": "far fa-chart-bar"
+                },
+                "min_identity": {
+                    "type": "number",
+                    "default": 90,
+                    "fa_icon": "fas fa-dna",
+                    "description": "Minimum sequence identity in Diamond"
+                },
+                "min_coverage": {
+                    "type": "number",
+                    "default": 80,
+                    "fa_icon": "fas fa-dna",
+                    "description": "Minimum sequence coverage in Diamond"
+                }
+            }
+        },
+        "downstream_options": {
+            "title": "Downstream analysis options",
+            "type": "object",
+            "fa_icon": "fas fa-search",
+            "description": "All options related to the downstream analysis subworkflows.",
+            "properties": {
+                "skip_report": {
+                    "type": "boolean",
+                    "description": "Skip report generation.",
+                    "help_text": "If set to `true`, the pipeline will not generate a report. Intended for large batch processing.",
+                    "fa_icon": "fas fa-angle-double-right"
+                }
+            }
+        },
+        "process_skipping_options": {
+            "title": "Process skipping options",
+            "type": "object",
+            "fa_icon": "fas fa-angle-double-right",
+            "description": "Options to skip various steps within the workflow.",
+            "properties": {
+                "skip_orthoplots": {
+                    "type": "boolean",
+                    "description": "Skip the ortholog plots.",
+                    "help_text": "If set to `true`, the pipeline will skip the ortholog plots.",
+                    "fa_icon": "fas fa-angle-double-right"
+                },
+                "skip_multiqc": {
+                    "type": "boolean",
+                    "description": "Skip MultiQC.",
+                    "fa_icon": "fas fa-angle-double-right"
                 }
             }
         },
@@ -192,6 +382,15 @@
     "allOf": [
         {
             "$ref": "#/$defs/input_output_options"
+        },
+        {
+            "$ref": "#/$defs/ortholog_options"
+        },
+        {
+            "$ref": "#/$defs/downstream_options"
+        },
+        {
+            "$ref": "#/$defs/process_skipping_options"
         },
         {
             "$ref": "#/$defs/institutional_config_options"

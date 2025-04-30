@@ -1,0 +1,83 @@
+nextflow_pipeline {
+
+    name "Test pipeline with offline databases"
+    script "../main.nf"
+    tag "offline"
+
+    test("Params: default") {
+
+        when {
+            params {
+                input  = "${projectDir}/assets/samplesheet.csv"
+                outdir = "$outputDir"
+
+                pipelines_testdata_base_path = 'https://raw.githubusercontent.com/nf-core/test-datasets/refs/heads/reportho/testdata/'
+
+                offline_run       = true
+                local_databases   = true
+                oma_path          = pipelines_testdata_base_path + 'databases/oma-mini.txt.gz'
+                oma_uniprot_path  = pipelines_testdata_base_path + 'databases/oma-uniprot-mini.txt.gz'
+                oma_ensembl_path  = pipelines_testdata_base_path + 'databases/oma-ensembl-mini.txt.gz'
+                oma_refseq_path   = pipelines_testdata_base_path + 'databases/oma-refseq-mini.txt.gz'
+                panther_path      = pipelines_testdata_base_path + 'databases/AllOrthologs-mini.txt'
+                eggnog_path       = pipelines_testdata_base_path + 'databases/1_members-mini.tsv.gz'
+                eggnog_idmap_path = pipelines_testdata_base_path + 'databases/latest.Eukaryota-mini.tsv.gz'
+                skip_merge        = true
+                min_score         = 2
+                skip_downstream   = true
+            }
+        }
+
+        then {
+            // stable_name: All files + folders in ${params.outdir}/ with a stable name
+            def stable_name = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
+            // stable_path: All files in ${params.outdir}/ with stable content
+            def stable_path = getAllFilesFromDir(params.outdir, ignoreFile: 'tests/.nftignore')
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot(
+                    // Number of successful tasks
+                    workflow.trace.succeeded().size(),
+                    // pipeline versions.yml file for multiqc from which Nextflow version is removed because we tests pipelines on multiple Nextflow versions
+                    removeNextflowVersion("$outputDir/pipeline_info/nf_core_reportho_software_mqc_versions.yml"),
+                    // All stable path name, with a relative path
+                    stable_name,
+                    // All files with stable contents
+                    stable_path
+                ).match() }
+            )
+        }
+    }
+
+    test("Params: default - stub") {
+
+        options "-stub"
+
+        when {
+            params {
+                input  = "${projectDir}/assets/samplesheet.csv"
+                outdir = "$outputDir"
+            }
+        }
+
+        then {
+            // stable_name: All files + folders in ${params.outdir}/ with a stable name
+            def stable_name = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
+            // stable_path: All files in ${params.outdir}/ with stable content
+            def stable_path = getAllFilesFromDir(params.outdir, ignoreFile: 'tests/.nftignore')
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot(
+                    // Number of successful tasks
+                    workflow.trace.succeeded().size(),
+                    // pipeline versions.yml file for multiqc from which Nextflow version is removed because we tests pipelines on multiple Nextflow versions
+                    removeNextflowVersion("$outputDir/pipeline_info/nf_core_reportho_software_mqc_versions.yml"),
+                    // All stable path name, with a relative path
+                    stable_name,
+                    // All files with stable contents
+                    stable_path
+                ).match() }
+            )
+        }
+    }
+}
