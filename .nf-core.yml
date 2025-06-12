@@ -3,7 +3,11 @@ lint:
     - conf/igenomes.config
   files_unchanged:
     - .github/CONTRIBUTING.md
+<<<<<<< nf-core-template-merge-3.3.1
 nf_core_version: 3.3.1
+=======
+nf_core_version: 3.2.1
+>>>>>>> dev
 repository_type: pipeline
 template:
   author: itrujnara

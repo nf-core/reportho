@@ -105,7 +105,11 @@
             },
             "mentions": [
                 {
+<<<<<<< nf-core-template-merge-3.3.1
                     "@id": "#7cc31c78-51b1-4750-a401-b6fb755a549d"
+=======
+                    "@id": "#e5f38b87-c61f-4a09-ba24-ab6711e65736"
+>>>>>>> dev
                 }
             ],
             "name": "nf-core/reportho"
@@ -133,7 +137,11 @@
                 "ComputationalWorkflow"
             ],
             "dateCreated": "",
+<<<<<<< nf-core-template-merge-3.3.1
             "dateModified": "2025-06-03T11:02:07Z",
+=======
+            "dateModified": "2025-04-30T12:27:43Z",
+>>>>>>> dev
             "dct:conformsTo": "https://bioschemas.org/profiles/ComputationalWorkflow/1.0-RELEASE/",
             "keywords": ["nf-core", "nextflow", "msa", "ortholog", "phylogeny", "proteomics"],
             "license": ["MIT"],
@@ -160,11 +168,19 @@
             "version": "!>=24.04.2"
         },
         {
+<<<<<<< nf-core-template-merge-3.3.1
             "@id": "#7cc31c78-51b1-4750-a401-b6fb755a549d",
             "@type": "TestSuite",
             "instance": [
                 {
                     "@id": "#dc177fee-d52d-43df-b2b7-60f5d167e1ec"
+=======
+            "@id": "#e5f38b87-c61f-4a09-ba24-ab6711e65736",
+            "@type": "TestSuite",
+            "instance": [
+                {
+                    "@id": "#0d65e647-4b86-48cb-b4bc-4694489fa0ba"
+>>>>>>> dev
                 }
             ],
             "mainEntity": {
@@ -173,7 +189,11 @@
             "name": "Test suite for nf-core/reportho"
         },
         {
+<<<<<<< nf-core-template-merge-3.3.1
             "@id": "#dc177fee-d52d-43df-b2b7-60f5d167e1ec",
+=======
+            "@id": "#0d65e647-4b86-48cb-b4bc-4694489fa0ba",
+>>>>>>> dev
             "@type": "TestInstance",
             "name": "GitHub Actions workflow for testing nf-core/reportho",
             "resource": "repos/nf-core/reportho/actions/workflows/nf-test.yml",
