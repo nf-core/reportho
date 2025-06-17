@@ -83,7 +83,7 @@
             245,
             {
                 "DIAMOND_CLUSTER": {
-                    "diamond": "2.1.9"
+                    "diamond": "2.1.12"
                 },
                 "DUMP_PARAMS": {
                     "cat": 8.3
@@ -312,6 +312,6 @@
             "nf-test": "0.9.2",
             "nextflow": "24.10.5"
         },
-        "timestamp": "2025-06-16T15:31:06.378063481"
+        "timestamp": "2025-06-17T16:45:45.139534134"
     }
 }

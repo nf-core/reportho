@@ -22,7 +22,7 @@
                     },
                     "diamond/cluster": {
                         "branch": "master",
-                        "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
+                        "git_sha": "cb774ba4a9c79de334a71f802680cb66f3c8515e",
                         "installed_by": ["modules"]
                     },
                     "gawk": {
