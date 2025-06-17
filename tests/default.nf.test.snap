@@ -296,7 +296,6 @@
             ],
             [
                 "multiqc_citations.txt:md5,4c806e63a283ec1b7e78cdae3a923d4f",
-                "multiqc_sources.txt:md5,d2a044df39ce3c6abe5cdc2d67473490",
                 "id.txt:md5,5e567f80b3e124f6cbfd9d78ec056d7e",
                 "index.html:md5,f65df95dd6ecc78a557b5b0ed9081b92",
                 "params.yml:md5,8d791aa60015db30655322ca5bc79957",
@@ -310,9 +309,9 @@
             ]
         ],
         "meta": {
-            "nf-test": "0.9.0",
-            "nextflow": "24.10.4"
+            "nf-test": "0.9.2",
+            "nextflow": "24.10.5"
         },
-        "timestamp": "2025-04-12T15:54:08.489282"
+        "timestamp": "2025-06-16T15:31:06.378063481"
     }
 }

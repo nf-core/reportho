@@ -1,4 +1,11 @@
-multiqc.log
+.DS_Store
+multiqc/multiqc_data/multiqc.log
+multiqc/multiqc_data/multiqc_data.json
+multiqc/multiqc_data/multiqc_sources.txt
+multiqc/multiqc_data/multiqc_software_versions.txt
+multiqc/multiqc_plots/{svg,pdf,png}/*.{svg,pdf,png}
+multiqc/multiqc_report.html
+pipeline_info/*.{html,json,txt,yml}
 **/*_orthologs.txt
 **/*seq_hits.txt
 **/*seq_misses.txt
@@ -11,10 +18,6 @@ multiqc.log
 **/filtered_hits.txt
 **/*.png
 **/*aggregated*
-**/multiqc.log
-**/multiqc_data.json
-**/multiqc_software_versions.txt
-**/multiqc_report.html
 **/multiqc_sample_*.txt
 **/*.pdf
 **/*.svg
