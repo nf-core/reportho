@@ -106,7 +106,14 @@ workflow REPORTHO {
     ch_multiqc_files = ch_multiqc_files.mix(SCORE_ORTHOLOGS.out.aggregated_hits.map {it[1]})
     ch_multiqc_files = ch_multiqc_files.mix(SCORE_ORTHOLOGS.out.aggregated_merge.map {it[1]})
 
-    if(!params.skip_report) {
+    if(workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() != 0) {
+        log.warn(
+            "The conda/mamba profile is used, so the report will not be generated. " +
+            "Please use the 'skip_report' parameter to skip this warning."
+        )
+    }
+
+    if(!params.skip_report && workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() == 0) {
         REPORT (
             params.use_centroid,
             params.min_score,

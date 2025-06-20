@@ -21,4 +21,6 @@ pipeline_info/*.{html,json,txt,yml}
 **/multiqc_sample_*.txt
 **/*.pdf
 **/*.svg
-pipeline_info/*
+pipeline_info/**
+report
+report/**
