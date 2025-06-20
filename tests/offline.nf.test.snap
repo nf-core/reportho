@@ -9,12 +9,26 @@
                 "pipeline_info",
                 "pipeline_info/nf_core_reportho_software_mqc_versions.yml",
                 "score",
+                "score/BicD2",
+                "score/BicD2/BicD2_score_table.csv",
+                "score/BicD2/plots",
+                "score/BicD2/plots/BicD2_jaccard_dark.png",
+                "score/BicD2/plots/BicD2_jaccard_light.png",
+                "score/BicD2/plots/BicD2_supports_dark.png",
+                "score/BicD2/plots/BicD2_supports_light.png",
+                "score/BicD2/plots/BicD2_venn_dark.png",
+                "score/BicD2/plots/BicD2_venn_light.png",
+                "score/HBB",
+                "score/HBB/HBB_score_table.csv",
+                "score/HBB/plots",
+                "score/HBB/plots/HBB_jaccard_dark.png",
+                "score/HBB/plots/HBB_jaccard_light.png",
+                "score/HBB/plots/HBB_supports_dark.png",
+                "score/HBB/plots/HBB_supports_light.png",
+                "score/HBB/plots/HBB_venn_dark.png",
+                "score/HBB/plots/HBB_venn_light.png",
                 "score/aggregated_hits.csv",
-                "sequences",
-                "sequences/BicD2",
-                "sequences/BicD2/BicD2_orthologs.txt",
-                "sequences/HBB",
-                "sequences/HBB/HBB_orthologs.txt"
+                "score/aggregated_stats.csv"
             ],
             [
                 
@@ -24,7 +38,7 @@
             "nf-test": "0.9.2",
             "nextflow": "24.10.5"
         },
-        "timestamp": "2025-06-19T16:33:19.748192579"
+        "timestamp": "2025-06-20T12:37:28.024020702"
     },
     "Params: default": {
         "content": [

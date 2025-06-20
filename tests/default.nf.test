@@ -19,7 +19,8 @@ nextflow_pipeline {
             // stable_path: All files in ${params.outdir}/ with stable content
             def stable_path = getAllFilesFromDir(params.outdir, ignoreFile: 'tests/.nftignore')
 
-            def using_conda = System.getenv('CONDA_DEFAULT_ENV') != null || System.getenv('CONDA_PREFIX') != null
+            def conda_path = System.getenv('CONDA_PREFIX')
+            def using_conda = conda_path != null && new File(conda_path).exists()
 
             if (!using_conda) {
                 def report_stable_name = getAllFilesFromDir("$outputDir/report", relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
@@ -65,7 +66,8 @@ nextflow_pipeline {
             // stable_path: All files in ${params.outdir}/ with stable content
             def stable_path = getAllFilesFromDir(params.outdir, ignoreFile: 'tests/.nftignore')
 
-            def using_conda = System.getenv('CONDA_DEFAULT_ENV') != null || System.getenv('CONDA_PREFIX') != null
+            def conda_path = System.getenv('CONDA_PREFIX')
+            def using_conda = conda_path != null && new File(conda_path).exists()
 
             if (!using_conda) {
                 def report_stable_name = getAllFilesFromDir("$outputDir/report", relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
