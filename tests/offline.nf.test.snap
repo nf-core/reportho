@@ -6,44 +6,45 @@
                 "DUMP_PARAMS": {
                     "cat": 8.3
                 },
-                "FETCH_ENSEMBL_IDMAP": {
-                    "Python": "3.12.9",
-                    "Python Requests": "2.32.3"
+                "FETCH_EGGNOG_GROUP_LOCAL": {
+                    "python": "3.12.3",
+                    "ripgrep": "14.1.0"
                 },
-                "FETCH_INSPECTOR_GROUP_ONLINE": {
-                    "Python": "3.11.0",
-                    "Python Requests": "2.31.0",
-                    "OrthoInspector Database": "Eukaryota2023"
+                "FETCH_OMA_GROUP_LOCAL": {
+                    "python": "3.12.3",
+                    "ripgrep": "14.1.0"
                 },
-                "FETCH_OMA_GROUP_ONLINE": {
-                    "Python": "3.11.0",
-                    "Python Requests": "2.31.0",
-                    "OMA Database": "All.Jul2024",
-                    "OMA API": 1.1
+                "FETCH_PANTHER_GROUP_LOCAL": {
+                    "python": "3.12.3",
+                    "ripgrep": "14.1.0"
                 },
-                "FETCH_PANTHER_GROUP_ONLINE": {
-                    "Python": "3.11.0",
-                    "Python Requests": "2.31.0",
-                    "Panther Database": null
-                },
-                "FETCH_UNIPROT_SEQUENCES": {
-                    "Python": "3.11.0",
-                    "Python Requests": "2.31.0"
+                "FILTER_HITS": {
+                    "Python": "Python 3.11.0"
                 },
                 "MAKE_HITS_TABLE": {
                     "Python": "3.11.0"
                 },
+                "MAKE_SCORE_TABLE": {
+                    "Python": "3.11.0"
+                },
+                "MAKE_STATS": {
+                    "Python": "3.11.0"
+                },
                 "MERGE_CSV": {
-                    "csvtk": "0.30.0"
+                    "csvtk": "0.31.0"
                 },
                 "MERGE_HITS": {
-                    "csvtk": "0.30.0"
+                    "csvtk": "0.31.0"
                 },
-                "SPLIT_ID_FORMAT": {
-                    "Python": "3.12.9"
+                "MERGE_STATS": {
+                    "csvtk": "0.31.0"
                 },
-                "SPLIT_TAXIDS": {
-                    "awk": "5.3.1"
+                "PLOT_ORTHOLOGS": {
+                    "r-base": "4.4.3"
+                },
+                "STATS2CSV": {
+                    "Python": "3.11.0",
+                    "PyYAML": "5.4.1"
                 },
                 "WRITE_SEQINFO": {
                     "Python": "3.11.0",
@@ -61,22 +62,36 @@
                 "pipeline_info",
                 "pipeline_info/nf_core_reportho_software_mqc_versions.yml",
                 "score",
+                "score/BicD2",
+                "score/BicD2/BicD2_score_table.csv",
+                "score/BicD2/plots",
+                "score/BicD2/plots/BicD2_jaccard_dark.png",
+                "score/BicD2/plots/BicD2_jaccard_light.png",
+                "score/BicD2/plots/BicD2_supports_dark.png",
+                "score/BicD2/plots/BicD2_supports_light.png",
+                "score/BicD2/plots/BicD2_venn_dark.png",
+                "score/BicD2/plots/BicD2_venn_light.png",
+                "score/HBB",
+                "score/HBB/HBB_score_table.csv",
+                "score/HBB/plots",
+                "score/HBB/plots/HBB_jaccard_dark.png",
+                "score/HBB/plots/HBB_jaccard_light.png",
+                "score/HBB/plots/HBB_supports_dark.png",
+                "score/HBB/plots/HBB_supports_light.png",
+                "score/HBB/plots/HBB_venn_dark.png",
+                "score/HBB/plots/HBB_venn_light.png",
                 "score/aggregated_hits.csv",
-                "sequences",
-                "sequences/BicD2",
-                "sequences/BicD2/BicD2_orthologs.txt",
-                "sequences/HBB",
-                "sequences/HBB/HBB_orthologs.txt"
+                "score/aggregated_stats.csv"
             ],
             [
                 
             ]
         ],
         "meta": {
-            "nf-test": "0.9.0",
-            "nextflow": "24.10.4"
+            "nf-test": "0.9.2",
+            "nextflow": "24.10.5"
         },
-        "timestamp": "2025-04-12T15:55:48.401748"
+        "timestamp": "2025-07-03T11:17:15.771676925"
     },
     "Params: default": {
         "content": [
@@ -110,19 +125,19 @@
                     "Python": "3.11.0"
                 },
                 "MERGE_CSV": {
-                    "csvtk": "0.30.0"
+                    "csvtk": "0.31.0"
                 },
                 "MERGE_HITS": {
-                    "csvtk": "0.30.0"
+                    "csvtk": "0.31.0"
                 },
                 "MERGE_STATS": {
-                    "csvtk": "0.30.0"
+                    "csvtk": "0.31.0"
                 },
                 "PLOT_ORTHOLOGS": {
-                    "r-base": "4.3.3"
+                    "r-base": "4.4.3"
                 },
                 "STATS2CSV": {
-                    "Python": "3.9.6",
+                    "Python": "3.11.0",
                     "PyYAML": "5.4.1"
                 },
                 "WRITE_SEQINFO": {
@@ -186,6 +201,6 @@
             "nf-test": "0.9.2",
             "nextflow": "24.10.5"
         },
-        "timestamp": "2025-06-16T15:35:09.692317789"
+        "timestamp": "2025-07-03T11:15:23.657842333"
     }
 }

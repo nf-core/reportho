@@ -41,6 +41,10 @@ Steps 3 and 4 can be skipped with `--skip_merge`.
 > [!NOTE]
 > If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
 
+:::warning
+Due to an nf-test issue outside our control, the current version of the pipeline is not tested with Conda. Most functionality should work with Conda, but we cannot guarantee it. We will rectify this issue as soon as possible.
+:::
+
 First, prepare a samplesheet with your input data that looks as follows:
 
 ```csv title="samplesheet_fasta.csv"

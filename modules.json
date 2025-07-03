@@ -12,12 +12,12 @@
                     },
                     "csvtk/concat": {
                         "branch": "master",
-                        "git_sha": "cfe2a24902bfdfe8132f11461ffda92d257f9f09",
+                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
                         "installed_by": ["modules"]
                     },
                     "csvtk/join": {
                         "branch": "master",
-                        "git_sha": "614abbf126f287a3068dc86997b2e1b6a93abe20",
+                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
                         "installed_by": ["modules"]
                     },
                     "diamond/cluster": {
