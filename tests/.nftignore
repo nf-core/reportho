@@ -22,5 +22,3 @@ pipeline_info/*.{html,json,txt,yml}
 **/*.pdf
 **/*.svg
 pipeline_info/**
-report
-report/**

@@ -34,31 +34,17 @@ nextflow_pipeline {
             // stable_path: All files in ${params.outdir}/ with stable content
             def stable_path = getAllFilesFromDir(params.outdir, ignoreFile: 'tests/.nftignore')
 
-            def conda_path = System.getenv('CONDA_PREFIX')
-            def using_conda = conda_path != null && new File(conda_path).exists() || System.getenv('NFT_USING_CONDA') != null
-
-            if (!using_conda) {
-                def report_stable_name = getAllFilesFromDir("$outputDir/report", relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
-                def report_stable_path = getAllFilesFromDir("$outputDir/report", ignoreFile: 'tests/.nftignore')
-            }
-
             assertAll(
                 { assert workflow.success},
                 { assert snapshot(
-                    // All stable path name, with a relative path
-                    stable_name,
-                    // All files with stable contents
-                    stable_path
-                ).match() },
-                { assert using_conda || snapshot(
                     // Number of successful tasks
                     workflow.trace.succeeded().size(),
                     // pipeline versions.yml file for multiqc from which Nextflow version is removed because we tests pipelines on multiple Nextflow versions
                     removeNextflowVersion("$outputDir/pipeline_info/nf_core_reportho_software_mqc_versions.yml"),
                     // All report stable path name, with a relative path
-                    report_stable_name,
+                    stable_name,
                     // All report files with stable contents
-                    report_stable_path
+                    stable_path
                 ).match() }
             )
         }
@@ -96,31 +82,17 @@ nextflow_pipeline {
             // stable_path: All files in ${params.outdir}/ with stable content
             def stable_path = getAllFilesFromDir(params.outdir, ignoreFile: 'tests/.nftignore')
 
-            def conda_path = System.getenv('CONDA_PREFIX')
-            def using_conda = conda_path != null && new File(conda_path).exists() || System.getenv('NFT_USING_CONDA') != null
-
-            if (!using_conda) {
-                def report_stable_name = getAllFilesFromDir("$outputDir/report", relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}'])
-                def report_stable_path = getAllFilesFromDir("$outputDir/report", ignoreFile: 'tests/.nftignore')
-            }
-
             assertAll(
                 { assert workflow.success},
                 { assert snapshot(
-                    // All stable path name, with a relative path
-                    stable_name,
-                    // All files with stable contents
-                    stable_path
-                ).match() },
-                { assert using_conda || snapshot(
                     // Number of successful tasks
                     workflow.trace.succeeded().size(),
                     // pipeline versions.yml file for multiqc from which Nextflow version is removed because we tests pipelines on multiple Nextflow versions
                     removeNextflowVersion("$outputDir/pipeline_info/nf_core_reportho_software_mqc_versions.yml"),
                     // All report stable path name, with a relative path
-                    report_stable_name,
+                    stable_name,
                     // All report files with stable contents
-                    report_stable_path
+                    stable_path
                 ).match() }
             )
         }
