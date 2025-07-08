@@ -207,6 +207,7 @@
                 "merge/HBB/HBB_idmap.tsv",
                 "multiqc",
                 "multiqc/multiqc_data",
+                "multiqc/multiqc_data/BETA-multiqc.parquet",
                 "multiqc/multiqc_data/multiqc.log",
                 "multiqc/multiqc_data/multiqc_citations.txt",
                 "multiqc/multiqc_data/multiqc_data.json",
@@ -275,8 +276,8 @@
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "24.10.5"
+            "nextflow": "25.04.6"
         },
-        "timestamp": "2025-07-03T10:47:06.531877403"
+        "timestamp": "2025-07-08T13:28:47.896575478"
     }
 }
