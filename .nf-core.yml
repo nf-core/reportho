@@ -4,7 +4,7 @@ lint:
   files_unchanged:
     - .github/CONTRIBUTING.md
     - docs/images/nf-core-reportho_logo_light.png
-nf_core_version: 3.3.2
+nf_core_version: 3.4.1
 repository_type: pipeline
 template:
   author: itrujnara
