@@ -93,32 +93,29 @@ workflow PIPELINE_INITIALISATION {
     )
 
     //
-    // Create channel from input file provided through params.input
+    // Validate parameters
+    //
+    validateParameters()
+
+    //
+    // Create channel from input file provided through params.input and check for query
     //
 
     Channel
         .fromList(samplesheetToList(params.input, "${projectDir}/assets/schema_input.json"))
-        .map {
-            meta, fastq_1, fastq_2 ->
-                if (!fastq_2) {
-                    return [ meta.id, meta + [ single_end:true ], [ fastq_1 ] ]
-                } else {
-                    return [ meta.id, meta + [ single_end:false ], [ fastq_1, fastq_2 ] ]
-                }
-        }
-        .groupTuple()
-        .map { samplesheet ->
-            validateInputSamplesheet(samplesheet)
-        }
-        .map {
-            meta, fastqs ->
-                return [ meta, fastqs.flatten() ]
+        .branch {
+            id, query, fasta ->
+                query: query != []
+                    return [ id, query ]
+                fasta: query == []
+                    return [ id, fasta ]
         }
         .set { ch_samplesheet }
 
     emit:
-    samplesheet = ch_samplesheet
-    versions    = ch_versions
+    samplesheet_query = ch_samplesheet.query
+    samplesheet_fasta = ch_samplesheet.fasta
+    versions          = ch_versions
 }
 
 /*
@@ -176,18 +173,46 @@ workflow PIPELINE_COMPLETION {
 */
 
 //
+// Validate parameters
+//
+def validateParameters() {
+    validateOfflineSettings()
+}
+
+def validateOfflineSettings() {
+    if (params.offline_run) {
+        if (!params.local_databases) {
+            params.local_databases = true
+            log.warn("Offline mode enabled, setting 'local_databases' to 'true'")
+        }
+        if (!params.skip_downstream) {
+            params.skip_downstream = true
+            log.warn("Offline mode enabled, setting 'skip_downstream' to 'true'")
+        }
+        if (params.use_all) {
+            log.warn("Offline run set with 'use_all', only local databases will be used")
+        }
+    } else if (params.use_all && params.local_databases) {
+        log.warn("Local databases set with 'use_all', only local databases will be used")
+    }
+}
+
+
+//
 // Validate channels from input samplesheet
 //
 def validateInputSamplesheet(input) {
-    def (metas, fastqs) = input[1..2]
+    def (fasta, uniprot_id) = input[1..2]
 
-    // Check that multiple runs of the same sample are of the same datatype i.e. single-end / paired-end
-    def endedness_ok = metas.collect{ meta -> meta.single_end }.unique().size == 1
-    if (!endedness_ok) {
-        error("Please check input samplesheet -> Multiple runs of a sample must be of the same datatype i.e. single-end or paired-end: ${metas[0].id}")
+    if (!fasta & !uniprot_id) {
+        log.error("Either 'fasta' or 'uniprot_id' must be provided in the samplesheet")
     }
 
-    return [ metas[0], fastqs ]
+    if (fasta & uniprot_id) {
+        log.warn("Both 'fasta' and 'uniprot_id' provided in the samplesheet, defaulting to 'uniprot_id'")
+    }
+
+    return input
 }
 //
 // Generate methods description for MultiQC
