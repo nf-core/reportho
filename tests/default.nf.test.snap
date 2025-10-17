@@ -17,7 +17,9 @@
                 },
                 "FETCH_OMA_GROUP_ONLINE": {
                     "Python": "3.11.0",
-                    "Python Requests": "2.31.0"
+                    "Python Requests": "2.31.0",
+                    "OMA Database": "All.Jul2024",
+                    "OMA API": 1.1
                 },
                 "FETCH_PANTHER_GROUP_ONLINE": {
                     "Python": "3.11.0",
@@ -74,7 +76,7 @@
             "nf-test": "0.9.3",
             "nextflow": "25.04.8"
         },
-        "timestamp": "2025-10-17T11:52:24.11144699"
+        "timestamp": "2025-10-17T12:11:57.403619038"
     },
     "Params: default": {
         "content": [
@@ -107,7 +109,9 @@
                 },
                 "FETCH_OMA_SEQUENCES": {
                     "Python": "3.11.0",
-                    "Python Requests": "2.31.0"
+                    "Python Requests": "2.31.0",
+                    "OMA Database": "All.Jul2024",
+                    "OMA API": 1.1
                 },
                 "FETCH_PANTHER_GROUP_ONLINE": {
                     "Python": "3.11.0",
@@ -275,6 +279,6 @@
             "nf-test": "0.9.3",
             "nextflow": "25.04.8"
         },
-        "timestamp": "2025-10-17T11:52:00.236417193"
+        "timestamp": "2025-10-17T12:11:25.595398933"
     }
 }
