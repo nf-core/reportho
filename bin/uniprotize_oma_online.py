@@ -3,15 +3,15 @@
 # Written by Igor Trujnara, released under the MIT license
 # See https://opensource.org/license/mit for details
 
+"""Map OMA IDs to UniProt IDs using the OMA browser API."""
+
 import sys
 
 from map_uniprot import map_uniprot
 
 
 def main() -> None:
-    """
-    Map IDs from OMA to UniProt IDs.
-    """
+    """Map IDs from OMA to UniProt IDs."""
     if len(sys.argv) != 2:
         print("Usage: python uniprotize_oma.py <oma_group_file>")
         sys.exit(1)

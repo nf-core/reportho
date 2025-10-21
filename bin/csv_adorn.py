@@ -3,13 +3,14 @@
 # Written by Igor Trujnara, released under the MIT license
 # See https://opensource.org/license/mit for details
 
+"""Convert a list of IDs into a CSV file with a header.
+
+This is required for csv merge to work."""
+
 import sys
 
 
 def csv_adorn(path: str, header: str) -> None:
-    """
-    Convert a list of IDs into a CSV file with a header. Used for later table merge.
-    """
     print(f"id,{header}")
     with open(path) as f:
         any_data = False

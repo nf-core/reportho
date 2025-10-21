@@ -3,14 +3,14 @@
 # Written by Igor Trujnara, released under the MIT license
 # See https://opensource.org/license/mit for details
 
+"""Map OMA IDs to UniProt IDs using a local ID mapping file."""
+
 import gzip
 import sys
 
 
 def oma2uniprot_local(ids_path: str, idmap_path: str) -> None:
-    """
-    Map a list of OMA IDs to UniProt IDs using a local ID mapping file.
-    """
+    """Map a list of OMA IDs to UniProt IDs using a local ID mapping file."""
     with open(ids_path) as f:
         oma_ids = f.read().splitlines()
 

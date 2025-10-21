@@ -3,15 +3,15 @@
 # Written by Igor Trujnara, released under the MIT license
 # See https://opensource.org/license/mit for details
 
+"""Map UniProt names to UniProt IDs using the UniProt mapping API."""
+
 import sys
 
 from utils import check_id_mapping_results_ready, safe_post, safe_get
 
 
 def uniprot2uniprot(uniprot_names: list[str]) -> list[str]:
-    """
-    Map a list of UniProt names (e.g. BICD2_HUMAN) to UniProt IDs using the UniProt mapping API.
-    """
+    """Map a list of UniProt names (e.g. BICD2_HUMAN) to UniProt IDs using the UniProt mapping API."""
     if len(uniprot_names) == 0:
         return []
 

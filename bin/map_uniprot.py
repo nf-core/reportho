@@ -3,6 +3,8 @@
 # Written by Igor Trujnara, released under the MIT license
 # See https://opensource.org/license/mit for details
 
+"""Map Ensembl, RefSeq, and UniProt IDs to UniProt IDs."""
+
 import sys
 
 from ensembl2uniprot import ensembl2uniprot
@@ -11,9 +13,7 @@ from uniprot2uniprot import uniprot2uniprot
 
 
 def map_uniprot(ids: list[str]) -> list[str]:
-    """
-    Map a list of IDs to UniProt IDs.
-    """
+    """Map a list of IDs to UniProt IDs."""
     ensembl_ids = []
     refseq_ids = []
     uniprot_names = []

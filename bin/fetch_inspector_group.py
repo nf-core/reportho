@@ -3,15 +3,15 @@
 # Written by Igor Trujnara, released under the MIT license
 # See https://opensource.org/license/mit for details
 
+"""Fetch orthologs for a given UniProt ID from the OrthoInspector database."""
+
 import sys
 
 from utils import safe_get
 
 
 def fetch_inspector_by_id(uniprot_id: str, db_id: str = "Eukaryota2019") -> None:
-    """
-    Fetch orthologs for a given UniProt ID from the OrthoInspector database.
-    """
+    """Fetch orthologs for a given UniProt ID from the OrthoInspector database."""
     url = f"https://lbgi.fr/api/orthoinspector/{db_id}/protein/{uniprot_id}/orthologs"
     res = safe_get(url)
 

@@ -1,11 +1,11 @@
 process IDENTIFY_SEQ_ONLINE {
     tag "$meta.id"
-    label 'process_single'
+    label 'process_short'
 
     conda "conda-forge::python=3.11.0 conda-forge::biopython=1.83.0 conda-forge::requests=2.31.0"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/mulled-v2-bc54124b36864a4af42a9db48b90a404b5869e7e:5258b8e5ba20587b7cbf3e942e973af5045a1e59-0' :
-        'biocontainers/mulled-v2-bc54124b36864a4af42a9db48b90a404b5869e7e:5258b8e5ba20587b7cbf3e942e973af5045a1e59-0' }"
+        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/6b/6b2900901bc81cfb5d255a250ee196f4e2f8707ba6de704178eb40151fd849f8/data' :
+        'community.wave.seqera.io/library/biopython_python_requests:ba620bb488048968' }"
 
     input:
     tuple val(meta), path(fasta)
@@ -18,7 +18,7 @@ process IDENTIFY_SEQ_ONLINE {
     task.ext.when == null || task.ext.when
 
     script:
-    prefix = task.ext.prefix ?: meta.id
+    def prefix = task.ext.prefix ?: meta.id
     """
     fetch_oma_by_sequence.py $fasta id_raw.txt ${prefix}_taxid.txt ${prefix}_exact.txt
     uniprotize_oma_online.py id_raw.txt > ${prefix}_id.txt

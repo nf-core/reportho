@@ -1,11 +1,11 @@
 process PLOT_ORTHOLOGS {
     tag "$meta.id"
-    label 'process_single'
+    label 'process_short'
 
     conda     "conda-forge::r-tidyverse=2.0.0 conda-forge::r-reshape2=1.4.4 conda-forge::r-ggvenndiagram=1.5.2"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'oras://community.wave.seqera.io/library/r-ggvenndiagram_r-reshape2_r-tidyverse:3941632557872dac' :
-        'community.wave.seqera.io/library/r-ggvenndiagram_r-reshape2_r-tidyverse:6ab82708ae578c26' }"
+        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/24/241121c567b6ac13fb664276916cc15e5b21b773612e30debf1de3cafe64fd97/data' :
+        'community.wave.seqera.io/library/r-ggvenndiagram_r-reshape2_r-tidyverse:b2486480b5e4dea4' }"
 
     input:
     tuple val(meta), path(score_table)
@@ -20,7 +20,7 @@ process PLOT_ORTHOLOGS {
     task.ext.when == null || task.ext.when
 
     script:
-    prefix = task.ext.prefix ?: meta.id
+    def prefix = task.ext.prefix ?: meta.id
     """
     plot_orthologs.R $score_table $prefix
 

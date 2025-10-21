@@ -1,6 +1,6 @@
 process FETCH_OMA_GROUP_LOCAL {
     tag "$meta.id"
-    label 'process_single'
+    label 'process_short'
 
     conda "conda-forge::python=3.12.3 conda-forge::ripgrep=14.1.0"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
@@ -22,7 +22,7 @@ process FETCH_OMA_GROUP_LOCAL {
     task.ext.when == null || task.ext.when
 
     script:
-    prefix = task.ext.prefix ?: meta.id
+    def prefix = task.ext.prefix ?: meta.id
     """
     # Obtain the OMA ID for the given Uniprot ID of the query protein
     uniprot2oma_local.py $uniprot_idmap $uniprot_id > oma_id.txt || test -f oma_id.txt
