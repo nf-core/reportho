@@ -73,14 +73,14 @@
             ]
         ],
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "24.10.5"
+            "nf-test": "0.9.3",
+            "nextflow": "25.04.8"
         },
-        "timestamp": "2025-07-03T11:13:27.950978341"
+        "timestamp": "2025-10-17T12:11:57.403619038"
     },
     "Params: default": {
         "content": [
-            245,
+            242,
             {
                 "DIAMOND_CLUSTER": {
                     "diamond": "2.1.12"
@@ -141,7 +141,7 @@
                 "MAKE_REPORT": {
                     "Node": "v22.14.0",
                     "Yarn": "1.22.22",
-                    "React": "19.1.0"
+                    "React": "19.2.0"
                 },
                 "MAKE_SCORE_TABLE": {
                     "Python": "3.11.0"
@@ -207,7 +207,9 @@
                 "merge/HBB/HBB_idmap.tsv",
                 "multiqc",
                 "multiqc/multiqc_data",
+                "multiqc/multiqc_data/llms-full.txt",
                 "multiqc/multiqc_data/multiqc.log",
+                "multiqc/multiqc_data/multiqc.parquet",
                 "multiqc/multiqc_data/multiqc_citations.txt",
                 "multiqc/multiqc_data/multiqc_data.json",
                 "multiqc/multiqc_data/multiqc_sample_hits.txt",
@@ -274,9 +276,9 @@
             ]
         ],
         "meta": {
-            "nf-test": "0.9.2",
-            "nextflow": "24.10.5"
+            "nf-test": "0.9.3",
+            "nextflow": "25.04.8"
         },
-        "timestamp": "2025-07-03T10:47:06.531877403"
+        "timestamp": "2025-10-17T12:11:25.595398933"
     }
 }

@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [v1.1.0](https://github.com/nf-core/reportho/releases/tag/1.0.1) - Reliable Rudder - [date]
+## [v1.1.0](https://github.com/nf-core/reportho/releases/tag/1.1.0) - Reliable Rudder - [2025-10-21]
 
 The rudder is a control surface which is used to turn the ship. It is the main (and sometimes only) direct source of directional control.
 
