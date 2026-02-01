@@ -21,9 +21,13 @@ process FETCH_PANTHER_GROUP_LOCAL {
     script:
     def prefix = task.ext.prefix ?: meta.id
     """
+    # Get the Uniprot ID
     id=\$(cat ${uniprot_id})
-    touch ${prefix}_panther_group_raw.txt
-    rg \$id $panther_db | tr '|' ' ' | tr '\\t' ' ' | cut -d' ' -f3,6 | awk -v id="\$id" -F'UniProtKB=' '{ for(i=0;i<=NF;i++) { if(\$i !~ id) s=s ? s OFS \$i : \$i } print s; s="" }' > ${prefix}_panther_group_raw.txt || test -f ${prefix}_panther_group_raw.txt
+
+    # Search the PANTHER database for the given Uniprot ID
+    rg \$id $panther_db | tr '|' ' ' | tr '\\t' ' ' | cut -d' ' -f3,6 | awk -v id="\$id" -F'UniProtKB=' '{ for(i=0;i<=NF;i++) { if(\$i !~ id) s=s ? s OFS \$i : \$i } print s; s="" }' > ${prefix}_panther_group_raw.txt || touch ${prefix}_panther_group_raw.txt
+
+    # Convert output to CSV
     csv_adorn.py ${prefix}_panther_group_raw.txt PANTHER > ${prefix}_panther_group.csv
 
     cat <<- END_VERSIONS > versions.yml
