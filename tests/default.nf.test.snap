@@ -50,7 +50,7 @@
                     "Python Requests": "2.31.0"
                 },
                 "Workflow": {
-                    "nf-core/reportho": "v1.1.0"
+                    "nf-core/reportho": "v1.2.0dev"
                 }
             },
             [
@@ -74,9 +74,9 @@
         ],
         "meta": {
             "nf-test": "0.9.3",
-            "nextflow": "25.04.8"
+            "nextflow": "25.10.2"
         },
-        "timestamp": "2025-10-17T12:11:57.403619038"
+        "timestamp": "2026-02-20T12:16:09.337427797"
     },
     "Params: default": {
         "content": [
@@ -141,7 +141,7 @@
                 "MAKE_REPORT": {
                     "Node": "v22.14.0",
                     "Yarn": "1.22.22",
-                    "React": "19.2.0"
+                    "React": "19.2.4"
                 },
                 "MAKE_SCORE_TABLE": {
                     "Python": "3.11.0"
@@ -194,7 +194,7 @@
                     "Python Requests": "2.31.0"
                 },
                 "Workflow": {
-                    "nf-core/reportho": "v1.1.0"
+                    "nf-core/reportho": "v1.2.0dev"
                 }
             },
             [
@@ -277,8 +277,8 @@
         ],
         "meta": {
             "nf-test": "0.9.3",
-            "nextflow": "25.04.8"
+            "nextflow": "25.10.2"
         },
-        "timestamp": "2025-10-17T12:11:25.595398933"
+        "timestamp": "2026-02-20T12:15:46.84458773"
     }
 }
