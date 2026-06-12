@@ -24,14 +24,14 @@ workflow GET_ORTHOLOGS {
     ch_eggnog_idmap
 
     main:
-    ch_versions     = Channel.empty()
-    ch_orthogroups  = Channel.empty()
+    ch_versions     = channel.empty()
+    ch_orthogroups  = channel.empty()
 
-    ch_samplesheet_fasta.map {
+    ch_samplesheet_fasta.map { fasta_entry ->
         if (params.offline_run) {
             error "Tried to use FASTA input in an offline run. Aborting pipeline for user safety."
         }
-        return it
+        return fasta_entry
     }.set { ch_samplesheet_fasta }
 
     // Preprocessing - find the ID and taxid of the query sequences
@@ -157,9 +157,9 @@ workflow GET_ORTHOLOGS {
 
     emit:
     seqinfo     = ch_query
-    id          = ch_query.map { it[1] }
-    taxid       = ch_query.map { it[2] }
-    exact       = ch_query.map { it[3] }
+    id          = ch_query.map { row -> row[1] }
+    taxid       = ch_query.map { row -> row[2] }
+    exact       = ch_query.map { row -> row[3] }
     orthogroups = ch_orthogroups
     orthologs   = MERGE_CSV.out.csv
     versions    = ch_versions

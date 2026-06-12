@@ -41,7 +41,7 @@ nextflow_process {
                     [ id:'test' ], // meta map
                     file(params.modules_testdata_base_path + 'genomics/homo_sapiens/genome/genome.fasta.fai', checkIfExists: true)
                 ]
-                input[1] = Channel.of('BEGIN {FS="\t"}; {print \$1 FS "0" FS \$2}').collectFile(name:"program.txt")
+                input[1] = channel.of('BEGIN {FS="\t"}; {print \$1 FS "0" FS \$2}').collectFile(name:"program.txt")
                 """
             }
         }
@@ -65,7 +65,7 @@ nextflow_process {
                     [file(params.modules_testdata_base_path + 'generic/txt/hello.txt', checkIfExists: true),
                     file(params.modules_testdata_base_path + 'generic/txt/species_names.txt', checkIfExists: true)]
                 ]
-                input[1] = Channel.of('BEGIN {FS=" "}; {print \$1}').collectFile(name:"program.txt")
+                input[1] = channel.of('BEGIN {FS=" "}; {print \$1}').collectFile(name:"program.txt")
                 """
             }
         }
@@ -89,7 +89,7 @@ nextflow_process {
                     [file(params.modules_testdata_base_path + 'genomics/homo_sapiens/illumina/vcf/NA12878_chrM.vcf.gz', checkIfExists: true),
                     file(params.modules_testdata_base_path + 'genomics/homo_sapiens/illumina/vcf/NA24385_sv.vcf.gz', checkIfExists: true)]
                 ]
-                input[1] = Channel.of('/^#CHROM/ { print \$1, \$10 }').collectFile(name:"column_header.txt")
+                input[1] = channel.of('/^#CHROM/ { print \$1, \$10 }').collectFile(name:"column_header.txt")
                 """
             }
         }

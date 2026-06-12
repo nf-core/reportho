@@ -20,7 +20,7 @@ workflow SCORE_ORTHOLOGS {
 
     main:
     // Scoring and filtering
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
 
     MAKE_SCORE_TABLE (
         ch_orthologs.join(ch_id_map)
@@ -42,9 +42,9 @@ workflow SCORE_ORTHOLOGS {
 
     // Plotting
 
-    ch_supportsplot = ch_query.map { [it[0], []]}
-    ch_vennplot     = ch_query.map { [it[0], []]}
-    ch_jaccardplot  = ch_query.map { [it[0], []]}
+    ch_supportsplot = ch_query.map { row -> [row[0], []]}
+    ch_vennplot     = ch_query.map { row -> [row[0], []]}
+    ch_jaccardplot  = ch_query.map { row -> [row[0], []]}
 
     if(!skip_plots) {
         PLOT_ORTHOLOGS (
@@ -67,8 +67,8 @@ workflow SCORE_ORTHOLOGS {
     ch_versions = ch_versions.mix(MAKE_HITS_TABLE.out.versions)
 
     ch_hits = MAKE_HITS_TABLE.out.hits_table
-        .collect { it[1] }
-        .map { [[id: "all"], it] }
+        .collect { row -> row[1] }
+        .map { row -> [[id: "all"], row] }
 
     MERGE_HITS(
         ch_hits,
@@ -78,8 +78,8 @@ workflow SCORE_ORTHOLOGS {
 
     ch_versions = ch_versions.mix(MERGE_HITS.out.versions)
 
-    ch_merge_table      = Channel.empty()
-    ch_aggregated_merge = Channel.empty()
+    ch_merge_table      = channel.empty()
+    ch_aggregated_merge = channel.empty()
 
     if(!skip_merge) {
         MAKE_MERGE_TABLE (
@@ -91,8 +91,8 @@ workflow SCORE_ORTHOLOGS {
         ch_merge_table = MAKE_MERGE_TABLE.out.merge_table
 
         ch_merge = MAKE_MERGE_TABLE.out.merge_table
-            .collect { it[1] }
-            .map { [[id: "all"], it] }
+            .collect { row -> row[1] }
+            .map { row -> [[id: "all"], row] }
 
         MERGE_MERGE(
             ch_merge,
@@ -120,8 +120,8 @@ workflow SCORE_ORTHOLOGS {
     ch_versions = ch_versions.mix(STATS2CSV.out.versions)
 
     ch_stats = STATS2CSV.out.csv
-        .collect { it[1] }
-        .map { [[id: "all"], it] }
+        .collect { row -> row[1] }
+        .map { row -> [[id: "all"], row] }
 
     MERGE_STATS(
         ch_stats,
