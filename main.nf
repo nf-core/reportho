@@ -18,6 +18,7 @@
 include { REPORTHO  } from './workflows/reportho'
 include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_reportho_pipeline'
 include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_reportho_pipeline'
+
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     NAMED WORKFLOWS FOR PIPELINE
@@ -30,7 +31,8 @@ include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_repo
 workflow NFCORE_REPORTHO {
 
     take:
-    samplesheet // channel: samplesheet read in from --input
+    samplesheet_query   // channel: samplesheet read in from --input with query
+    samplesheet_fasta   // channel: samplesheet read in from --input with fasta
 
     main:
 
@@ -38,7 +40,8 @@ workflow NFCORE_REPORTHO {
     // WORKFLOW: Run pipeline
     //
     REPORTHO (
-        samplesheet,
+        samplesheet_query,
+        samplesheet_fasta,,
         params.multiqc_config,
         params.multiqc_logo,
         params.multiqc_methods_description,
@@ -75,7 +78,8 @@ workflow {
     // WORKFLOW: Run main workflow
     //
     NFCORE_REPORTHO (
-        PIPELINE_INITIALISATION.out.samplesheet
+        PIPELINE_INITIALISATION.out.samplesheet_query,
+        PIPELINE_INITIALISATION.out.samplesheet_fasta,
     )
     //
     // SUBWORKFLOW: Run completion tasks
