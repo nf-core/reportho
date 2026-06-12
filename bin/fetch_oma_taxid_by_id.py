@@ -16,13 +16,13 @@ def main() -> None:
         raise ValueError("Not enough arguments. Usage: fetch_oma_by_sequence.py <fasta> <id_out> <taxid_out>")
 
     uniprot_id = sys.argv[1]
-    res = safe_get(f"https://omabrowser.org/api/protein/{uniprot_id}")
+    res = safe_get(f"https://omabrowser.org/api/protein/{uniprot_id}/")
 
     if res.status_code == 404:
         warn("ID not found")
         print("1")
     elif not res.ok:
-        raise ValueError("Fetch failed, aborting")
+        raise ValueError(f"Fetch failed (HTTP {res.status_code}), aborting")
 
     try:
         print(res.json()["species"]["taxon_id"])
