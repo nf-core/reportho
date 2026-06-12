@@ -2,7 +2,7 @@ lint:
   files_exist:
     - conf/igenomes.config
   files_unchanged:
-    - .github/CONTRIBUTING.md
+    - .github/PULL_REQUEST_TEMPLATE.md # TODO: remove after 1.2 release
     - docs/images/nf-core-reportho_logo_light.png
 nf_core_version: 4.0.2
 repository_type: pipeline
