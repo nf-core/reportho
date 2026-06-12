@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/yaml-schema.json
+name: "MAKE_SCORE_TABLE"
+description: make score table for the reportho pipeline
+keywords:
+  - reportho
+  - make
+  - score
+  - table
+tools: []
+input:
+  - merged_csv:
+      type: tuple
+      description: "Nextflow input declaration: tuple val(meta), path(merged_csv), path(id_map)"
+output:
+  - score_table:
+      type: tuple
+      description: "Nextflow output declaration: tuple val(meta), path('*score_table.csv'), emit: score_table"
+  - versions:
+      - versions.yml:
+          type: file
+          description: "Output file emitted by this process: path \"versions.yml\"                      , emit: versions"
+          pattern: "versions.yml"
+authors:
+  - "@itrujnara"
+maintainers:
+  - "@itrujnara"

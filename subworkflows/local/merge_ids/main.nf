@@ -1,4 +1,4 @@
-include { SPLIT_TAXIDS                } from "../../modules/local/split_taxids.nf"
+include { SPLIT_TAXIDS                } from "../../modules/local/split_taxids"
 include { GAWK as MERGE_FASTA_IDS     } from '../../modules/nf-core/gawk/main.nf'
 include { DIAMOND_CLUSTER             } from '../../modules/nf-core/diamond/cluster/main.nf'
 include { GAWK as POSTPROCESS_DIAMOND } from '../../modules/nf-core/gawk/main.nf'

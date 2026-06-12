@@ -1,0 +1,45 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/yaml-schema.json
+name: "DUMP_PARAMS"
+description: dump params for the reportho pipeline
+keywords:
+  - reportho
+  - dump
+  - params
+tools: []
+input:
+  - exact:
+      type: tuple
+      description: "Nextflow input declaration: tuple val(meta), path(exact)"
+  - use_centroid:
+      type: value
+      description: "Nextflow input declaration: val use_centroid"
+  - min_score:
+      type: value
+      description: "Nextflow input declaration: val min_score"
+  - skip_merge:
+      type: value
+      description: "Nextflow input declaration: val skip_merge"
+  - min_identity:
+      type: value
+      description: "Nextflow input declaration: val min_identity"
+  - min_coverage:
+      type: value
+      description: "Nextflow input declaration: val min_coverage"
+output:
+  - params:
+      - meta:
+          type: map
+          description: "Groovy map with sample metadata propagated from input"
+      - "params.yml":
+          type: file
+          description: 'Output file emitted by this process: tuple val(meta), path("params.yml"), emit: params'
+          pattern: "params.yml"
+  - versions:
+      - versions.yml:
+          type: file
+          description: 'Output file emitted by this process: path("versions.yml"), emit: versions'
+          pattern: "versions.yml"
+authors:
+  - "@itrujnara"
+maintainers:
+  - "@itrujnara"

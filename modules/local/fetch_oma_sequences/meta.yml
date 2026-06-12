@@ -1,0 +1,47 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/yaml-schema.json
+name: "FETCH_OMA_SEQUENCES"
+description: fetch oma sequences for the reportho pipeline
+keywords:
+  - reportho
+  - fetch
+  - oma
+  - sequences
+tools: []
+input:
+  - ids:
+      type: tuple
+      description: "Nextflow input declaration: tuple val(meta), path(ids), path(query_fasta)"
+output:
+  - fasta:
+      - meta:
+          type: map
+          description: "Groovy map with sample metadata propagated from input"
+      - "*_oma_sequences.fa":
+          type: file
+          description: "Output file emitted by this process: tuple val(meta), path(\"*_oma_sequences.fa\")  , emit: fasta"
+          pattern: "*_oma_sequences.fa"
+  - hits:
+      - meta:
+          type: map
+          description: "Groovy map with sample metadata propagated from input"
+      - "*_oma_seq_hits.txt":
+          type: file
+          description: "Output file emitted by this process: tuple val(meta), path(\"*_oma_seq_hits.txt\")  , emit: hits"
+          pattern: "*_oma_seq_hits.txt"
+  - misses:
+      - meta:
+          type: map
+          description: "Groovy map with sample metadata propagated from input"
+      - "*_oma_seq_misses.txt":
+          type: file
+          description: "Output file emitted by this process: tuple val(meta), path(\"*_oma_seq_misses.txt\"), emit: misses"
+          pattern: "*_oma_seq_misses.txt"
+  - versions:
+      - versions.yml:
+          type: file
+          description: "Output file emitted by this process: path \"versions.yml\"                          , emit: versions"
+          pattern: "versions.yml"
+authors:
+  - "@itrujnara"
+maintainers:
+  - "@itrujnara"

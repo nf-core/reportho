@@ -1,0 +1,71 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
+name: "GET_ORTHOLOGS"
+description: get orthologs subworkflow for the reportho pipeline
+keywords:
+  - reportho
+  - get
+  - orthologs
+components:
+  - FETCH_EGGNOG_GROUP_LOCAL
+  - FETCH_INSPECTOR_GROUP_ONLINE
+  - FETCH_OMA_GROUP_LOCAL
+  - FETCH_OMA_GROUP_ONLINE
+  - FETCH_PANTHER_GROUP_LOCAL
+  - FETCH_PANTHER_GROUP_ONLINE
+  - IDENTIFY_SEQ_ONLINE
+  - MERGE_CSV
+  - WRITE_SEQINFO
+input:
+  - ch_samplesheet_query:
+      type: channel
+      description: "Input channel 'ch_samplesheet_query'"
+  - ch_samplesheet_fasta:
+      type: channel
+      description: "Input channel 'ch_samplesheet_fasta'"
+  - ch_oma_groups:
+      type: channel
+      description: "Input channel 'ch_oma_groups'"
+  - ch_oma_uniprot:
+      type: channel
+      description: "Input channel 'ch_oma_uniprot'"
+  - ch_oma_ensembl:
+      type: channel
+      description: "Input channel 'ch_oma_ensembl'"
+  - ch_oma_refseq:
+      type: channel
+      description: "Input channel 'ch_oma_refseq'"
+  - ch_panther:
+      type: channel
+      description: "Input channel 'ch_panther'"
+  - ch_eggnog:
+      type: channel
+      description: "Input channel 'ch_eggnog'"
+  - ch_eggnog_idmap:
+      type: channel
+      description: "Input channel 'ch_eggnog_idmap'"
+output:
+  - seqinfo:
+      type: channel
+      description: "Output channel 'seqinfo' emitted from expression: ch_query"
+  - id:
+      type: channel
+      description: "Output channel 'id' emitted from expression: ch_query.map { it[1] }"
+  - taxid:
+      type: channel
+      description: "Output channel 'taxid' emitted from expression: ch_query.map { it[2] }"
+  - exact:
+      type: channel
+      description: "Output channel 'exact' emitted from expression: ch_query.map { it[3] }"
+  - orthogroups:
+      type: channel
+      description: "Output channel 'orthogroups' emitted from expression: ch_orthogroups"
+  - orthologs:
+      type: channel
+      description: "Output channel 'orthologs' emitted from expression: MERGE_CSV.out.csv"
+  - versions:
+      type: channel
+      description: "Output channel 'versions' emitted from expression: ch_versions"
+authors:
+  - "@itrujnara"
+maintainers:
+  - "@itrujnara"

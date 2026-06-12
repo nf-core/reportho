@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/yaml-schema.json
+name: "FILTER_FASTA"
+description: filter fasta for the reportho pipeline
+keywords:
+  - reportho
+  - filter
+  - fasta
+tools: []
+input:
+  - fasta:
+      type: tuple
+      description: "Nextflow input declaration: tuple val(meta), path(fasta), path(structures)"
+output:
+  - fasta:
+      - meta:
+          type: map
+          description: "Groovy map with sample metadata propagated from input"
+      - "*_filtered.fa":
+          type: file
+          description: "Output file emitted by this process: tuple val(meta), path(\"*_filtered.fa\"), emit: fasta"
+          pattern: "*_filtered.fa"
+  - versions:
+      - versions.yml:
+          type: file
+          description: "Output file emitted by this process: path \"versions.yml\"                   , emit: versions"
+          pattern: "versions.yml"
+authors:
+  - "@itrujnara"
+maintainers:
+  - "@itrujnara"
