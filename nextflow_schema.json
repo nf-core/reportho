@@ -1,6 +1,6 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://raw.githubusercontent.com/nf-core/reportho/master/nextflow_schema.json",
+    "$id": "https://raw.githubusercontent.com/nf-core/reportho/main/nextflow_schema.json",
     "title": "nf-core/reportho pipeline parameters",
     "description": "A pipeline for ortholog fetching and analysis",
     "type": "object",
