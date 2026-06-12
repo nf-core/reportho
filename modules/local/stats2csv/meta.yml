@@ -16,12 +16,12 @@ output:
           description: "Groovy map with sample metadata propagated from input"
       - "*_stats.csv":
           type: file
-          description: "Output file emitted by this process: tuple val(meta), path(\"*_stats.csv\"), emit: csv"
+          description: 'Output file emitted by this process: tuple val(meta), path("*_stats.csv"), emit: csv'
           pattern: "*_stats.csv"
   - versions:
       - versions.yml:
           type: file
-          description: "Output file emitted by this process: path \"versions.yml\"                 , emit: versions"
+          description: 'Output file emitted by this process: path "versions.yml"                 , emit: versions'
           pattern: "versions.yml"
 authors:
   - "@itrujnara"

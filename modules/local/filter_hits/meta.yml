@@ -23,7 +23,7 @@ output:
           description: "Groovy map with sample metadata propagated from input"
       - "*_centroid.txt":
           type: file
-          description: "Output file emitted by this process: tuple val(meta), path('*_minscore_*.txt'), path(\"*_centroid.txt\"), emit: scored_hits"
+          description: 'Output file emitted by this process: tuple val(meta), path(''*_minscore_*.txt''), path("*_centroid.txt"), emit: scored_hits'
           pattern: "*_centroid.txt"
   - filtered_hits:
       type: tuple
@@ -31,7 +31,7 @@ output:
   - versions:
       - versions.yml:
           type: file
-          description: "Output file emitted by this process: path \"versions.yml\"                                              , emit: versions"
+          description: 'Output file emitted by this process: path "versions.yml"                                              , emit: versions'
           pattern: "versions.yml"
 authors:
   - "@itrujnara"

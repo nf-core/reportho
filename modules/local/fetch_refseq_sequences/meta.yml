@@ -18,7 +18,7 @@ output:
           description: "Groovy map with sample metadata propagated from input"
       - "*_refseq_sequences.fa":
           type: file
-          description: "Output file emitted by this process: tuple val(meta), path(\"*_refseq_sequences.fa\")  , emit: fasta"
+          description: 'Output file emitted by this process: tuple val(meta), path("*_refseq_sequences.fa")  , emit: fasta'
           pattern: "*_refseq_sequences.fa"
   - hits:
       - meta:
@@ -26,7 +26,7 @@ output:
           description: "Groovy map with sample metadata propagated from input"
       - "*_refseq_seq_hits.txt":
           type: file
-          description: "Output file emitted by this process: tuple val(meta), path(\"*_refseq_seq_hits.txt\")  , emit: hits"
+          description: 'Output file emitted by this process: tuple val(meta), path("*_refseq_seq_hits.txt")  , emit: hits'
           pattern: "*_refseq_seq_hits.txt"
   - misses:
       - meta:
@@ -34,12 +34,12 @@ output:
           description: "Groovy map with sample metadata propagated from input"
       - "*_refseq_seq_misses.txt":
           type: file
-          description: "Output file emitted by this process: tuple val(meta), path(\"*_refseq_seq_misses.txt\"), emit: misses"
+          description: 'Output file emitted by this process: tuple val(meta), path("*_refseq_seq_misses.txt"), emit: misses'
           pattern: "*_refseq_seq_misses.txt"
   - versions:
       - versions.yml:
           type: file
-          description: "Output file emitted by this process: path \"versions.yml\"                             , emit: versions"
+          description: 'Output file emitted by this process: path "versions.yml"                             , emit: versions'
           pattern: "versions.yml"
 authors:
   - "@itrujnara"

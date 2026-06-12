@@ -17,7 +17,7 @@ output:
           description: "Groovy map with sample metadata propagated from input"
       - "*_supports_dark.png":
           type: file
-          description: "Output file emitted by this process: tuple val(meta), path(\"*_supports_light.png\"), path(\"*_supports_dark.png\"), emit: supports"
+          description: 'Output file emitted by this process: tuple val(meta), path("*_supports_light.png"), path("*_supports_dark.png"), emit: supports'
           pattern: "*_supports_dark.png"
   - venn:
       - meta:
@@ -25,7 +25,7 @@ output:
           description: "Groovy map with sample metadata propagated from input"
       - "*_venn_dark.png":
           type: file
-          description: "Output file emitted by this process: tuple val(meta), path(\"*_venn_light.png\"), path(\"*_venn_dark.png\")        , emit: venn"
+          description: 'Output file emitted by this process: tuple val(meta), path("*_venn_light.png"), path("*_venn_dark.png")        , emit: venn'
           pattern: "*_venn_dark.png"
   - jaccard:
       - meta:
@@ -33,12 +33,12 @@ output:
           description: "Groovy map with sample metadata propagated from input"
       - "*_jaccard_dark.png":
           type: file
-          description: "Output file emitted by this process: tuple val(meta), path(\"*_jaccard_light.png\"), path(\"*_jaccard_dark.png\")  , emit: jaccard"
+          description: 'Output file emitted by this process: tuple val(meta), path("*_jaccard_light.png"), path("*_jaccard_dark.png")  , emit: jaccard'
           pattern: "*_jaccard_dark.png"
   - versions:
       - versions.yml:
           type: file
-          description: "Output file emitted by this process: path \"versions.yml\"                                                       , emit: versions"
+          description: 'Output file emitted by this process: path "versions.yml"                                                       , emit: versions'
           pattern: "versions.yml"
 authors:
   - "@itrujnara"

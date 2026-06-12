@@ -18,7 +18,7 @@ output:
   - versions:
       - versions.yml:
           type: file
-          description: "Output file emitted by this process: path \"versions.yml\"               , emit: versions"
+          description: 'Output file emitted by this process: path "versions.yml"               , emit: versions'
           pattern: "versions.yml"
 authors:
   - "@itrujnara"

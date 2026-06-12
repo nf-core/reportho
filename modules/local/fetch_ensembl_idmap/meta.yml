@@ -15,12 +15,12 @@ output:
   - idmap:
       - ensembl_idmap.csv:
           type: file
-          description: "Output file emitted by this process: path \"ensembl_idmap.csv\", emit: idmap"
+          description: 'Output file emitted by this process: path "ensembl_idmap.csv", emit: idmap'
           pattern: "ensembl_idmap.csv"
   - versions:
       - versions.yml:
           type: file
-          description: "Output file emitted by this process: path \"versions.yml\"     , emit: versions"
+          description: 'Output file emitted by this process: path "versions.yml"     , emit: versions'
           pattern: "versions.yml"
 authors:
   - "@itrujnara"
