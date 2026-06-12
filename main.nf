@@ -41,7 +41,7 @@ workflow NFCORE_REPORTHO {
     //
     REPORTHO (
         samplesheet_query,
-        samplesheet_fasta,,
+        samplesheet_fasta,
         params.multiqc_config,
         params.multiqc_logo,
         params.multiqc_methods_description,
