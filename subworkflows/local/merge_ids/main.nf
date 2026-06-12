@@ -12,8 +12,8 @@ workflow MERGE_IDS {
     ch_fasta_all
 
     main:
-    ch_versions = Channel.empty()
-    ch_id_clusters = Channel.empty()
+    ch_versions = channel.empty()
+    ch_id_clusters = channel.empty()
 
     // Split fasta by taxid
     SPLIT_TAXIDS (
@@ -28,9 +28,9 @@ workflow MERGE_IDS {
         .map {
             meta, file -> [ meta, file, (file.text =~ />(.*)/).results().count() ]
         }
-        .branch {
-            single_entry: it[2] == 1
-            multiple_entries: it[2] > 1
+        .branch { row ->
+            single_entry: row[2] == 1
+            multiple_entries: row[2] > 1
         }
         .set { ch_fasta_counts }
 

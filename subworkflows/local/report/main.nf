@@ -19,11 +19,11 @@ workflow REPORT {
     ch_clusters
 
     main:
-    ch_versions  = Channel.empty()
-    ch_fasta     = ch_seqinfo.map { [it[0], []] }
+    ch_versions  = channel.empty()
+    ch_fasta     = ch_seqinfo.map { row -> [row[0], []] }
 
     DUMP_PARAMS(
-        ch_seqinfo.map { [it[0], it[3]] },
+        ch_seqinfo.map { row -> [row[0], row[3]] },
         params.use_centroid,
         params.min_score,
         params.skip_merge,

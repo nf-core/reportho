@@ -33,20 +33,20 @@ workflow REPORTHO {
 
     main:
 
-    ch_versions      = Channel.empty()
-    ch_multiqc_files = Channel.empty()
-    ch_fasta_query   = ch_samplesheet_query.map { [it[0], []] }.mix(ch_samplesheet_fasta.map { [it[0], file(it[1])] })
+    ch_versions      = channel.empty()
+    ch_multiqc_files = channel.empty()
+    ch_fasta_query   = ch_samplesheet_query.map { row -> [row[0], []] }.mix(ch_samplesheet_fasta.map { row -> [row[0], file(row[1])] })
 
-    ch_oma_groups    = params.oma_path ? Channel.value(file(params.oma_path)) : Channel.empty()
-    ch_oma_uniprot   = params.oma_uniprot_path ? Channel.value(file(params.oma_uniprot_path)) : Channel.empty()
-    ch_oma_ensembl   = params.oma_ensembl_path ? Channel.value(file(params.oma_ensembl_path)) : Channel.empty()
-    ch_oma_refseq    = params.oma_refseq_path ? Channel.value(file(params.oma_refseq_path)) : Channel.empty()
-    ch_panther       = params.panther_path ? Channel.value(file(params.panther_path)) : Channel.empty()
-    ch_eggnog        = params.eggnog_path ? Channel.value(file(params.eggnog_path)) : Channel.empty()
-    ch_eggnog_idmap  = params.eggnog_idmap_path ? Channel.value(file(params.eggnog_idmap_path)) : Channel.empty()
+    ch_oma_groups    = params.oma_path ? channel.value(file(params.oma_path)) : channel.empty()
+    ch_oma_uniprot   = params.oma_uniprot_path ? channel.value(file(params.oma_uniprot_path)) : channel.empty()
+    ch_oma_ensembl   = params.oma_ensembl_path ? channel.value(file(params.oma_ensembl_path)) : channel.empty()
+    ch_oma_refseq    = params.oma_refseq_path ? channel.value(file(params.oma_refseq_path)) : channel.empty()
+    ch_panther       = params.panther_path ? channel.value(file(params.panther_path)) : channel.empty()
+    ch_eggnog        = params.eggnog_path ? channel.value(file(params.eggnog_path)) : channel.empty()
+    ch_eggnog_idmap  = params.eggnog_idmap_path ? channel.value(file(params.eggnog_idmap_path)) : channel.empty()
 
-    ch_seqhits       = ch_samplesheet_query.map { [it[0], []] }
-    ch_seqmisses     = ch_samplesheet_query.map { [it[0], []] }
+    ch_seqhits       = ch_samplesheet_query.map { row -> [row[0], []] }
+    ch_seqmisses     = ch_samplesheet_query.map { row -> [row[0], []] }
 
     GET_ORTHOLOGS (
         ch_samplesheet_query,
@@ -62,7 +62,7 @@ workflow REPORTHO {
 
     ch_versions = ch_versions.mix(GET_ORTHOLOGS.out.versions)
 
-    ch_seqs = ch_samplesheet_query.map { [it[0], []] }
+    ch_seqs = ch_samplesheet_query.map { row -> [row[0], []] }
 
     if (!params.offline_run && (!params.skip_merge || !params.skip_downstream))
     {
@@ -78,8 +78,8 @@ workflow REPORTHO {
         ch_versions = ch_versions.mix(GET_SEQUENCES.out.versions)
     }
 
-    ch_id_map   = ch_fasta_query.map { [it[0], []] }
-    ch_clusters = ch_fasta_query.map { [it[0], []] }
+    ch_id_map   = ch_fasta_query.map { row -> [row[0], []] }
+    ch_clusters = ch_fasta_query.map { row -> [row[0], []] }
 
     if (!params.offline_run && !params.skip_merge)
     {
@@ -106,9 +106,9 @@ workflow REPORTHO {
 
     ch_samplesheet = ch_samplesheet_query.mix (ch_samplesheet_fasta)
 
-    ch_multiqc_files = ch_multiqc_files.mix(SCORE_ORTHOLOGS.out.aggregated_stats.map {it[1]})
-    ch_multiqc_files = ch_multiqc_files.mix(SCORE_ORTHOLOGS.out.aggregated_hits.map {it[1]})
-    ch_multiqc_files = ch_multiqc_files.mix(SCORE_ORTHOLOGS.out.aggregated_merge.map {it[1]})
+    ch_multiqc_files = ch_multiqc_files.mix(SCORE_ORTHOLOGS.out.aggregated_stats.map { row -> row[1] })
+    ch_multiqc_files = ch_multiqc_files.mix(SCORE_ORTHOLOGS.out.aggregated_hits.map { row -> row[1] })
+    ch_multiqc_files = ch_multiqc_files.mix(SCORE_ORTHOLOGS.out.aggregated_merge.map { row -> row[1] })
 
     if(workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() != 0) {
         log.warn(
@@ -124,9 +124,9 @@ workflow REPORTHO {
             GET_ORTHOLOGS.out.seqinfo,
             SCORE_ORTHOLOGS.out.score_table,
             SCORE_ORTHOLOGS.out.orthologs,
-            SCORE_ORTHOLOGS.out.supports_plot.map { [it[0], it[2]]},
-            SCORE_ORTHOLOGS.out.venn_plot.map { [it[0], it[2]]},
-            SCORE_ORTHOLOGS.out.jaccard_plot.map { [it[0], it[2]]},
+            SCORE_ORTHOLOGS.out.supports_plot.map { row -> [row[0], row[2]]},
+            SCORE_ORTHOLOGS.out.venn_plot.map { row -> [row[0], row[2]]},
+            SCORE_ORTHOLOGS.out.jaccard_plot.map { row -> [row[0], row[2]]},
             SCORE_ORTHOLOGS.out.stats,
             ch_seqhits,
             ch_seqmisses,

@@ -14,7 +14,7 @@ workflow GET_SEQUENCES {
     ch_query_fasta
 
     main:
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
 
     SPLIT_ID_FORMAT(ch_ids)
     ch_versions = ch_versions.mix(SPLIT_ID_FORMAT.out.versions)
@@ -28,9 +28,9 @@ workflow GET_SEQUENCES {
             unknown: it[1] =~ /unknown/
     }
 
-    ch_fasta  = Channel.empty()
-    ch_hits   = Channel.empty()
-    ch_misses = Channel.empty()
+    ch_fasta  = channel.empty()
+    ch_hits   = channel.empty()
+    ch_misses = channel.empty()
 
     FETCH_UNIPROT_SEQUENCES(ch_id_files.uniprot.join(ch_query_fasta))
     ch_fasta    = ch_fasta.mix(FETCH_UNIPROT_SEQUENCES.out.fasta)
