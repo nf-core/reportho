@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/yaml-schema.json
+name: "MAKE_MERGE_TABLE"
+description: make merge table for the reportho pipeline
+keywords:
+  - reportho
+  - make
+  - merge
+  - table
+tools: []
+input:
+  - clusters:
+      type: tuple
+      description: "Nextflow input declaration: tuple val(meta), path(clusters)"
+output:
+  - merge_table:
+      type: tuple
+      description: "Nextflow output declaration: tuple val(meta), path('*merge_table.csv'), emit: merge_table"
+  - versions:
+      - versions.yml:
+          type: file
+          description: 'Output file emitted by this process: path "versions.yml"                      , emit: versions'
+          pattern: "versions.yml"
+authors:
+  - "@itrujnara"
+maintainers:
+  - "@itrujnara"

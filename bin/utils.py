@@ -58,9 +58,9 @@ def check_id_mapping_results_ready(job_id: str) -> bool:
             return True
 
 
-def fetch_seq(url: str) -> tuple[bool, dict]:
+def fetch_seq(url: str, **kwargs) -> tuple[bool, dict]:
     """Get JSON from a URL."""
-    res = safe_get(url)
+    res = safe_get(url, **kwargs)
     if not res.ok:
         print(f"HTTP error. Code: {res.status_code}")
         return (False, dict())

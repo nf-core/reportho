@@ -1,19 +1,19 @@
-include { SPLIT_TAXIDS                } from "../../modules/local/split_taxids.nf"
-include { GAWK as MERGE_FASTA_IDS     } from '../../modules/nf-core/gawk/main.nf'
-include { DIAMOND_CLUSTER             } from '../../modules/nf-core/diamond/cluster/main.nf'
-include { GAWK as POSTPROCESS_DIAMOND } from '../../modules/nf-core/gawk/main.nf'
-include { GAWK as GROUP_DIAMOND       } from '../../modules/nf-core/gawk/main.nf'
-include { CAT_CAT as MERGE_DIAMOND    } from '../../modules/nf-core/cat/cat/main.nf'
-include { CAT_CAT as MERGE_ALL        } from '../../modules/nf-core/cat/cat/main.nf'
-include { GAWK as REDUCE_IDMAP        } from '../../modules/nf-core/gawk/main.nf'
+include { SPLIT_TAXIDS                } from "../../../modules/local/split_taxids"
+include { GAWK as MERGE_FASTA_IDS     } from '../../../modules/nf-core/gawk/main.nf'
+include { DIAMOND_CLUSTER             } from '../../../modules/nf-core/diamond/cluster/main.nf'
+include { GAWK as POSTPROCESS_DIAMOND } from '../../../modules/nf-core/gawk/main.nf'
+include { GAWK as GROUP_DIAMOND       } from '../../../modules/nf-core/gawk/main.nf'
+include { CAT_CAT as MERGE_DIAMOND    } from '../../../modules/nf-core/cat/cat/main.nf'
+include { CAT_CAT as MERGE_ALL        } from '../../../modules/nf-core/cat/cat/main.nf'
+include { GAWK as REDUCE_IDMAP        } from '../../../modules/nf-core/gawk/main.nf'
 
 workflow MERGE_IDS {
     take:
     ch_fasta_all
 
     main:
-    ch_versions = Channel.empty()
-    ch_id_clusters = Channel.empty()
+    ch_versions = channel.empty()
+    ch_id_clusters = channel.empty()
 
     // Split fasta by taxid
     SPLIT_TAXIDS (
@@ -28,9 +28,9 @@ workflow MERGE_IDS {
         .map {
             meta, file -> [ meta, file, (file.text =~ />(.*)/).results().count() ]
         }
-        .branch {
-            single_entry: it[2] == 1
-            multiple_entries: it[2] > 1
+        .branch { row ->
+            single_entry: row[2] == 1
+            multiple_entries: row[2] > 1
         }
         .set { ch_fasta_counts }
 

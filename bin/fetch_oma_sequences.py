@@ -13,8 +13,9 @@ from utils import list_to_file, safe_post, SequenceInfo, split_ids
 def fetch_slice(ids: list[str]) -> list[SequenceInfo]:
     """Fetch sequences for given UniProt IDs from the OMA database."""
     payload = {"ids": ids}
+    headers = {"User-Agent": "pyomadb/2.1.0"}
 
-    res = safe_post("https://omabrowser.org/api/protein/bulk_retrieve/", json=payload)
+    res = safe_post("https://omabrowser.org/api/protein/bulk_retrieve/", json=payload, headers=headers)
 
     if not res.ok:
         raise ValueError(f"HTTP error: {res.status_code}")

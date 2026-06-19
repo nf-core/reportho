@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/yaml-schema.json
+name: "FETCH_ENSEMBL_IDMAP"
+description: fetch ensembl idmap for the reportho pipeline
+keywords:
+  - reportho
+  - fetch
+  - ensembl
+  - idmap
+tools: []
+input:
+  - none:
+      type: channel
+      description: This module has no explicit input declarations
+output:
+  - idmap:
+      - ensembl_idmap.csv:
+          type: file
+          description: 'Output file emitted by this process: path "ensembl_idmap.csv", emit: idmap'
+          pattern: "ensembl_idmap.csv"
+  - versions:
+      - versions.yml:
+          type: file
+          description: 'Output file emitted by this process: path "versions.yml"     , emit: versions'
+          pattern: "versions.yml"
+authors:
+  - "@itrujnara"
+maintainers:
+  - "@itrujnara"

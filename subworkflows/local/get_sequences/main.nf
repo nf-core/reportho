@@ -1,12 +1,14 @@
-include { SPLIT_ID_FORMAT          } from '../../modules/local/split_id_format.nf'
-include { FETCH_UNIPROT_SEQUENCES  } from '../../modules/local/fetch_uniprot_sequences.nf'
-include { FETCH_ENSEMBL_IDMAP      } from '../../modules/local/fetch_ensembl_idmap.nf'
-include { FETCH_ENSEMBL_SEQUENCES  } from '../../modules/local/fetch_ensembl_sequences.nf'
-include { FETCH_REFSEQ_SEQUENCES   } from '../../modules/local/fetch_refseq_sequences.nf'
-include { FETCH_OMA_SEQUENCES      } from '../../modules/local/fetch_oma_sequences.nf'
-include { CAT_CAT as CONCAT_FASTA  } from '../../modules/nf-core/cat/cat/main.nf'
-include { CAT_CAT as CONCAT_HITS   } from '../../modules/nf-core/cat/cat/main.nf'
-include { CAT_CAT as CONCAT_MISSES } from '../../modules/nf-core/cat/cat/main.nf'
+include { SPLIT_ID_FORMAT          } from '../../../modules/local/split_id_format'
+
+include { FETCH_UNIPROT_SEQUENCES  } from '../../../modules/local/fetch_uniprot_sequences'
+include { FETCH_ENSEMBL_IDMAP      } from '../../../modules/local/fetch_ensembl_idmap'
+include { FETCH_ENSEMBL_SEQUENCES  } from '../../../modules/local/fetch_ensembl_sequences'
+include { FETCH_REFSEQ_SEQUENCES   } from '../../../modules/local/fetch_refseq_sequences'
+include { FETCH_OMA_SEQUENCES      } from '../../../modules/local/fetch_oma_sequences'
+
+include { CAT_CAT as CONCAT_FASTA  } from '../../../modules/nf-core/cat/cat/main.nf'
+include { CAT_CAT as CONCAT_HITS   } from '../../../modules/nf-core/cat/cat/main.nf'
+include { CAT_CAT as CONCAT_MISSES } from '../../../modules/nf-core/cat/cat/main.nf'
 
 workflow GET_SEQUENCES {
     take:
@@ -14,7 +16,7 @@ workflow GET_SEQUENCES {
     ch_query_fasta
 
     main:
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
 
     SPLIT_ID_FORMAT(ch_ids)
     ch_versions = ch_versions.mix(SPLIT_ID_FORMAT.out.versions)
@@ -28,9 +30,9 @@ workflow GET_SEQUENCES {
             unknown: it[1] =~ /unknown/
     }
 
-    ch_fasta  = Channel.empty()
-    ch_hits   = Channel.empty()
-    ch_misses = Channel.empty()
+    ch_fasta  = channel.empty()
+    ch_hits   = channel.empty()
+    ch_misses = channel.empty()
 
     FETCH_UNIPROT_SEQUENCES(ch_id_files.uniprot.join(ch_query_fasta))
     ch_fasta    = ch_fasta.mix(FETCH_UNIPROT_SEQUENCES.out.fasta)
