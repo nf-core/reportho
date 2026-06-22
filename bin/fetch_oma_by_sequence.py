@@ -26,12 +26,13 @@ def main() -> None:
 
     seqs = SeqIO.parse(sys.argv[1], "fasta")
     seq = next(seqs).seq
+    headers = {"User-Agent": "pyomadb/2.1.0"}
 
     # Only use the first sequence, ignore all others
     if next(seqs, None) is not None:
         warn("Multiple sequences passed, only using the first one.")
 
-    success, json = fetch_seq(f"https://omabrowser.org/api/sequence/?query={seq}")
+    success, json = fetch_seq(f"https://omabrowser.org/api/sequence/?query={seq}", headers=headers)
 
     if not success:
         raise ValueError("Fetch failed, aborting")
@@ -54,7 +55,7 @@ def main() -> None:
     if entry == dict():
         if len(json["targets"][0]["alternative_isoforms_urls"]) > 0:
             isoform = json["targets"][0]["alternative_isoforms_urls"][0]
-            success, json = fetch_seq(isoform)
+            success, json = fetch_seq(isoform, headers=headers)
             if not success:
                 raise ValueError("Isoform fetch failed, aborting")
             if json["is_main_isoform"]:

@@ -16,7 +16,8 @@ def main() -> None:
         raise ValueError("Not enough arguments. Usage: fetch_oma_groupid.py <filename>")
 
     prot_id = sys.argv[1]
-    res = safe_get(f"https://omabrowser.org/api/protein/{prot_id}")
+    headers = {"User-Agent": "pyomadb/2.1.0"}
+    res = safe_get(f"https://omabrowser.org/api/protein/{prot_id}", headers=headers)
 
     if res.status_code == 404:
         warn("ID not found")
@@ -33,7 +34,7 @@ def main() -> None:
     # If main isoform not found, check the first alternative isoform
     if entry == dict():
         if len(json["alternative_isoforms_urls"]) > 0:
-            res = safe_get(json["isoforms"])
+            res = safe_get(json["isoforms"], headers=headers)
             json2 = res.json()
             for isoform in json2:
                 if isoform["is_main_isoform"]:

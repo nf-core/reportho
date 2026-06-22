@@ -1,0 +1,57 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
+name: "REPORT"
+description: report subworkflow for the reportho pipeline
+keywords:
+  - reportho
+  - report
+components:
+  - DUMP_PARAMS
+  - MAKE_REPORT
+input:
+  - use_centroid:
+      type: channel
+      description: "Input channel 'use_centroid'"
+  - min_score:
+      type: channel
+      description: "Input channel 'min_score'"
+  - ch_seqinfo:
+      type: channel
+      description: "Input channel 'ch_seqinfo'"
+  - ch_scoretable:
+      type: channel
+      description: "Input channel 'ch_scoretable'"
+  - ch_filtered:
+      type: channel
+      description: "Input channel 'ch_filtered'"
+  - ch_supportsplot:
+      type: channel
+      description: "Input channel 'ch_supportsplot'"
+  - ch_vennplot:
+      type: channel
+      description: "Input channel 'ch_vennplot'"
+  - ch_jaccardplot:
+      type: channel
+      description: "Input channel 'ch_jaccardplot'"
+  - ch_orthostats:
+      type: channel
+      description: "Input channel 'ch_orthostats'"
+  - ch_seqhits:
+      type: channel
+      description: "Input channel 'ch_seqhits'"
+  - ch_seqmisses:
+      type: channel
+      description: "Input channel 'ch_seqmisses'"
+  - ch_mergestats:
+      type: channel
+      description: "Input channel 'ch_mergestats'"
+  - ch_clusters:
+      type: channel
+      description: "Input channel 'ch_clusters'"
+output:
+  - versions:
+      type: channel
+      description: "Output channel 'versions' emitted from expression: ch_versions"
+authors:
+  - "@itrujnara"
+maintainers:
+  - "@itrujnara"

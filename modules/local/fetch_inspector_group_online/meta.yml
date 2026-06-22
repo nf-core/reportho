@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/yaml-schema.json
+name: "FETCH_INSPECTOR_GROUP_ONLINE"
+description: fetch inspector group online for the reportho pipeline
+keywords:
+  - reportho
+  - fetch
+  - inspector
+  - group
+  - online
+tools: []
+input:
+  - uniprot_id:
+      type: tuple
+      description: "Nextflow input declaration: tuple val(meta), path(uniprot_id), path(taxid), path(exact)"
+  - inspector_version:
+      type: value
+      description: "Nextflow input declaration: val inspector_version"
+output:
+  - inspector_group:
+      - meta:
+          type: map
+          description: "Groovy map with sample metadata propagated from input"
+      - "*_inspector_group.csv":
+          type: file
+          description: 'Output file emitted by this process: tuple val(meta), path("*_inspector_group.csv"), emit: inspector_group'
+          pattern: "*_inspector_group.csv"
+  - versions:
+      - versions.yml:
+          type: file
+          description: 'Output file emitted by this process: path "versions.yml"                           , emit: versions'
+          pattern: "versions.yml"
+authors:
+  - "@itrujnara"
+maintainers:
+  - "@itrujnara"

@@ -1,0 +1,60 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
+name: "PIPELINE_INITIALISATION"
+description: utils nfcore reportho pipeline subworkflow for the reportho pipeline
+keywords:
+  - reportho
+  - utils
+  - nfcore
+  - reportho
+  - pipeline
+components:
+  - completionEmail
+  - completionSummary
+  - paramsHelp
+  - paramsSummaryMap
+  - samplesheetToList
+  - UTILS_NEXTFLOW_PIPELINE
+  - UTILS_NFCORE_PIPELINE
+  - UTILS_NFSCHEMA_PLUGIN
+input:
+  - version:
+      type: channel
+      description: "Input channel 'version'"
+  - validate_params:
+      type: channel
+      description: "Input channel 'validate_params'"
+  - monochrome_logs:
+      type: channel
+      description: "Input channel 'monochrome_logs'"
+  - nextflow_cli_args:
+      type: channel
+      description: "Input channel 'nextflow_cli_args'"
+  - outdir:
+      type: channel
+      description: "Input channel 'outdir'"
+  - input:
+      type: channel
+      description: "Input channel 'input'"
+  - help:
+      type: channel
+      description: "Input channel 'help'"
+  - help_full:
+      type: channel
+      description: "Input channel 'help_full'"
+  - show_hidden:
+      type: channel
+      description: "Input channel 'show_hidden'"
+output:
+  - samplesheet_query:
+      type: channel
+      description: "Output channel 'samplesheet_query' emitted from expression: ch_samplesheet.query"
+  - samplesheet_fasta:
+      type: channel
+      description: "Output channel 'samplesheet_fasta' emitted from expression: ch_samplesheet.fasta"
+  - versions:
+      type: channel
+      description: "Output channel 'versions' emitted from expression: ch_versions"
+authors:
+  - "@itrujnara"
+maintainers:
+  - "@itrujnara"

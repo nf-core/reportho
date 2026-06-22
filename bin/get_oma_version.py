@@ -9,7 +9,8 @@ from utils import safe_get
 
 
 def main() -> None:
-    res = safe_get("https://omabrowser.org/api/version")
+    headers = {"User-Agent": "pyomadb/2.1.0"}
+    res = safe_get("https://omabrowser.org/api/version", headers=headers)
     if not res.ok:
         raise ValueError(f"HTTP error: {res.status_code}")
     json = res.json()

@@ -1,0 +1,59 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/yaml-schema.json
+name: "FETCH_ENSEMBL_SEQUENCES"
+description: fetch ensembl sequences for the reportho pipeline
+keywords:
+  - reportho
+  - fetch
+  - ensembl
+  - sequences
+tools: []
+input:
+  - ids:
+      type: tuple
+      description: "Nextflow input declaration: tuple val(meta), path(ids), path(query_fasta)"
+  - ensembl_idmap:
+      type: file
+      description: "Nextflow input declaration: path ensembl_idmap"
+      pattern: "*"
+output:
+  - fasta:
+      - meta:
+          type: map
+          description: "Groovy map with sample metadata propagated from input"
+      - "*_ensembl_sequences.fa":
+          type: file
+          description: 'Output file emitted by this process: tuple val(meta), path("*_ensembl_sequences.fa")  , emit: fasta'
+          pattern: "*_ensembl_sequences.fa"
+  - hits:
+      - meta:
+          type: map
+          description: "Groovy map with sample metadata propagated from input"
+      - "*_ensembl_seq_hits.txt":
+          type: file
+          description: 'Output file emitted by this process: tuple val(meta), path("*_ensembl_seq_hits.txt")  , emit: hits'
+          pattern: "*_ensembl_seq_hits.txt"
+  - misses:
+      - meta:
+          type: map
+          description: "Groovy map with sample metadata propagated from input"
+      - "*_ensembl_seq_misses.txt":
+          type: file
+          description: 'Output file emitted by this process: tuple val(meta), path("*_ensembl_seq_misses.txt"), emit: misses'
+          pattern: "*_ensembl_seq_misses.txt"
+  - orthologs:
+      - meta:
+          type: map
+          description: "Groovy map with sample metadata propagated from input"
+      - "*_orthologs.fa":
+          type: file
+          description: 'Output file emitted by this process: tuple val(meta), path("*_orthologs.fa")          , emit: orthologs, optional: true'
+          pattern: "*_orthologs.fa"
+  - versions:
+      - versions.yml:
+          type: file
+          description: 'Output file emitted by this process: path "versions.yml"                              , emit: versions'
+          pattern: "versions.yml"
+authors:
+  - "@itrujnara"
+maintainers:
+  - "@itrujnara"

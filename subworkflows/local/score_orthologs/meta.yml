@@ -1,0 +1,78 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
+name: "SCORE_ORTHOLOGS"
+description: score orthologs subworkflow for the reportho pipeline
+keywords:
+  - reportho
+  - score
+  - orthologs
+components:
+  - FILTER_HITS
+  - MAKE_HITS_TABLE
+  - MAKE_MERGE_TABLE
+  - MAKE_SCORE_TABLE
+  - MAKE_STATS
+  - MERGE_HITS
+  - MERGE_MERGE
+  - MERGE_STATS
+  - PLOT_ORTHOLOGS
+  - STATS2CSV
+input:
+  - ch_query:
+      type: channel
+      description: "Input channel 'ch_query'"
+  - ch_orthologs:
+      type: channel
+      description: "Input channel 'ch_orthologs'"
+  - ch_id_map:
+      type: channel
+      description: "Input channel 'ch_id_map'"
+  - ch_clusters:
+      type: channel
+      description: "Input channel 'ch_clusters'"
+  - skip_merge:
+      type: channel
+      description: "Input channel 'skip_merge'"
+  - skip_plots:
+      type: channel
+      description: "Input channel 'skip_plots'"
+output:
+  - score_table:
+      type: channel
+      description: "Output channel 'score_table' emitted from expression: MAKE_SCORE_TABLE.out.score_table"
+  - orthologs:
+      type: channel
+      description: "Output channel 'orthologs' emitted from expression: FILTER_HITS.out.filtered_hits"
+  - supports_plot:
+      type: channel
+      description: "Output channel 'supports_plot' emitted from expression: ch_supportsplot"
+  - venn_plot:
+      type: channel
+      description: "Output channel 'venn_plot' emitted from expression: ch_vennplot"
+  - jaccard_plot:
+      type: channel
+      description: "Output channel 'jaccard_plot' emitted from expression: ch_jaccardplot"
+  - stats:
+      type: channel
+      description: "Output channel 'stats' emitted from expression: MAKE_STATS.out.stats"
+  - hits:
+      type: channel
+      description: "Output channel 'hits' emitted from expression: MAKE_HITS_TABLE.out.hits_table"
+  - merge:
+      type: channel
+      description: "Output channel 'merge' emitted from expression: ch_merge_table"
+  - aggregated_stats:
+      type: channel
+      description: "Output channel 'aggregated_stats' emitted from expression: MERGE_STATS.out.csv"
+  - aggregated_hits:
+      type: channel
+      description: "Output channel 'aggregated_hits' emitted from expression: MERGE_HITS.out.csv"
+  - aggregated_merge:
+      type: channel
+      description: "Output channel 'aggregated_merge' emitted from expression: ch_aggregated_merge"
+  - versions:
+      type: channel
+      description: "Output channel 'versions' emitted from expression: ch_versions"
+authors:
+  - "@itrujnara"
+maintainers:
+  - "@itrujnara"

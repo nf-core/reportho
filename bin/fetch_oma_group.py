@@ -15,8 +15,9 @@ def main() -> None:
         raise ValueError("Too few arguments. Usage: fetch_oma_group_by_id.py <id>")
 
     id = sys.argv[1]
+    headers = {"User-Agent": "pyomadb/2.1.0"}
 
-    res = safe_get(f"https://omabrowser.org/api/group/{id}")
+    res = safe_get(f"https://omabrowser.org/api/group/{id}", headers=headers)
 
     if res.status_code == 404:
         warn("ID not found")
