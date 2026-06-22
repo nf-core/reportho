@@ -75,10 +75,10 @@
                 ".stub:md5,d41d8cd98f00b204e9800998ecf8427e"
             ]
         ],
-        "timestamp": "2026-06-19T11:59:12.808497132",
+        "timestamp": "2025-10-17T12:11:57.403619038",
         "meta": {
-            "nf-test": "0.9.5",
-            "nextflow": "26.04.3"
+            "nf-test": "0.9.3",
+            "nextflow": "25.04.8"
         }
     },
     "Params: default": {
@@ -278,10 +278,10 @@
                 "taxid.txt:md5,d8ce74354d0ddf337bd304faca270ff7"
             ]
         ],
-        "timestamp": "2026-06-19T11:58:45.847648685",
+        "timestamp": "2026-06-22T10:02:30.541578631",
         "meta": {
             "nf-test": "0.9.5",
-            "nextflow": "26.04.3"
+            "nextflow": "26.04.4"
         }
     }
 }
