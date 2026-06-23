@@ -6,10 +6,17 @@
 """Fetch protein sequences from the UniProt database using the UniProt REST API."""
 
 import io
+import os
+import subprocess
 import sys
 
 from Bio import SeqIO
-from utils import list_to_file, safe_get, SequenceInfo, split_ids
+
+bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(
+    ['which', 'utils.py'], text=True).strip()))
+sys.path.insert(0, bin_dir)
+
+from utils import list_to_file, safe_get, SequenceInfo, split_ids # noqa: E402
 
 
 def fetch_slice(ids: list[str]) -> list[SeqIO.SeqRecord]:

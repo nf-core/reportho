@@ -5,10 +5,16 @@
 
 """Fetch members of a Panther group by ID."""
 
+import os
+import subprocess
 import sys
 from warnings import warn
 
-from utils import safe_get
+bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(
+    ['which', 'utils.py'], text=True).strip()))
+sys.path.insert(0, bin_dir)
+
+from utils import safe_get # noqa: E402
 
 
 def main() -> None:

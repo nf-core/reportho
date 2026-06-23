@@ -5,9 +5,15 @@
 
 """Fetch protein sequences from the OMA database using the OMA REST API."""
 
+import os
+import subprocess
 import sys
 
-from utils import list_to_file, safe_post, SequenceInfo, split_ids
+bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(
+    ['which', 'utils.py'], text=True).strip()))
+sys.path.insert(0, bin_dir)
+
+from utils import list_to_file, safe_post, SequenceInfo, split_ids # noqa: E402
 
 
 def fetch_slice(ids: list[str]) -> list[SequenceInfo]:
