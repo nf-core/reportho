@@ -5,8 +5,14 @@
 
 """Fetch OMA entry for a given protein sequence from the OMA browser API."""
 
+import os
+import subprocess
 import sys
 from warnings import warn
+
+bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(
+    ['which', 'utils.py'], text=True).strip()))
+sys.path.insert(0, bin_dir)
 
 from Bio import SeqIO
 from utils import fetch_seq

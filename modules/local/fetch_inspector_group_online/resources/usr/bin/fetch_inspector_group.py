@@ -5,7 +5,13 @@
 
 """Fetch orthologs for a given UniProt ID from the OrthoInspector database."""
 
+import os
+import subprocess
 import sys
+
+bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(
+    ['which', 'utils.py'], text=True).strip()))
+sys.path.insert(0, bin_dir)
 
 from utils import safe_get
 

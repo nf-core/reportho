@@ -8,9 +8,15 @@
 The splitting is done based on official accession regexes for UniProt, Ensembl, and RefSeq.
 The regex for OMA is inferred based on the format description."""
 
+import os
+import subprocess
 import sys
 
-from utils import split_ids_by_format
+bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(
+    ['which', 'utils.py'], text=True).strip()))
+sys.path.insert(0, bin_dir)
+
+from utils import split_ids_by_format # noqa: E402
 
 
 def split_ids(ids: list[str], prefix: str) -> None:

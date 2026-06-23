@@ -5,11 +5,18 @@
 
 """Fetch protein sequences from the RefSeq database using the NCBI eutils API."""
 
+import os
+import subprocess
 import sys
 from xml.dom import minidom
 
 from Bio import Entrez
-from utils import list_to_file, SequenceInfo, split_ids
+
+bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(
+    ['which', 'utils.py'], text=True).strip()))
+sys.path.insert(0, bin_dir)
+
+from utils import list_to_file, SequenceInfo, split_ids # noqa: E402
 
 
 def get_taxid(node: minidom.Element) -> str:
