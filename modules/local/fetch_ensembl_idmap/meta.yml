@@ -1,26 +1,32 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/yaml-schema.json
-name: "FETCH_ENSEMBL_IDMAP"
-description: fetch ensembl idmap for the reportho pipeline
+name: fetch_ensembl_idmap
+description: Download and build an Ensembl to UniProt identifier mapping table
 keywords:
-  - reportho
-  - fetch
   - ensembl
   - idmap
-tools: []
-input:
-  - none:
-      type: channel
-      description: This module has no explicit input declarations
+  - uniprot
+  - mapping
+tools:
+  - python:
+      description: Python is a programming language that lets you work quickly and integrate systems more effectively.
+      homepage: https://www.python.org/
+      documentation: https://docs.python.org/3/
+      licence: ["PSF-2.0"]
+  - requests:
+      description: Requests is a simple, yet elegant, HTTP library.
+      homepage: https://requests.readthedocs.io/
+      documentation: https://requests.readthedocs.io/
+      licence: ["Apache-2.0"]
 output:
-  - idmap:
-      - ensembl_idmap.csv:
+  idmap:
+    - - ensembl_idmap.csv:
           type: file
-          description: 'Output file emitted by this process: path "ensembl_idmap.csv", emit: idmap'
+          description: CSV file containing Ensembl to UniProt identifier mappings
           pattern: "ensembl_idmap.csv"
-  - versions:
-      - versions.yml:
+  versions:
+    - - versions.yml:
           type: file
-          description: 'Output file emitted by this process: path "versions.yml"     , emit: versions'
+          description: File containing software versions used in the module
           pattern: "versions.yml"
 authors:
   - "@itrujnara"
