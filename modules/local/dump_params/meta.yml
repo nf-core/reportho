@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/yaml-schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
 name: dump_params
 description: Serialize pipeline parameters to a YAML configuration file
 keywords:
@@ -30,10 +30,10 @@ input:
       type: boolean
       description: Whether to skip merge step
   - min_identity:
-      type: number
+      type: float
       description: Minimum identity threshold (0-1)
   - min_coverage:
-      type: number
+      type: float
       description: Minimum coverage threshold (0-1)
 output:
   params:

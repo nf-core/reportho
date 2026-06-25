@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/meta-schema.json
 name: "GET_SEQUENCES"
 description: get sequences subworkflow for the reportho pipeline
 keywords:
