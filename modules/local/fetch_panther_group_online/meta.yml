@@ -1,30 +1,54 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
-name: "FETCH_PANTHER_GROUP_ONLINE"
-description: fetch panther group online for the reportho pipeline
+name: fetch_panther_group_online
+description: Fetch PANTHER ortholog group members from the online PANTHER service
 keywords:
-  - reportho
-  - fetch
   - panther
-  - group
-  - online
-tools: []
+  - orthology
+  - uniprot
+  - api
+tools:
+  - python:
+      description: Python is a programming language that lets you work quickly and integrate systems more effectively.
+      homepage: https://www.python.org/
+      documentation: https://docs.python.org/3/
+      licence: ["PSF-2.0"]
+  - biopython:
+      description: Biopython is a set of freely available tools for biological computation.
+      homepage: https://biopython.org/
+      documentation: https://biopython.org/wiki/Documentation
+      doi: 10.1093/bioinformatics/btp163
+      licence: ["Biopython"]
+  - requests:
+      description: Requests is a simple, yet elegant, HTTP library.
+      homepage: https://requests.readthedocs.io/
+      documentation: https://requests.readthedocs.io/
+      licence: ["Apache-2.0"]
 input:
-  - uniprot_id:
-      type: tuple
-      description: "Nextflow input declaration: tuple val(meta), path(uniprot_id), path(taxid), path(exact)"
+  - - meta:
+        type: map
+        description: Groovy Map containing sample metadata
+    - uniprot_id:
+        type: file
+        description: File containing the UniProt identifier used as query
+    - taxid:
+        type: file
+        description: File containing taxonomy identifier associated with the query
+    - exact:
+        type: file
+        description: File indicating whether the ID was found through exact match
 output:
-  - panther_group:
-      - meta:
+  panther_group:
+    - - meta:
           type: map
-          description: "Groovy map with sample metadata propagated from input"
+          description: Groovy Map containing sample metadata
       - "*_panther_group.csv":
           type: file
-          description: 'Output file emitted by this process: tuple val(meta), path("*_panther_group.csv"), emit: panther_group'
+          description: CSV file listing retrieved PANTHER ortholog group members
           pattern: "*_panther_group.csv"
-  - versions:
-      - versions.yml:
+  versions:
+    - - versions.yml:
           type: file
-          description: 'Output file emitted by this process: path "versions.yml"                         , emit: versions'
+          description: File containing software versions used in the module
           pattern: "versions.yml"
 authors:
   - "@itrujnara"

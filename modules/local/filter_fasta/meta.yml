@@ -1,28 +1,51 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
-name: "FILTER_FASTA"
-description: filter fasta for the reportho pipeline
+name: filter_fasta
+description: Filter FASTA sequences based on available structures
 keywords:
-  - reportho
   - filter
   - fasta
-tools: []
+  - sequence-filtering
+  - orthologs
+tools:
+  - python:
+      description: Python is a programming language that lets you work quickly and integrate systems more effectively.
+      homepage: https://www.python.org/
+      documentation: https://docs.python.org/3/
+      licence: ["PSF-2.0"]
+  - biopython:
+      description: Biopython is a set of freely available tools for biological computation.
+      homepage: https://biopython.org/
+      documentation: https://biopython.org/wiki/Documentation
+      doi: 10.1093/bioinformatics/btp163
+      licence: ["Biopython"]
+  - requests:
+      description: Requests is a simple, yet elegant, HTTP library.
+      homepage: https://requests.readthedocs.io/
+      documentation: https://requests.readthedocs.io/
+      licence: ["Apache-2.0"]
 input:
-  - fasta:
-      type: tuple
-      description: "Nextflow input declaration: tuple val(meta), path(fasta), path(structures)"
+  - - meta:
+        type: map
+        description: Groovy Map containing sample metadata
+    - fasta:
+        type: file
+        description: Input FASTA file containing candidate ortholog sequences
+    - structures:
+        type: file
+        description: File containing structure-derived sequence selection information
 output:
-  - fasta:
-      - meta:
+  fasta:
+    - - meta:
           type: map
-          description: "Groovy map with sample metadata propagated from input"
+          description: Groovy Map containing sample metadata
       - "*_filtered.fa":
           type: file
-          description: 'Output file emitted by this process: tuple val(meta), path("*_filtered.fa"), emit: fasta'
+          description: FASTA file containing sequences retained after filtering
           pattern: "*_filtered.fa"
-  - versions:
-      - versions.yml:
+  versions:
+    - - versions.yml:
           type: file
-          description: 'Output file emitted by this process: path "versions.yml"                   , emit: versions'
+          description: File containing software versions used in the module
           pattern: "versions.yml"
 authors:
   - "@itrujnara"
