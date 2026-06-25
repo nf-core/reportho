@@ -1,37 +1,69 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
-name: "FILTER_HITS"
-description: filter hits for the reportho pipeline
+name: filter_hits
+description: Filter scored ortholog hits using score and centroid criteria
 keywords:
-  - reportho
   - filter
   - hits
-tools: []
+  - scoring
+  - orthologs
+tools:
+  - python:
+      description: Python is a programming language that lets you work quickly and integrate systems more effectively.
+      homepage: https://www.python.org/
+      documentation: https://docs.python.org/3/
+      licence: ["PSF-2.0"]
+  - biopython:
+      description: Biopython is a set of freely available tools for biological computation.
+      homepage: https://biopython.org/
+      documentation: https://biopython.org/wiki/Documentation
+      doi: 10.1093/bioinformatics/btp163
+      licence: ["Biopython"]
+  - requests:
+      description: Requests is a simple, yet elegant, HTTP library.
+      homepage: https://requests.readthedocs.io/
+      documentation: https://requests.readthedocs.io/
+      licence: ["Apache-2.0"]
 input:
-  - score_table:
-      type: tuple
-      description: "Nextflow input declaration: tuple val(meta), path(score_table), path(queryid)"
+  - - meta:
+        type: map
+        description: Groovy Map containing sample metadata
+    - score_table:
+        type: file
+        description: Input score table with per-hit scoring metrics
+    - queryid:
+        type: file
+        description: File containing the query identifier used to select scores
   - use_centroid:
-      type: value
-      description: "Nextflow input declaration: val use_centroid"
+      type: boolean
+      description: Whether to apply centroid-based filtering
   - min_score:
-      type: value
-      description: "Nextflow input declaration: val min_score"
+      type: float
+      description: Minimum score threshold for score-based filtering
 output:
-  - scored_hits:
-      - meta:
+  scored_hits:
+    - - meta:
           type: map
-          description: "Groovy map with sample metadata propagated from input"
+          description: Groovy Map containing sample metadata
+      - "*_minscore_*.txt":
+          type: file
+          description: Text file containing hits passing minimum score filtering
+          pattern: "*_minscore_*.txt"
       - "*_centroid.txt":
           type: file
-          description: 'Output file emitted by this process: tuple val(meta), path(''*_minscore_*.txt''), path("*_centroid.txt"), emit: scored_hits'
+          description: Text file containing hits selected by centroid criteria
           pattern: "*_centroid.txt"
-  - filtered_hits:
-      type: tuple
-      description: "Nextflow output declaration: tuple val(meta), path('*_filtered_hits.txt')                     , emit: filtered_hits"
-  - versions:
-      - versions.yml:
+  filtered_hits:
+    - - meta:
+          type: map
+          description: Groovy Map containing sample metadata
+      - "*_filtered_hits.txt":
           type: file
-          description: 'Output file emitted by this process: path "versions.yml"                                              , emit: versions'
+          description: Text file containing the final filtered hit list
+          pattern: "*_filtered_hits.txt"
+  versions:
+    - - versions.yml:
+          type: file
+          description: File containing software versions used in the module
           pattern: "versions.yml"
 authors:
   - "@itrujnara"

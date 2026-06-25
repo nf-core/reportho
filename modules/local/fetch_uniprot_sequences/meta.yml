@@ -1,45 +1,68 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
-name: "FETCH_UNIPROT_SEQUENCES"
-description: fetch uniprot sequences for the reportho pipeline
+name: fetch_uniprot_sequences
+description: Fetch UniProt protein sequences for mapped ortholog identifiers
 keywords:
-  - reportho
-  - fetch
   - uniprot
   - sequences
-tools: []
+  - orthologs
+  - api
+tools:
+  - python:
+      description: Python is a programming language that lets you work quickly and integrate systems more effectively.
+      homepage: https://www.python.org/
+      documentation: https://docs.python.org/3/
+      licence: ["PSF-2.0"]
+  - biopython:
+      description: Biopython is a set of freely available tools for biological computation.
+      homepage: https://biopython.org/
+      documentation: https://biopython.org/wiki/Documentation
+      doi: 10.1093/bioinformatics/btp163
+      licence: ["Biopython"]
+  - requests:
+      description: Requests is a simple, yet elegant, HTTP library.
+      homepage: https://requests.readthedocs.io/
+      documentation: https://requests.readthedocs.io/
+      licence: ["Apache-2.0"]
 input:
-  - ids:
-      type: tuple
-      description: "Nextflow input declaration: tuple val(meta), path(ids), path(query_fasta)"
+  - - meta:
+        type: map
+        description: Groovy Map containing sample metadata
+    - ids:
+        type: file
+        description: File containing query identifiers to fetch UniProt sequences for
+    - query_fasta:
+        type: file
+        description: Optional FASTA file of input query sequences
+        optional: true
 output:
-  - fasta:
-      - meta:
+  fasta:
+    - - meta:
           type: map
-          description: "Groovy map with sample metadata propagated from input"
+          description: Groovy Map containing sample metadata
       - "*_uniprot_sequences.fa":
           type: file
-          description: 'Output file emitted by this process: tuple val(meta), path("*_uniprot_sequences.fa")  , emit: fasta'
+          description: FASTA file containing UniProt-derived ortholog sequences
           pattern: "*_uniprot_sequences.fa"
-  - hits:
-      - meta:
+  hits:
+    - - meta:
           type: map
-          description: "Groovy map with sample metadata propagated from input"
+          description: Groovy Map containing sample metadata
       - "*_uniprot_seq_hits.txt":
           type: file
-          description: 'Output file emitted by this process: tuple val(meta), path("*_uniprot_seq_hits.txt")  , emit: hits'
+          description: Text file listing query identifiers successfully mapped to UniProt sequences
           pattern: "*_uniprot_seq_hits.txt"
-  - misses:
-      - meta:
+  misses:
+    - - meta:
           type: map
-          description: "Groovy map with sample metadata propagated from input"
+          description: Groovy Map containing sample metadata
       - "*_uniprot_seq_misses.txt":
           type: file
-          description: 'Output file emitted by this process: tuple val(meta), path("*_uniprot_seq_misses.txt"), emit: misses'
+          description: Text file listing query identifiers that could not be mapped to UniProt sequences
           pattern: "*_uniprot_seq_misses.txt"
-  - versions:
-      - versions.yml:
+  versions:
+    - - versions.yml:
           type: file
-          description: 'Output file emitted by this process: path "versions.yml"                              , emit: versions'
+          description: File containing software versions used in the module
           pattern: "versions.yml"
 authors:
   - "@itrujnara"

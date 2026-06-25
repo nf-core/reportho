@@ -1,24 +1,48 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
-name: "MAKE_HITS_TABLE"
-description: make hits table for the reportho pipeline
+name: make_hits_table
+description: Build a summary table of ortholog hits from merged group assignments
 keywords:
-  - reportho
-  - make
   - hits
   - table
-tools: []
+  - orthologs
+  - summarization
+tools:
+  - python:
+      description: Python is a programming language that lets you work quickly and integrate systems more effectively.
+      homepage: https://www.python.org/
+      documentation: https://docs.python.org/3/
+      licence: ["PSF-2.0"]
+  - biopython:
+      description: Biopython is a set of freely available tools for biological computation.
+      homepage: https://biopython.org/
+      documentation: https://biopython.org/wiki/Documentation
+      doi: 10.1093/bioinformatics/btp163
+      licence: ["Biopython"]
+  - requests:
+      description: Requests is a simple, yet elegant, HTTP library.
+      homepage: https://requests.readthedocs.io/
+      documentation: https://requests.readthedocs.io/
+      licence: ["Apache-2.0"]
 input:
-  - merged_csv:
-      type: tuple
-      description: "Nextflow input declaration: tuple val(meta), path(merged_csv)"
+  - - meta:
+        type: map
+        description: Groovy Map containing sample metadata
+    - merged_csv:
+        type: file
+        description: Merged CSV file containing ortholog group assignments across sources
 output:
-  - hits_table:
-      type: tuple
-      description: "Nextflow output declaration: tuple val(meta), path('*hits_table.csv'), emit: hits_table"
-  - versions:
-      - versions.yml:
+  hits_table:
+    - - meta:
+          type: map
+          description: Groovy Map containing sample metadata
+      - "*_hits_table.csv":
           type: file
-          description: 'Output file emitted by this process: path "versions.yml"                     , emit: versions'
+          description: CSV summary table of ortholog hits for the query sequence
+          pattern: "*_hits_table.csv"
+  versions:
+    - - versions.yml:
+          type: file
+          description: File containing software versions used in the module
           pattern: "versions.yml"
 authors:
   - "@itrujnara"
