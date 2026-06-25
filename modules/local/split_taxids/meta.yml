@@ -1,28 +1,37 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
-name: "SPLIT_TAXIDS"
-description: split taxids for the reportho pipeline
+name: split_taxids
+description: Split multi-species FASTA records into separate files by taxonomic identifier
 keywords:
-  - reportho
   - split
   - taxids
-tools: []
+  - fasta
+  - taxonomy
+tools:
+  - gawk:
+      description: Gawk is the GNU implementation of the AWK programming language.
+      homepage: https://www.gnu.org/software/gawk/
+      documentation: https://www.gnu.org/software/gawk/manual/
+      licence: ["GPL-3.0-or-later"]
 input:
-  - input_file:
-      type: tuple
-      description: "Nextflow input declaration: tuple val(meta), path(input_file)"
+  - - meta:
+        type: map
+        description: Groovy Map containing sample metadata
+    - input_file:
+        type: file
+        description: FASTA file containing records to be split into per-taxid outputs
 output:
-  - fastas:
-      - meta:
+  fastas:
+    - - meta:
           type: map
-          description: "Groovy map with sample metadata propagated from input"
+          description: Groovy Map containing sample metadata
       - "*.fa":
           type: file
-          description: 'Output file emitted by this process: tuple val(meta), path("*.fa"), emit: fastas'
+          description: FASTA files split by taxonomic identifier
           pattern: "*.fa"
-  - versions:
-      - versions.yml:
+  versions:
+    - - versions.yml:
           type: file
-          description: 'Output file emitted by this process: path "versions.yml"          , emit: versions'
+          description: File containing software versions used in the module
           pattern: "versions.yml"
 authors:
   - "@itrujnara"

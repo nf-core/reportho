@@ -1,24 +1,42 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
-name: "SPLIT_ID_FORMAT"
-description: split id format for the reportho pipeline
+name: split_id_format
+description: Split identifiers into lists based on database format definitions
 keywords:
-  - reportho
   - split
   - id
   - format
-tools: []
+  - uniprot
+tools:
+  - python:
+      description: Python is a programming language that lets you work quickly and integrate systems more effectively.
+      homepage: https://www.python.org/
+      documentation: https://docs.python.org/3/
+      licence: ["PSF-2.0"]
+  - requests:
+      description: Requests is a simple, yet elegant, HTTP library.
+      homepage: https://requests.readthedocs.io/
+      documentation: https://requests.readthedocs.io/
+      licence: ["Apache-2.0"]
 input:
-  - ids:
-      type: tuple
-      description: "Nextflow input declaration: tuple val(meta), path(ids)"
+  - - meta:
+        type: map
+        description: Groovy Map containing sample metadata
+    - ids:
+        type: file
+        description: CSV or text file containing identifiers to be split into standardized format
 output:
-  - ids_split:
-      type: tuple
-      description: "Nextflow output declaration: tuple val(meta), path('*_ids.txt'), emit: ids_split"
-  - versions:
-      - versions.yml:
+  ids_split:
+    - - meta:
+          type: map
+          description: Groovy Map containing sample metadata
+      - "*_ids.txt":
           type: file
-          description: 'Output file emitted by this process: path "versions.yml"               , emit: versions'
+          description: Text file containing standardized split identifier values
+          pattern: "*_ids.txt"
+  versions:
+    - - versions.yml:
+          type: file
+          description: File containing software versions used in the module
           pattern: "versions.yml"
 authors:
   - "@itrujnara"
