@@ -1,43 +1,53 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/yaml-schema.json
-name: "DUMP_PARAMS"
-description: dump params for the reportho pipeline
+name: dump_params
+description: Serialize pipeline parameters to a YAML configuration file
 keywords:
-  - reportho
-  - dump
-  - params
-tools: []
+  - parameters
+  - configuration
+  - yaml
+  - serialization
+tools:
+  - coreutils:
+      description: |
+        GNU Coreutils is a package of GNU utilities designed for basic file, shell and text manipulation.
+      homepage: https://www.gnu.org/software/coreutils/
+      documentation: https://www.gnu.org/software/coreutils/manual/coreutils.html
+      licence: ["GPL-3.0-or-later"]
 input:
-  - exact:
-      type: tuple
-      description: "Nextflow input declaration: tuple val(meta), path(exact)"
+  - - meta:
+        type: map
+        description: Groovy Map containing sample metadata
+    - exact:
+        type: file
+        description: File containing exact match parameter value
   - use_centroid:
-      type: value
-      description: "Nextflow input declaration: val use_centroid"
+      type: boolean
+      description: Whether to use centroid approach
   - min_score:
-      type: value
-      description: "Nextflow input declaration: val min_score"
+      type: integer
+      description: Minimum score threshold for filtering
   - skip_merge:
-      type: value
-      description: "Nextflow input declaration: val skip_merge"
+      type: boolean
+      description: Whether to skip merge step
   - min_identity:
-      type: value
-      description: "Nextflow input declaration: val min_identity"
+      type: number
+      description: Minimum identity threshold (0-1)
   - min_coverage:
-      type: value
-      description: "Nextflow input declaration: val min_coverage"
+      type: number
+      description: Minimum coverage threshold (0-1)
 output:
-  - params:
-      - meta:
+  params:
+    - - meta:
           type: map
-          description: "Groovy map with sample metadata propagated from input"
+          description: Groovy Map containing sample metadata
       - "params.yml":
           type: file
-          description: 'Output file emitted by this process: tuple val(meta), path("params.yml"), emit: params'
+          description: YAML file containing serialized pipeline parameters
           pattern: "params.yml"
-  - versions:
-      - versions.yml:
+  versions:
+    - - versions.yml:
           type: file
-          description: 'Output file emitted by this process: path("versions.yml"), emit: versions'
+          description: File containing software versions
           pattern: "versions.yml"
 authors:
   - "@itrujnara"

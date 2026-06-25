@@ -1,46 +1,64 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/yaml-schema.json
-name: "FETCH_OMA_GROUP_LOCAL"
-description: fetch oma group local for the reportho pipeline
+name: fetch_oma_group_local
+description: Retrieve OMA ortholog group members using local mapping and database files
 keywords:
-  - reportho
-  - fetch
   - oma
-  - group
-  - local
-tools: []
+  - orthology
+  - uniprot
+  - local-database
+tools:
+  - python:
+      description: Python is a programming language that lets you work quickly and integrate systems more effectively.
+      homepage: https://www.python.org/
+      documentation: https://docs.python.org/3/
+      licence: ["PSF-2.0"]
+  - ripgrep:
+      description: ripgrep recursively searches directories for a regex pattern while respecting your gitignore rules.
+      homepage: https://github.com/BurntSushi/ripgrep
+      documentation: https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md
+      licence: ["MIT", "Unlicense"]
 input:
-  - uniprot_id:
-      type: tuple
-      description: "Nextflow input declaration: tuple val(meta), path(uniprot_id), path(taxid), path(exact)"
+  - - meta:
+        type: map
+        description: Groovy Map containing sample metadata
+    - uniprot_id:
+        type: file
+        description: File containing the UniProt identifier used as query
+    - taxid:
+        type: file
+        description: File containing taxonomy identifier associated with the query
+    - exact:
+        type: file
+        description: File indicating whether the ID was found through exact match
   - db:
       type: file
-      description: "Nextflow input declaration: path db"
+      description: OMA local database export used to recover ortholog members
       pattern: "*"
   - uniprot_idmap:
       type: file
-      description: "Nextflow input declaration: path uniprot_idmap"
+      description: Mapping file used to convert OMA identifiers to UniProt identifiers
       pattern: "*"
   - ensembl_idmap:
       type: file
-      description: "Nextflow input declaration: path ensembl_idmap"
+      description: Mapping file used to convert Ensembl identifiers to UniProt identifiers
       pattern: "*"
   - refseq_idmap:
       type: file
-      description: "Nextflow input declaration: path refseq_idmap"
+      description: Mapping file used to convert RefSeq identifiers to UniProt identifiers
       pattern: "*"
 output:
-  - oma_group:
-      - meta:
+  oma_group:
+    - - meta:
           type: map
-          description: "Groovy map with sample metadata propagated from input"
+          description: Groovy Map containing sample metadata
       - "*_oma_group.csv":
           type: file
-          description: 'Output file emitted by this process: tuple val(meta), path("*_oma_group.csv"), emit: oma_group'
+          description: CSV file listing recovered OMA ortholog group members
           pattern: "*_oma_group.csv"
-  - versions:
-      - versions.yml:
+  versions:
+    - - versions.yml:
           type: file
-          description: 'Output file emitted by this process: path "versions.yml"                     , emit: versions'
+          description: File containing software versions used in the module
           pattern: "versions.yml"
 authors:
   - "@itrujnara"

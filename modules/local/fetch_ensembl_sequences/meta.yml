@@ -1,57 +1,81 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/yaml-schema.json
-name: "FETCH_ENSEMBL_SEQUENCES"
-description: fetch ensembl sequences for the reportho pipeline
+name: fetch_ensembl_sequences
+description: Fetch Ensembl protein sequences for mapped ortholog identifiers
 keywords:
-  - reportho
-  - fetch
   - ensembl
   - sequences
-tools: []
+  - orthologs
+  - uniprot
+tools:
+  - python:
+      description: Python is a programming language that lets you work quickly and integrate systems more effectively.
+      homepage: https://www.python.org/
+      documentation: https://docs.python.org/3/
+      licence: ["PSF-2.0"]
+  - biopython:
+      description: Biopython is a set of freely available tools for biological computation.
+      homepage: https://biopython.org/
+      documentation: https://biopython.org/wiki/Documentation
+      doi: 10.1093/bioinformatics/btp163
+      licence: ["Biopython"]
+  - requests:
+      description: Requests is a simple, yet elegant, HTTP library.
+      homepage: https://requests.readthedocs.io/
+      documentation: https://requests.readthedocs.io/
+      licence: ["Apache-2.0"]
 input:
-  - ids:
-      type: tuple
-      description: "Nextflow input declaration: tuple val(meta), path(ids), path(query_fasta)"
+  - - meta:
+        type: map
+        description: Groovy Map containing sample metadata
+    - ids:
+        type: file
+        description: File containing query identifiers to map against Ensembl
+    - query_fasta:
+        type: file
+        description: Optional FASTA file of input query sequences to append to the ortholog FASTA output
+        optional: true
   - ensembl_idmap:
       type: file
-      description: "Nextflow input declaration: path ensembl_idmap"
+      description: CSV mapping file used to convert Ensembl identifiers to UniProt identifiers
       pattern: "*"
 output:
-  - fasta:
-      - meta:
+  fasta:
+    - - meta:
           type: map
-          description: "Groovy map with sample metadata propagated from input"
+          description: Groovy Map containing sample metadata
       - "*_ensembl_sequences.fa":
           type: file
-          description: 'Output file emitted by this process: tuple val(meta), path("*_ensembl_sequences.fa")  , emit: fasta'
+          description: FASTA file containing Ensembl-derived ortholog sequences
           pattern: "*_ensembl_sequences.fa"
-  - hits:
-      - meta:
+  hits:
+    - - meta:
           type: map
-          description: "Groovy map with sample metadata propagated from input"
+          description: Groovy Map containing sample metadata
       - "*_ensembl_seq_hits.txt":
           type: file
-          description: 'Output file emitted by this process: tuple val(meta), path("*_ensembl_seq_hits.txt")  , emit: hits'
+          description: Text file listing query identifiers successfully mapped to Ensembl sequences
           pattern: "*_ensembl_seq_hits.txt"
-  - misses:
-      - meta:
+  misses:
+    - - meta:
           type: map
-          description: "Groovy map with sample metadata propagated from input"
+          description: Groovy Map containing sample metadata
       - "*_ensembl_seq_misses.txt":
           type: file
-          description: 'Output file emitted by this process: tuple val(meta), path("*_ensembl_seq_misses.txt"), emit: misses'
+          description: Text file listing query identifiers that could not be mapped to Ensembl sequences
           pattern: "*_ensembl_seq_misses.txt"
-  - orthologs:
-      - meta:
+  orthologs:
+    - - meta:
           type: map
-          description: "Groovy map with sample metadata propagated from input"
+          description: Groovy Map containing sample metadata
       - "*_orthologs.fa":
           type: file
-          description: 'Output file emitted by this process: tuple val(meta), path("*_orthologs.fa")          , emit: orthologs, optional: true'
+          description: FASTA file containing ortholog sequences with query sequences appended when provided
           pattern: "*_orthologs.fa"
-  - versions:
-      - versions.yml:
+          optional: true
+  versions:
+    - - versions.yml:
           type: file
-          description: 'Output file emitted by this process: path "versions.yml"                              , emit: versions'
+          description: File containing software versions used in the module
           pattern: "versions.yml"
 authors:
   - "@itrujnara"

@@ -1,46 +1,64 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/yaml-schema.json
-name: "FETCH_EGGNOG_GROUP_LOCAL"
-description: fetch eggnog group local for the reportho pipeline
+name: fetch_eggnog_group_local
+description: Retrieve EggNOG ortholog group members from local mapping and database files
 keywords:
-  - reportho
-  - fetch
   - eggnog
-  - group
-  - local
-tools: []
+  - orthology
+  - uniprot
+  - local-database
+tools:
+  - python:
+      description: Python is a programming language that lets you work quickly and integrate systems more effectively.
+      homepage: https://www.python.org/
+      documentation: https://docs.python.org/3/
+      licence: ["PSF-2.0"]
+  - ripgrep:
+      description: ripgrep recursively searches directories for a regex pattern while respecting your gitignore rules.
+      homepage: https://github.com/BurntSushi/ripgrep
+      documentation: https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md
+      licence: ["MIT", "Unlicense"]
 input:
-  - uniprot_id:
-      type: tuple
-      description: "Nextflow input declaration: tuple val(meta), path(uniprot_id), path(taxid), path(exact)"
+  - - meta:
+        type: map
+        description: Groovy Map containing sample metadata
+    - uniprot_id:
+        type: file
+        description: File containing the UniProt identifier used as query
+    - taxid:
+        type: file
+        description: File containing taxonomy identifier associated with the query
+    - exact:
+        type: file
+        description: File indicating whether the ID was found through exact match
   - db:
       type: file
-      description: "Nextflow input declaration: path db"
+      description: EggNOG local database export used to recover ortholog members
       pattern: "*"
   - eggnog_idmap:
       type: file
-      description: "Nextflow input declaration: path eggnog_idmap"
+      description: Mapping file from UniProt IDs to EggNOG IDs
       pattern: "*"
   - ensembl_idmap:
       type: file
-      description: "Nextflow input declaration: path ensembl_idmap"
+      description: Mapping file used to convert Ensembl identifiers to UniProt
       pattern: "*"
   - refseq_idmap:
       type: file
-      description: "Nextflow input declaration: path refseq_idmap"
+      description: Mapping file used to convert RefSeq identifiers to UniProt
       pattern: "*"
 output:
-  - eggnog_group:
-      - meta:
+  eggnog_group:
+    - - meta:
           type: map
-          description: "Groovy map with sample metadata propagated from input"
+          description: Groovy Map containing sample metadata
       - "*_eggnog_group.csv":
           type: file
-          description: 'Output file emitted by this process: tuple val(meta), path("*_eggnog_group.csv"), emit: eggnog_group'
+          description: CSV file listing recovered EggNOG ortholog group members in UniProt format
           pattern: "*_eggnog_group.csv"
-  - versions:
-      - versions.yml:
+  versions:
+    - - versions.yml:
           type: file
-          description: 'Output file emitted by this process: path "versions.yml"                        , emit: versions'
+          description: File containing software versions used in the module
           pattern: "versions.yml"
 authors:
   - "@itrujnara"
