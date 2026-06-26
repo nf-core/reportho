@@ -1,27 +1,42 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
-name: "STATS2CSV"
-description: stats2csv for the reportho pipeline
+name: stats2csv
+description: Convert ortholog statistics YAML into a tabular CSV summary
 keywords:
-  - reportho
   - stats2csv
-tools: []
+  - statistics
+  - csv
+  - yaml
+tools:
+  - python:
+      description: Python is a programming language that lets you work quickly and integrate systems more effectively.
+      homepage: https://www.python.org/
+      documentation: https://docs.python.org/3/
+      licence: ["PSF-2.0"]
+  - pyyaml:
+      description: PyYAML is a YAML parser and emitter for Python.
+      homepage: https://pyyaml.org/
+      documentation: https://pyyaml.org/wiki/PyYAMLDocumentation
+      licence: ["MIT"]
 input:
-  - stats:
-      type: tuple
-      description: "Nextflow input declaration: tuple val(meta), path(stats)"
+  - - meta:
+        type: map
+        description: Groovy Map containing sample metadata
+    - stats:
+        type: file
+        description: YAML file containing ortholog statistics to convert into CSV
 output:
-  - csv:
-      - meta:
+  csv:
+    - - meta:
           type: map
-          description: "Groovy map with sample metadata propagated from input"
+          description: Groovy Map containing sample metadata
       - "*_stats.csv":
           type: file
-          description: 'Output file emitted by this process: tuple val(meta), path("*_stats.csv"), emit: csv'
+          description: CSV file containing ortholog statistics summary
           pattern: "*_stats.csv"
-  - versions:
-      - versions.yml:
+  versions:
+    - - versions.yml:
           type: file
-          description: 'Output file emitted by this process: path "versions.yml"                 , emit: versions'
+          description: File containing software versions used in the module
           pattern: "versions.yml"
 authors:
   - "@itrujnara"

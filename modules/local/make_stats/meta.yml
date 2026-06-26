@@ -1,28 +1,47 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
-name: "MAKE_STATS"
-description: make stats for the reportho pipeline
+name: make_stats
+description: Generate ortholog support statistics from a computed score table
 keywords:
-  - reportho
-  - make
   - stats
-tools: []
+  - orthologs
+  - summarization
+tools:
+  - python:
+      description: Python is a programming language that lets you work quickly and integrate systems more effectively.
+      homepage: https://www.python.org/
+      documentation: https://docs.python.org/3/
+      licence: ["PSF-2.0"]
+  - biopython:
+      description: Biopython is a set of freely available tools for biological computation.
+      homepage: https://biopython.org/
+      documentation: https://biopython.org/wiki/Documentation
+      doi: 10.1093/bioinformatics/btp163
+      licence: ["Biopython"]
+  - requests:
+      description: Requests is a simple, yet elegant, HTTP library.
+      homepage: https://requests.readthedocs.io/
+      documentation: https://requests.readthedocs.io/
+      licence: ["Apache-2.0"]
 input:
-  - score_table:
-      type: tuple
-      description: "Nextflow input declaration: tuple val(meta), path(score_table)"
+  - - meta:
+        type: map
+        description: Groovy Map containing sample metadata
+    - score_table:
+        type: file
+        description: Score table file used to compute ortholog summary statistics
 output:
-  - stats:
-      - meta:
+  stats:
+    - - meta:
           type: map
-          description: "Groovy map with sample metadata propagated from input"
+          description: Groovy Map containing sample metadata
       - "*_stats.yml":
           type: file
-          description: 'Output file emitted by this process: tuple val(meta), path("*_stats.yml"), emit: stats'
+          description: YAML file containing ortholog support summary statistics
           pattern: "*_stats.yml"
-  - versions:
-      - versions.yml:
+  versions:
+    - - versions.yml:
           type: file
-          description: 'Output file emitted by this process: path "versions.yml"                 , emit: versions'
+          description: File containing software versions used in the module
           pattern: "versions.yml"
 authors:
   - "@itrujnara"

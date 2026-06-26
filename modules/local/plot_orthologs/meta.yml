@@ -1,44 +1,80 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
-name: "PLOT_ORTHOLOGS"
-description: plot orthologs for the reportho pipeline
+name: plot_orthologs
+description: Generate ortholog support, overlap, and similarity plots from score tables
 keywords:
-  - reportho
   - plot
   - orthologs
-tools: []
+  - visualization
+  - r
+tools:
+  - r-base:
+      description: R is a language and environment for statistical computing and graphics.
+      homepage: https://www.r-project.org/
+      documentation: https://cran.r-project.org/manuals.html
+      licence: ["GPL-2.0-or-later"]
+  - tidyverse:
+      description: The tidyverse is an opinionated collection of R packages designed for data science.
+      homepage: https://www.tidyverse.org/
+      documentation: https://www.tidyverse.org/packages/
+      licence: ["MIT"]
+  - reshape2:
+      description: reshape2 provides functions to flexibly restructure and aggregate data.
+      homepage: https://cran.r-project.org/package=reshape2
+      documentation: https://cran.r-project.org/web/packages/reshape2/index.html
+      licence: ["MIT"]
+  - ggvenndiagram:
+      description: ggVennDiagram is an R package to create Venn and UpSet plots using ggplot2.
+      homepage: https://gaospecial.github.io/ggVennDiagram/
+      documentation: https://gaospecial.github.io/ggVennDiagram/
+      licence: ["GPL-3.0-only"]
 input:
-  - score_table:
-      type: tuple
-      description: "Nextflow input declaration: tuple val(meta), path(score_table)"
+  - - meta:
+        type: map
+        description: Groovy Map containing sample metadata
+    - score_table:
+        type: file
+        description: Score table file used to generate ortholog support and overlap plots
 output:
-  - supports:
-      - meta:
+  supports:
+    - - meta:
           type: map
-          description: "Groovy map with sample metadata propagated from input"
+          description: Groovy Map containing sample metadata
+      - "*_supports_light.png":
+          type: file
+          description: Light-theme support plot image
+          pattern: "*_supports_light.png"
       - "*_supports_dark.png":
           type: file
-          description: 'Output file emitted by this process: tuple val(meta), path("*_supports_light.png"), path("*_supports_dark.png"), emit: supports'
+          description: Dark-theme support plot image
           pattern: "*_supports_dark.png"
-  - venn:
-      - meta:
+  venn:
+    - - meta:
           type: map
-          description: "Groovy map with sample metadata propagated from input"
+          description: Groovy Map containing sample metadata
+      - "*_venn_light.png":
+          type: file
+          description: Light-theme Venn diagram image
+          pattern: "*_venn_light.png"
       - "*_venn_dark.png":
           type: file
-          description: 'Output file emitted by this process: tuple val(meta), path("*_venn_light.png"), path("*_venn_dark.png")        , emit: venn'
+          description: Dark-theme Venn diagram image
           pattern: "*_venn_dark.png"
-  - jaccard:
-      - meta:
+  jaccard:
+    - - meta:
           type: map
-          description: "Groovy map with sample metadata propagated from input"
+          description: Groovy Map containing sample metadata
+      - "*_jaccard_light.png":
+          type: file
+          description: Light-theme Jaccard similarity plot image
+          pattern: "*_jaccard_light.png"
       - "*_jaccard_dark.png":
           type: file
-          description: 'Output file emitted by this process: tuple val(meta), path("*_jaccard_light.png"), path("*_jaccard_dark.png")  , emit: jaccard'
+          description: Dark-theme Jaccard similarity plot image
           pattern: "*_jaccard_dark.png"
-  - versions:
-      - versions.yml:
+  versions:
+    - - versions.yml:
           type: file
-          description: 'Output file emitted by this process: path "versions.yml"                                                       , emit: versions'
+          description: File containing software versions used in the module
           pattern: "versions.yml"
 authors:
   - "@itrujnara"

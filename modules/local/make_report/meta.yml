@@ -1,28 +1,90 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
-name: "MAKE_REPORT"
-description: make report for the reportho pipeline
+name: make_report
+description: Build an interactive HTML report from ortholog analysis outputs
 keywords:
-  - reportho
-  - make
   - report
-tools: []
+  - html
+  - visualization
+  - react
+tools:
+  - node:
+      description: Node.js is an open-source, cross-platform JavaScript runtime environment.
+      homepage: https://nodejs.org/
+      documentation: https://nodejs.org/en/docs
+      licence: ["MIT"]
+  - yarn:
+      description: Yarn is a package manager that doubles down as project manager.
+      homepage: https://yarnpkg.com/
+      documentation: https://yarnpkg.com/getting-started
+      licence: ["BSD-2-Clause"]
+  - react:
+      description: React is a JavaScript library for building user interfaces.
+      homepage: https://react.dev/
+      documentation: https://react.dev/learn
+      licence: ["MIT"]
 input:
-  - id:
-      type: tuple
-      description: "Nextflow input declaration: tuple val(meta), path(id), path(taxid), path(exact), path(score_table), path(filtered_hits), path(support_plot), path(venn_plot), path(jaccard_plot), path(orthostats), path(seq_hits), path(seq_misses), path(merge_stats), path(clusters), path(params_file)"
+  - - meta:
+        type: map
+        description: Groovy Map containing sample metadata
+    - id:
+        type: file
+        description: File containing the query sequence identifier
+    - taxid:
+        type: file
+        description: File containing taxonomy identifier associated with the query
+    - exact:
+        type: file
+        description: File indicating whether sequence identification was exact
+    - score_table:
+        type: file
+        description: CSV table with per-source ortholog scores
+    - filtered_hits:
+        type: file
+        description: Text file containing filtered ortholog hits used in the report
+    - support_plot:
+        type: file
+        description: Plot image showing support metrics across sources
+    - venn_plot:
+        type: file
+        description: Plot image showing ortholog overlap across sources
+    - jaccard_plot:
+        type: file
+        description: Plot image showing Jaccard similarity across sources
+    - orthostats:
+        type: file
+        description: YAML file containing ortholog statistics summary
+    - seq_hits:
+        type: file
+        description: Optional text file listing sequence-level hits
+        optional: true
+    - seq_misses:
+        type: file
+        description: Optional text file listing sequence-level misses
+        optional: true
+    - merge_stats:
+        type: file
+        description: Optional CSV file with merge statistics
+        optional: true
+    - clusters:
+        type: file
+        description: Optional CSV file with cluster membership details
+        optional: true
+    - params_file:
+        type: file
+        description: YAML file containing pipeline parameters for report display
 output:
-  - report_files:
-      - meta:
+  report_files:
+    - - meta:
           type: map
-          description: "Groovy map with sample metadata propagated from input"
+          description: Groovy Map containing sample metadata
       - "${prefix}/*":
           type: file
-          description: 'Output file emitted by this process: tuple val(meta), path("${prefix}/*"), emit: report_files'
+          description: Directory contents for the generated interactive report
           pattern: "${prefix}/*"
-  - versions:
-      - versions.yml:
+  versions:
+    - - versions.yml:
           type: file
-          description: 'Output file emitted by this process: path "versions.yml"                 , emit: versions'
+          description: File containing software versions used in the module
           pattern: "versions.yml"
 authors:
   - "@itrujnara"
