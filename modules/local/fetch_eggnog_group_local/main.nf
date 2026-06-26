@@ -31,13 +31,13 @@ process FETCH_EGGNOG_GROUP_LOCAL {
     zcat $db | grep \$(cat eggnog_id.txt) | cut -f 5 | tr ',' '\\n' | awk -F'.' '{ print \$2 }' > ${prefix}_eggnog_group_raw.txt || touch ${prefix}_eggnog_group_raw.txt
 
     # convert IDs to Uniprot
-    uniprotize_oma_local.py ${prefix}_eggnog_group_raw.txt $ensembl_idmap $refseq_idmap > ${prefix}_eggnog_group.txt
+    uniprotize_oma_local.py --ids-path ${prefix}_eggnog_group_raw.txt --ensembl-idmap $ensembl_idmap --refseq-idmap $refseq_idmap > ${prefix}_eggnog_group.txt
 
     # create the other file
     touch ${prefix}_eggnog_group.txt
 
     # convert output to CSV
-    csv_adorn.py ${prefix}_eggnog_group.txt EggNOG > ${prefix}_eggnog_group.csv
+    csv_adorn.py --path ${prefix}_eggnog_group.txt --header EggNOG > ${prefix}_eggnog_group.csv
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":

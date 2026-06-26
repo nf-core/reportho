@@ -5,7 +5,7 @@
 
 """Map UniProt names to UniProt IDs using the UniProt mapping API."""
 
-import sys
+import argparse
 
 from utils import check_id_mapping_results_ready, safe_post, safe_get
 
@@ -40,10 +40,18 @@ def uniprot2uniprot(uniprot_names: list[str]) -> list[str]:
     return hits + unmapped_ids
 
 def main() -> None:
-    if len(sys.argv) < 2:
-        raise ValueError("Too few arguments. Usage: uniprot2uniprot.py [id]")
+    parser = argparse.ArgumentParser(
+        description="Map UniProt names to UniProt IDs using the UniProt mapping API."
+    )
+    parser.add_argument(
+        "-i",
+        "--id",
+        required=True,
+        help="UniProt name or ID to map.",
+    )
+    args = parser.parse_args()
 
-    print(uniprot2uniprot([sys.argv[1]]))
+    print(uniprot2uniprot([args.id]))
 
 if __name__ == "__main__":
     main()

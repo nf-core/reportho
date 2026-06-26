@@ -31,10 +31,10 @@ process FETCH_OMA_GROUP_LOCAL {
     zcat $db | rg \$(cat oma_id.txt) | head -1 | cut -f3- | awk '{gsub(/\\t/,"\\n"); print}' > ${prefix}_oma_group_oma.txt || touch ${prefix}_oma_group_oma.txt
     # Convert the OMA ids to Uniprot, Ensembl and RefSeq ids
     oma2uniprot_local.py $uniprot_idmap ${prefix}_oma_group_oma.txt > ${prefix}_oma_group_raw.txt
-    uniprotize_oma_local.py ${prefix}_oma_group_raw.txt $ensembl_idmap $refseq_idmap > ${prefix}_oma_group.txt
+    uniprotize_oma_local.py --ids-path ${prefix}_oma_group_raw.txt --ensembl-idmap $ensembl_idmap --refseq-idmap $refseq_idmap > ${prefix}_oma_group.txt
 
     # Add the OMA column to the csv file
-    csv_adorn.py ${prefix}_oma_group.txt OMA > ${prefix}_oma_group.csv
+    csv_adorn.py --path ${prefix}_oma_group.txt --header OMA > ${prefix}_oma_group.csv
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":

@@ -5,7 +5,7 @@
 
 """Map Ensembl, RefSeq, and UniProt IDs to UniProt IDs."""
 
-import sys
+import argparse
 
 from ensembl2uniprot import ensembl2uniprot
 from refseq2uniprot import refseq2uniprot
@@ -38,10 +38,18 @@ def map_uniprot(ids: list[str]) -> list[str]:
 
 
 def main() -> None:
-    if len(sys.argv) < 2:
-        raise ValueError("Too few arguments. Usage: map_uniprot.py <id>")
+    parser = argparse.ArgumentParser(
+        description="Map Ensembl, RefSeq, and UniProt IDs to UniProt IDs."
+    )
+    parser.add_argument(
+        "-i",
+        "--id",
+        required=True,
+        help="Input ID to map to UniProt.",
+    )
+    args = parser.parse_args()
 
-    print(map_uniprot([sys.argv[1]]))
+    print(map_uniprot([args.id]))
 
 
 if __name__ == "__main__":

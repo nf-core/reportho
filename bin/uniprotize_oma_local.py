@@ -6,7 +6,7 @@
 """Map OMA IDs to UniProt using local Ensembl and RefSeq ID mapping files."""
 
 import gzip
-import sys
+import argparse
 
 
 def uniprotize_oma(oma_ids_path: str, ensembl_idmap_path: str, refseq_idmap_path: str) -> None:
@@ -39,10 +39,30 @@ def uniprotize_oma(oma_ids_path: str, ensembl_idmap_path: str, refseq_idmap_path
 
 
 def main() -> None:
-    if len(sys.argv) < 4:
-        raise ValueError("Too few arguments. Usage: uniprotize_oma.py <ids_path> <ensembl_idmap> <refseq_idmap>")
+    parser = argparse.ArgumentParser(
+        description="Map OMA IDs to UniProt using local Ensembl and RefSeq ID mapping files."
+    )
+    parser.add_argument(
+        "-i",
+        "--ids-path",
+        required=True,
+        help="Path to input file containing OMA IDs.",
+    )
+    parser.add_argument(
+        "-e",
+        "--ensembl-idmap",
+        required=True,
+        help="Path to gzipped Ensembl ID mapping file.",
+    )
+    parser.add_argument(
+        "-r",
+        "--refseq-idmap",
+        required=True,
+        help="Path to gzipped RefSeq ID mapping file.",
+    )
+    args = parser.parse_args()
 
-    uniprotize_oma(sys.argv[1], sys.argv[2], sys.argv[3])
+    uniprotize_oma(args.ids_path, args.ensembl_idmap, args.refseq_idmap)
 
 
 if __name__ == "__main__":

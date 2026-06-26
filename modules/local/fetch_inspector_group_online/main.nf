@@ -28,7 +28,7 @@ process FETCH_INSPECTOR_GROUP_ONLINE {
     fetch_inspector_group.py \$uniprot_id $inspector_version > ${prefix}_inspector_group.txt
 
     # convert output to CSV
-    csv_adorn.py ${prefix}_inspector_group.txt OrthoInspector > ${prefix}_inspector_group.csv
+    csv_adorn.py --path ${prefix}_inspector_group.txt --header OrthoInspector > ${prefix}_inspector_group.csv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

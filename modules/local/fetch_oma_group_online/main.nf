@@ -30,10 +30,10 @@ process FETCH_OMA_GROUP_ONLINE {
     fetch_oma_group.py \$groupid > oma_group_raw.txt
 
     # convert OMA group to Uniprot IDs
-    uniprotize_oma_online.py oma_group_raw.txt > ${prefix}_oma_group.txt
+    uniprotize_oma_online.py --oma-group-file oma_group_raw.txt > ${prefix}_oma_group.txt
 
     # convert output to CSV
-    csv_adorn.py ${prefix}_oma_group.txt OMA > ${prefix}_oma_group.csv
+    csv_adorn.py --path ${prefix}_oma_group.txt --header OMA > ${prefix}_oma_group.csv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

@@ -28,7 +28,7 @@ process FETCH_PANTHER_GROUP_LOCAL {
     rg \$id $panther_db | tr '|' ' ' | tr '\\t' ' ' | cut -d' ' -f3,6 | awk -v id="\$id" -F'UniProtKB=' '{ for(i=0;i<=NF;i++) { if(\$i !~ id) s=s ? s OFS \$i : \$i } print s; s="" }' > ${prefix}_panther_group_raw.txt || touch ${prefix}_panther_group_raw.txt
 
     # Convert output to CSV
-    csv_adorn.py ${prefix}_panther_group_raw.txt PANTHER > ${prefix}_panther_group.csv
+    csv_adorn.py --path ${prefix}_panther_group_raw.txt --header PANTHER > ${prefix}_panther_group.csv
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":
