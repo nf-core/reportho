@@ -5,7 +5,7 @@
 
 """Convert Ensembl IDs to UniProt IDs using the UniProt mapping API."""
 
-import sys
+import argparse
 
 from utils import check_id_mapping_results_ready, safe_get, safe_post
 
@@ -43,11 +43,18 @@ def ensembl2uniprot(ensembl_ids: list[str]) -> list[str]:
 
 
 def main() -> None:
-    # note: this script is mostly not intended to be used in the command line
-    if len(sys.argv) < 2:
-        raise ValueError("Too few arguments. Usage: ensembl2uniprot.py <id>")
+    parser = argparse.ArgumentParser(
+        description="Convert Ensembl IDs to UniProt IDs using the UniProt mapping API."
+    )
+    parser.add_argument(
+        "-i",
+        "--id",
+        required=True,
+        help="Ensembl ID to convert.",
+    )
+    args = parser.parse_args()
 
-    print(ensembl2uniprot([sys.argv[1]]))
+    print(ensembl2uniprot([args.id]))
 
 if __name__ == "__main__":
     main()

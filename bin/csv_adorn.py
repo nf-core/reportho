@@ -7,7 +7,7 @@
 
 This is required for csv merge to work."""
 
-import sys
+import argparse
 
 
 def csv_adorn(path: str, header: str) -> None:
@@ -23,10 +23,24 @@ def csv_adorn(path: str, header: str) -> None:
 
 
 def main() -> None:
-    if len(sys.argv) < 3:
-        raise ValueError("Too few arguments. Usage: oma_csv.py <path> <header>")
+    parser = argparse.ArgumentParser(
+        description="Convert a list of IDs into a CSV file with a header."
+    )
+    parser.add_argument(
+        "-p",
+        "--path",
+        required=True,
+        help="Path to the input file containing one ID per line.",
+    )
+    parser.add_argument(
+        "-H",
+        "--header",
+        required=True,
+        help="Header name to append as the second CSV column.",
+    )
+    args = parser.parse_args()
 
-    csv_adorn(sys.argv[1], sys.argv[2])
+    csv_adorn(args.path, args.header)
 
 
 if __name__ == "__main__":

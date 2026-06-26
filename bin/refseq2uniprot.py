@@ -5,7 +5,7 @@
 
 """Map RefSeq IDs to UniProt IDs using the UniProt mapping API."""
 
-import sys
+import argparse
 
 from utils import check_id_mapping_results_ready, safe_get, safe_post
 
@@ -40,10 +40,18 @@ def refseq2uniprot(refseq_ids: list[str]) -> list[str]:
     return hits + unmapped_ids
 
 def main() -> None:
-    if len(sys.argv) < 2:
-        raise ValueError("Too few arguments. Usage: refseq2uniprot.py [id]")
+    parser = argparse.ArgumentParser(
+        description="Map RefSeq IDs to UniProt IDs using the UniProt mapping API."
+    )
+    parser.add_argument(
+        "-i",
+        "--id",
+        required=True,
+        help="RefSeq ID to map.",
+    )
+    args = parser.parse_args()
 
-    print(refseq2uniprot([sys.argv[1]]))
+    print(refseq2uniprot([args.id]))
 
 if __name__ == "__main__":
     main()

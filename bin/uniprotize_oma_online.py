@@ -5,20 +5,27 @@
 
 """Map OMA IDs to UniProt IDs using the OMA browser API."""
 
-import sys
+import argparse
 
 from map_uniprot import map_uniprot
 
 
 def main() -> None:
     """Map IDs from OMA to UniProt IDs."""
-    if len(sys.argv) != 2:
-        print("Usage: python uniprotize_oma.py <oma_group_file>")
-        sys.exit(1)
+    parser = argparse.ArgumentParser(
+        description="Map OMA IDs to UniProt IDs using the OMA browser API."
+    )
+    parser.add_argument(
+        "-i",
+        "--oma-group-file",
+        required=True,
+        help="Path to the input file containing OMA group IDs.",
+    )
+    args = parser.parse_args()
 
     oma_ids: list[str] = []
 
-    with open(sys.argv[1]) as f:
+    with open(args.oma_group_file) as f:
         for line in f:
             oma_ids.append(line.strip())
     oma_ids_mapped = map_uniprot(oma_ids)

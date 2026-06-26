@@ -28,7 +28,7 @@ process FETCH_PANTHER_GROUP_ONLINE {
     fetch_panther_group.py \$uniprot_id \$taxid > ${prefix}_panther_group.txt || test -f ${prefix}_panther_group.txt
 
     # convert output to CSV
-    csv_adorn.py ${prefix}_panther_group.txt PANTHER > ${prefix}_panther_group.csv
+    csv_adorn.py --path ${prefix}_panther_group.txt --header PANTHER > ${prefix}_panther_group.csv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
