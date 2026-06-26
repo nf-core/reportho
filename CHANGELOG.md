@@ -3,7 +3,47 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [v1.2.0dev]() - TBD - [date]
+## [v1.2.0dev](https://github.com/nf-core/reportho/releases/tag/dev) - TBD
+
+### Added
+
+### Changed
+
+- [#107](https://github.com/nf-core/reportho/pull/107) - Update nf-core template to version 4.0.2
+
+### Fixed
+
+- [#114](https://github.com/nf-core/reportho/pull/114) - Fix clobber issues in fetch_eggnog_group_local, fetch_oma_group_local, and fetch_panther_group_local modules
+
+### Removed
+
+### Dependencies
+
+| Dependency | Old version | New version |
+| ---------- | ----------- | ----------- |
+
+### Parameters
+
+| Params | status |
+| ------ | ------ |
+
+### Developer section
+
+#### Added
+
+- [#120](https://github.com/nf-core/reportho/pull/120) - Local module meta files for better documentation of module inputs/outputs
+
+#### Changed
+
+- [#100](https://github.com/nf-core/reportho/pull/100) - Back to dev (1.2.0dev)
+- [#107](https://github.com/nf-core/reportho/pull/107) - Module structure migrated to nf-core standard directory format
+- [#116](https://github.com/nf-core/reportho/pull/116) - Migrate modules to use module binaries instead of global bin/
+
+#### Fixed
+
+- [#118](https://github.com/nf-core/reportho/pull/118) - Fix YAML schema link in local module and subworkflow metas
+
+#### Removed
 
 ## [v1.1.0](https://github.com/nf-core/reportho/releases/tag/1.1.0) - Reliable Rudder - [2025-10-21]
 
