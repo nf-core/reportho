@@ -6,6 +6,7 @@
 """Fetch protein sequences from the RefSeq database using the NCBI eutils API."""
 
 import os
+import argparse
 import subprocess
 import sys
 from xml.dom import minidom
@@ -56,10 +57,24 @@ def fetch_sequences(ids: list[str], db: str = "protein") -> list[SequenceInfo]:
 
 
 def main() -> None:
-    if len(sys.argv) < 2:
-        print("Too few arguments. Usage: fetch_refseq_sequences.py <id_file>")
-        sys.exit(1)
-    with open(sys.argv[1], "r") as f:
+    parser = argparse.ArgumentParser(
+        description="Fetch protein sequences from the RefSeq database using the NCBI eutils API."
+    )
+    parser.add_argument(
+        "-i",
+        "--ids-path",
+        required=True,
+        help="Path to file containing RefSeq IDs, one per line.",
+    )
+    parser.add_argument(
+        "-p",
+        "--prefix",
+        required=True,
+        help="Prefix used for hits and misses output files.",
+    )
+    args = parser.parse_args()
+
+    with open(args.ids_path, "r") as f:
         ids = f.read().splitlines()
     seqs = fetch_sequences(ids)
     seqs_valid = [i for i in seqs if i.is_valid()]
@@ -67,7 +82,7 @@ def main() -> None:
     ids_valid = set([i.prot_id for i in seqs_valid])
     ids_invalid = set(ids) - ids_valid
 
-    prefix = sys.argv[2]
+    prefix = args.prefix
     list_to_file(list(ids_valid), f"{prefix}_refseq_seq_hits.txt")
     list_to_file(list(ids_invalid), f"{prefix}_refseq_seq_misses.txt")
 

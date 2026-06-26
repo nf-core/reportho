@@ -6,6 +6,7 @@
 """Fetch members of an OMA group by ID."""
 
 import os
+import argparse
 import subprocess
 import sys
 from warnings import warn
@@ -18,10 +19,18 @@ from utils import safe_get
 
 
 def main() -> None:
-    if len(sys.argv) < 2:
-        raise ValueError("Too few arguments. Usage: fetch_oma_group_by_id.py <id>")
+    parser = argparse.ArgumentParser(
+        description="Fetch members of an OMA group by ID."
+    )
+    parser.add_argument(
+        "-g",
+        "--group-id",
+        required=True,
+        help="OMA group ID to query.",
+    )
+    args = parser.parse_args()
 
-    id = sys.argv[1]
+    id = args.group_id
     headers = {"User-Agent": "pyomadb/2.1.0"}
 
     res = safe_get(f"https://omabrowser.org/api/group/{id}", headers=headers)

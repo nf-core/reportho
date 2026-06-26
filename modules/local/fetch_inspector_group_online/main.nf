@@ -25,7 +25,7 @@ process FETCH_INSPECTOR_GROUP_ONLINE {
     uniprot_id=\$(cat $uniprot_id)
 
     # get the OrthoInspector group from the API
-    fetch_inspector_group.py \$uniprot_id $inspector_version > ${prefix}_inspector_group.txt
+    fetch_inspector_group.py --uniprot-id \$uniprot_id --db-id $inspector_version > ${prefix}_inspector_group.txt
 
     # convert output to CSV
     csv_adorn.py --path ${prefix}_inspector_group.txt --header OrthoInspector > ${prefix}_inspector_group.csv

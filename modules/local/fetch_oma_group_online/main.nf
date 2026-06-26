@@ -24,10 +24,10 @@ process FETCH_OMA_GROUP_ONLINE {
     uniprot_id=\$(cat ${uniprot_id})
 
     # fetch OMA group ID from API
-    groupid=\$(fetch_oma_groupid.py \$uniprot_id)
+    groupid=\$(fetch_oma_groupid.py --protein-id \$uniprot_id)
 
     # fetch OMA group from API
-    fetch_oma_group.py \$groupid > oma_group_raw.txt
+    fetch_oma_group.py --group-id \$groupid > oma_group_raw.txt
 
     # convert OMA group to Uniprot IDs
     uniprotize_oma_online.py --oma-group-file oma_group_raw.txt > ${prefix}_oma_group.txt

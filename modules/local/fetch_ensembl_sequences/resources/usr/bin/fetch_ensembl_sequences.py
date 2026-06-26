@@ -6,6 +6,7 @@
 """Fetch protein sequences from Ensembl using the Ensembl REST API."""
 
 import csv
+import argparse
 import os
 import subprocess
 import sys
@@ -65,11 +66,32 @@ def fetch_ensembl(ids: list[str], idmap_path: str) -> list[SequenceInfo]:
 
 
 def main():
-    if len(sys.argv) < 4:
-        raise ValueError("Too few arguments. Usage: fetch_ensembl_sequences.py <ids_path> <idmap_path> <prefix>")
-    f = open(sys.argv[1])
+    parser = argparse.ArgumentParser(
+        description="Fetch protein sequences from Ensembl using the Ensembl REST API."
+    )
+    parser.add_argument(
+        "-i",
+        "--ids-path",
+        required=True,
+        help="Path to file with Ensembl IDs, one per line.",
+    )
+    parser.add_argument(
+        "-m",
+        "--idmap-path",
+        required=True,
+        help="Path to species-to-taxid mapping CSV file.",
+    )
+    parser.add_argument(
+        "-p",
+        "--prefix",
+        required=True,
+        help="Prefix for output hit/miss files.",
+    )
+    args = parser.parse_args()
+
+    f = open(args.ids_path)
     ids = f.read().splitlines()
-    seqs = fetch_ensembl(ids, sys.argv[2])
+    seqs = fetch_ensembl(ids, args.idmap_path)
     seqs_valid = [i for i in seqs if i.is_valid()]
 
     for i in seqs_valid:
@@ -78,7 +100,7 @@ def main():
     ids_valid = set([i.prot_id for i in seqs_valid])
     ids_invalid = set(ids) - ids_valid
 
-    prefix = sys.argv[3]
+    prefix = args.prefix
     list_to_file(list(ids_valid), f"{prefix}_ensembl_seq_hits.txt")
     list_to_file(list(ids_invalid), f"{prefix}_ensembl_seq_misses.txt")
 

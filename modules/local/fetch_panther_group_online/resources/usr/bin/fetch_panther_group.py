@@ -6,6 +6,7 @@
 """Fetch members of a Panther group by ID."""
 
 import os
+import argparse
 import subprocess
 import sys
 from warnings import warn
@@ -18,10 +19,24 @@ from utils import safe_get # noqa: E402
 
 
 def main() -> None:
-    if len(sys.argv) < 3:
-        raise ValueError("Too few arguments. Usage: fetch_panther_group.py <id> <organism>")
+    parser = argparse.ArgumentParser(
+        description="Fetch members of a Panther group by ID."
+    )
+    parser.add_argument(
+        "-i",
+        "--input-id",
+        required=True,
+        help="Input UniProt ID used for the Panther ortholog query.",
+    )
+    parser.add_argument(
+        "-o",
+        "--organism",
+        required=True,
+        help="Organism taxonomy identifier for the Panther query.",
+    )
+    args = parser.parse_args()
 
-    res = safe_get(f"https://www.pantherdb.org/services/oai/pantherdb/ortholog/matchortho?geneInputList={sys.argv[1]}&organism={sys.argv[2]}&orthologType=all")
+    res = safe_get(f"https://www.pantherdb.org/services/oai/pantherdb/ortholog/matchortho?geneInputList={args.input_id}&organism={args.organism}&orthologType=all")
 
     if not res.ok:
         raise ValueError(f"HTTP error: {res.status_code}")

@@ -6,6 +6,7 @@
 """Get OMA group ID from a UniProt ID."""
 
 import os
+import argparse
 import subprocess
 import sys
 from warnings import warn
@@ -18,10 +19,18 @@ from utils import safe_get # noqa: E402
 
 
 def main() -> None:
-    if len(sys.argv) < 2:
-        raise ValueError("Not enough arguments. Usage: fetch_oma_groupid.py <filename>")
+    parser = argparse.ArgumentParser(
+        description="Get OMA group ID from a UniProt ID."
+    )
+    parser.add_argument(
+        "-p",
+        "--protein-id",
+        required=True,
+        help="UniProt protein ID used to query OMA.",
+    )
+    args = parser.parse_args()
 
-    prot_id = sys.argv[1]
+    prot_id = args.protein_id
     headers = {"User-Agent": "pyomadb/2.1.0"}
     res = safe_get(f"https://omabrowser.org/api/protein/{prot_id}", headers=headers)
 
