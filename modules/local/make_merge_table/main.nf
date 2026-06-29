@@ -20,7 +20,7 @@ process MAKE_MERGE_TABLE {
     script:
     def prefix = task.ext.prefix ?: meta.id
     """
-    make_merge_table.py $clusters ${meta.id} > ${prefix}_merge_table.csv
+    make_merge_table.py --clusters $clusters --sample-id ${meta.id} > ${prefix}_merge_table.csv
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":

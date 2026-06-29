@@ -4,6 +4,7 @@
 # See https://opensource.org/license/mit for details
 
 import csv
+import argparse
 import sys
 
 
@@ -11,12 +12,23 @@ def main() -> None:
     """
     Convert numbers of hits into CSV.
     """
-    if len(sys.argv) < 3:
-        print("Usage: python make_hit_table.py <merged_csv> <sample_id>")
-        sys.exit(1)
+    parser = argparse.ArgumentParser(description="Convert numbers of hits into CSV.")
+    parser.add_argument(
+        "-m",
+        "--merged-csv",
+        required=True,
+        help="Path to merged CSV input file.",
+    )
+    parser.add_argument(
+        "-s",
+        "--sample-id",
+        required=True,
+        help="Sample identifier to write in output.",
+    )
+    args = parser.parse_args()
 
     # Read the CSV into a list of lists, it has a header
-    with open(sys.argv[1]) as f:
+    with open(args.merged_csv) as f:
         reader = csv.DictReader(f)
         data = list(reader)
 
@@ -24,7 +36,7 @@ def main() -> None:
         print("id")
         return
 
-    sample_id = sys.argv[2]
+    sample_id = args.sample_id
 
     # Get list of databases
     databases = list(data[0].keys())[1:]

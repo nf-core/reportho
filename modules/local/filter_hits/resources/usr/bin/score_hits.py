@@ -4,6 +4,7 @@
 # See https://opensource.org/license/mit for details
 
 import csv
+import argparse
 import sys
 
 
@@ -55,19 +56,35 @@ def filter_centroid(data) -> list:
 
 
 def main():
-    # arg check
-    if len(sys.argv) < 4:
-        print("Usage: python filter_hits.py <input_file> <prefix> <query>")
-        sys.exit(1)
+    parser = argparse.ArgumentParser(description="Filter scored hits into threshold and centroid files.")
+    parser.add_argument(
+        "-i",
+        "--input-file",
+        required=True,
+        help="Path to the input score table CSV file.",
+    )
+    parser.add_argument(
+        "-p",
+        "--prefix",
+        required=True,
+        help="Prefix used for output files.",
+    )
+    parser.add_argument(
+        "-q",
+        "--query-file",
+        required=True,
+        help="Path to file containing the query ID.",
+    )
+    args = parser.parse_args()
 
     # load data
-    data = load_data_from_csv(sys.argv[1])
+    data = load_data_from_csv(args.input_file)
 
     if not data:
         return
 
-    prefix = sys.argv[2]
-    with open(sys.argv[3]) as f:
+    prefix = args.prefix
+    with open(args.query_file) as f:
         query = f.read().strip()
 
     # filter data

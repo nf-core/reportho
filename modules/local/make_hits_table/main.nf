@@ -20,7 +20,7 @@ process MAKE_HITS_TABLE {
     script:
     def prefix = task.ext.prefix ?: meta.id
     """
-    make_hits_table.py $merged_csv ${meta.id} > ${prefix}_hits_table.csv
+    make_hits_table.py --merged-csv $merged_csv --sample-id ${meta.id} > ${prefix}_hits_table.csv
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":

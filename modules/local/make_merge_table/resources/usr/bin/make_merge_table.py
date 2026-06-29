@@ -5,22 +5,34 @@
 
 """Convert Diamond output into a CSV summary table."""
 
+import argparse
 import sys
 
 
 def main() -> None:
-    if len(sys.argv) < 3:
-        print("Usage: python make_hit_table.py <clusters> <sample_id>")
-        sys.exit(1)
+    parser = argparse.ArgumentParser(description="Convert Diamond output into a CSV summary table.")
+    parser.add_argument(
+        "-c",
+        "--clusters",
+        required=True,
+        help="Path to input clusters file.",
+    )
+    parser.add_argument(
+        "-s",
+        "--sample-id",
+        required=True,
+        help="Sample identifier to write in output.",
+    )
+    args = parser.parse_args()
 
-    with open(sys.argv[1]) as f:
+    with open(args.clusters) as f:
         clusters = f.readlines()
 
     if not clusters:
         print("id,one,many")
         return
 
-    sample_id = sys.argv[2]
+    sample_id = args.sample_id
 
     # Get counts
     one = 0

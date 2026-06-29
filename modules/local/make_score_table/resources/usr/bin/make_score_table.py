@@ -6,17 +6,28 @@
 """Get score and format information from a merged CSV file."""
 
 import csv
+import argparse
 import re
-import sys
 
 
 def main() -> None:
-    if len(sys.argv) < 3:
-        print("Usage: python make_score_table.py <merged_csv> <diamond_mapping>")
-        sys.exit(1)
+    parser = argparse.ArgumentParser(description="Get score and format information from a merged CSV file.")
+    parser.add_argument(
+        "-m",
+        "--merged-csv",
+        required=True,
+        help="Path to merged CSV input file.",
+    )
+    parser.add_argument(
+        "-d",
+        "--diamond-mapping",
+        required=True,
+        help="Path to DIAMOND mapping file.",
+    )
+    args = parser.parse_args()
 
     # Read the CSV into a list of lists, it has a header
-    with open(sys.argv[1]) as f:
+    with open(args.merged_csv) as f:
         reader = csv.reader(f)
         data = list(reader)
 
@@ -26,7 +37,7 @@ def main() -> None:
     # Read the mapping into a dictionary
     mapping = {}
 
-    with open(sys.argv[2]) as f:
+    with open(args.diamond_mapping) as f:
         for line in f:
             ids = line.strip().split("\t")
             mapping[ids[0]] = ids[1:] if len(ids) > 1 else []

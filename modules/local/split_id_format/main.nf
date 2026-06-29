@@ -21,7 +21,7 @@ process SPLIT_ID_FORMAT {
     def prefix = task.ext.prefix ?: meta.id
     """
     cut -d ',' -f 1 $ids | tail -n +2 > tmp
-    split_id_format.py tmp $prefix
+    split_id_format.py --id-list tmp --prefix $prefix
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":
