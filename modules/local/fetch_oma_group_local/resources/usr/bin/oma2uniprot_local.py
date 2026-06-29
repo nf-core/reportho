@@ -6,7 +6,7 @@
 """Map OMA IDs to UniProt IDs using a local ID mapping file."""
 
 import gzip
-import sys
+import argparse
 
 
 def oma2uniprot_local(ids_path: str, idmap_path: str) -> None:
@@ -29,10 +29,24 @@ def oma2uniprot_local(ids_path: str, idmap_path: str) -> None:
 
 
 def main() -> None:
-    if len(sys.argv) < 3:
-        raise ValueError("Too few arguments. Usage: oma2uniprot_local.py <idmap_path> <ids_path>")
+    parser = argparse.ArgumentParser(
+        description="Map OMA IDs to UniProt IDs using a local ID mapping file."
+    )
+    parser.add_argument(
+        "-m",
+        "--idmap-path",
+        required=True,
+        help="Path to gzipped ID mapping file.",
+    )
+    parser.add_argument(
+        "-i",
+        "--ids-path",
+        required=True,
+        help="Path to input file containing OMA IDs.",
+    )
+    args = parser.parse_args()
 
-    oma2uniprot_local(sys.argv[2], sys.argv[1])
+    oma2uniprot_local(args.ids_path, args.idmap_path)
 
 
 if __name__ == "__main__":

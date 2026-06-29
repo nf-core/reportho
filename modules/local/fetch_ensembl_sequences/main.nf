@@ -25,7 +25,7 @@ process FETCH_ENSEMBL_SEQUENCES {
     def prefix    = task.ext.prefix ?: meta.id
     def add_query = query_fasta == [] ? "" : "cat $query_fasta >> ${prefix}_orthologs.fa"
     """
-    fetch_ensembl_sequences.py $ids $ensembl_idmap $prefix > ${prefix}_ensembl_sequences.fa
+    fetch_ensembl_sequences.py --ids-path $ids --idmap-path $ensembl_idmap --prefix $prefix > ${prefix}_ensembl_sequences.fa
     $add_query
 
     cat <<- END_VERSIONS > versions.yml

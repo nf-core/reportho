@@ -23,7 +23,7 @@ process FETCH_UNIPROT_SEQUENCES {
     def prefix    = task.ext.prefix ?: meta.id
     def add_query = query_fasta == [] ? "" : "cat $query_fasta >> ${prefix}_orthologs.fa"
     """
-    fetch_uniprot_sequences.py $ids $prefix > ${prefix}_uniprot_sequences.fa
+    fetch_uniprot_sequences.py --ids-path $ids --prefix $prefix > ${prefix}_uniprot_sequences.fa
     $add_query
 
     cat <<- END_VERSIONS > versions.yml

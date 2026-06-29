@@ -6,6 +6,7 @@
 """Fetch protein sequences from the OMA database using the OMA REST API."""
 
 import os
+import argparse
 import subprocess
 import sys
 
@@ -46,10 +47,24 @@ def fetch_seqs_oma(ids: list[str]) -> list[SequenceInfo]:
 
 
 def main() -> None:
-    if len(sys.argv) < 3:
-        raise ValueError("Too few arguments. Usage: fetch_oma_sequences.py <ids_path> <prefix>")
+    parser = argparse.ArgumentParser(
+        description="Fetch protein sequences from the OMA database using the OMA REST API."
+    )
+    parser.add_argument(
+        "-i",
+        "--ids-path",
+        required=True,
+        help="Path to file containing UniProt IDs, one per line.",
+    )
+    parser.add_argument(
+        "-p",
+        "--prefix",
+        required=True,
+        help="Prefix used for hits and misses output files.",
+    )
+    args = parser.parse_args()
 
-    with open(sys.argv[1]) as f:
+    with open(args.ids_path) as f:
         ids = f.read().splitlines()
 
     seqs = fetch_seqs_oma(ids)
@@ -61,7 +76,7 @@ def main() -> None:
     ids_valid = set([i.prot_id for i in seqs_valid])
     ids_invalid = set(ids) - ids_valid
 
-    prefix = sys.argv[2]
+    prefix = args.prefix
     list_to_file(list(ids_valid), f"{prefix}_oma_seq_hits.txt")
     list_to_file(list(ids_invalid), f"{prefix}_oma_seq_misses.txt")
 

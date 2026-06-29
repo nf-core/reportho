@@ -25,7 +25,7 @@ process FETCH_PANTHER_GROUP_ONLINE {
     taxid=\$(cat $taxid)
 
     # fetch PANTHER group from API
-    fetch_panther_group.py \$uniprot_id \$taxid > ${prefix}_panther_group.txt || test -f ${prefix}_panther_group.txt
+    fetch_panther_group.py --input-id \$uniprot_id --organism \$taxid > ${prefix}_panther_group.txt || test -f ${prefix}_panther_group.txt
 
     # convert output to CSV
     csv_adorn.py --path ${prefix}_panther_group.txt --header PANTHER > ${prefix}_panther_group.csv
