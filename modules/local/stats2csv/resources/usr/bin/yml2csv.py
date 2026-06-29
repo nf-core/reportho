@@ -31,21 +31,17 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    sample_id = args.sample_id
-    input_file = args.input_file
-    output_file = args.output_file
-
-    with open(input_file) as f:
+    with open(args.yaml) as f:
         data = yaml.safe_load(f)
 
     if not data:
-        with open(output_file, "w") as f:
+        with open(args.output_file, "w") as f:
             print("id,percent_max,percent_privates,goodness", file=f)
         return
 
-    with open(output_file, "w") as f:
+    with open(args.output_file, "w") as f:
         print("id,percent_max,percent_privates,goodness", file=f)
-        print(f"{sample_id},{data['percent_max']},{data['percent_privates']},{data['goodness']}", file=f)
+        print(f"{args.sample_id},{data['percent_max']},{data['percent_privates']},{data['goodness']}", file=f)
 
 if __name__ == "__main__":
     main()
