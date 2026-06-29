@@ -24,7 +24,7 @@ process FILTER_HITS {
     def prefix = task.ext.prefix ?: meta.id
     targetfile = use_centroid ? "${prefix}_centroid.txt" : "${prefix}_minscore_${min_score}.txt"
     """
-    score_hits.py $score_table $prefix $queryid
+    score_hits.py --input-file $score_table --prefix $prefix --query-file $queryid
     touch $targetfile
     touch ${prefix}_centroid.txt
     cat $targetfile > ${prefix}_filtered_hits.txt

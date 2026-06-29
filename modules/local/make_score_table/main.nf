@@ -22,7 +22,7 @@ process MAKE_SCORE_TABLE {
     def id_arg = id_map ? "cat ${id_map} > idmap" : "touch idmap"
     """
     $id_arg
-    make_score_table.py $merged_csv idmap > ${prefix}_score_table.csv
+    make_score_table.py --merged-csv $merged_csv --diamond-mapping idmap > ${prefix}_score_table.csv
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":

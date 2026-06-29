@@ -6,6 +6,7 @@
 """Fetch OMA entry for a given protein sequence from the OMA browser API."""
 
 import os
+import argparse
 import subprocess
 import sys
 from warnings import warn
@@ -27,10 +28,36 @@ from utils import fetch_seq
 # 3. A boolean indicating if the sequence was an exact match
 
 def main() -> None:
-    if len(sys.argv) < 5:
-        raise ValueError("Not enough arguments. Usage: fetch_oma_by_sequence.py <fasta> <id_out> <taxid_out> <exact_out>")
+    parser = argparse.ArgumentParser(
+        description="Fetch OMA entry for a given protein sequence from the OMA browser API."
+    )
+    parser.add_argument(
+        "-f",
+        "--fasta",
+        required=True,
+        help="Path to input FASTA file.",
+    )
+    parser.add_argument(
+        "-i",
+        "--id-out",
+        required=True,
+        help="Output file path for canonical ID.",
+    )
+    parser.add_argument(
+        "-t",
+        "--taxid-out",
+        required=True,
+        help="Output file path for taxonomy ID.",
+    )
+    parser.add_argument(
+        "-e",
+        "--exact-out",
+        required=True,
+        help="Output file path for exact match flag.",
+    )
+    args = parser.parse_args()
 
-    seqs = SeqIO.parse(sys.argv[1], "fasta")
+    seqs = SeqIO.parse(args.fasta, "fasta")
     seq = next(seqs).seq
     headers = {"User-Agent": "pyomadb/2.1.0"}
 
@@ -53,9 +80,9 @@ def main() -> None:
 
     # Write exact match status
     if json["identified_by"] == "exact match":
-        print("true", file=open(sys.argv[4], 'w'))
+        print("true", file=open(args.exact_out, 'w'))
     else:
-        print("false", file=open(sys.argv[4], 'w'))
+        print("false", file=open(args.exact_out, 'w'))
 
     # If main isoform not found, check the first alternative isoform
     if entry == dict():
@@ -69,8 +96,8 @@ def main() -> None:
             else:
                 raise ValueError("Isoform not found")
 
-    print(entry["canonicalid"], file=open(sys.argv[2], "w"))
-    print(entry["species"]["taxon_id"], file=open(sys.argv[3], "w"))
+    print(entry["canonicalid"], file=open(args.id_out, "w"))
+    print(entry["species"]["taxon_id"], file=open(args.taxid_out, "w"))
 
 
 if __name__ == "__main__":

@@ -20,7 +20,7 @@ process IDENTIFY_SEQ_ONLINE {
     script:
     def prefix = task.ext.prefix ?: meta.id
     """
-    fetch_oma_by_sequence.py $fasta id_raw.txt ${prefix}_taxid.txt ${prefix}_exact.txt
+    fetch_oma_by_sequence.py --fasta $fasta --id-out id_raw.txt --taxid-out ${prefix}_taxid.txt --exact-out ${prefix}_exact.txt
     uniprotize_oma_online.py --oma-group-file id_raw.txt > ${prefix}_id.txt
 
     cat <<- END_VERSIONS > versions.yml

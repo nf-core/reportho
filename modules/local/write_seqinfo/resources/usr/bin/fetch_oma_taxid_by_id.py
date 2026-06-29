@@ -6,6 +6,7 @@
 """Fetch OMA taxon ID by UniProt ID."""
 
 import os
+import argparse
 import subprocess
 import sys
 from warnings import warn
@@ -18,10 +19,16 @@ from utils import safe_get # noqa: E402
 
 
 def main() -> None:
-    if len(sys.argv) < 2:
-        raise ValueError("Not enough arguments. Usage: fetch_oma_by_sequence.py <fasta> <id_out> <taxid_out>")
+    parser = argparse.ArgumentParser(description="Fetch OMA taxon ID by UniProt ID.")
+    parser.add_argument(
+        "-u",
+        "--uniprot-id",
+        required=True,
+        help="UniProt ID to query in OMA.",
+    )
+    args = parser.parse_args()
 
-    uniprot_id = sys.argv[1]
+    uniprot_id = args.uniprot_id
     headers = {"User-Agent": "pyomadb/2.1.0" }
     res = safe_get(f"https://omabrowser.org/api/protein/{uniprot_id}/", headers=headers)
 

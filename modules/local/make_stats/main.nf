@@ -20,7 +20,7 @@ process MAKE_STATS {
     script:
     def prefix = task.ext.prefix ?: meta.id
     """
-    make_stats.py ${score_table} > ${prefix}_stats.yml
+    make_stats.py --score-table ${score_table} > ${prefix}_stats.yml
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":

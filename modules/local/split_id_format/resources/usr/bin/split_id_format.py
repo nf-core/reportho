@@ -9,6 +9,7 @@ The splitting is done based on official accession regexes for UniProt, Ensembl, 
 The regex for OMA is inferred based on the format description."""
 
 import os
+import argparse
 import subprocess
 import sys
 
@@ -48,11 +49,25 @@ def split_ids(ids: list[str], prefix: str) -> None:
 
 
 def main() -> None:
-    if len(sys.argv) < 3:
-        raise ValueError("Too few arguments. Usage: split_ids.py <id_list> <prefix>")
-    with open(sys.argv[1]) as f:
+    parser = argparse.ArgumentParser(
+        description="Split a list of protein IDs into different files based on their identifier format."
+    )
+    parser.add_argument(
+        "-i",
+        "--id-list",
+        required=True,
+        help="Path to input file containing one protein ID per line.",
+    )
+    parser.add_argument(
+        "-p",
+        "--prefix",
+        required=True,
+        help="Prefix used for output split files.",
+    )
+    args = parser.parse_args()
+    with open(args.id_list) as f:
         ids = f.read().splitlines()
-    split_ids(ids, sys.argv[2])
+    split_ids(ids, args.prefix)
 
 
 if __name__ == "__main__":

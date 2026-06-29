@@ -5,6 +5,7 @@
 
 """Calculate statistics from a score table."""
 
+import argparse
 import csv
 import sys
 
@@ -40,11 +41,15 @@ def make_stats(score_table: str) -> None:
 
 
 def main() -> None:
-    if len(sys.argv) < 2:
-        print("Usage: make_stats.py <score_table>")
-        sys.exit(1)
-    score_table = sys.argv[1]
-    make_stats(score_table)
+    parser = argparse.ArgumentParser(description="Calculate statistics from a score table.")
+    parser.add_argument(
+        "-s",
+        "--score-table",
+        required=True,
+        help="Path to score table CSV file.",
+    )
+    args = parser.parse_args()
+    make_stats(args.score_table)
 
 
 if __name__ == "__main__":
