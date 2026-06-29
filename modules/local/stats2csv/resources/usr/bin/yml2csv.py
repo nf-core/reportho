@@ -18,8 +18,8 @@ def main() -> None:
         help="Sample identifier for the output row.",
     )
     parser.add_argument(
-        "-i",
-        "--input-file",
+        "-y",
+        "--yaml",
         required=True,
         help="Path to input YAML stats file.",
     )

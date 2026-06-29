@@ -20,7 +20,7 @@ process STATS2CSV {
     script:
     prefix = task.ext.prefix ?: meta.id
     """
-    yml2csv.py --sample-id ${meta.id} --input-file $stats --output-file ${prefix}_stats.csv
+    yml2csv.py --sample-id ${meta.id} --yaml $stats --output-file ${prefix}_stats.csv
 
     cat <<- END_VERSIONS > versions.yml
     "${task.process}":
