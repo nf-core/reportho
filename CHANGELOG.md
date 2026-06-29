@@ -38,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#100](https://github.com/nf-core/reportho/pull/100) - Back to dev (1.2.0dev)
 - [#107](https://github.com/nf-core/reportho/pull/107) - Module structure migrated to nf-core standard directory format
 - [#116](https://github.com/nf-core/reportho/pull/116) - Migrate modules to use module binaries instead of global bin/
+- [#123](https://github.com/nf-core/reportho/pull/123) - Switch local Python helper scripts and module invocations to named argparse options instead of positional sys.argv ordering
 
 #### Fixed
 
