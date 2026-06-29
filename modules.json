@@ -17,7 +17,7 @@
                     },
                     "csvtk/join": {
                         "branch": "master",
-                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+                        "git_sha": "2f74af306499775ab48db1ed4077d2fa5aecf9c4",
                         "installed_by": ["modules"]
                     },
                     "diamond/cluster": {
