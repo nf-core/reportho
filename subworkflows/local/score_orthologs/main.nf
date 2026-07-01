@@ -76,8 +76,6 @@ workflow SCORE_ORTHOLOGS {
         "csv"
     )
 
-    ch_versions = ch_versions.mix(MERGE_HITS.out.versions)
-
     ch_merge_table      = channel.empty()
     ch_aggregated_merge = channel.empty()
 
@@ -99,8 +97,6 @@ workflow SCORE_ORTHOLOGS {
             "csv",
             "csv"
         )
-
-        ch_versions = ch_versions.mix(MERGE_MERGE.out.versions)
 
         ch_aggregated_merge = MERGE_MERGE.out.csv
     }
@@ -128,8 +124,6 @@ workflow SCORE_ORTHOLOGS {
         "csv",
         "csv"
     )
-
-    ch_versions = ch_versions.mix(MERGE_STATS.out.versions)
 
     emit:
     score_table      = MAKE_SCORE_TABLE.out.score_table

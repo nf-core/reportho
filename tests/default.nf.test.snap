@@ -3,6 +3,16 @@
         "content": [
             27,
             {
+                "CONCAT_FASTA": {
+                    "coreutils": 9.4,
+                    "find": "4.6.0",
+                    "pigz": 2.8
+                },
+                "CONCAT_HITS": {
+                    "coreutils": 9.4,
+                    "find": "4.6.0",
+                    "pigz": 2.8
+                },
                 "DUMP_PARAMS": {
                     "cat": 8.3
                 },
@@ -34,10 +44,10 @@
                     "Python": "3.11.0"
                 },
                 "MERGE_CSV": {
-                    "csvtk": "0.31.0"
+                    "csvtk": "0.37.0"
                 },
                 "MERGE_HITS": {
-                    "csvtk": "0.31.0"
+                    "csvtk": "0.37.0"
                 },
                 "SPLIT_ID_FORMAT": {
                     "Python": "3.12.9"
@@ -75,18 +85,33 @@
                 ".stub:md5,d41d8cd98f00b204e9800998ecf8427e"
             ]
         ],
-        "timestamp": "2025-10-17T12:11:57.403619038",
+        "timestamp": "2026-07-01T08:42:51.135061002",
         "meta": {
-            "nf-test": "0.9.3",
-            "nextflow": "25.04.8"
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.4"
         }
     },
     "Params: default": {
         "content": [
             232,
             {
+                "CONCAT_FASTA": {
+                    "coreutils": 9.4,
+                    "find": "4.6.0",
+                    "pigz": 2.8
+                },
+                "CONCAT_HITS": {
+                    "coreutils": 9.4,
+                    "find": "4.6.0",
+                    "pigz": 2.8
+                },
+                "CONCAT_MISSES": {
+                    "coreutils": 9.4,
+                    "find": "4.6.0",
+                    "pigz": 2.8
+                },
                 "DIAMOND_CLUSTER": {
-                    "diamond": "2.1.12"
+                    "diamond": "2.2.2"
                 },
                 "DUMP_PARAMS": {
                     "cat": 8.3
@@ -133,7 +158,7 @@
                     "Python": "3.11.0"
                 },
                 "GROUP_DIAMOND": {
-                    "gawk": "5.3.0"
+                    "gawk": "5.3.1"
                 },
                 "MAKE_HITS_TABLE": {
                     "Python": "3.11.0"
@@ -153,34 +178,38 @@
                     "Python": "3.11.0"
                 },
                 "MERGE_ALL": {
-                    "pigz": "2.3.4"
+                    "coreutils": 9.4,
+                    "find": "4.6.0",
+                    "pigz": 2.8
                 },
                 "MERGE_CSV": {
-                    "csvtk": "0.31.0"
+                    "csvtk": "0.37.0"
                 },
                 "MERGE_DIAMOND": {
-                    "pigz": "2.3.4"
+                    "coreutils": 9.4,
+                    "find": "4.6.0",
+                    "pigz": 2.8
                 },
                 "MERGE_FASTA_IDS": {
-                    "gawk": "5.3.0"
+                    "gawk": "5.3.1"
                 },
                 "MERGE_HITS": {
-                    "csvtk": "0.31.0"
+                    "csvtk": "0.37.0"
                 },
                 "MERGE_MERGE": {
-                    "csvtk": "0.31.0"
+                    "csvtk": "0.37.0"
                 },
                 "MERGE_STATS": {
-                    "csvtk": "0.31.0"
+                    "csvtk": "0.37.0"
                 },
                 "PLOT_ORTHOLOGS": {
                     "r-base": "4.4.3"
                 },
                 "POSTPROCESS_DIAMOND": {
-                    "gawk": "5.3.0"
+                    "gawk": "5.3.1"
                 },
                 "REDUCE_IDMAP": {
-                    "gawk": "5.3.0"
+                    "gawk": "5.3.1"
                 },
                 "SPLIT_ID_FORMAT": {
                     "Python": "3.12.9"
@@ -278,7 +307,7 @@
                 "taxid.txt:md5,d8ce74354d0ddf337bd304faca270ff7"
             ]
         ],
-        "timestamp": "2026-06-22T10:02:30.541578631",
+        "timestamp": "2026-07-01T08:42:24.399351291",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.4"

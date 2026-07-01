@@ -27,13 +27,13 @@
                     "Python": "3.11.0"
                 },
                 "MERGE_CSV": {
-                    "csvtk": "0.31.0"
+                    "csvtk": "0.37.0"
                 },
                 "MERGE_HITS": {
-                    "csvtk": "0.31.0"
+                    "csvtk": "0.37.0"
                 },
                 "MERGE_STATS": {
-                    "csvtk": "0.31.0"
+                    "csvtk": "0.37.0"
                 },
                 "PLOT_ORTHOLOGS": {
                     "r-base": "4.4.3"
@@ -86,10 +86,10 @@
                 ".stub:md5,d41d8cd98f00b204e9800998ecf8427e"
             ]
         ],
-        "timestamp": "2026-06-19T12:07:29.432477672",
+        "timestamp": "2026-07-01T08:46:01.029928904",
         "meta": {
             "nf-test": "0.9.5",
-            "nextflow": "26.04.3"
+            "nextflow": "26.04.4"
         }
     },
     "Params: default": {
@@ -120,13 +120,13 @@
                     "Python": "3.11.0"
                 },
                 "MERGE_CSV": {
-                    "csvtk": "0.31.0"
+                    "csvtk": "0.37.0"
                 },
                 "MERGE_HITS": {
-                    "csvtk": "0.31.0"
+                    "csvtk": "0.37.0"
                 },
                 "MERGE_STATS": {
-                    "csvtk": "0.31.0"
+                    "csvtk": "0.37.0"
                 },
                 "PLOT_ORTHOLOGS": {
                     "r-base": "4.4.3"
@@ -194,10 +194,10 @@
                 "multiqc_citations.txt:md5,4c806e63a283ec1b7e78cdae3a923d4f"
             ]
         ],
-        "timestamp": "2026-06-19T12:07:06.506281552",
+        "timestamp": "2026-07-01T08:45:37.273190182",
         "meta": {
             "nf-test": "0.9.5",
-            "nextflow": "26.04.3"
+            "nextflow": "26.04.4"
         }
     }
 }
