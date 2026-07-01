@@ -27,7 +27,7 @@
                     },
                     "gawk": {
                         "branch": "master",
-                        "git_sha": "97321eded31a12598837a476d3615300af413bb7",
+                        "git_sha": "6d46786420b4d7bc88eba026eb389c0c5535d120",
                         "installed_by": ["modules"]
                     },
                     "multiqc": {
