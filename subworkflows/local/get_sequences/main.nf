@@ -1,14 +1,14 @@
-include { SPLIT_ID_FORMAT          } from '../../../modules/local/split_id_format'
+include { SPLIT_ID_FORMAT                   } from '../../../modules/local/split_id_format'
 
-include { FETCH_UNIPROT_SEQUENCES  } from '../../../modules/local/fetch_uniprot_sequences'
-include { FETCH_ENSEMBL_IDMAP      } from '../../../modules/local/fetch_ensembl_idmap'
-include { FETCH_ENSEMBL_SEQUENCES  } from '../../../modules/local/fetch_ensembl_sequences'
-include { FETCH_REFSEQ_SEQUENCES   } from '../../../modules/local/fetch_refseq_sequences'
-include { FETCH_OMA_SEQUENCES      } from '../../../modules/local/fetch_oma_sequences'
+include { FETCH_UNIPROT_SEQUENCES           } from '../../../modules/local/fetch_uniprot_sequences'
+include { FETCH_ENSEMBL_IDMAP               } from '../../../modules/local/fetch_ensembl_idmap'
+include { FETCH_ENSEMBL_SEQUENCES           } from '../../../modules/local/fetch_ensembl_sequences'
+include { FETCH_REFSEQ_SEQUENCES            } from '../../../modules/local/fetch_refseq_sequences'
+include { FETCH_OMA_SEQUENCES               } from '../../../modules/local/fetch_oma_sequences'
 
-include { CAT_CAT as CONCAT_FASTA  } from '../../../modules/nf-core/cat/cat/main.nf'
-include { CAT_CAT as CONCAT_HITS   } from '../../../modules/nf-core/cat/cat/main.nf'
-include { CAT_CAT as CONCAT_MISSES } from '../../../modules/nf-core/cat/cat/main.nf'
+include { FIND_CONCATENATE as CONCAT_FASTA  } from '../../../modules/nf-core/find/concatenate/main.nf'
+include { FIND_CONCATENATE as CONCAT_HITS   } from '../../../modules/nf-core/find/concatenate/main.nf'
+include { FIND_CONCATENATE as CONCAT_MISSES } from '../../../modules/nf-core/find/concatenate/main.nf'
 
 workflow GET_SEQUENCES {
     take:
@@ -69,16 +69,13 @@ workflow GET_SEQUENCES {
     ch_misses_grouped = ch_misses.groupTuple()
 
     CONCAT_FASTA(ch_fasta_grouped)
-    ch_versions.mix(CONCAT_FASTA.out.versions)
 
     CONCAT_HITS(ch_hits_grouped)
-    ch_versions.mix(CONCAT_HITS.out.versions)
 
     ch_misses_mixed = ch_misses_grouped.join(ch_id_files.unknown).map {
         meta, misses, unknown -> [meta, misses + [unknown]]
     }
     CONCAT_MISSES(ch_misses_mixed)
-    ch_versions.mix(CONCAT_MISSES.out.versions)
 
     emit:
     fasta    = CONCAT_FASTA.out.file_out

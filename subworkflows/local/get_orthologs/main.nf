@@ -153,8 +153,6 @@ workflow GET_ORTHOLOGS {
         ch_orthogroups.groupTuple()
     )
 
-    ch_versions = ch_versions.mix(MERGE_CSV.out.versions)
-
     emit:
     seqinfo     = ch_query
     id          = ch_query.map { row -> row[1] }
