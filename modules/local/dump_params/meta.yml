@@ -51,7 +51,7 @@ output:
       - coreutils:
           type: string
           description: The name of the tool
-      - cat --version | sed '1!d; s/.* //':
+      - "cat --version | sed '1!d; s/.* //'":
           type: eval
           description: The expression to obtain the version of the tool
 topics:
@@ -62,7 +62,7 @@ topics:
       - coreutils:
           type: string
           description: The name of the tool
-      - cat --version | sed '1!d; s/.* //':
+      - "cat --version | sed '1!d; s/.* //'":
           type: eval
           description: The expression to obtain the version of the tool
 authors:

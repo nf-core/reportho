@@ -52,7 +52,7 @@ output:
       - python:
           type: string
           description: The name of the tool
-      - python --version | sed 's/Python //':
+    - "python --version | sed 's/Python //'":
           type: eval
           description: The expression to obtain the version of the tool
   versions_biopython:
@@ -62,7 +62,7 @@ output:
       - biopython:
           type: string
           description: The name of the tool
-      - 'python -c "import Bio; print(Bio.__version__)" | sed ''s/^//''':
+    - "python -c \"import Bio; print(Bio.__version__)\" | sed 's/^//'":
           type: eval
           description: The expression to obtain the version of the tool
   versions_requests:
@@ -72,7 +72,7 @@ output:
       - requests:
           type: string
           description: The name of the tool
-      - "pip show requests | sed -n 's/^Version: //p'":
+    - "pip show requests | sed -n 's/^Version: //p'":
           type: eval
           description: The expression to obtain the version of the tool
   versions_oma_database:
@@ -82,7 +82,7 @@ output:
       - oma_database:
           type: string
           description: The name of the resource
-      - "get_oma_version.py | sed -n 's/^[[:space:]]*OMA Database:[[:space:]]*//p'":
+    - "get_oma_version.py | sed -n 's/^[[:space:]]*OMA Database:[[:space:]]*//p'":
           type: eval
           description: The expression to obtain the OMA database version
   versions_oma_api:
@@ -92,7 +92,7 @@ output:
       - oma_api:
           type: string
           description: The name of the resource
-      - "get_oma_version.py | sed -n 's/^[[:space:]]*OMA API:[[:space:]]*//p'":
+    - "get_oma_version.py | sed -n 's/^[[:space:]]*OMA API:[[:space:]]*//p'":
           type: eval
           description: The expression to obtain the OMA API version
 topics:
@@ -103,7 +103,7 @@ topics:
       - python:
           type: string
           description: The name of the tool
-      - python --version | sed 's/Python //':
+    - "python --version | sed 's/Python //'":
           type: eval
           description: The expression to obtain the version of the tool
     - - ${task.process}:
@@ -112,7 +112,7 @@ topics:
       - biopython:
           type: string
           description: The name of the tool
-      - 'python -c "import Bio; print(Bio.__version__)" | sed ''s/^//''':
+    - "python -c \"import Bio; print(Bio.__version__)\" | sed 's/^//'":
           type: eval
           description: The expression to obtain the version of the tool
     - - ${task.process}:
@@ -121,7 +121,7 @@ topics:
       - requests:
           type: string
           description: The name of the tool
-      - "pip show requests | sed -n 's/^Version: //p'":
+    - "pip show requests | sed -n 's/^Version: //p'":
           type: eval
           description: The expression to obtain the version of the tool
     - - ${task.process}:
@@ -130,7 +130,7 @@ topics:
       - oma_database:
           type: string
           description: The name of the resource
-      - "get_oma_version.py | sed -n 's/^[[:space:]]*OMA Database:[[:space:]]*//p'":
+    - "get_oma_version.py | sed -n 's/^[[:space:]]*OMA Database:[[:space:]]*//p'":
           type: eval
           description: The expression to obtain the OMA database version
     - - ${task.process}:
@@ -139,7 +139,7 @@ topics:
       - oma_api:
           type: string
           description: The name of the resource
-      - "get_oma_version.py | sed -n 's/^[[:space:]]*OMA API:[[:space:]]*//p'":
+    - "get_oma_version.py | sed -n 's/^[[:space:]]*OMA API:[[:space:]]*//p'":
           type: eval
           description: The expression to obtain the OMA API version
 authors:

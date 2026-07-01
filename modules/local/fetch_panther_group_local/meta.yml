@@ -50,7 +50,7 @@ output:
       - python:
           type: string
           description: The name of the tool
-      - python --version | sed 's/Python //':
+    - "python --version | sed 's/Python //'":
           type: eval
           description: The expression to obtain the version of the tool
   versions_ripgrep:
@@ -60,7 +60,7 @@ output:
       - ripgrep:
           type: string
           description: The name of the tool
-      - rg --version | sed '1!d; s/ripgrep //; s/ .*//':
+    - "rg --version | sed '1!d; s/ripgrep //; s/ .*//'":
           type: eval
           description: The expression to obtain the version of the tool
 topics:
@@ -71,7 +71,7 @@ topics:
       - python:
           type: string
           description: The name of the tool
-      - python --version | sed 's/Python //':
+    - "python --version | sed 's/Python //'":
           type: eval
           description: The expression to obtain the version of the tool
     - - ${task.process}:
@@ -80,7 +80,7 @@ topics:
       - ripgrep:
           type: string
           description: The name of the tool
-      - rg --version | sed '1!d; s/ripgrep //; s/ .*//':
+    - "rg --version | sed '1!d; s/ripgrep //; s/ .*//'":
           type: eval
           description: The expression to obtain the version of the tool
 authors:

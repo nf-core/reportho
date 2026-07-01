@@ -55,7 +55,7 @@ output:
       - python:
           type: string
           description: The name of the tool
-      - python --version | sed 's/Python //':
+    - "python --version | sed 's/Python //'":
           type: eval
           description: The expression to obtain the version of the tool
   versions_biopython:
@@ -65,7 +65,7 @@ output:
       - biopython:
           type: string
           description: The name of the tool
-      - 'python -c "import Bio; print(Bio.__version__)" | sed ''s/^//''':
+    - "python -c \"import Bio; print(Bio.__version__)\" | sed 's/^//'":
           type: eval
           description: The expression to obtain the version of the tool
   versions_requests:
@@ -75,7 +75,7 @@ output:
       - requests:
           type: string
           description: The name of the tool
-      - "pip show requests | sed -n 's/^Version: //p'":
+    - "pip show requests | sed -n 's/^Version: //p'":
           type: eval
           description: The expression to obtain the version of the tool
   versions_orthoinspector_database:
@@ -85,7 +85,7 @@ output:
       - orthoinspector_database:
           type: string
           description: The name of the tool
-      - 'echo "$inspector_version" | sed ''s/^//''':
+    - "echo \"$inspector_version\" | sed 's/^//'":
           type: eval
           description: The expression to obtain the version of the database used
 topics:
@@ -96,7 +96,7 @@ topics:
       - python:
           type: string
           description: The name of the tool
-      - python --version | sed 's/Python //':
+    - "python --version | sed 's/Python //'":
           type: eval
           description: The expression to obtain the version of the tool
     - - ${task.process}:
@@ -105,7 +105,7 @@ topics:
       - biopython:
           type: string
           description: The name of the tool
-      - 'python -c "import Bio; print(Bio.__version__)" | sed ''s/^//''':
+    - "python -c \"import Bio; print(Bio.__version__)\" | sed 's/^//'":
           type: eval
           description: The expression to obtain the version of the tool
     - - ${task.process}:
@@ -114,7 +114,7 @@ topics:
       - requests:
           type: string
           description: The name of the tool
-      - "pip show requests | sed -n 's/^Version: //p'":
+    - "pip show requests | sed -n 's/^Version: //p'":
           type: eval
           description: The expression to obtain the version of the tool
     - - ${task.process}:
@@ -123,7 +123,7 @@ topics:
       - orthoinspector_database:
           type: string
           description: The name of the tool
-      - 'echo "$inspector_version" | sed ''s/^//''':
+    - "echo \"$inspector_version\" | sed 's/^//'":
           type: eval
           description: The expression to obtain the version of the database used
 authors:
