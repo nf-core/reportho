@@ -89,7 +89,7 @@ output:
       - biopython:
           type: string
           description: The name of the tool
-      - "python -c \"import Bio; print(Bio.__version__)\" | sed 's/^//'":
+      - 'python -c "import Bio; print(Bio.__version__)" | sed ''s/^//''':
           type: eval
           description: The expression to obtain the version of the tool
   versions_requests:
@@ -103,7 +103,7 @@ output:
           type: eval
           description: The expression to obtain the version of the tool
 topics:
-    versions:
+  versions:
     - - ${task.process}:
           type: string
           description: The name of the process
@@ -119,7 +119,7 @@ topics:
       - biopython:
           type: string
           description: The name of the tool
-      - "python -c \"import Bio; print(Bio.__version__)\" | sed 's/^//'":
+      - 'python -c "import Bio; print(Bio.__version__)" | sed ''s/^//''':
           type: eval
           description: The expression to obtain the version of the tool
     - - ${task.process}:
