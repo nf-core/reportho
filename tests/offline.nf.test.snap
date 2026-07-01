@@ -4,7 +4,7 @@
             25,
             {
                 "DUMP_PARAMS": {
-                    "cat": 8.3
+                    "coreutils": 8.3
                 },
                 "FETCH_OMA_GROUP_LOCAL": {
                     "python": "3.12.3",
@@ -86,7 +86,7 @@
                 ".stub:md5,d41d8cd98f00b204e9800998ecf8427e"
             ]
         ],
-        "timestamp": "2026-07-01T08:46:01.029928904",
+        "timestamp": "2026-07-01T14:35:34.998393393",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.4"
@@ -97,7 +97,7 @@
             25,
             {
                 "DUMP_PARAMS": {
-                    "cat": 8.3
+                    "coreutils": 8.3
                 },
                 "FETCH_OMA_GROUP_LOCAL": {
                     "python": "3.12.3",
@@ -194,7 +194,7 @@
                 "multiqc_citations.txt:md5,4c806e63a283ec1b7e78cdae3a923d4f"
             ]
         ],
-        "timestamp": "2026-07-01T08:45:37.273190182",
+        "timestamp": "2026-07-01T14:35:09.783417221",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.4"
