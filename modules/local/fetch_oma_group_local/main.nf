@@ -16,7 +16,8 @@ process FETCH_OMA_GROUP_LOCAL {
 
     output:
     tuple val(meta), path("*_oma_group.csv"), emit: oma_group
-    path "versions.yml"                     , emit: versions
+    tuple val("${task.process}"), val('python'), eval("python --version | sed 's/Python //'"), emit: versions_python, topic: versions
+    tuple val("${task.process}"), val('ripgrep'), eval("rg --version | sed '1!d; s/ripgrep //; s/ .*//'"), emit: versions_ripgrep, topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -35,23 +36,11 @@ process FETCH_OMA_GROUP_LOCAL {
 
     # Add the OMA column to the csv file
     csv_adorn.py --path ${prefix}_oma_group.txt --header OMA > ${prefix}_oma_group.csv
-
-    cat <<- END_VERSIONS > versions.yml
-    "${task.process}":
-        python: \$(python --version | sed 's/Python //g')
-        ripgrep: \$(rg --version | head -n1 | cut -d' ' -f2)
-    END_VERSIONS
     """
 
     stub:
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     touch ${prefix}_oma_group.csv
-
-    cat <<- END_VERSIONS > versions.yml
-    "${task.process}":
-        python: \$(python --version | sed 's/Python //g')
-        ripgrep: \$(rg --version | head -n1 | cut -d' ' -f2)
-    END_VERSIONS
     """
 }

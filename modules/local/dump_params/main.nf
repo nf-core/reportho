@@ -17,7 +17,7 @@ process DUMP_PARAMS {
 
     output:
     tuple val(meta), path("params.yml"), emit: params
-    path("versions.yml"), emit: versions
+    tuple val("${task.process}"), val('coreutils'), eval("cat --version | sed '1!d; s/.* //'"), emit: versions_coreutils, topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -33,20 +33,10 @@ process DUMP_PARAMS {
     min_identity: ${min_identity}
     min_coverage: ${min_coverage}
     END_PARAMS
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        cat: \$(echo \$(cat --version 2>&1) | sed 's/^.*coreutils) //; s/ .*\$//')
-    END_VERSIONS
     """
 
     stub:
     """
     touch params.yml
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        cat: \$(echo \$(cat --version 2>&1) | sed 's/^.*coreutils) //; s/ .*\$//')
-    END_VERSIONS
     """
 }

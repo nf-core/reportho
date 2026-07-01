@@ -23,11 +23,46 @@ output:
           type: file
           description: CSV file containing Ensembl to UniProt identifier mappings
           pattern: "ensembl_idmap.csv"
+  versions_python:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - python:
+          type: string
+          description: The name of the tool
+      - python --version | sed 's/Python //':
+          type: eval
+          description: The expression to obtain the version of the tool
+  versions_requests:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - requests:
+          type: string
+          description: The name of the tool
+      - "pip show requests | sed -n 's/^Version: //p'":
+          type: eval
+          description: The expression to obtain the version of the tool
+topics:
   versions:
-    - - versions.yml:
-          type: file
-          description: File containing software versions used in the module
-          pattern: "versions.yml"
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - python:
+          type: string
+          description: The name of the tool
+      - python --version | sed 's/Python //':
+          type: eval
+          description: The expression to obtain the version of the tool
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - requests:
+          type: string
+          description: The name of the tool
+      - "pip show requests | sed -n 's/^Version: //p'":
+          type: eval
+          description: The expression to obtain the version of the tool
 authors:
   - "@itrujnara"
 maintainers:

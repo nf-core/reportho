@@ -44,11 +44,27 @@ output:
           type: file
           description: YAML file containing serialized pipeline parameters
           pattern: "params.yml"
+  versions_coreutils:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - coreutils:
+          type: string
+          description: The name of the tool
+      - cat --version | sed '1!d; s/.* //':
+          type: eval
+          description: The expression to obtain the version of the tool
+topics:
   versions:
-    - - versions.yml:
-          type: file
-          description: File containing software versions
-          pattern: "versions.yml"
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - coreutils:
+          type: string
+          description: The name of the tool
+      - cat --version | sed '1!d; s/.* //':
+          type: eval
+          description: The expression to obtain the version of the tool
 authors:
   - "@itrujnara"
 maintainers:

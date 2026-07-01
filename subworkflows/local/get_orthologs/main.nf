@@ -71,8 +71,6 @@ workflow GET_ORTHOLOGS {
             ch_orthogroups
                 .mix(FETCH_OMA_GROUP_LOCAL.out.oma_group)
                 .set { ch_orthogroups }
-
-            ch_versions = ch_versions.mix(FETCH_OMA_GROUP_LOCAL.out.versions)
         }
         else {
             FETCH_OMA_GROUP_ONLINE (
@@ -82,8 +80,6 @@ workflow GET_ORTHOLOGS {
             ch_orthogroups
                 .mix(FETCH_OMA_GROUP_ONLINE.out.oma_group)
                 .set { ch_orthogroups }
-
-            ch_versions = ch_versions.mix(FETCH_OMA_GROUP_ONLINE.out.versions)
         }
     }
 
@@ -99,8 +95,6 @@ workflow GET_ORTHOLOGS {
             ch_orthogroups
                 .mix(FETCH_PANTHER_GROUP_LOCAL.out.panther_group)
                 .set { ch_orthogroups }
-
-            ch_versions = ch_versions.mix(FETCH_PANTHER_GROUP_LOCAL.out.versions)
         } else {
             FETCH_PANTHER_GROUP_ONLINE (
                 ch_query
@@ -125,8 +119,6 @@ workflow GET_ORTHOLOGS {
         ch_orthogroups
             .mix(FETCH_INSPECTOR_GROUP_ONLINE.out.inspector_group)
             .set { ch_orthogroups }
-
-        ch_versions = ch_versions.mix(FETCH_INSPECTOR_GROUP_ONLINE.out.versions)
     }
 
     // EggNOG
@@ -143,8 +135,6 @@ workflow GET_ORTHOLOGS {
         ch_orthogroups
             .mix(FETCH_EGGNOG_GROUP_LOCAL.out.eggnog_group)
             .set { ch_orthogroups }
-
-        ch_versions = ch_versions.mix(FETCH_EGGNOG_GROUP_LOCAL.out.versions)
     }
 
     // Result merging

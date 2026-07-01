@@ -12,7 +12,11 @@ process FETCH_OMA_GROUP_ONLINE {
 
     output:
     tuple val(meta), path("*_oma_group.csv"), emit: oma_group
-    path "versions.yml"                     , emit: versions
+    tuple val("${task.process}"), val('python'), eval("python --version | sed 's/Python //'"), emit: versions_python, topic: versions
+    tuple val("${task.process}"), val('biopython'), eval("python -c \"import Bio; print(Bio.__version__)\" | sed 's/^//'"), emit: versions_biopython, topic: versions
+    tuple val("${task.process}"), val('requests'), eval("pip show requests | sed -n 's/^Version: //p'"), emit: versions_requests, topic: versions
+    tuple val("${task.process}"), val('oma_database'), eval("get_oma_version.py | sed -n 's/^[[:space:]]*OMA Database:[[:space:]]*//p'"), emit: versions_oma_database, topic: versions
+    tuple val("${task.process}"), val('oma_api'), eval("get_oma_version.py | sed -n 's/^[[:space:]]*OMA API:[[:space:]]*//p'"), emit: versions_oma_api, topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -34,25 +38,11 @@ process FETCH_OMA_GROUP_ONLINE {
 
     # convert output to CSV
     csv_adorn.py --path ${prefix}_oma_group.txt --header OMA > ${prefix}_oma_group.csv
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        Python: \$(python --version | cut -d ' ' -f 2)
-        Python Requests: \$(pip show requests | grep Version | cut -d ' ' -f 2)
-    \$(get_oma_version.py)
-    END_VERSIONS
     """
 
     stub:
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     touch ${prefix}_oma_group.csv
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        Python: \$(python --version | cut -d ' ' -f 2)
-        Python Requests: \$(pip show requests | grep Version | cut -d ' ' -f 2)
-    \$(get_oma_version.py)
-    END_VERSIONS
     """
 }
