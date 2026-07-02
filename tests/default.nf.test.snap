@@ -34,16 +34,20 @@
                     "requests": "2.31.0"
                 },
                 "FETCH_PANTHER_GROUP_ONLINE": {
-                    "Python": "3.11.0",
-                    "Python Requests": "2.31.0",
-                    "Panther Database": null
+                    "biopython": 1.83,
+                    "panther_database": null,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
                 },
                 "FETCH_UNIPROT_SEQUENCES": {
-                    "Python": "3.11.0",
-                    "Python Requests": "2.31.0"
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
                 },
                 "MAKE_HITS_TABLE": {
-                    "Python": "3.11.0"
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
                 },
                 "MERGE_CSV": {
                     "csvtk": "0.37.0"
@@ -87,7 +91,7 @@
                 ".stub:md5,d41d8cd98f00b204e9800998ecf8427e"
             ]
         ],
-        "timestamp": "2026-07-01T14:16:20.542440119",
+        "timestamp": "2026-07-02T10:10:06.710980509",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.4"
@@ -148,29 +152,38 @@
                     "requests": "2.31.0"
                 },
                 "FETCH_PANTHER_GROUP_ONLINE": {
-                    "Python": "3.11.0",
-                    "Python Requests": "2.31.0",
-                    "Panther Database": null
+                    "biopython": 1.83,
+                    "panther_database": null,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
                 },
                 "FETCH_REFSEQ_SEQUENCES": {
-                    "Python": "3.11.0",
-                    "Python Requests": "2.31.0"
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
                 },
                 "FETCH_UNIPROT_SEQUENCES": {
-                    "Python": "3.11.0",
-                    "Python Requests": "2.31.0"
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
                 },
                 "FILTER_HITS": {
-                    "Python": "3.11.0"
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
                 },
                 "GROUP_DIAMOND": {
                     "gawk": "5.3.1"
                 },
                 "MAKE_HITS_TABLE": {
-                    "Python": "3.11.0"
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
                 },
                 "MAKE_MERGE_TABLE": {
-                    "Python": "3.11.0"
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
                 },
                 "MAKE_REPORT": {
                     "Node": "v22.14.0",
@@ -313,7 +326,7 @@
                 "taxid.txt:md5,d8ce74354d0ddf337bd304faca270ff7"
             ]
         ],
-        "timestamp": "2026-07-01T14:15:43.664931452",
+        "timestamp": "2026-07-02T09:51:14.72036513",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.4"
