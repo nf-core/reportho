@@ -16,7 +16,8 @@ process FETCH_EGGNOG_GROUP_LOCAL {
 
     output:
     tuple val(meta), path("*_eggnog_group.csv"), emit: eggnog_group
-    path "versions.yml"                        , emit: versions
+    tuple val("${task.process}"), val('python'), eval("python --version | sed 's/Python //'"), emit: versions_python, topic: versions
+    tuple val("${task.process}"), val('ripgrep'), eval("rg --version | sed '1!d; s/ripgrep //; s/ .*//'"), emit: versions_ripgrep, topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -38,12 +39,6 @@ process FETCH_EGGNOG_GROUP_LOCAL {
 
     # convert output to CSV
     csv_adorn.py --path ${prefix}_eggnog_group.txt --header EggNOG > ${prefix}_eggnog_group.csv
-
-    cat <<- END_VERSIONS > versions.yml
-    "${task.process}":
-        Python: \$(python --version | cut -d' ' -f2)
-        ripgrep: \$(rg --version | head -n1 | cut -d' ' -f2)
-    END_VERSIONS
     """
 
     stub:
@@ -51,11 +46,5 @@ process FETCH_EGGNOG_GROUP_LOCAL {
     """
     touch ${prefix}_eggnog_group.txt
     touch ${prefix}_eggnog_group.csv
-
-    cat <<- END_VERSIONS > versions.yml
-    "${task.process}":
-        python: \$(python --version | sed 's/Python //g')
-        ripgrep: \$(rg --version | head -n1 | cut -d' ' -f2)
-    END_VERSIONS
     """
 }

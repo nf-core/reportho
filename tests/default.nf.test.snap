@@ -14,22 +14,24 @@
                     "pigz": 2.8
                 },
                 "DUMP_PARAMS": {
-                    "cat": 8.3
+                    "coreutils": 8.3
                 },
                 "FETCH_ENSEMBL_IDMAP": {
-                    "Python": "3.12.9",
-                    "Python Requests": "2.32.3"
+                    "python": "3.12.9",
+                    "requests": "2.32.3"
                 },
                 "FETCH_INSPECTOR_GROUP_ONLINE": {
-                    "Python": "3.11.0",
-                    "Python Requests": "2.31.0",
-                    "OrthoInspector Database": "Eukaryota2023"
+                    "biopython": 1.83,
+                    "orthoinspector_database": "Eukaryota2023",
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
                 },
                 "FETCH_OMA_GROUP_ONLINE": {
-                    "Python": "3.11.0",
-                    "Python Requests": "2.31.0",
-                    "OMA Database": "All.May2026",
-                    "OMA API": 1.11
+                    "biopython": 1.83,
+                    "oma_api": 1.11,
+                    "oma_database": "All.May2026",
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
                 },
                 "FETCH_PANTHER_GROUP_ONLINE": {
                     "Python": "3.11.0",
@@ -85,7 +87,7 @@
                 ".stub:md5,d41d8cd98f00b204e9800998ecf8427e"
             ]
         ],
-        "timestamp": "2026-07-01T08:42:51.135061002",
+        "timestamp": "2026-07-01T14:16:20.542440119",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.4"
@@ -114,32 +116,36 @@
                     "diamond": "2.2.2"
                 },
                 "DUMP_PARAMS": {
-                    "cat": 8.3
+                    "coreutils": 8.3
                 },
                 "FETCH_ENSEMBL_IDMAP": {
-                    "Python": "3.12.9",
-                    "Python Requests": "2.32.3"
+                    "python": "3.12.9",
+                    "requests": "2.32.3"
                 },
                 "FETCH_ENSEMBL_SEQUENCES": {
-                    "Python": "3.11.0",
-                    "Python Requests": "2.31.0"
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
                 },
                 "FETCH_INSPECTOR_GROUP_ONLINE": {
-                    "Python": "3.11.0",
-                    "Python Requests": "2.31.0",
-                    "OrthoInspector Database": "Eukaryota2023"
+                    "biopython": 1.83,
+                    "orthoinspector_database": "Eukaryota2023",
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
                 },
                 "FETCH_OMA_GROUP_ONLINE": {
-                    "Python": "3.11.0",
-                    "Python Requests": "2.31.0",
-                    "OMA Database": "All.May2026",
-                    "OMA API": 1.11
+                    "biopython": 1.83,
+                    "oma_api": 1.11,
+                    "oma_database": "All.May2026",
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
                 },
                 "FETCH_OMA_SEQUENCES": {
-                    "Python": "3.11.0",
-                    "Python Requests": "2.31.0",
-                    "OMA Database": "All.May2026",
-                    "OMA API": 1.11
+                    "biopython": 1.83,
+                    "oma_api": 1.11,
+                    "oma_database": "All.May2026",
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
                 },
                 "FETCH_PANTHER_GROUP_ONLINE": {
                     "Python": "3.11.0",
@@ -307,7 +313,7 @@
                 "taxid.txt:md5,d8ce74354d0ddf337bd304faca270ff7"
             ]
         ],
-        "timestamp": "2026-07-01T08:42:24.399351291",
+        "timestamp": "2026-07-01T14:15:43.664931452",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.4"

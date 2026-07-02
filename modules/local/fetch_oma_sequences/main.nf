@@ -14,7 +14,11 @@ process FETCH_OMA_SEQUENCES {
     tuple val(meta), path("*_oma_sequences.fa")  , emit: fasta
     tuple val(meta), path("*_oma_seq_hits.txt")  , emit: hits
     tuple val(meta), path("*_oma_seq_misses.txt"), emit: misses
-    path "versions.yml"                          , emit: versions
+    tuple val("${task.process}"), val('python'), eval("python --version | sed 's/Python //'"), emit: versions_python, topic: versions
+    tuple val("${task.process}"), val('biopython'), eval("python -c \"import Bio; print(Bio.__version__)\" | sed 's/^//'"), emit: versions_biopython, topic: versions
+    tuple val("${task.process}"), val('requests'), eval("pip show requests | sed -n 's/^Version: //p'"), emit: versions_requests, topic: versions
+    tuple val("${task.process}"), val('oma_database'), eval("get_oma_version.py | sed -n 's/^[[:space:]]*OMA Database:[[:space:]]*//p'"), emit: versions_oma_database, topic: versions
+    tuple val("${task.process}"), val('oma_api'), eval("get_oma_version.py | sed -n 's/^[[:space:]]*OMA API:[[:space:]]*//p'"), emit: versions_oma_api, topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -25,13 +29,6 @@ process FETCH_OMA_SEQUENCES {
     """
     fetch_oma_sequences.py --ids-path $ids --prefix $prefix > ${prefix}_oma_sequences.fa
     $add_query
-
-    cat <<- END_VERSIONS > versions.yml
-    "${task.process}":
-        Python: \$(python --version | cut -d ' ' -f 2)
-        Python Requests: \$(pip show requests | grep Version | cut -d ' ' -f 2)
-    \$(get_oma_version.py)
-    END_VERSIONS
     """
 
     stub:
@@ -40,12 +37,5 @@ process FETCH_OMA_SEQUENCES {
     touch ${prefix}_oma_sequences.fa
     touch ${prefix}_oma_seq_hits.txt
     touch ${prefix}_oma_seq_misses.txt
-
-    cat <<- END_VERSIONS > versions.yml
-    "${task.process}":
-        Python: \$(python --version | cut -d ' ' -f 2)
-        Python Requests: \$(pip show requests | grep Version | cut -d ' ' -f 2)
-    \$(get_oma_version.py)
-    END_VERSIONS
     """
 }

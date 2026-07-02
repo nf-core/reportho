@@ -22,6 +22,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 | Dependency | Old version | New version |
 | ---------- | ----------- | ----------- |
+| csvtk      | 0.31.0      | 0.37.0      |
+| Diamond    | 2.1.12      | 2.2.2       |
+| gawk       | 5.3.0       | 5.3.1       |
+| MultiQC    | 1.31        | 1.34        |
+| coreutils  |             | 9.4         |
+| findutils  |             | 4.6.0       |
+| pigz       |             | 2.8         |
 
 ### Parameters
 
