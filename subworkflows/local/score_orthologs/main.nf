@@ -38,8 +38,6 @@ workflow SCORE_ORTHOLOGS {
         params.min_score
     )
 
-    ch_versions = ch_versions.mix(FILTER_HITS.out.versions)
-
     // Plotting
 
     ch_supportsplot = ch_query.map { row -> [row[0], []]}
@@ -64,8 +62,6 @@ workflow SCORE_ORTHOLOGS {
         ch_orthologs
     )
 
-    ch_versions = ch_versions.mix(MAKE_HITS_TABLE.out.versions)
-
     ch_hits = MAKE_HITS_TABLE.out.hits_table
         .collect { row -> row[1] }
         .map { row -> [[id: "all"], row] }
@@ -83,8 +79,6 @@ workflow SCORE_ORTHOLOGS {
         MAKE_MERGE_TABLE (
             ch_clusters
         )
-
-        ch_versions = ch_versions.mix(MAKE_MERGE_TABLE.out.versions)
 
         ch_merge_table = MAKE_MERGE_TABLE.out.merge_table
 

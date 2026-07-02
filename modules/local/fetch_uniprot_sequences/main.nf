@@ -14,7 +14,9 @@ process FETCH_UNIPROT_SEQUENCES {
     tuple val(meta), path("*_uniprot_sequences.fa")  , emit: fasta
     tuple val(meta), path("*_uniprot_seq_hits.txt")  , emit: hits
     tuple val(meta), path("*_uniprot_seq_misses.txt"), emit: misses
-    path "versions.yml"                              , emit: versions
+    tuple val("${task.process}"), val('python'), eval("python --version | sed 's/Python //'"), emit: versions_python, topic: versions
+    tuple val("${task.process}"), val('biopython'), eval("python -c \"import Bio; print(Bio.__version__)\" | sed 's/^//'"), emit: versions_biopython, topic: versions
+    tuple val("${task.process}"), val('requests'), eval("pip show requests | sed -n 's/^Version: //p'"), emit: versions_requests, topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -25,12 +27,6 @@ process FETCH_UNIPROT_SEQUENCES {
     """
     fetch_uniprot_sequences.py --ids-path $ids --prefix $prefix > ${prefix}_uniprot_sequences.fa
     $add_query
-
-    cat <<- END_VERSIONS > versions.yml
-    "${task.process}":
-        Python: \$(python --version | cut -d ' ' -f 2)
-        Python Requests: \$(pip show requests | grep Version | cut -d ' ' -f 2)
-    END_VERSIONS
     """
 
     stub:
@@ -39,11 +35,5 @@ process FETCH_UNIPROT_SEQUENCES {
     touch ${prefix}_uniprot_sequences.fa
     touch ${prefix}_uniprot_seq_hits.txt
     touch ${prefix}_uniprot_seq_misses.txt
-
-    cat <<- END_VERSIONS > versions.yml
-    "${task.process}":
-        Python: \$(python --version | cut -d ' ' -f 2)
-        Python Requests: \$(pip show requests | grep Version | cut -d ' ' -f 2)
-    END_VERSIONS
     """
 }

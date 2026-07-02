@@ -15,7 +15,9 @@ process FILTER_HITS {
     output:
     tuple val(meta), path('*_minscore_*.txt'), path("*_centroid.txt"), emit: scored_hits
     tuple val(meta), path('*_filtered_hits.txt')                     , emit: filtered_hits
-    path "versions.yml"                                              , emit: versions
+    tuple val("${task.process}"), val('python'), eval("python --version | sed 's/Python //'"), emit: versions_python, topic: versions
+    tuple val("${task.process}"), val('biopython'), eval("python -c \"import Bio; print(Bio.__version__)\" | sed 's/^//'"), emit: versions_biopython, topic: versions
+    tuple val("${task.process}"), val('requests'), eval("pip show requests | sed -n 's/^Version: //p'"), emit: versions_requests, topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -28,11 +30,6 @@ process FILTER_HITS {
     touch $targetfile
     touch ${prefix}_centroid.txt
     cat $targetfile > ${prefix}_filtered_hits.txt
-
-    cat <<- END_VERSIONS > versions.yml
-    "${task.process}":
-        Python: \$(python --version | cut -d ' ' -f 2)
-    END_VERSIONS
     """
 
     stub:
@@ -41,10 +38,5 @@ process FILTER_HITS {
     touch ${prefix}_minscore_000.txt
     touch ${prefix}_centroid.txt
     touch ${prefix}_filtered_hits.txt
-
-    cat <<- END_VERSIONS > versions.yml
-    "${task.process}":
-        Python: \$(python --version | cut -f2)
-    END_VERSIONS
     """
 }

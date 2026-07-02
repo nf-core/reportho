@@ -12,7 +12,9 @@ process FILTER_FASTA {
 
     output:
     tuple val(meta), path("*_filtered.fa"), emit: fasta
-    path "versions.yml"                   , emit: versions
+    tuple val("${task.process}"), val('python'), eval("python --version | sed 's/Python //'"), emit: versions_python, topic: versions
+    tuple val("${task.process}"), val('biopython'), eval("python -c \"import Bio; print(Bio.__version__)\" | sed 's/^//'"), emit: versions_biopython, topic: versions
+    tuple val("${task.process}"), val('requests'), eval("pip show requests | sed -n 's/^Version: //p'"), emit: versions_requests, topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -21,21 +23,11 @@ process FILTER_FASTA {
     def prefix = task.ext.prefix ?: meta.id
     """
     filter_fasta.py ${fasta} ${structures} ${prefix}_filtered.fa
-
-    cat <<- END_VERSIONS > versions.yml
-    "${task.process}":
-        Python: \$(python --version | cut -d ' ' -f 2)
-    END_VERSIONS
     """
 
     stub:
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     touch ${prefix}_filtered.fa
-
-    cat <<- END_VERSIONS > versions.yml
-    "${task.process}":
-        Python: \$(python --version | cut -f2)
-    END_VERSIONS
     """
 }

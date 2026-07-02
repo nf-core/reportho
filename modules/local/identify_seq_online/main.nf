@@ -12,7 +12,9 @@ process IDENTIFY_SEQ_ONLINE {
 
     output:
     tuple val(meta), path("*_id.txt"), path("*_taxid.txt"), path("*_exact.txt"), emit: seqinfo
-    path "versions.yml"                                                        , emit: versions
+    tuple val("${task.process}"), val('python'), eval("python --version | sed 's/Python //'"), emit: versions_python, topic: versions
+    tuple val("${task.process}"), val('biopython'), eval("python -c \"import Bio; print(Bio.__version__)\" | sed 's/^//'"), emit: versions_biopython, topic: versions
+    tuple val("${task.process}"), val('requests'), eval("pip show requests | sed -n 's/^Version: //p'"), emit: versions_requests, topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -22,12 +24,6 @@ process IDENTIFY_SEQ_ONLINE {
     """
     fetch_oma_by_sequence.py --fasta $fasta --id-out id_raw.txt --taxid-out ${prefix}_taxid.txt --exact-out ${prefix}_exact.txt
     uniprotize_oma_online.py --oma-group-file id_raw.txt > ${prefix}_id.txt
-
-    cat <<- END_VERSIONS > versions.yml
-    "${task.process}":
-        Python: \$(python --version | cut -d ' ' -f 2)
-        Python Requests: \$(pip show requests | grep Version | cut -d ' ' -f 2)
-    END_VERSIONS
     """
 
     stub:
@@ -36,11 +32,5 @@ process IDENTIFY_SEQ_ONLINE {
     touch ${prefix}_id.txt
     touch ${prefix}_taxid.txt
     touch ${prefix}_exact.txt
-
-    cat <<- END_VERSIONS > versions.yml
-    "${task.process}":
-        Python: \$(python --version | cut -d ' ' -f 2)
-        Python Requests: \$(pip show requests | grep Version | cut -d ' ' -f 2)
-    END_VERSIONS
     """
 }

@@ -38,7 +38,6 @@ workflow GET_SEQUENCES {
     ch_fasta    = ch_fasta.mix(FETCH_UNIPROT_SEQUENCES.out.fasta)
     ch_hits     = ch_hits.mix(FETCH_UNIPROT_SEQUENCES.out.hits)
     ch_misses   = ch_misses.mix(FETCH_UNIPROT_SEQUENCES.out.misses)
-    ch_versions = ch_versions.mix(FETCH_UNIPROT_SEQUENCES.out.versions)
 
     FETCH_ENSEMBL_IDMAP()
 
@@ -54,7 +53,6 @@ workflow GET_SEQUENCES {
     ch_fasta    = ch_fasta.mix(FETCH_REFSEQ_SEQUENCES.out.fasta)
     ch_hits     = ch_hits.mix(FETCH_REFSEQ_SEQUENCES.out.hits)
     ch_misses   = ch_misses.mix(FETCH_REFSEQ_SEQUENCES.out.misses)
-    ch_versions = ch_versions.mix(FETCH_REFSEQ_SEQUENCES.out.versions)
 
     FETCH_OMA_SEQUENCES(ch_id_files.oma.join(ch_query_fasta))
     ch_fasta    = ch_fasta.mix(FETCH_OMA_SEQUENCES.out.fasta)
