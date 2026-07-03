@@ -13,7 +13,7 @@ process FETCH_PANTHER_GROUP_ONLINE {
     output:
     tuple val(meta), path("*_panther_group.csv"), emit: panther_group
     tuple val("${task.process}"), val('python'), eval("python --version | sed 's/Python //'"), emit: versions_python, topic: versions
-    tuple val("${task.process}"), val('biopython'), eval("python -c \"import Bio; print(Bio.__version__)\" | sed 's/^//'"), emit: versions_biopython, topic: versions
+    tuple val("${task.process}"), val('biopython'), eval("python -c 'import Bio; print(Bio.__version__)' | sed 's/^//'"), emit: versions_biopython, topic: versions
     tuple val("${task.process}"), val('requests'), eval("pip show requests | sed -n 's/^Version: //p'"), emit: versions_requests, topic: versions
     tuple val("${task.process}"), val('panther_database'), eval("cat panther_version.txt | sed 's/^//'"), emit: versions_panther_database, topic: versions
 
