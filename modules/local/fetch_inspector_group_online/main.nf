@@ -16,7 +16,7 @@ process FETCH_INSPECTOR_GROUP_ONLINE {
     tuple val("${task.process}"), val('python'), eval("python --version | sed 's/Python //'"), emit: versions_python, topic: versions
     tuple val("${task.process}"), val('biopython'), eval("python -c 'import Bio; print(Bio.__version__)' | sed 's/^//'"), emit: versions_biopython, topic: versions
     tuple val("${task.process}"), val('requests'), eval("pip show requests | sed -n 's/^Version: //p'"), emit: versions_requests, topic: versions
-    tuple val("${task.process}"), val('orthoinspector_database'), eval("""echo "$inspector_version" | sed 's/^//'"""), emit: versions_orthoinspector_database, topic: versions
+    tuple val("${task.process}"), val('orthoinspector_database'), eval("echo $inspector_version | sed 's/^//'"), emit: versions_orthoinspector_database, topic: versions
 
     when:
     task.ext.when == null || task.ext.when
