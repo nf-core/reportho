@@ -9,7 +9,9 @@ process MAKE_REPORT {
 
     output:
     tuple val(meta), path("${prefix}/*"), emit: report_files
-    path "versions.yml"                 , emit: versions
+    tuple val("${task.process}"), val('node'), eval("node --version | sed 's/^v//'"), emit: versions_node, topic: versions
+    tuple val("${task.process}"), val('yarn'), eval("yarn --version | sed 's/^//'"), emit: versions_yarn, topic: versions
+    tuple val("${task.process}"), val('react'), eval("yarn info react version | sed -n '2p' | sed 's/^//'"), emit: versions_react, topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -57,12 +59,6 @@ process MAKE_REPORT {
     # change output directory name
     mv dist ${prefix}
 
-    cat <<- END_VERSIONS > versions.yml
-    "${task.process}":
-        Node: \$(node --version)
-        Yarn: \$(yarn --version)
-        React: \$(yarn info react version | awk 'NR==2{print;exit}')
-    END_VERSIONS
     """
 
     stub:
@@ -70,11 +66,5 @@ process MAKE_REPORT {
     mkdir ${prefix}
     touch ${prefix}/run.sh
 
-    cat <<- END_VERSIONS > versions.yml
-    ${task.process}:
-        Node: \$(node --version)
-        Yarn: \$(yarn --version)
-        React: \$(yarn info react version | awk 'NR==2{print;exit}')
-    END_VERSIONS
     """
 }

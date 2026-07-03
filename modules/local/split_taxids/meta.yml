@@ -28,11 +28,27 @@ output:
           type: file
           description: FASTA files split by taxonomic identifier
           pattern: "*.fa"
+  versions_gawk:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - gawk:
+          type: string
+          description: The name of the tool
+      - "awk -Wversion | sed -n '1s/.*Awk //; s/,.*//; p'":
+          type: eval
+          description: The expression to obtain the version of the tool
+topics:
   versions:
-    - - versions.yml:
-          type: file
-          description: File containing software versions used in the module
-          pattern: "versions.yml"
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - gawk:
+          type: string
+          description: The name of the tool
+      - "awk -Wversion | sed -n '1s/.*Awk //; s/,.*//; p'":
+          type: eval
+          description: The expression to obtain the version of the tool
 authors:
   - "@itrujnara"
 maintainers:

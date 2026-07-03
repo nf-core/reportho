@@ -12,7 +12,8 @@ process SPLIT_ID_FORMAT {
 
     output:
     tuple val(meta), path('*_ids.txt'), emit: ids_split
-    path "versions.yml"               , emit: versions
+    tuple val("${task.process}"), val('python'), eval("python3 --version | sed 's/Python //'"), emit: versions_python, topic: versions
+    tuple val("${task.process}"), val('requests'), eval("pip show requests | sed -n 's/^Version: //p'"), emit: versions_requests, topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -22,21 +23,11 @@ process SPLIT_ID_FORMAT {
     """
     cut -d ',' -f 1 $ids | tail -n +2 > tmp
     split_id_format.py --id-list tmp --prefix $prefix
-
-    cat <<- END_VERSIONS > versions.yml
-    "${task.process}":
-        Python: \$(python3 --version | cut -d ' ' -f 2)
-    END_VERSIONS
     """
 
     stub:
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     touch ${prefix}_uniprot_ids.txt
-
-    cat <<- END_VERSIONS > versions.yml
-    "${task.process}":
-        Python: \$(python3 --version | cut -d ' ' -f 2)
-    END_VERSIONS
     """
 }

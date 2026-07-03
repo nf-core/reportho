@@ -12,15 +12,12 @@ workflow MERGE_IDS {
     ch_fasta_all
 
     main:
-    ch_versions = channel.empty()
     ch_id_clusters = channel.empty()
 
     // Split fasta by taxid
     SPLIT_TAXIDS (
         ch_fasta_all
     )
-
-    ch_versions = ch_versions.mix(SPLIT_TAXIDS.out.versions)
 
     // Branch by number of entries
     SPLIT_TAXIDS.out.fastas
@@ -85,5 +82,4 @@ workflow MERGE_IDS {
     emit:
     id_clusters = ch_id_clusters
     id_map      = ch_id_map
-    versions    = ch_versions
 }

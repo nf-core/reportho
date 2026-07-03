@@ -12,7 +12,8 @@ process STATS2CSV {
 
     output:
     tuple val(meta), path("*_stats.csv"), emit: csv
-    path "versions.yml"                 , emit: versions
+    tuple val("${task.process}"), val('python'), eval("python --version | sed 's/Python //'" ), emit: versions_python, topic: versions
+    tuple val("${task.process}"), val('pyyaml'), eval("pip show pyyaml | sed -n 's/^Version: //p'"), emit: versions_pyyaml, topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -21,23 +22,11 @@ process STATS2CSV {
     prefix = task.ext.prefix ?: meta.id
     """
     yml2csv.py --sample-id ${meta.id} --yaml $stats --output-file ${prefix}_stats.csv
-
-    cat <<- END_VERSIONS > versions.yml
-    "${task.process}":
-        Python: \$(python --version | cut -d ' ' -f 2)
-        PyYAML: \$(pip show pyyaml | grep Version | cut -d ' ' -f 2)
-    END_VERSIONS
     """
 
     stub:
     prefix = task.ext.prefix ?: meta.id
     """
     touch ${prefix}_stats.csv
-
-    cat <<- END_VERSIONS > versions.yml
-    "${task.process}":
-        Python: \$(python --version | cut -d ' ' -f 2)
-        PyYAML: \$(pip show pyyaml | grep Version | cut -d ' ' -f 2)
-    END_VERSIONS
     """
 }

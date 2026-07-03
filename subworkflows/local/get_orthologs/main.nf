@@ -24,7 +24,6 @@ workflow GET_ORTHOLOGS {
     ch_eggnog_idmap
 
     main:
-    ch_versions     = channel.empty()
     ch_orthogroups  = channel.empty()
 
     ch_samplesheet_fasta.map { fasta_entry ->
@@ -50,7 +49,6 @@ workflow GET_ORTHOLOGS {
     )
 
     ch_query = IDENTIFY_SEQ_ONLINE.out.seqinfo.mix(WRITE_SEQINFO.out.seqinfo)
-    ch_versions = ch_versions.mix(WRITE_SEQINFO.out.versions)
 
     // Ortholog fetching
 
@@ -146,5 +144,4 @@ workflow GET_ORTHOLOGS {
     exact       = ch_query.map { row -> row[3] }
     orthogroups = ch_orthogroups
     orthologs   = MERGE_CSV.out.csv
-    versions    = ch_versions
 }

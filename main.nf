@@ -49,8 +49,9 @@ workflow NFCORE_REPORTHO {
         params.multiqc_methods_description,
         params.outdir,
     )
+
     emit:
-    multiqc_report = REPORTHO.out.multiqc_report // channel: /path/to/multiqc_report.html
+    REPORTHO.out
 }
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -92,7 +93,7 @@ workflow {
         params.plaintext_email,
         params.outdir,
         params.monochrome_logs,
-        NFCORE_REPORTHO.out.multiqc_report
+        NFCORE_REPORTHO.out
     )
 }
 
