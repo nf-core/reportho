@@ -144,7 +144,7 @@ workflow REPORTHO {
             "${process}:\n${tool_versions.join('\n')}"
         }
 
-    def _ch_collated_versions = softwareVersionsToYAML(topic_versions.versions_file)
+    def ch_collated_versions = softwareVersionsToYAML(topic_versions.versions_file)
         .mix(topic_versions_string)
         .collectFile(
             storeDir: "${outdir}/pipeline_info",
@@ -156,6 +156,8 @@ workflow REPORTHO {
     //
     // MultiQC
     //
+    ch_multiqc_files = ch_multiqc_files.mix(ch_collated_versions)
+
     def ch_summary_params = paramsSummaryMap(workflow, parameters_schema: "nextflow_schema.json")
 
     def ch_workflow_summary = channel.value(paramsSummaryMultiqc(ch_summary_params))
