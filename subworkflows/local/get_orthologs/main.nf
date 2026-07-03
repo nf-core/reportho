@@ -44,8 +44,6 @@ workflow GET_ORTHOLOGS {
         ch_fasta
     )
 
-    ch_versions = ch_versions.mix(IDENTIFY_SEQ_ONLINE.out.versions)
-
     WRITE_SEQINFO (
         ch_samplesheet_query,
         params.offline_run
@@ -103,8 +101,6 @@ workflow GET_ORTHOLOGS {
             ch_orthogroups
                 .mix(FETCH_PANTHER_GROUP_ONLINE.out.panther_group)
                 .set { ch_orthogroups }
-
-            ch_versions = ch_versions.mix(FETCH_PANTHER_GROUP_ONLINE.out.versions)
         }
     }
 

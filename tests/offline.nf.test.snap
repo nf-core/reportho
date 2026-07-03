@@ -15,10 +15,14 @@
                     "ripgrep": "14.1.0"
                 },
                 "FILTER_HITS": {
-                    "Python": "Python 3.11.0"
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
                 },
                 "MAKE_HITS_TABLE": {
-                    "Python": "3.11.0"
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
                 },
                 "MAKE_SCORE_TABLE": {
                     "Python": "3.11.0"
@@ -86,7 +90,7 @@
                 ".stub:md5,d41d8cd98f00b204e9800998ecf8427e"
             ]
         ],
-        "timestamp": "2026-07-01T14:35:34.998393393",
+        "timestamp": "2026-07-02T10:11:48.979818114",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.4"
@@ -108,10 +112,14 @@
                     "ripgrep": "14.1.0"
                 },
                 "FILTER_HITS": {
-                    "Python": "3.11.0"
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
                 },
                 "MAKE_HITS_TABLE": {
-                    "Python": "3.11.0"
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
                 },
                 "MAKE_SCORE_TABLE": {
                     "Python": "3.11.0"
@@ -194,7 +202,7 @@
                 "multiqc_citations.txt:md5,4c806e63a283ec1b7e78cdae3a923d4f"
             ]
         ],
-        "timestamp": "2026-07-01T14:35:09.783417221",
+        "timestamp": "2026-07-02T10:11:23.165178009",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.4"

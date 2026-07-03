@@ -12,7 +12,9 @@ process MAKE_HITS_TABLE {
 
     output:
     tuple val(meta), path('*hits_table.csv'), emit: hits_table
-    path "versions.yml"                     , emit: versions
+    tuple val("${task.process}"), val('python'), eval("python3 --version | sed 's/Python //'"), emit: versions_python, topic: versions
+    tuple val("${task.process}"), val('biopython'), eval("python3 -c 'import Bio; print(Bio.__version__)' | sed 's/^//'"), emit: versions_biopython, topic: versions
+    tuple val("${task.process}"), val('requests'), eval("pip show requests | sed -n 's/^Version: //p'"), emit: versions_requests, topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -21,21 +23,11 @@ process MAKE_HITS_TABLE {
     def prefix = task.ext.prefix ?: meta.id
     """
     make_hits_table.py --merged-csv $merged_csv --sample-id ${meta.id} > ${prefix}_hits_table.csv
-
-    cat <<- END_VERSIONS > versions.yml
-    "${task.process}":
-        Python: \$(python3 --version | cut -d ' ' -f 2)
-    END_VERSIONS
     """
 
     stub:
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     touch ${prefix}_hits_table.csv
-
-    cat <<- END_VERSIONS > versions.yml
-    "${task.process}":
-        Python: \$(python3 --version | cut -d ' ' -f 2)
-    END_VERSIONS
     """
 }
