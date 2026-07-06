@@ -27,13 +27,10 @@ def fetch_slice(ids: list[str]) -> list[SeqIO.SeqRecord]:
     url = "https://www.ebi.ac.uk/proteins/api/proteins"
     res = safe_get(url, params=payload, headers=headers)
 
-    retry, json = handle_http_response(res)
+    retry, res = handle_http_response(res, False)
     if retry:
         res = safe_get(url, params=payload, headers=headers)
-        _, json = handle_http_response(res)
-
-    if json == "dict":
-        return []
+        _, res = handle_http_response(res, False)
 
     tmp = io.StringIO(res.content.decode())
     seqs = SeqIO.parse(tmp, "fasta")

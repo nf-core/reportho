@@ -44,7 +44,7 @@ def safe_post(url: str, **kwargs) -> requests.Response:
         sys.exit(10)
 
 
-def handle_http_response(res: requests.Response) -> Tuple[bool, dict]:
+def handle_http_response(res: requests.Response, make_json: bool = True) -> Tuple[bool, dict]:
     """Handle an HTTP response from an API.
 
     Handle common HTTP errors and return a JSON dict."""
@@ -61,7 +61,15 @@ def handle_http_response(res: requests.Response) -> Tuple[bool, dict]:
     elif not res.ok:
         raise ValueError(f"HTTP error: {res.status_code}")
 
-    return False, res.json()
+    if not make_json:
+        return False, res
+
+    try:
+        json = res.json()
+    except requests.JSONDecodeError:
+        raise ValueError("HTTP error: response is not valid JSON")
+
+    return False, json
 
 
 def check_id_mapping_results_ready(job_id: str) -> bool:
