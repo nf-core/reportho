@@ -15,7 +15,7 @@ bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(
     ['which', 'utils.py'], text=True).strip()))
 sys.path.insert(0, bin_dir)
 
-from utils import safe_get # noqa: E402
+from utils import safe_get, handle_http_response # noqa: E402
 
 
 def main() -> None:
@@ -36,12 +36,14 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    res = safe_get(f"https://www.pantherdb.org/services/oai/pantherdb/ortholog/matchortho?geneInputList={args.input_id}&organism={args.organism}&orthologType=all")
+    url = f"https://www.pantherdb.org/services/oai/pantherdb/ortholog/matchortho?geneInputList={args.input_id}&organism={args.organism}&orthologType=all"
+    res = safe_get(url)
 
-    if not res.ok:
-        raise ValueError(f"HTTP error: {res.status_code}")
+    retry, json = handle_http_response(res)
+    if retry:
+        res = safe_get(url)
+        _, json = handle_http_response(res)
 
-    json = res.json()
     try:
         for i in json["search"]["mapping"]["mapped"]:
             uniprot_id = i["target_gene"].split("|")[-1].split("=")[-1]

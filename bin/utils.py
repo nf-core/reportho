@@ -9,11 +9,12 @@ from dataclasses import dataclass
 import re
 import sys
 import time
-from typing import Any
+from typing import Any, Tuple
 
 import requests
 
 POLLING_INTERVAL = 0.5
+RATE_TIMEOUT = 10
 
 def safe_get(url: str, **kwargs) -> requests.Response:
     """Make a GET request to a URL and return the response.
@@ -43,11 +44,31 @@ def safe_post(url: str, **kwargs) -> requests.Response:
         sys.exit(10)
 
 
+def handle_http_response(res: requests.Response) -> Tuple[bool, dict]:
+    """Handle an HTTP response from an API.
+
+    Handle common HTTP errors and return a JSON dict."""
+    if res.status_code == 404:
+        print("HTTP error: resource not found", file=sys.stderr)
+        return False, dict()
+    elif res.status_code == 429:
+        print("HTTP error: too many requests", file=sys.stderr)
+        time.sleep(POLLING_INTERVAL)
+        return True, dict()
+    elif 500 <= res.status_code < 600:
+        print(f"HTTP error: server error {res.status_code}", file=sys.stderr)
+        return False, dict()
+    elif not res.ok:
+        raise ValueError(f"HTTP error: {res.status_code}")
+
+    return False, res.json()
+
+
 def check_id_mapping_results_ready(job_id: str) -> bool:
     """Wait until the UniProt ID mapping job is finished."""
     while True:
         request = safe_get(f"https://rest.uniprot.org/idmapping/status/{job_id}")
-        j = request.json()
+        _, j = handle_http_response(request)
         if "jobStatus" in j:
             if j["jobStatus"] == "RUNNING":
                 time.sleep(POLLING_INTERVAL)
@@ -58,14 +79,11 @@ def check_id_mapping_results_ready(job_id: str) -> bool:
             return True
 
 
-def fetch_seq(url: str, **kwargs) -> tuple[bool, dict]:
+def fetch_seq(url: str, **kwargs) -> dict[str, Any]:
     """Get JSON from a URL."""
     res = safe_get(url, **kwargs)
-    if not res.ok:
-        print(f"HTTP error. Code: {res.status_code}")
-        return (False, dict())
-    json: dict[str, Any] = res.json()
-    return (True, json)
+    _, json = handle_http_response(res)
+    return json
 
 
 def split_ids(ids: list[str], slice_size: int) -> list[list[str]]:

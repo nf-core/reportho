@@ -14,7 +14,7 @@ bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(
     ['which', 'utils.py'], text=True).strip()))
 sys.path.insert(0, bin_dir)
 
-from utils import list_to_file, safe_post, SequenceInfo, split_ids # noqa: E402
+from utils import list_to_file, safe_post, SequenceInfo, split_ids, handle_http_response # noqa: E402
 
 
 def fetch_slice(ids: list[str]) -> list[SequenceInfo]:
@@ -24,12 +24,14 @@ def fetch_slice(ids: list[str]) -> list[SequenceInfo]:
 
     res = safe_post("https://omabrowser.org/api/protein/bulk_retrieve/", json=payload, headers=headers)
 
-    if not res.ok:
-        raise ValueError(f"HTTP error: {res.status_code}")
+    retry, json = handle_http_response(res)
+    if retry:
+        res = safe_post("https://omabrowser.org/api/protein/bulk_retrieve/", json=payload, headers=headers)
+        _, json = handle_http_response(res)
 
     hits = []
 
-    for entry in res.json():
+    for entry in json:
         if entry["target"] is not None:
             hits.append(SequenceInfo(prot_id = entry["query_id"],
                                      taxid = entry["target"]["species"]["taxon_id"],

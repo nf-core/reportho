@@ -17,17 +17,22 @@ bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(
     ['which', 'utils.py'], text=True).strip()))
 sys.path.insert(0, bin_dir)
 
-from utils import list_to_file, safe_get, SequenceInfo, split_ids # noqa: E402
+from utils import list_to_file, safe_get, SequenceInfo, split_ids, handle_http_response # noqa: E402
 
 
 def fetch_slice(ids: list[str]) -> list[SeqIO.SeqRecord]:
     """Fetch sequences for given UniProt IDs from the EBI database."""
     payload: dict[str,str] = {"accession": ','.join(ids)}
     headers: dict[str,str] = {"Accept": "text/x-fasta"}
-    res = safe_get("https://www.ebi.ac.uk/proteins/api/proteins",
-                       params = payload,
-                       headers = headers)
-    if not res.ok:
+    url = "https://www.ebi.ac.uk/proteins/api/proteins"
+    res = safe_get(url, params=payload, headers=headers)
+
+    retry, json = handle_http_response(res)
+    if retry:
+        res = safe_get(url, params=payload, headers=headers)
+        _, json = handle_http_response(res)
+
+    if json == "dict":
         return []
 
     tmp = io.StringIO(res.content.decode())

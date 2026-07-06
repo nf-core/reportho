@@ -15,7 +15,7 @@ bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(
     ['which', 'utils.py'], text=True).strip()))
 sys.path.insert(0, bin_dir)
 
-from utils import safe_get
+from utils import safe_get, handle_http_response
 
 
 def main() -> None:
@@ -35,15 +35,18 @@ def main() -> None:
 
     res = safe_get(f"https://omabrowser.org/api/group/{id}", headers=headers)
 
-    if res.status_code == 404:
+    retry, json = handle_http_response(res)
+    if retry:
+        res = safe_get(f"https://omabrowser.org/api/group/{id}", headers=headers)
+        _, json = handle_http_response(res)
+
+    if json == dict():
         warn("ID not found")
         return
-    elif not res.ok:
-        raise ValueError(f"HTTP error: {res.status_code}")
 
-    json = res.json()
     for member in json["members"]:
         print(f"{member['canonicalid']}")
+
 
 if __name__ == "__main__":
     main()

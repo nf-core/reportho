@@ -14,7 +14,7 @@ bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(
     ['which', 'utils.py'], text=True).strip()))
 sys.path.insert(0, bin_dir)
 
-from utils import safe_get
+from utils import safe_get, handle_http_response # noqa: E402
 
 
 def fetch_inspector_by_id(uniprot_id: str, db_id: str = "Eukaryota2019") -> None:
@@ -22,10 +22,11 @@ def fetch_inspector_by_id(uniprot_id: str, db_id: str = "Eukaryota2019") -> None
     url = f"https://lbgi.fr/api/orthoinspector/{db_id}/protein/{uniprot_id}/orthologs"
     res = safe_get(url)
 
-    if not res.ok:
-        raise ValueError(f"HTTP error: {res.status_code}")
+    retry, json = handle_http_response(res)
+    if retry:
+        res = safe_get(url)
+        _, json = handle_http_response(res)
 
-    json = res.json()
     orthologs = set()
 
     for i in json["data"]:

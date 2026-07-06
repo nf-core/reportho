@@ -15,7 +15,7 @@ bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(
     ['which', 'utils.py'], text=True).strip()))
 sys.path.insert(0, bin_dir)
 
-from utils import safe_get # noqa: E402
+from utils import safe_get, handle_http_response # noqa: E402
 
 
 def main() -> None:
@@ -34,14 +34,15 @@ def main() -> None:
     headers = {"User-Agent": "pyomadb/2.1.0"}
     res = safe_get(f"https://omabrowser.org/api/protein/{prot_id}", headers=headers)
 
-    if res.status_code == 404:
-        warn("ID not found")
+    retry, json = handle_http_response(res)
+    if retry:
+        res = safe_get(f"https://omabrowser.org/api/protein/{prot_id}", headers=headers)
+        _, json = handle_http_response(res)
+
+    if json == dict() or "oma_group" not in json:
         print("0")
         return
-    elif not res.ok:
-        raise ValueError("Fetch failed, aborting")
 
-    json = res.json()
     entry: dict = dict()
     if json["is_main_isoform"]:
         entry = json
@@ -50,7 +51,10 @@ def main() -> None:
     if entry == dict():
         if len(json["alternative_isoforms_urls"]) > 0:
             res = safe_get(json["isoforms"], headers=headers)
-            json2 = res.json()
+            retry, json2 = handle_http_response(res)
+            if retry:
+                res = safe_get(json["isoforms"], headers=headers)
+                _, json2 = handle_http_response(res)
             for isoform in json2:
                 if isoform["is_main_isoform"]:
                     entry = isoform

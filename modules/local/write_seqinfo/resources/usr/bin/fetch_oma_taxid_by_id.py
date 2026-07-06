@@ -15,7 +15,7 @@ bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(
     ['which', 'utils.py'], text=True).strip()))
 sys.path.insert(0, bin_dir)
 
-from utils import safe_get # noqa: E402
+from utils import safe_get, handle_http_response # noqa: E402
 
 
 def main() -> None:
@@ -30,16 +30,20 @@ def main() -> None:
 
     uniprot_id = args.uniprot_id
     headers = {"User-Agent": "pyomadb/2.1.0" }
-    res = safe_get(f"https://omabrowser.org/api/protein/{uniprot_id}/", headers=headers)
+    url = f"https://omabrowser.org/api/protein/{uniprot_id}/"
+    res = safe_get(url, headers=headers)
 
-    if res.status_code == 404:
+    retry, json = handle_http_response(res)
+    if retry:
+        res = safe_get(url, headers=headers)
+        _, json = handle_http_response(res)
+
+    if not json:
         warn("ID not found")
         print("1")
-    elif not res.ok:
-        raise ValueError(f"Fetch failed (HTTP {res.status_code}), aborting\nResponse content: {res.headers}\n{res.text}")
 
     try:
-        print(res.json()["species"]["taxon_id"])
+        print(json["species"]["taxon_id"])
     except KeyError:
         print("1") # default to root if no taxid is found
 
