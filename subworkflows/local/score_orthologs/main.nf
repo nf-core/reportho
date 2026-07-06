@@ -20,13 +20,9 @@ workflow SCORE_ORTHOLOGS {
 
     main:
     // Scoring and filtering
-    ch_versions = channel.empty()
-
     MAKE_SCORE_TABLE (
         ch_orthologs.join(ch_id_map)
     )
-
-    ch_versions = ch_versions.mix(MAKE_SCORE_TABLE.out.versions)
 
     ch_forfilter = MAKE_SCORE_TABLE.out.score_table
         .combine(ch_query, by: 0)
@@ -52,8 +48,6 @@ workflow SCORE_ORTHOLOGS {
         ch_supportsplot = PLOT_ORTHOLOGS.out.supports
         ch_vennplot     = PLOT_ORTHOLOGS.out.venn
         ch_jaccardplot  = PLOT_ORTHOLOGS.out.jaccard
-
-        ch_versions = ch_versions.mix(PLOT_ORTHOLOGS.out.versions)
     }
 
     // Hits
@@ -101,13 +95,9 @@ workflow SCORE_ORTHOLOGS {
         MAKE_SCORE_TABLE.out.score_table
     )
 
-    ch_versions = ch_versions.mix(MAKE_STATS.out.versions)
-
     STATS2CSV(
         MAKE_STATS.out.stats
     )
-
-    ch_versions = ch_versions.mix(STATS2CSV.out.versions)
 
     ch_stats = STATS2CSV.out.csv
         .collect { row -> row[1] }
@@ -131,5 +121,4 @@ workflow SCORE_ORTHOLOGS {
     aggregated_stats = MERGE_STATS.out.csv
     aggregated_hits  = MERGE_HITS.out.csv
     aggregated_merge = ch_aggregated_merge
-    versions         = ch_versions
 }

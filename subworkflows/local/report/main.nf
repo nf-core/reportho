@@ -19,7 +19,6 @@ workflow REPORT {
     ch_clusters
 
     main:
-    ch_versions  = channel.empty()
     ch_fasta     = ch_seqinfo.map { row -> [row[0], []] }
 
     DUMP_PARAMS(
@@ -47,9 +46,4 @@ workflow REPORT {
     MAKE_REPORT(
         ch_forreport
     )
-
-    ch_versions = ch_versions.mix(MAKE_REPORT.out.versions)
-
-    emit:
-    versions = ch_versions
 }

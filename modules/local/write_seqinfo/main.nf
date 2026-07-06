@@ -13,7 +13,9 @@ process WRITE_SEQINFO {
 
     output:
     tuple val(meta), path("*_id.txt"), path("*_taxid.txt"), path("*_exact.txt") , emit: seqinfo
-    path "versions.yml"                                                         , emit: versions
+    tuple val("${task.process}"), val('python'), eval("python --version | sed 's/Python //'"), emit: versions_python, topic: versions
+    tuple val("${task.process}"), val('biopython'), eval("python -c 'import Bio; print(Bio.__version__)' | sed 's/^//'"), emit: versions_biopython, topic: versions
+    tuple val("${task.process}"), val('requests'), eval("pip show requests | sed -n 's/^Version: //p'"), emit: versions_requests, topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -25,12 +27,6 @@ process WRITE_SEQINFO {
     echo "${uniprot_id}" > ${prefix}_id.txt
     echo "true" > ${prefix}_exact.txt
     $tax_command > ${prefix}_taxid.txt
-
-    cat <<- END_VERSIONS > versions.yml
-    "${task.process}":
-        Python: \$(python --version | cut -d ' ' -f 2)
-        Python Requests: \$(pip show requests | grep Version | cut -d ' ' -f 2)
-    END_VERSIONS
     """
 
     stub:
@@ -39,11 +35,5 @@ process WRITE_SEQINFO {
     touch ${prefix}_id.txt
     touch ${prefix}_exact.txt
     touch ${prefix}_taxid.txt
-
-    cat <<- END_VERSIONS > versions.yml
-    "${task.process}":
-        Python: \$(python --version | cut -d ' ' -f 2)
-        Python Requests: \$(pip show requests | grep Version | cut -d ' ' -f 2)
-    END_VERSIONS
     """
 }

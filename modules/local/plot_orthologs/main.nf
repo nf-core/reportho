@@ -14,7 +14,10 @@ process PLOT_ORTHOLOGS {
     tuple val(meta), path("*_supports_light.png"), path("*_supports_dark.png"), emit: supports
     tuple val(meta), path("*_venn_light.png"), path("*_venn_dark.png")        , emit: venn
     tuple val(meta), path("*_jaccard_light.png"), path("*_jaccard_dark.png")  , emit: jaccard
-    path "versions.yml"                                                       , emit: versions
+    tuple val("${task.process}"), val('r-base'), eval("Rscript -e 'cat(as.character(getRversion()))' | sed 's/^//'"), emit: versions_r_base, topic: versions
+    tuple val("${task.process}"), val('tidyverse'), eval("Rscript -e 'cat(as.character(packageVersion(\"tidyverse\")))' | sed 's/^//'"), emit: versions_tidyverse, topic: versions
+    tuple val("${task.process}"), val('reshape2'), eval("Rscript -e 'cat(as.character(packageVersion(\"reshape2\")))' | sed 's/^//'"), emit: versions_reshape2, topic: versions
+    tuple val("${task.process}"), val('ggvenndiagram'), eval("Rscript -e 'cat(as.character(packageVersion(\"ggvenndiagram\")))' | sed 's/^//'"), emit: versions_ggvenndiagram, topic: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -23,11 +26,6 @@ process PLOT_ORTHOLOGS {
     def prefix = task.ext.prefix ?: meta.id
     """
     plot_orthologs.R $score_table $prefix
-
-    cat <<- END_VERSIONS > versions.yml
-    "${task.process}":
-        r-base: \$(echo \$(R --version 2>&1) | sed 's/^.*R version //; s/ .*\$//')
-    END_VERSIONS
     """
 
     stub:
@@ -39,10 +37,5 @@ process PLOT_ORTHOLOGS {
     touch ${prefix}_venn_light.png
     touch ${prefix}_jaccard_dark.png
     touch ${prefix}_jaccard_light.png
-
-    cat <<- END_VERSIONS > versions.yml
-    "${task.process}":
-        r-base: \$(echo \$(R --version 2>&1) | sed 's/^.*R version //; s/ .*\$//')
-    END_VERSIONS
     """
 }

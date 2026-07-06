@@ -12,7 +12,7 @@ process SPLIT_TAXIDS {
 
     output:
     tuple val(meta), path("*.fa"), emit: fastas
-    path "versions.yml"          , emit: versions
+    tuple val("${task.process}"), val('gawk'), eval("awk -Wversion | sed '1!d; s/.*Awk //; s/,.*//'"), topic: versions, emit: versions_gawk
 
     when:
     task.ext.when == null || task.ext.when
@@ -28,21 +28,11 @@ process SPLIT_TAXIDS {
         close(out_filename)
     }' $input_file
 
-
-    cat <<- END_VERSIONS > versions.yml
-    "${task.process}":
-        awk: \$(awk -Wversion | sed '1!d; s/.*Awk //; s/,.*//')
-    END_VERSIONS
     """
 
     stub:
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     touch ${prefix}_0.fa
-
-    cat <<- END_VERSIONS > versions.yml
-    "${task.process}":
-        awk: \$(awk -Wversion | sed '1!d; s/.*Awk //; s/,.*//')
-    END_VERSIONS
     """
 }

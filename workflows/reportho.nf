@@ -32,8 +32,6 @@ workflow REPORTHO {
     outdir
 
     main:
-
-    ch_versions      = channel.empty()
     ch_multiqc_files = channel.empty()
     ch_fasta_query   = ch_samplesheet_query.map { row -> [row[0], []] }.mix(ch_samplesheet_fasta.map { row -> [row[0], file(row[1])] })
 
@@ -60,8 +58,6 @@ workflow REPORTHO {
         ch_eggnog_idmap
     )
 
-    ch_versions = ch_versions.mix(GET_ORTHOLOGS.out.versions)
-
     ch_seqs = ch_samplesheet_query.map { row -> [row[0], []] }
 
     if (!params.offline_run && (!params.skip_merge || !params.skip_downstream))
@@ -74,8 +70,6 @@ workflow REPORTHO {
         ch_seqs      = GET_SEQUENCES.out.fasta
         ch_seqhits   = GET_SEQUENCES.out.hits
         ch_seqmisses = GET_SEQUENCES.out.misses
-
-        ch_versions = ch_versions.mix(GET_SEQUENCES.out.versions)
     }
 
     ch_id_map   = ch_fasta_query.map { row -> [row[0], []] }
@@ -86,8 +80,6 @@ workflow REPORTHO {
         MERGE_IDS (
             ch_seqs
         )
-
-        ch_versions = ch_versions.mix(MERGE_IDS.out.versions)
 
         ch_id_map   = MERGE_IDS.out.id_map
         ch_clusters = MERGE_IDS.out.id_clusters
@@ -101,9 +93,6 @@ workflow REPORTHO {
         params.skip_merge,
         params.skip_orthoplots
     )
-
-    ch_versions = ch_versions.mix(SCORE_ORTHOLOGS.out.versions)
-
     ch_samplesheet = ch_samplesheet_query.mix (ch_samplesheet_fasta)
 
     ch_multiqc_files = ch_multiqc_files.mix(SCORE_ORTHOLOGS.out.aggregated_stats.map { row -> row[1] })
@@ -133,8 +122,6 @@ workflow REPORTHO {
             SCORE_ORTHOLOGS.out.merge,
             ch_clusters
         )
-
-        ch_versions = ch_versions.mix(REPORT.out.versions)
     }
 
     //
@@ -157,7 +144,7 @@ workflow REPORTHO {
             "${process}:\n${tool_versions.join('\n')}"
         }
 
-    def ch_collated_versions = softwareVersionsToYAML(ch_versions.mix(topic_versions.versions_file))
+    def ch_collated_versions = softwareVersionsToYAML(topic_versions.versions_file)
         .mix(topic_versions_string)
         .collectFile(
             storeDir: "${outdir}/pipeline_info",
@@ -170,14 +157,21 @@ workflow REPORTHO {
     // MultiQC
     //
     ch_multiqc_files = ch_multiqc_files.mix(ch_collated_versions)
+
     def ch_summary_params = paramsSummaryMap(workflow, parameters_schema: "nextflow_schema.json")
+
     def ch_workflow_summary = channel.value(paramsSummaryMultiqc(ch_summary_params))
+
     ch_multiqc_files = ch_multiqc_files.mix(ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml'))
+
     def ch_multiqc_custom_methods_description = multiqc_methods_description
         ? file(multiqc_methods_description, checkIfExists: true)
         : file("${projectDir}/assets/methods_description_template.yml", checkIfExists: true)
+
     def ch_methods_description = channel.value(methodsDescriptionText(ch_multiqc_custom_methods_description))
+
     ch_multiqc_files = ch_multiqc_files.mix(ch_methods_description.collectFile(name: 'methods_description_mqc.yaml', sort: true))
+
     MULTIQC(
         ch_multiqc_files.flatten().collect().map { files ->
             [
@@ -192,8 +186,8 @@ workflow REPORTHO {
             ]
         }
     )
-    emit:multiqc_report = MULTIQC.out.report.map { _meta, report -> [report] }.toList() // channel: /path/to/multiqc_report.html
-    versions       = ch_versions                 // channel: [ path(versions.yml) ]
+    emit:
+    MULTIQC.out.report.map { _meta, report -> [report] }.toList() // channel: /path/to/multiqc_report.html
 }
 
 /*

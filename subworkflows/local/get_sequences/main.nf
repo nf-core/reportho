@@ -16,10 +16,7 @@ workflow GET_SEQUENCES {
     ch_query_fasta
 
     main:
-    ch_versions = channel.empty()
-
     SPLIT_ID_FORMAT(ch_ids)
-    ch_versions = ch_versions.mix(SPLIT_ID_FORMAT.out.versions)
 
     ch_id_files = SPLIT_ID_FORMAT.out.ids_split.transpose().branch {
         it ->
@@ -76,5 +73,4 @@ workflow GET_SEQUENCES {
     fasta    = CONCAT_FASTA.out.file_out
     hits     = CONCAT_HITS.out.file_out
     misses   = CONCAT_MISSES.out.file_out
-    versions = ch_versions
 }
