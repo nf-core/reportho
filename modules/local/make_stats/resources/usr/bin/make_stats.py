@@ -7,7 +7,6 @@
 
 import argparse
 import csv
-import sys
 
 
 def make_stats(score_table: str) -> None:
@@ -17,7 +16,7 @@ def make_stats(score_table: str) -> None:
     with open(score_table) as f:
         reader = csv.reader(f)
         try:
-            header = next(reader) # skip header
+            header = next(reader)  # skip header
         except StopIteration:
             return
         max_score = len(header) - 3
@@ -34,10 +33,10 @@ def make_stats(score_table: str) -> None:
     # print stats as yaml
     print(f"n: {n}")
     print(f"mode: {mode}")
-    print(f"mean: {round(mean,3)}")
-    print(f"goodness: {round(goodness,3)}")
-    print(f"percent_max: {round(percent_max,3)}")
-    print(f"percent_privates: {round(percent_privates,3)}")
+    print(f"mean: {round(mean, 3)}")
+    print(f"goodness: {round(goodness, 3)}")
+    print(f"percent_max: {round(percent_max, 3)}")
+    print(f"percent_privates: {round(percent_privates, 3)}")
 
 
 def main() -> None:

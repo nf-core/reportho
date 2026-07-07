@@ -5,8 +5,8 @@
 
 """Get score and format information from a merged CSV file."""
 
-import csv
 import argparse
+import csv
 import re
 
 
@@ -90,6 +90,7 @@ def main() -> None:
         if scores[i] == 0:
             continue
         print(row[0] + "," + id_formats[i] + "," + ",".join([str(i) for i in row[1:]]) + "," + str(scores[i]))
+
 
 if __name__ == "__main__":
     main()

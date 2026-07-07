@@ -38,9 +38,7 @@ def map_uniprot(ids: list[str]) -> list[str]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(
-        description="Map Ensembl, RefSeq, and UniProt IDs to UniProt IDs."
-    )
+    parser = argparse.ArgumentParser(description="Map Ensembl, RefSeq, and UniProt IDs to UniProt IDs.")
     parser.add_argument(
         "-i",
         "--id",

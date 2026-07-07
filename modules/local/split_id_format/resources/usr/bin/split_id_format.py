@@ -8,38 +8,37 @@
 The splitting is done based on official accession regexes for UniProt, Ensembl, and RefSeq.
 The regex for OMA is inferred based on the format description."""
 
-import os
 import argparse
+import os
 import subprocess
 import sys
 
-bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(
-    ['which', 'utils.py'], text=True).strip()))
+bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(["which", "utils.py"], text=True).strip()))
 sys.path.insert(0, bin_dir)
 
-from utils import split_ids_by_format # noqa: E402
+from utils import split_ids_by_format  # noqa: E402
 
 
 def split_ids(ids: list[str], prefix: str) -> None:
     """Split a list of protein IDs into different files based on their identifier format."""
-    file_uniprot = open(f"{prefix}_uniprot_ids.txt", 'w')
-    file_ensembl = open(f"{prefix}_ensembl_ids.txt", 'w')
-    file_refseq = open(f"{prefix}_refseq_ids.txt", 'w')
-    file_oma = open(f"{prefix}_oma_ids.txt", 'w')
-    file_unknown = open(f"{prefix}_unknown_ids.txt", 'w')
+    file_uniprot = open(f"{prefix}_uniprot_ids.txt", "w")
+    file_ensembl = open(f"{prefix}_ensembl_ids.txt", "w")
+    file_refseq = open(f"{prefix}_refseq_ids.txt", "w")
+    file_oma = open(f"{prefix}_oma_ids.txt", "w")
+    file_unknown = open(f"{prefix}_unknown_ids.txt", "w")
 
     ids_format = split_ids_by_format(ids)
 
     for i in ids_format.get("uniprot", []):
-        print(i, file = file_uniprot)
+        print(i, file=file_uniprot)
     for i in ids_format.get("ensembl", []):
-        print(i, file = file_ensembl)
+        print(i, file=file_ensembl)
     for i in ids_format.get("refseq", []):
-        print(i, file = file_refseq)
+        print(i, file=file_refseq)
     for i in ids_format.get("oma", []):
-        print(i, file = file_oma)
+        print(i, file=file_oma)
     for i in ids_format.get("unknown", []):
-        print(i, file = file_unknown)
+        print(i, file=file_unknown)
 
     file_uniprot.close()
     file_ensembl.close()

@@ -6,7 +6,6 @@
 """Convert Diamond output into a CSV summary table."""
 
 import argparse
-import sys
 
 
 def main() -> None:
@@ -40,7 +39,7 @@ def main() -> None:
     in_clusters = 0
     total = 0
     for cluster in clusters:
-        count = len(cluster.split('\t'))
+        count = len(cluster.split("\t"))
         if count == 1:
             one += 1
             total += 1

@@ -5,8 +5,8 @@
 
 """Map OMA IDs to UniProt using local Ensembl and RefSeq ID mapping files."""
 
-import gzip
 import argparse
+import gzip
 
 
 def uniprotize_oma(oma_ids_path: str, ensembl_idmap_path: str, refseq_idmap_path: str) -> None:

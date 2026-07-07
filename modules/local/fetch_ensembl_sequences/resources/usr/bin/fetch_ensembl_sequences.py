@@ -5,42 +5,35 @@
 
 """Fetch protein sequences from Ensembl using the Ensembl REST API."""
 
-import csv
 import argparse
+import csv
 import os
 import subprocess
 import sys
 
-bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(
-    ['which', 'utils.py'], text=True).strip()))
+bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(["which", "utils.py"], text=True).strip()))
 sys.path.insert(0, bin_dir)
 
-from utils import list_to_file, safe_post, SequenceInfo, split_ids
+from utils import SequenceInfo, list_to_file, safe_post, split_ids  # noqa: E402, I001
 
-def fetch_slice(ids: list[str], idmap: dict[str,str]) -> list[SequenceInfo]:
+
+def fetch_slice(ids: list[str], idmap: dict[str, str]) -> list[SequenceInfo]:
     """Fetch taxon IDs and sequences for given protein IDs from Ensembl."""
     hits = {}
     # fetch taxon information
     payload = {"ids": ids}
     headers = {"Content-Type": "application/json", "Accept": "application/json"}
-    res1 = safe_post("https://rest.ensembl.org/lookup/id",
-                    json = payload,
-                    headers = headers)
+    res1 = safe_post("https://rest.ensembl.org/lookup/id", json=payload, headers=headers)
     json1 = res1.json()
     if json1:
         for entry in json1:
             if not json1[entry]:
                 continue
-            hits[entry] = SequenceInfo(prot_id = entry,
-                                        taxid = idmap[json1[entry]["species"]],
-                                        sequence = None)
+            hits[entry] = SequenceInfo(prot_id=entry, taxid=idmap[json1[entry]["species"]], sequence=None)
 
     # fetch sequence information
     params = {"type": "protein"}
-    res2 = safe_post("https://rest.ensembl.org/sequence/id",
-                    json = payload,
-                    headers = headers,
-                    params = params)
+    res2 = safe_post("https://rest.ensembl.org/sequence/id", json=payload, headers=headers, params=params)
     json2 = res2.json()
     if json2:
         for entry in json2:
@@ -66,9 +59,7 @@ def fetch_ensembl(ids: list[str], idmap_path: str) -> list[SequenceInfo]:
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Fetch protein sequences from Ensembl using the Ensembl REST API."
-    )
+    parser = argparse.ArgumentParser(description="Fetch protein sequences from Ensembl using the Ensembl REST API.")
     parser.add_argument(
         "-i",
         "--ids-path",

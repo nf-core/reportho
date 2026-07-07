@@ -5,8 +5,8 @@
 
 """Map UniProt IDs to OMA IDs using a local ID mapping file."""
 
-import gzip
 import argparse
+import gzip
 
 
 def uniprot2oma_local(uniprot_path: list[str], idmap_path: str) -> None:
@@ -29,9 +29,7 @@ def uniprot2oma_local(uniprot_path: list[str], idmap_path: str) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(
-        description="Map UniProt IDs to OMA IDs using a local ID mapping file."
-    )
+    parser = argparse.ArgumentParser(description="Map UniProt IDs to OMA IDs using a local ID mapping file.")
     parser.add_argument(
         "-m",
         "--idmap-path",
