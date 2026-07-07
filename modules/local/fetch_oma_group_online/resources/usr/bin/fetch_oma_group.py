@@ -39,7 +39,7 @@ def main() -> None:
     res = request()
     json = handle_http_response(res, retry_method=request)
 
-    if json == dict():
+    if json == {}:
         warn("ID not found")
         return
 
