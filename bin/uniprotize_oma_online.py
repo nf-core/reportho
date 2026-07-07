@@ -12,9 +12,7 @@ from map_uniprot import map_uniprot
 
 def main() -> None:
     """Map IDs from OMA to UniProt IDs."""
-    parser = argparse.ArgumentParser(
-        description="Map OMA IDs to UniProt IDs using the OMA browser API."
-    )
+    parser = argparse.ArgumentParser(description="Map OMA IDs to UniProt IDs using the OMA browser API.")
     parser.add_argument(
         "-i",
         "--oma-group-file",
@@ -32,6 +30,7 @@ def main() -> None:
 
     for i in oma_ids_mapped:
         print(i)
+
 
 if __name__ == "__main__":
     main()

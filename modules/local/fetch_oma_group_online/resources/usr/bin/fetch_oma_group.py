@@ -5,23 +5,20 @@
 
 """Fetch members of an OMA group by ID."""
 
-import os
 import argparse
+import os
 import subprocess
 import sys
 from warnings import warn
 
-bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(
-    ['which', 'utils.py'], text=True).strip()))
+bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(["which", "utils.py"], text=True).strip()))
 sys.path.insert(0, bin_dir)
 
-from utils import safe_get
+from utils import handle_http_request  # noqa: E402, I001
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(
-        description="Fetch members of an OMA group by ID."
-    )
+    parser = argparse.ArgumentParser(description="Fetch members of an OMA group by ID.")
     parser.add_argument(
         "-g",
         "--group-id",
@@ -33,17 +30,15 @@ def main() -> None:
     id = args.group_id
     headers = {"User-Agent": "pyomadb/2.1.0"}
 
-    res = safe_get(f"https://omabrowser.org/api/group/{id}", headers=headers)
+    json = handle_http_request(f"https://omabrowser.org/api/group/{id}", headers=headers)
 
-    if res.status_code == 404:
+    if json == {}:
         warn("ID not found")
         return
-    elif not res.ok:
-        raise ValueError(f"HTTP error: {res.status_code}")
 
-    json = res.json()
     for member in json["members"]:
         print(f"{member['canonicalid']}")
+
 
 if __name__ == "__main__":
     main()

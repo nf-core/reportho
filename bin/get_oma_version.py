@@ -5,15 +5,12 @@
 
 """Get the version of the OMA database and API."""
 
-from utils import safe_get
+from utils import handle_http_request
 
 
 def main() -> None:
     headers = {"User-Agent": "pyomadb/2.1.0"}
-    res = safe_get("https://omabrowser.org/api/version", headers=headers)
-    if not res.ok:
-        raise ValueError(f"HTTP error: {res.status_code}")
-    json = res.json()
+    json = handle_http_request("https://omabrowser.org/api/version", headers=headers)
     print(f"    OMA Database: {json['oma_version']}")
     print(f"    OMA API: {json['api_version']}")
 

@@ -3,9 +3,8 @@
 # Written by Igor Trujnara, released under the MIT license
 # See https://opensource.org/license/mit for details
 
-import csv
 import argparse
-import sys
+import csv
 
 
 def main() -> None:
@@ -49,6 +48,7 @@ def main() -> None:
 
     # Print the data
     print(sample_id + "," + ",".join(str(sums[db]) for db in databases) + "," + str(len(data) - 1))
+
 
 if __name__ == "__main__":
     main()

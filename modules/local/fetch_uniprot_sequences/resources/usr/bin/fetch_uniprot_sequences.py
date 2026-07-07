@@ -5,30 +5,26 @@
 
 """Fetch protein sequences from the UniProt database using the UniProt REST API."""
 
-import io
 import argparse
+import io
 import os
 import subprocess
 import sys
 
 from Bio import SeqIO
 
-bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(
-    ['which', 'utils.py'], text=True).strip()))
+bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(["which", "utils.py"], text=True).strip()))
 sys.path.insert(0, bin_dir)
 
-from utils import list_to_file, safe_get, SequenceInfo, split_ids # noqa: E402
+from utils import SequenceInfo, handle_http_request, list_to_file, split_ids  # noqa: E402
 
 
 def fetch_slice(ids: list[str]) -> list[SeqIO.SeqRecord]:
     """Fetch sequences for given UniProt IDs from the EBI database."""
-    payload: dict[str,str] = {"accession": ','.join(ids)}
-    headers: dict[str,str] = {"Accept": "text/x-fasta"}
-    res = safe_get("https://www.ebi.ac.uk/proteins/api/proteins",
-                       params = payload,
-                       headers = headers)
-    if not res.ok:
-        return []
+    payload: dict[str, str] = {"accession": ",".join(ids)}
+    headers: dict[str, str] = {"Accept": "text/x-fasta"}
+    url = "https://www.ebi.ac.uk/proteins/api/proteins"
+    res = handle_http_request(url, make_json=False, params=payload, headers=headers)
 
     tmp = io.StringIO(res.content.decode())
     seqs = SeqIO.parse(tmp, "fasta")
@@ -49,12 +45,10 @@ def fetch_ebi(ids: list[str]) -> list[SequenceInfo]:
 
 def to_seqinfo(entry: SeqIO.SeqRecord) -> SequenceInfo:
     """Convert a SeqRecord object to a custom SequenceInfo object."""
-    prot_id = entry.description.split('|')[1]
-    taxid = entry.description.split("OX=")[1].split(' ')[0]
+    prot_id = entry.description.split("|")[1]
+    taxid = entry.description.split("OX=")[1].split(" ")[0]
     seq = str(entry.seq)
-    return SequenceInfo(prot_id = prot_id,
-                        taxid = taxid,
-                        sequence = seq)
+    return SequenceInfo(prot_id=prot_id, taxid=taxid, sequence=seq)
 
 
 def main():

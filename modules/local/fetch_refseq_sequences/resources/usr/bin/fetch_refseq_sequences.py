@@ -5,19 +5,18 @@
 
 """Fetch protein sequences from the RefSeq database using the NCBI eutils API."""
 
-import os
 import argparse
+import os
 import subprocess
 import sys
 from xml.dom import minidom
 
 from Bio import Entrez
 
-bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(
-    ['which', 'utils.py'], text=True).strip()))
+bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(["which", "utils.py"], text=True).strip()))
 sys.path.insert(0, bin_dir)
 
-from utils import list_to_file, SequenceInfo, split_ids # noqa: E402
+from utils import SequenceInfo, list_to_file, split_ids  # noqa: E402
 
 
 def get_taxid(node: minidom.Element) -> str:
@@ -43,9 +42,7 @@ def fetch_slice(ids: list[str], db: str = "protein") -> list[SequenceInfo]:
     id_string = ",".join(ids)
     fasta = Entrez.efetch(db=db, id=id_string, rettype="fasta", retmode="xml")
     seqs = minidom.parse(fasta).getElementsByTagName("TSeq")
-    return [SequenceInfo(prot_id=get_prot_id(seq),
-                            taxid=get_taxid(seq),
-                            sequence=get_sequence(seq)) for seq in seqs]
+    return [SequenceInfo(prot_id=get_prot_id(seq), taxid=get_taxid(seq), sequence=get_sequence(seq)) for seq in seqs]
 
 
 def fetch_sequences(ids: list[str], db: str = "protein") -> list[SequenceInfo]:
@@ -74,7 +71,7 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    with open(args.ids_path, "r") as f:
+    with open(args.ids_path) as f:
         ids = f.read().splitlines()
     seqs = fetch_sequences(ids)
     seqs_valid = [i for i in seqs if i.is_valid()]

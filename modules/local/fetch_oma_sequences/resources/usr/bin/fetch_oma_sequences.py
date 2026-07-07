@@ -5,35 +5,36 @@
 
 """Fetch protein sequences from the OMA database using the OMA REST API."""
 
-import os
 import argparse
+import os
 import subprocess
 import sys
 
-bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(
-    ['which', 'utils.py'], text=True).strip()))
+bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(["which", "utils.py"], text=True).strip()))
 sys.path.insert(0, bin_dir)
 
-from utils import list_to_file, safe_post, SequenceInfo, split_ids # noqa: E402
+from utils import SequenceInfo, handle_http_request, list_to_file, split_ids  # noqa: E402
 
 
 def fetch_slice(ids: list[str]) -> list[SequenceInfo]:
     """Fetch sequences for given UniProt IDs from the OMA database."""
     payload = {"ids": ids}
     headers = {"User-Agent": "pyomadb/2.1.0"}
-
-    res = safe_post("https://omabrowser.org/api/protein/bulk_retrieve/", json=payload, headers=headers)
-
-    if not res.ok:
-        raise ValueError(f"HTTP error: {res.status_code}")
+    json = handle_http_request(
+        "https://omabrowser.org/api/protein/bulk_retrieve/", method="POST", json=payload, headers=headers
+    )
 
     hits = []
 
-    for entry in res.json():
+    for entry in json:
         if entry["target"] is not None:
-            hits.append(SequenceInfo(prot_id = entry["query_id"],
-                                     taxid = entry["target"]["species"]["taxon_id"],
-                                     sequence = entry["target"]["sequence"]))
+            hits.append(
+                SequenceInfo(
+                    prot_id=entry["query_id"],
+                    taxid=entry["target"]["species"]["taxon_id"],
+                    sequence=entry["target"]["sequence"],
+                )
+            )
 
     return hits
 

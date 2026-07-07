@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - [#114](https://github.com/nf-core/reportho/pull/114) - Fix clobber issues in fetch_eggnog_group_local, fetch_oma_group_local, and fetch_panther_group_local modules
+- [#128](https://github.com/nf-core/reportho/pull/128) - Improve HTTP error handling in local module scripts
 
 ### Removed
 

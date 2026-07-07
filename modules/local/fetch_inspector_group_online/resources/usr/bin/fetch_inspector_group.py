@@ -5,27 +5,22 @@
 
 """Fetch orthologs for a given UniProt ID from the OrthoInspector database."""
 
-import os
 import argparse
+import os
 import subprocess
 import sys
 
-bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(
-    ['which', 'utils.py'], text=True).strip()))
+bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(["which", "utils.py"], text=True).strip()))
 sys.path.insert(0, bin_dir)
 
-from utils import safe_get
+from utils import handle_http_request  # noqa: E402
 
 
 def fetch_inspector_by_id(uniprot_id: str, db_id: str = "Eukaryota2019") -> None:
     """Fetch orthologs for a given UniProt ID from the OrthoInspector database."""
     url = f"https://lbgi.fr/api/orthoinspector/{db_id}/protein/{uniprot_id}/orthologs"
-    res = safe_get(url)
+    json = handle_http_request(url)
 
-    if not res.ok:
-        raise ValueError(f"HTTP error: {res.status_code}")
-
-    json = res.json()
     orthologs = set()
 
     for i in json["data"]:

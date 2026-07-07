@@ -4,7 +4,6 @@
 # See https://opensource.org/license/mit for details
 
 import argparse
-import sys
 
 import yaml
 
@@ -42,6 +41,7 @@ def main() -> None:
     with open(args.output_file, "w") as f:
         print("id,percent_max,percent_privates,goodness", file=f)
         print(f"{args.sample_id},{data['percent_max']},{data['percent_privates']},{data['goodness']}", file=f)
+
 
 if __name__ == "__main__":
     main()

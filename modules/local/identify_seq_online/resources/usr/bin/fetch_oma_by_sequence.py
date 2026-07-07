@@ -5,18 +5,17 @@
 
 """Fetch OMA entry for a given protein sequence from the OMA browser API."""
 
-import os
 import argparse
+import os
 import subprocess
 import sys
 from warnings import warn
 
-bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(
-    ['which', 'utils.py'], text=True).strip()))
+bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(["which", "utils.py"], text=True).strip()))
 sys.path.insert(0, bin_dir)
 
-from Bio import SeqIO
-from utils import fetch_seq
+from Bio import SeqIO  # noqa: E402
+from utils import fetch_seq  # noqa: E402, I001
 
 # Script overview:
 # Fetches the OMA entry for a given protein sequence
@@ -26,6 +25,7 @@ from utils import fetch_seq
 # 1. The canonical ID of the sequence
 # 2. The taxonomy ID of the species
 # 3. A boolean indicating if the sequence was an exact match
+
 
 def main() -> None:
     parser = argparse.ArgumentParser(
@@ -80,9 +80,9 @@ def main() -> None:
 
     # Write exact match status
     if json["identified_by"] == "exact match":
-        print("true", file=open(args.exact_out, 'w'))
+        print("true", file=open(args.exact_out, "w"))
     else:
-        print("false", file=open(args.exact_out, 'w'))
+        print("false", file=open(args.exact_out, "w"))
 
     # If main isoform not found, check the first alternative isoform
     if entry == dict():

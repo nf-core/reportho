@@ -4,25 +4,30 @@
 
 """Utility functions and classes for the fetching scripts."""
 
-from collections import defaultdict as dd
-from dataclasses import dataclass
 import re
 import sys
 import time
-from typing import Any
+from collections import defaultdict as dd
+from dataclasses import dataclass
+from typing import Any, Literal
 
 import requests
 
 POLLING_INTERVAL = 0.5
+RATE_TIMEOUT = 10
+
 
 def safe_get(url: str, **kwargs) -> requests.Response:
     """Make a GET request to a URL and return the response.
 
     Raise if the request times out or if there is a network issue."""
     try:
-        return requests.get(url, timeout = 300, **kwargs)
+        return requests.get(url, timeout=300, **kwargs)
     except requests.exceptions.Timeout as e:
-        print(f"Request timed out. This might be due to a server issue. If this persists, try again later. Details:\n{e}", file=sys.stderr)
+        print(
+            f"Request timed out. This might be due to a server issue. If this persists, try again later. Details:\n{e}",
+            file=sys.stderr,
+        )
         sys.exit(10)
     except requests.exceptions.RequestException as e:
         print(f"A network issue occurred. Retrying request. Details:\n{e}", file=sys.stderr)
@@ -34,45 +39,80 @@ def safe_post(url: str, **kwargs) -> requests.Response:
 
     Raise if the request times out or if there is a network issue."""
     try:
-        return requests.post(url, timeout = 300, **kwargs)
+        return requests.post(url, timeout=300, **kwargs)
     except requests.exceptions.Timeout as e:
-        print(f"Request timed out. This might be due to a server issue. If this persists, try again later. Details:\n{e}", file=sys.stderr)
+        print(
+            f"Request timed out. This might be due to a server issue. If this persists, try again later. Details:\n{e}",
+            file=sys.stderr,
+        )
         sys.exit(10)
     except requests.exceptions.RequestException as e:
         print(f"A network issue occurred. Retrying request. Details:\n{e}", file=sys.stderr)
         sys.exit(10)
 
 
+def handle_http_request(
+    url: str, method: Literal["GET", "POST"] = "GET", make_json: bool = True, is_retry: bool = False, **kwargs
+) -> dict | requests.Response:
+    """Send an HTTP request and return the response.
+
+    Handle common HTTP errors and return a JSON dict or the response."""
+    if method == "GET":
+        res = safe_get(url, **kwargs)
+    else:
+        res = safe_post(url, **kwargs)
+
+    if res.status_code == 404:
+        print("HTTP error: resource not found", file=sys.stderr)
+        return dict()
+    elif res.status_code == 429:
+        print("HTTP error: too many requests", file=sys.stderr)
+        time.sleep(RATE_TIMEOUT)
+        if not is_retry:
+            return handle_http_request(url, method, make_json, True, **kwargs)
+        return dict()
+    elif 500 <= res.status_code < 600:
+        print(f"HTTP error: server error {res.status_code}", file=sys.stderr)
+        return dict()
+    elif not res.ok:
+        raise ValueError(f"HTTP error: {res.status_code}")
+
+    if not make_json:
+        return res
+
+    try:
+        json = res.json()
+    except requests.JSONDecodeError:
+        raise ValueError("HTTP error: response is not valid JSON")
+
+    return json
+
+
 def check_id_mapping_results_ready(job_id: str) -> bool:
     """Wait until the UniProt ID mapping job is finished."""
     while True:
-        request = safe_get(f"https://rest.uniprot.org/idmapping/status/{job_id}")
-        j = request.json()
-        if "jobStatus" in j:
-            if j["jobStatus"] == "RUNNING":
+        res = handle_http_request(f"https://rest.uniprot.org/idmapping/status/{job_id}")
+        if "jobStatus" in res:
+            if res["jobStatus"] == "RUNNING":
                 time.sleep(POLLING_INTERVAL)
             else:
-                # raise Exception(j["jobStatus"])
+                # raise Exception(res["jobStatus"])
                 pass
         else:
             return True
 
 
-def fetch_seq(url: str, **kwargs) -> tuple[bool, dict]:
+def fetch_seq(url: str, **kwargs) -> dict[str, Any]:
     """Get JSON from a URL."""
-    res = safe_get(url, **kwargs)
-    if not res.ok:
-        print(f"HTTP error. Code: {res.status_code}")
-        return (False, dict())
-    json: dict[str, Any] = res.json()
-    return (True, json)
+    json = handle_http_request(url, **kwargs)
+    return json
 
 
 def split_ids(ids: list[str], slice_size: int) -> list[list[str]]:
     """Split a list into chunks of given size. Useful for APIs with limited batch size."""
     slices = []
     for i in range(0, len(ids), slice_size):
-        slices.append(ids[i:min(i + slice_size, len(ids))])
+        slices.append(ids[i : min(i + slice_size, len(ids))])
     return slices
 
 
@@ -96,8 +136,9 @@ def split_ids_by_format(ids: list[str]) -> dict[str, list[str]]:
 
 
 @dataclass
-class SequenceInfo():
+class SequenceInfo:
     """Information about a sequence for the fetching step."""
+
     prot_id: str
     taxid: str
     sequence: str
@@ -113,6 +154,6 @@ def list_to_file(items: list, path: str):
     """Print all elements of a list to a text file, one item per line.
 
     Warning: will overwrite the text file if it exists."""
-    with open(path, 'w') as f:
+    with open(path, "w") as f:
         for i in items:
-            f.write(i + '\n')
+            f.write(i + "\n")

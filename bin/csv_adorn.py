@@ -23,9 +23,7 @@ def csv_adorn(path: str, header: str) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(
-        description="Convert a list of IDs into a CSV file with a header."
-    )
+    parser = argparse.ArgumentParser(description="Convert a list of IDs into a CSV file with a header.")
     parser.add_argument(
         "-p",
         "--path",
