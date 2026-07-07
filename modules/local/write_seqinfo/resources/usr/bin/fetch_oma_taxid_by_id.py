@@ -31,12 +31,11 @@ def main() -> None:
     uniprot_id = args.uniprot_id
     headers = {"User-Agent": "pyomadb/2.1.0" }
     url = f"https://omabrowser.org/api/protein/{uniprot_id}/"
-    res = safe_get(url, headers=headers)
+    def request():
+        return safe_get(url, headers=headers)
 
-    retry, json = handle_http_response(res)
-    if retry:
-        res = safe_get(url, headers=headers)
-        _, json = handle_http_response(res)
+    res = request()
+    json = handle_http_response(res, retry_method=request)
 
     if not json:
         warn("ID not found")

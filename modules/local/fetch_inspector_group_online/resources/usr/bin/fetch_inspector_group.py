@@ -20,12 +20,11 @@ from utils import safe_get, handle_http_response # noqa: E402
 def fetch_inspector_by_id(uniprot_id: str, db_id: str = "Eukaryota2019") -> None:
     """Fetch orthologs for a given UniProt ID from the OrthoInspector database."""
     url = f"https://lbgi.fr/api/orthoinspector/{db_id}/protein/{uniprot_id}/orthologs"
-    res = safe_get(url)
+    def request():
+        return safe_get(url)
 
-    retry, json = handle_http_response(res)
-    if retry:
-        res = safe_get(url)
-        _, json = handle_http_response(res)
+    res = request()
+    json = handle_http_response(res, retry_method=request)
 
     orthologs = set()
 

@@ -32,12 +32,11 @@ def main() -> None:
 
     prot_id = args.protein_id
     headers = {"User-Agent": "pyomadb/2.1.0"}
-    res = safe_get(f"https://omabrowser.org/api/protein/{prot_id}", headers=headers)
+    def request_protein():
+        return safe_get(f"https://omabrowser.org/api/protein/{prot_id}", headers=headers)
 
-    retry, json = handle_http_response(res)
-    if retry:
-        res = safe_get(f"https://omabrowser.org/api/protein/{prot_id}", headers=headers)
-        _, json = handle_http_response(res)
+    res = request_protein()
+    json = handle_http_response(res, retry_method=request_protein)
 
     if json == dict() or "oma_group" not in json:
         print("0")
@@ -50,11 +49,11 @@ def main() -> None:
     # If main isoform not found, check the first alternative isoform
     if entry == dict():
         if len(json["alternative_isoforms_urls"]) > 0:
-            res = safe_get(json["isoforms"], headers=headers)
-            retry, json2 = handle_http_response(res)
-            if retry:
-                res = safe_get(json["isoforms"], headers=headers)
-                _, json2 = handle_http_response(res)
+            def request_isoforms():
+                return safe_get(json["isoforms"], headers=headers)
+
+            res = request_isoforms()
+            json2 = handle_http_response(res, retry_method=request_isoforms)
             for isoform in json2:
                 if isoform["is_main_isoform"]:
                     entry = isoform

@@ -37,12 +37,11 @@ def main() -> None:
     args = parser.parse_args()
 
     url = f"https://www.pantherdb.org/services/oai/pantherdb/ortholog/matchortho?geneInputList={args.input_id}&organism={args.organism}&orthologType=all"
-    res = safe_get(url)
+    def request():
+        return safe_get(url)
 
-    retry, json = handle_http_response(res)
-    if retry:
-        res = safe_get(url)
-        _, json = handle_http_response(res)
+    res = request()
+    json = handle_http_response(res, retry_method=request)
 
     try:
         for i in json["search"]["mapping"]["mapped"]:

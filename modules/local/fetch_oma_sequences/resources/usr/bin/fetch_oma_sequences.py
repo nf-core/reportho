@@ -22,12 +22,11 @@ def fetch_slice(ids: list[str]) -> list[SequenceInfo]:
     payload = {"ids": ids}
     headers = {"User-Agent": "pyomadb/2.1.0"}
 
-    res = safe_post("https://omabrowser.org/api/protein/bulk_retrieve/", json=payload, headers=headers)
+    def request():
+        return safe_post("https://omabrowser.org/api/protein/bulk_retrieve/", json=payload, headers=headers)
 
-    retry, json = handle_http_response(res)
-    if retry:
-        res = safe_post("https://omabrowser.org/api/protein/bulk_retrieve/", json=payload, headers=headers)
-        _, json = handle_http_response(res)
+    res = request()
+    json = handle_http_response(res, retry_method=request)
 
     hits = []
 

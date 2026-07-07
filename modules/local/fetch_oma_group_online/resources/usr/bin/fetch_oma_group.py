@@ -33,12 +33,11 @@ def main() -> None:
     id = args.group_id
     headers = {"User-Agent": "pyomadb/2.1.0"}
 
-    res = safe_get(f"https://omabrowser.org/api/group/{id}", headers=headers)
+    def request():
+        return safe_get(f"https://omabrowser.org/api/group/{id}", headers=headers)
 
-    retry, json = handle_http_response(res)
-    if retry:
-        res = safe_get(f"https://omabrowser.org/api/group/{id}", headers=headers)
-        _, json = handle_http_response(res)
+    res = request()
+    json = handle_http_response(res, retry_method=request)
 
     if json == dict():
         warn("ID not found")

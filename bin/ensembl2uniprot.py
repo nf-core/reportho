@@ -21,26 +21,24 @@ def ensembl2uniprot(ensembl_ids: list[str]) -> list[str]:
         "to": "UniProtKB"
     }
 
-    res = safe_post("https://rest.uniprot.org/idmapping/run", data=payload)
+    def request():
+        return safe_post("https://rest.uniprot.org/idmapping/run", data=payload)
 
-    retry, json = handle_http_response(res)
+    res = request()
 
-    if retry:
-        res = safe_post("https://rest.uniprot.org/idmapping/run", data=payload)
-        _, json = handle_http_response(res)
+    json = handle_http_response(res, retry_method=request)
 
     job_id = json["jobId"]
 
     # wait for the job to finish
     check_id_mapping_results_ready(job_id)
 
-    res = safe_get(f"https://rest.uniprot.org/idmapping/results/{job_id}")
+    def request_results():
+        return safe_get(f"https://rest.uniprot.org/idmapping/results/{job_id}")
 
-    retry, json = handle_http_response(res)
+    res = request_results()
 
-    if retry:
-        res = safe_get(f"https://rest.uniprot.org/idmapping/results/{job_id}")
-        _, json = handle_http_response(res)
+    json = handle_http_response(res, retry_method=request_results)
 
     mapped_ids = [i["from"] for i in json["results"] if len(i["to"]) > 0]
     unmapped_ids = [i for i in ensembl_ids if i not in mapped_ids]
