@@ -1,56 +1,55 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/meta-schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
 name: "REPORT"
-description: report subworkflow for the reportho pipeline
+description: Prepare per-query report inputs and generate final reports
 keywords:
   - reportho
   - report
+  - html
+  - summary
 components:
   - DUMP_PARAMS
   - MAKE_REPORT
 input:
   - use_centroid:
-      type: channel
-      description: "Input channel 'use_centroid'"
+      type: boolean
+      description: Whether orthologs should be taken from the top consensus source
   - min_score:
-      type: channel
-      description: "Input channel 'min_score'"
+      type: integer
+      description: Minimum score threshold used to filter ortholog hits
   - ch_seqinfo:
       type: channel
-      description: "Input channel 'ch_seqinfo'"
+      description: Per-query sequence metadata
   - ch_scoretable:
       type: channel
-      description: "Input channel 'ch_scoretable'"
+      description: Per-query score tables
   - ch_filtered:
       type: channel
-      description: "Input channel 'ch_filtered'"
+      description: Per-query filtered ortholog results
   - ch_supportsplot:
       type: channel
-      description: "Input channel 'ch_supportsplot'"
+      description: Per-query support plot files
   - ch_vennplot:
       type: channel
-      description: "Input channel 'ch_vennplot'"
+      description: Per-query venn plot files
   - ch_jaccardplot:
       type: channel
-      description: "Input channel 'ch_jaccardplot'"
+      description: Per-query jaccard similarity plot files
   - ch_orthostats:
       type: channel
-      description: "Input channel 'ch_orthostats'"
+      description: Per-query ortholog statistics tables
   - ch_seqhits:
       type: channel
-      description: "Input channel 'ch_seqhits'"
+      description: Per-query sequence hit tables
   - ch_seqmisses:
       type: channel
-      description: "Input channel 'ch_seqmisses'"
+      description: Per-query sequence miss tables
   - ch_mergestats:
       type: channel
-      description: "Input channel 'ch_mergestats'"
+      description: Per-query merge statistics tables
   - ch_clusters:
       type: channel
-      description: "Input channel 'ch_clusters'"
-output:
-  - versions:
-      type: channel
-      description: "Output channel 'versions' emitted from expression: ch_versions"
+      description: Per-query cluster assignments
+output: []
 authors:
   - "@itrujnara"
 maintainers:

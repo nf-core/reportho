@@ -1,10 +1,11 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/meta-schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
 name: "GET_ORTHOLOGS"
-description: get orthologs subworkflow for the reportho pipeline
+description: Build query sequence metadata and fetch orthogroups from configured orthology sources
 keywords:
   - reportho
   - get
   - orthologs
+    - annotation
 components:
   - FETCH_EGGNOG_GROUP_LOCAL
   - FETCH_INSPECTOR_GROUP_ONLINE
@@ -18,53 +19,50 @@ components:
 input:
   - ch_samplesheet_query:
       type: channel
-      description: "Input channel 'ch_samplesheet_query'"
+      description: Samplesheet entries with direct query identifiers
   - ch_samplesheet_fasta:
       type: channel
-      description: "Input channel 'ch_samplesheet_fasta'"
+      description: Samplesheet entries with query FASTA paths for online sequence identification
   - ch_oma_groups:
       type: channel
-      description: "Input channel 'ch_oma_groups'"
+      description: Local OMA orthogroup database files
   - ch_oma_uniprot:
       type: channel
-      description: "Input channel 'ch_oma_uniprot'"
+      description: Local OMA to UniProt mapping files
   - ch_oma_ensembl:
       type: channel
-      description: "Input channel 'ch_oma_ensembl'"
+      description: Local OMA to Ensembl mapping files
   - ch_oma_refseq:
       type: channel
-      description: "Input channel 'ch_oma_refseq'"
+      description: Local OMA to RefSeq mapping files
   - ch_panther:
       type: channel
-      description: "Input channel 'ch_panther'"
+      description: Local PANTHER database files
   - ch_eggnog:
       type: channel
-      description: "Input channel 'ch_eggnog'"
+      description: Local EggNOG orthogroup database files
   - ch_eggnog_idmap:
       type: channel
-      description: "Input channel 'ch_eggnog_idmap'"
+      description: Local EggNOG identifier mapping files
 output:
   - seqinfo:
       type: channel
-      description: "Output channel 'seqinfo' emitted from expression: ch_query"
+      description: Per-query metadata records with query identifier, taxonomic context, and exact match flag
   - id:
       type: channel
-      description: "Output channel 'id' emitted from expression: ch_query.map { it[1] }"
+      description: Per-query identifier stream derived from sequence metadata
   - taxid:
       type: channel
-      description: "Output channel 'taxid' emitted from expression: ch_query.map { it[2] }"
+      description: Per-query taxonomic identifier stream derived from sequence metadata
   - exact:
       type: channel
-      description: "Output channel 'exact' emitted from expression: ch_query.map { it[3] }"
+      description: Per-query exact-match flags derived from sequence metadata
   - orthogroups:
       type: channel
-      description: "Output channel 'orthogroups' emitted from expression: ch_orthogroups"
+      description: Per-query orthogroup tables collected from enabled sources
   - orthologs:
       type: channel
-      description: "Output channel 'orthologs' emitted from expression: MERGE_CSV.out.csv"
-  - versions:
-      type: channel
-      description: "Output channel 'versions' emitted from expression: ch_versions"
+      description: Per-query merged ortholog tables combining all collected orthogroup sources
 authors:
   - "@itrujnara"
 maintainers:

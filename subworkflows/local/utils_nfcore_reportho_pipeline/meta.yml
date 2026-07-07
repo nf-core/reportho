@@ -1,12 +1,12 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/meta-schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
 name: "PIPELINE_INITIALISATION"
-description: utils nfcore reportho pipeline subworkflow for the reportho pipeline
+description: Initialise pipeline runtime utilities, validate inputs and parameters, and split the input samplesheet
 keywords:
   - reportho
   - utils
   - nfcore
-  - reportho
   - pipeline
+  - initialisation
 components:
   - completionEmail
   - completionSummary
@@ -18,42 +18,39 @@ components:
   - UTILS_NFSCHEMA_PLUGIN
 input:
   - version:
-      type: channel
-      description: "Input channel 'version'"
+      type: boolean
+      description: Print pipeline version and exit
   - validate_params:
-      type: channel
-      description: "Input channel 'validate_params'"
+      type: boolean
+      description: Validate pipeline parameters against the Nextflow schema at runtime
   - monochrome_logs:
-      type: channel
-      description: "Input channel 'monochrome_logs'"
+      type: boolean
+      description: Disable ANSI colour formatting in log output
   - nextflow_cli_args:
-      type: channel
-      description: "Input channel 'nextflow_cli_args'"
+      type: list
+      description: Positional Nextflow CLI arguments used for runtime checks
   - outdir:
-      type: channel
-      description: "Input channel 'outdir'"
+      type: directory
+      description: Output directory used for pipeline artefacts and parameter dumps
   - input:
-      type: channel
-      description: "Input channel 'input'"
+      type: string
+      description: Path to input samplesheet CSV
   - help:
-      type: channel
-      description: "Input channel 'help'"
+      type: boolean
+      description: Show short help and exit
   - help_full:
-      type: channel
-      description: "Input channel 'help_full'"
+      type: boolean
+      description: Show full help text and exit
   - show_hidden:
-      type: channel
-      description: "Input channel 'show_hidden'"
+      type: boolean
+      description: Include hidden parameters in help output
 output:
   - samplesheet_query:
       type: channel
-      description: "Output channel 'samplesheet_query' emitted from expression: ch_samplesheet.query"
+      description: Samplesheet entries routed to identifier-based query processing
   - samplesheet_fasta:
       type: channel
-      description: "Output channel 'samplesheet_fasta' emitted from expression: ch_samplesheet.fasta"
-  - versions:
-      type: channel
-      description: "Output channel 'versions' emitted from expression: ch_versions"
+      description: Samplesheet entries routed to FASTA-based query processing
 authors:
   - "@itrujnara"
 maintainers:
