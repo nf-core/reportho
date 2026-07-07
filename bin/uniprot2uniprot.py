@@ -7,7 +7,7 @@
 
 import argparse
 
-from utils import check_id_mapping_results_ready, safe_post, safe_get, handle_http_response
+from utils import check_id_mapping_results_ready, handle_http_request
 
 
 def uniprot2uniprot(uniprot_names: list[str]) -> list[str]:
@@ -15,27 +15,15 @@ def uniprot2uniprot(uniprot_names: list[str]) -> list[str]:
     if len(uniprot_names) == 0:
         return []
 
-    payload = {
-        "ids": uniprot_names,
-        "from": "UniProtKB_AC-ID",
-        "to": "UniProtKB"
-    }
+    payload = {"ids": uniprot_names, "from": "UniProtKB_AC-ID", "to": "UniProtKB"}
 
-    def request_run():
-        return safe_post("https://rest.uniprot.org/idmapping/run", data=payload)
-
-    res = request_run()
-    json = handle_http_response(res, retry_method=request_run)
+    json = handle_http_request("https://rest.uniprot.org/idmapping/run", method="POST", data=payload)
 
     job_id = json["jobId"]
 
     check_id_mapping_results_ready(job_id)
 
-    def request_results():
-        return safe_get(f"https://rest.uniprot.org/idmapping/results/{job_id}")
-
-    res = request_results()
-    json = handle_http_response(res, retry_method=request_results)
+    json = handle_http_request(f"https://rest.uniprot.org/idmapping/results/{job_id}")
 
     mapped_ids = [i["from"] for i in json["results"] if len(i["to"]) > 0]
     unmapped_ids = [i for i in uniprot_names if i not in mapped_ids]
@@ -43,10 +31,9 @@ def uniprot2uniprot(uniprot_names: list[str]) -> list[str]:
 
     return hits + unmapped_ids
 
+
 def main() -> None:
-    parser = argparse.ArgumentParser(
-        description="Map UniProt names to UniProt IDs using the UniProt mapping API."
-    )
+    parser = argparse.ArgumentParser(description="Map UniProt names to UniProt IDs using the UniProt mapping API.")
     parser.add_argument(
         "-i",
         "--id",
@@ -56,6 +43,7 @@ def main() -> None:
     args = parser.parse_args()
 
     print(uniprot2uniprot([args.id]))
+
 
 if __name__ == "__main__":
     main()

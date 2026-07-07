@@ -7,7 +7,7 @@
 
 import argparse
 
-from utils import check_id_mapping_results_ready, safe_get, safe_post, handle_http_response
+from utils import check_id_mapping_results_ready, handle_http_request
 
 
 def refseq2uniprot(refseq_ids: list[str]) -> list[str]:
@@ -15,27 +15,15 @@ def refseq2uniprot(refseq_ids: list[str]) -> list[str]:
     if len(refseq_ids) == 0:
         return []
 
-    payload = {
-        "ids": refseq_ids,
-        "from": "RefSeq_Protein",
-        "to": "UniProtKB"
-    }
+    payload = {"ids": refseq_ids, "from": "RefSeq_Protein", "to": "UniProtKB"}
 
-    def request_run():
-        return safe_post("https://rest.uniprot.org/idmapping/run", data=payload)
-
-    res = request_run()
-    json = handle_http_response(res, retry_method=request_run)
+    json = handle_http_request("https://rest.uniprot.org/idmapping/run", method="POST", data=payload)
 
     job_id = json["jobId"]
 
     check_id_mapping_results_ready(job_id)
 
-    def request_results():
-        return safe_get(f"https://rest.uniprot.org/idmapping/results/{job_id}")
-
-    res = request_results()
-    json = handle_http_response(res, retry_method=request_results)
+    json = handle_http_request(f"https://rest.uniprot.org/idmapping/results/{job_id}")
 
     mapped_ids = [i["from"] for i in json["results"] if len(i["to"]) > 0]
     unmapped_ids = [i for i in refseq_ids if i not in mapped_ids]
@@ -43,10 +31,9 @@ def refseq2uniprot(refseq_ids: list[str]) -> list[str]:
 
     return hits + unmapped_ids
 
+
 def main() -> None:
-    parser = argparse.ArgumentParser(
-        description="Map RefSeq IDs to UniProt IDs using the UniProt mapping API."
-    )
+    parser = argparse.ArgumentParser(description="Map RefSeq IDs to UniProt IDs using the UniProt mapping API.")
     parser.add_argument(
         "-i",
         "--id",
@@ -56,6 +43,7 @@ def main() -> None:
     args = parser.parse_args()
 
     print(refseq2uniprot([args.id]))
+
 
 if __name__ == "__main__":
     main()

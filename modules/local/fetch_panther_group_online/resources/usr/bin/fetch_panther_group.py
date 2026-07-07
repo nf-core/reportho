@@ -5,23 +5,20 @@
 
 """Fetch members of a Panther group by ID."""
 
-import os
 import argparse
+import os
 import subprocess
 import sys
 from warnings import warn
 
-bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(
-    ['which', 'utils.py'], text=True).strip()))
+bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(["which", "utils.py"], text=True).strip()))
 sys.path.insert(0, bin_dir)
 
-from utils import safe_get, handle_http_response # noqa: E402
+from utils import handle_http_request  # noqa: E402
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(
-        description="Fetch members of a Panther group by ID."
-    )
+    parser = argparse.ArgumentParser(description="Fetch members of a Panther group by ID.")
     parser.add_argument(
         "-i",
         "--input-id",
@@ -37,11 +34,7 @@ def main() -> None:
     args = parser.parse_args()
 
     url = f"https://www.pantherdb.org/services/oai/pantherdb/ortholog/matchortho?geneInputList={args.input_id}&organism={args.organism}&orthologType=all"
-    def request():
-        return safe_get(url)
-
-    res = request()
-    json = handle_http_response(res, retry_method=request)
+    json = handle_http_request(url)
 
     try:
         for i in json["search"]["mapping"]["mapped"]:
@@ -49,12 +42,15 @@ def main() -> None:
             print(f"{uniprot_id}")
     except KeyError:
         warn("No results found")
-        pass # yes, I mean this, we just want to return an empty file if nothing is found
+        pass  # yes, I mean this, we just want to return an empty file if nothing is found
 
     try:
-        print(f"{json['search']['product']['content']} {json['search']['product']['version']}", file="panther_version.txt")
+        print(
+            f"{json['search']['product']['content']} {json['search']['product']['version']}", file="panther_version.txt"
+        )
     except KeyError:
         print("error", file="panther_version.txt")
+
 
 if __name__ == "__main__":
     main()

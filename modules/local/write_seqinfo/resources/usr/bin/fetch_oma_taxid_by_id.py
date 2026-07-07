@@ -5,17 +5,16 @@
 
 """Fetch OMA taxon ID by UniProt ID."""
 
-import os
 import argparse
+import os
 import subprocess
 import sys
 from warnings import warn
 
-bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(
-    ['which', 'utils.py'], text=True).strip()))
+bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(["which", "utils.py"], text=True).strip()))
 sys.path.insert(0, bin_dir)
 
-from utils import safe_get, handle_http_response # noqa: E402
+from utils import handle_http_request  # noqa: E402
 
 
 def main() -> None:
@@ -29,13 +28,9 @@ def main() -> None:
     args = parser.parse_args()
 
     uniprot_id = args.uniprot_id
-    headers = {"User-Agent": "pyomadb/2.1.0" }
+    headers = {"User-Agent": "pyomadb/2.1.0"}
     url = f"https://omabrowser.org/api/protein/{uniprot_id}/"
-    def request():
-        return safe_get(url, headers=headers)
-
-    res = request()
-    json = handle_http_response(res, retry_method=request)
+    json = handle_http_request(url, headers=headers)
 
     if not json:
         warn("ID not found")
@@ -44,7 +39,7 @@ def main() -> None:
     try:
         print(json["species"]["taxon_id"])
     except KeyError:
-        print("1") # default to root if no taxid is found
+        print("1")  # default to root if no taxid is found
 
 
 if __name__ == "__main__":
