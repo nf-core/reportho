@@ -42,6 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### Added
 
 - [#120](https://github.com/nf-core/reportho/pull/120) - Local module meta files for better documentation of module inputs/outputs
+- [#129](https://github.com/nf-core/reportho/pull/129) - Add experimental AGENTS.md
 
 #### Changed
 
