@@ -1,10 +1,11 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/meta-schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
 name: "GET_SEQUENCES"
-description: get sequences subworkflow for the reportho pipeline
+description: Retrieve ortholog sequences from supported databases and aggregate FASTA and summary tables
 keywords:
   - reportho
   - get
   - sequences
+  - retrieval
 components:
   - CONCAT_FASTA
   - CONCAT_HITS
@@ -18,23 +19,20 @@ components:
 input:
   - ch_ids:
       type: channel
-      description: "Input channel 'ch_ids'"
+      description: Per-query identifier collections to fetch from UniProt, Ensembl, RefSeq, and OMA
   - ch_query_fasta:
       type: channel
-      description: "Input channel 'ch_query_fasta'"
+      description: Query FASTA sequences used by source-specific fetch modules
 output:
   - fasta:
       type: channel
-      description: "Output channel 'fasta' emitted from expression: CONCAT_FASTA.out.file_out"
+      description: Per-query concatenated FASTA files containing all retrieved ortholog sequences
   - hits:
       type: channel
-      description: "Output channel 'hits' emitted from expression: CONCAT_HITS.out.file_out"
+      description: Per-query concatenated tables of successfully retrieved identifiers
   - misses:
       type: channel
-      description: "Output channel 'misses' emitted from expression: CONCAT_MISSES.out.file_out"
-  - versions:
-      type: channel
-      description: "Output channel 'versions' emitted from expression: ch_versions"
+      description: Per-query concatenated tables of identifiers not resolved during sequence retrieval
 authors:
   - "@itrujnara"
 maintainers:

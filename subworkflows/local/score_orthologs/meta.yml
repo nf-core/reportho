@@ -1,10 +1,11 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/meta-schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
 name: "SCORE_ORTHOLOGS"
-description: score orthologs subworkflow for the reportho pipeline
+description: Score ortholog candidates, filter results, and generate per-query and aggregated summary tables
 keywords:
   - reportho
   - score
   - orthologs
+  - statistics
 components:
   - FILTER_HITS
   - MAKE_HITS_TABLE
@@ -19,59 +20,56 @@ components:
 input:
   - ch_query:
       type: channel
-      description: "Input channel 'ch_query'"
+      description: Per-query sequence metadata used for filtering and plotting context
   - ch_orthologs:
       type: channel
-      description: "Input channel 'ch_orthologs'"
+      description: Per-query ortholog assignments to score
   - ch_id_map:
       type: channel
-      description: "Input channel 'ch_id_map'"
+      description: Per-query ID mapping tables used during score computation
   - ch_clusters:
       type: channel
-      description: "Input channel 'ch_clusters'"
+      description: Per-query cluster assignment tables used for optional merge summaries
   - skip_merge:
-      type: channel
-      description: "Input channel 'skip_merge'"
+      type: boolean
+      description: Skip ID merging related steps and emit empty placeholders for merge channels
   - skip_plots:
-      type: channel
-      description: "Input channel 'skip_plots'"
+      type: boolean
+      description: Skip plot generation and emit empty placeholders for plot channels
 output:
   - score_table:
       type: channel
-      description: "Output channel 'score_table' emitted from expression: MAKE_SCORE_TABLE.out.score_table"
+      description: Per-query ortholog score tables
   - orthologs:
       type: channel
-      description: "Output channel 'orthologs' emitted from expression: FILTER_HITS.out.filtered_hits"
+      description: Per-query filtered ortholog tables after score thresholding
   - supports_plot:
       type: channel
-      description: "Output channel 'supports_plot' emitted from expression: ch_supportsplot"
+      description: Per-query support plots, or empty placeholders when plotting is skipped
   - venn_plot:
       type: channel
-      description: "Output channel 'venn_plot' emitted from expression: ch_vennplot"
+      description: Per-query venn plots, or empty placeholders when plotting is skipped
   - jaccard_plot:
       type: channel
-      description: "Output channel 'jaccard_plot' emitted from expression: ch_jaccardplot"
+      description: Per-query jaccard plots, or empty placeholders when plotting is skipped
   - stats:
       type: channel
-      description: "Output channel 'stats' emitted from expression: MAKE_STATS.out.stats"
+      description: Per-query ortholog statistics records
   - hits:
       type: channel
-      description: "Output channel 'hits' emitted from expression: MAKE_HITS_TABLE.out.hits_table"
+      description: Per-query tables listing accepted ortholog hits
   - merge:
       type: channel
-      description: "Output channel 'merge' emitted from expression: ch_merge_table"
+      description: Per-query merge summary tables, empty when merge generation is skipped
   - aggregated_stats:
       type: channel
-      description: "Output channel 'aggregated_stats' emitted from expression: MERGE_STATS.out.csv"
+      description: Single aggregated statistics table across all queries
   - aggregated_hits:
       type: channel
-      description: "Output channel 'aggregated_hits' emitted from expression: MERGE_HITS.out.csv"
+      description: Single aggregated hits table across all queries
   - aggregated_merge:
       type: channel
-      description: "Output channel 'aggregated_merge' emitted from expression: ch_aggregated_merge"
-  - versions:
-      type: channel
-      description: "Output channel 'versions' emitted from expression: ch_versions"
+      description: Single aggregated merge table across all queries, empty when merge generation is skipped
 authors:
   - "@itrujnara"
 maintainers:
