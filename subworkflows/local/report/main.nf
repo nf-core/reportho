@@ -6,6 +6,9 @@ workflow REPORT {
     take:
     use_centroid
     min_score
+    skip_merge
+    min_identity
+    min_coverage
     ch_seqinfo
     ch_scoretable
     ch_filtered
@@ -21,11 +24,11 @@ workflow REPORT {
     main:
     DUMP_PARAMS(
         ch_seqinfo.map { meta, _query_id, _taxid, exact -> [meta, exact] },
-        params.use_centroid,
-        params.min_score,
-        params.skip_merge,
-        params.min_identity,
-        params.min_coverage
+        use_centroid,
+        min_score,
+        skip_merge,
+        min_identity,
+        min_coverage
     )
 
     ch_forreport = ch_seqinfo

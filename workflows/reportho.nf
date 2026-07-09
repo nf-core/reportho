@@ -26,6 +26,11 @@ workflow REPORTHO {
     take:
     ch_samplesheet_query // channel: samplesheet query
     ch_samplesheet_fasta // channel: samplesheet fasta
+    use_centroid
+    min_score
+    skip_merge
+    min_identity
+    min_coverage
     multiqc_config
     multiqc_logo
     multiqc_methods_description
@@ -106,8 +111,11 @@ workflow REPORTHO {
 
     if(!params.skip_report && workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() == 0) {
         REPORT (
-            params.use_centroid,
-            params.min_score,
+            use_centroid,
+            min_score,
+            skip_merge,
+            min_identity,
+            min_coverage,
             GET_ORTHOLOGS.out.seqinfo,
             SCORE_ORTHOLOGS.out.score_table,
             SCORE_ORTHOLOGS.out.orthologs,

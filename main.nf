@@ -35,6 +35,15 @@ workflow NFCORE_REPORTHO {
     take:
     samplesheet_query   // channel: samplesheet read in from --input with query
     samplesheet_fasta   // channel: samplesheet read in from --input with fasta
+    use_centroid
+    min_score
+    skip_merge
+    min_identity
+    min_coverage
+    multiqc_config
+    multiqc_logo
+    multiqc_methods_description
+    outdir
 
     main:
 
@@ -44,10 +53,15 @@ workflow NFCORE_REPORTHO {
     REPORTHO (
         samplesheet_query,
         samplesheet_fasta,
-        params.multiqc_config,
-        params.multiqc_logo,
-        params.multiqc_methods_description,
-        params.outdir,
+        use_centroid,
+        min_score,
+        skip_merge,
+        min_identity,
+        min_coverage,
+        multiqc_config,
+        multiqc_logo,
+        multiqc_methods_description,
+        outdir,
     )
 
     emit:
@@ -83,6 +97,15 @@ workflow {
     NFCORE_REPORTHO (
         PIPELINE_INITIALISATION.out.samplesheet_query,
         PIPELINE_INITIALISATION.out.samplesheet_fasta,
+        params.use_centroid,
+        params.min_score,
+        params.skip_merge,
+        params.min_identity,
+        params.min_coverage,
+        params.multiqc_config,
+        params.multiqc_logo,
+        params.multiqc_methods_description,
+        params.outdir
     )
     //
     // SUBWORKFLOW: Run completion tasks
