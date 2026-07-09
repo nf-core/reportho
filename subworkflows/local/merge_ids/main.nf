@@ -1,11 +1,11 @@
-include { SPLIT_TAXIDS                      } from "../../../modules/local/split_taxids"
-include { GAWK as MERGE_FASTA_IDS           } from '../../../modules/nf-core/gawk/main.nf'
-include { DIAMOND_CLUSTER                   } from '../../../modules/nf-core/diamond/cluster/main.nf'
-include { GAWK as POSTPROCESS_DIAMOND       } from '../../../modules/nf-core/gawk/main.nf'
-include { GAWK as GROUP_DIAMOND             } from '../../../modules/nf-core/gawk/main.nf'
-include { FIND_CONCATENATE as MERGE_DIAMOND } from '../../../modules/nf-core/find/concatenate/main.nf'
-include { FIND_CONCATENATE as MERGE_ALL     } from '../../../modules/nf-core/find/concatenate/main.nf'
-include { GAWK as REDUCE_IDMAP              } from '../../../modules/nf-core/gawk/main.nf'
+include { SPLIT_TAXIDS                      } from "../../../modules/local/split_taxids/main"
+include { GAWK as MERGE_FASTA_IDS           } from '../../../modules/nf-core/gawk/main'
+include { DIAMOND_CLUSTER                   } from '../../../modules/nf-core/diamond/cluster/main'
+include { GAWK as POSTPROCESS_DIAMOND       } from '../../../modules/nf-core/gawk/main'
+include { GAWK as GROUP_DIAMOND             } from '../../../modules/nf-core/gawk/main'
+include { FIND_CONCATENATE as MERGE_DIAMOND } from '../../../modules/nf-core/find/concatenate/main'
+include { FIND_CONCATENATE as MERGE_ALL     } from '../../../modules/nf-core/find/concatenate/main'
+include { GAWK as REDUCE_IDMAP              } from '../../../modules/nf-core/gawk/main'
 
 workflow MERGE_IDS {
     take:
@@ -20,7 +20,7 @@ workflow MERGE_IDS {
     )
 
     // Branch by number of entries
-    SPLIT_TAXIDS.out.fastas
+    ch_fasta_counts = SPLIT_TAXIDS.out.fastas
         .transpose()
         .map {
             meta, file -> [ meta, file, (file.text =~ />(.*)/).results().count() ]
@@ -29,12 +29,11 @@ workflow MERGE_IDS {
             single_entry: row[2] == 1
             multiple_entries: row[2] > 1
         }
-        .set { ch_fasta_counts }
 
     // Merge IDs from single-entry fastas
     MERGE_FASTA_IDS(
         ch_fasta_counts.single_entry
-            .map { meta, file, count -> [ meta, file ] }
+            .map { meta, file, _count -> [ meta, file ] }
             .groupTuple(),
         [],
         false
@@ -43,7 +42,7 @@ workflow MERGE_IDS {
     // Merge IDs from multi-entry fastas
     DIAMOND_CLUSTER (
         ch_fasta_counts.multiple_entries
-            .map { meta, file, count -> [ meta, file ] }
+            .map { meta, file, _count -> [ meta, file ] }
     )
 
     MERGE_DIAMOND (

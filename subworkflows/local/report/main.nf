@@ -1,5 +1,5 @@
-include { DUMP_PARAMS } from "../../../modules/local/dump_params"
-include { MAKE_REPORT } from "../../../modules/local/make_report"
+include { DUMP_PARAMS } from "../../../modules/local/dump_params/main"
+include { MAKE_REPORT } from "../../../modules/local/make_report/main"
 
 workflow REPORT {
 
@@ -19,10 +19,8 @@ workflow REPORT {
     ch_clusters
 
     main:
-    ch_fasta     = ch_seqinfo.map { row -> [row[0], []] }
-
     DUMP_PARAMS(
-        ch_seqinfo.map { row -> [row[0], row[3]] },
+        ch_seqinfo.map { meta, _query_id, _taxid, exact -> [meta, exact] },
         params.use_centroid,
         params.min_score,
         params.skip_merge,

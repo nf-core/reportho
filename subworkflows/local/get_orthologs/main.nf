@@ -1,13 +1,13 @@
-include { IDENTIFY_SEQ_ONLINE          } from "../../../modules/local/identify_seq_online"
-include { WRITE_SEQINFO                } from "../../../modules/local/write_seqinfo"
+include { IDENTIFY_SEQ_ONLINE          } from "../../../modules/local/identify_seq_online/main"
+include { WRITE_SEQINFO                } from "../../../modules/local/write_seqinfo/main"
 
-include { FETCH_OMA_GROUP_ONLINE       } from "../../../modules/local/fetch_oma_group_online"
-include { FETCH_PANTHER_GROUP_ONLINE   } from "../../../modules/local/fetch_panther_group_online"
-include { FETCH_INSPECTOR_GROUP_ONLINE } from "../../../modules/local/fetch_inspector_group_online"
+include { FETCH_OMA_GROUP_ONLINE       } from "../../../modules/local/fetch_oma_group_online/main"
+include { FETCH_PANTHER_GROUP_ONLINE   } from "../../../modules/local/fetch_panther_group_online/main"
+include { FETCH_INSPECTOR_GROUP_ONLINE } from "../../../modules/local/fetch_inspector_group_online/main"
 
-include { FETCH_OMA_GROUP_LOCAL        } from "../../../modules/local/fetch_oma_group_local"
-include { FETCH_PANTHER_GROUP_LOCAL    } from "../../../modules/local/fetch_panther_group_local"
-include { FETCH_EGGNOG_GROUP_LOCAL     } from "../../../modules/local/fetch_eggnog_group_local"
+include { FETCH_OMA_GROUP_LOCAL        } from "../../../modules/local/fetch_oma_group_local/main"
+include { FETCH_PANTHER_GROUP_LOCAL    } from "../../../modules/local/fetch_panther_group_local/main"
+include { FETCH_EGGNOG_GROUP_LOCAL     } from "../../../modules/local/fetch_eggnog_group_local/main"
 
 include { CSVTK_JOIN as MERGE_CSV      } from "../../../modules/nf-core/csvtk/join/main"
 
@@ -26,18 +26,17 @@ workflow GET_ORTHOLOGS {
     main:
     ch_orthogroups  = channel.empty()
 
-    ch_samplesheet_fasta.map { fasta_entry ->
+    ch_samplesheet_fasta = ch_samplesheet_fasta.map { meta, fasta ->
         if (params.offline_run) {
             error "Tried to use FASTA input in an offline run. Aborting pipeline for user safety."
         }
-        return fasta_entry
-    }.set { ch_samplesheet_fasta }
+        return [meta, fasta]
+    }
 
     // Preprocessing - find the ID and taxid of the query sequences
 
-    ch_samplesheet_fasta
-        .map { it -> [it[0], file(it[1])] }
-        .set { ch_fasta }
+    ch_fasta = ch_samplesheet_fasta
+        .map { meta, fasta -> [meta, file(fasta)] }
 
     IDENTIFY_SEQ_ONLINE (
         ch_fasta
@@ -64,18 +63,16 @@ workflow GET_ORTHOLOGS {
                 ch_oma_refseq
             )
 
-            ch_orthogroups
+            ch_orthogroups = ch_orthogroups
                 .mix(FETCH_OMA_GROUP_LOCAL.out.oma_group)
-                .set { ch_orthogroups }
         }
         else {
             FETCH_OMA_GROUP_ONLINE (
                 ch_query
             )
 
-            ch_orthogroups
+            ch_orthogroups = ch_orthogroups
                 .mix(FETCH_OMA_GROUP_ONLINE.out.oma_group)
-                .set { ch_orthogroups }
         }
     }
 
@@ -88,17 +85,15 @@ workflow GET_ORTHOLOGS {
                 ch_panther
             )
 
-            ch_orthogroups
+            ch_orthogroups = ch_orthogroups
                 .mix(FETCH_PANTHER_GROUP_LOCAL.out.panther_group)
-                .set { ch_orthogroups }
         } else {
             FETCH_PANTHER_GROUP_ONLINE (
                 ch_query
             )
 
-            ch_orthogroups
+            ch_orthogroups = ch_orthogroups
                 .mix(FETCH_PANTHER_GROUP_ONLINE.out.panther_group)
-                .set { ch_orthogroups }
         }
     }
 
@@ -110,9 +105,8 @@ workflow GET_ORTHOLOGS {
             params.orthoinspector_version
         )
 
-        ch_orthogroups
+        ch_orthogroups = ch_orthogroups
             .mix(FETCH_INSPECTOR_GROUP_ONLINE.out.inspector_group)
-            .set { ch_orthogroups }
     }
 
     // EggNOG
@@ -126,9 +120,8 @@ workflow GET_ORTHOLOGS {
             ch_oma_refseq
         )
 
-        ch_orthogroups
+        ch_orthogroups = ch_orthogroups
             .mix(FETCH_EGGNOG_GROUP_LOCAL.out.eggnog_group)
-            .set { ch_orthogroups }
     }
 
     // Result merging
@@ -139,9 +132,9 @@ workflow GET_ORTHOLOGS {
 
     emit:
     seqinfo     = ch_query
-    id          = ch_query.map { row -> row[1] }
-    taxid       = ch_query.map { row -> row[2] }
-    exact       = ch_query.map { row -> row[3] }
+    id          = ch_query.map { _meta, query_id, _taxid, _exact -> query_id }
+    taxid       = ch_query.map { _meta, _query_id, query_taxid, _exact -> query_taxid }
+    exact       = ch_query.map { _meta, _query_id, _taxid, is_exact -> is_exact }
     orthogroups = ch_orthogroups
     orthologs   = MERGE_CSV.out.csv
 }
