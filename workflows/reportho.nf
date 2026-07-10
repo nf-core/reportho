@@ -5,15 +5,15 @@
 */
 include { MULTIQC                } from '../modules/nf-core/multiqc/main'
 include { paramsSummaryMap       } from 'plugin/nf-schema'
-include { paramsSummaryMultiqc   } from '../subworkflows/nf-core/utils_nfcore_pipeline'
-include { softwareVersionsToYAML } from '../subworkflows/nf-core/utils_nfcore_pipeline'
-include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_reportho_pipeline'
+include { paramsSummaryMultiqc   } from '../subworkflows/nf-core/utils_nfcore_pipeline/main'
+include { softwareVersionsToYAML } from '../subworkflows/nf-core/utils_nfcore_pipeline/main'
+include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_reportho_pipeline/main'
 
-include { GET_ORTHOLOGS          } from '../subworkflows/local/get_orthologs'
-include { GET_SEQUENCES          } from '../subworkflows/local/get_sequences'
-include { MERGE_IDS              } from '../subworkflows/local/merge_ids'
-include { SCORE_ORTHOLOGS        } from '../subworkflows/local/score_orthologs'
-include { REPORT                 } from '../subworkflows/local/report'
+include { GET_ORTHOLOGS          } from '../subworkflows/local/get_orthologs/main'
+include { GET_SEQUENCES          } from '../subworkflows/local/get_sequences/main'
+include { MERGE_IDS              } from '../subworkflows/local/merge_ids/main'
+include { SCORE_ORTHOLOGS        } from '../subworkflows/local/score_orthologs/main'
+include { REPORT                 } from '../subworkflows/local/report/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -26,6 +26,11 @@ workflow REPORTHO {
     take:
     ch_samplesheet_query // channel: samplesheet query
     ch_samplesheet_fasta // channel: samplesheet fasta
+    use_centroid
+    min_score
+    skip_merge
+    min_identity
+    min_coverage
     multiqc_config
     multiqc_logo
     multiqc_methods_description
@@ -33,7 +38,7 @@ workflow REPORTHO {
 
     main:
     ch_multiqc_files = channel.empty()
-    ch_fasta_query   = ch_samplesheet_query.map { row -> [row[0], []] }.mix(ch_samplesheet_fasta.map { row -> [row[0], file(row[1])] })
+    ch_fasta_query   = ch_samplesheet_query.map { meta, _query -> [meta, []] }.mix(ch_samplesheet_fasta.map { meta, fasta -> [meta, file(fasta)] })
 
     ch_oma_groups    = params.oma_path ? channel.value(file(params.oma_path)) : channel.empty()
     ch_oma_uniprot   = params.oma_uniprot_path ? channel.value(file(params.oma_uniprot_path)) : channel.empty()
@@ -43,8 +48,8 @@ workflow REPORTHO {
     ch_eggnog        = params.eggnog_path ? channel.value(file(params.eggnog_path)) : channel.empty()
     ch_eggnog_idmap  = params.eggnog_idmap_path ? channel.value(file(params.eggnog_idmap_path)) : channel.empty()
 
-    ch_seqhits       = ch_samplesheet_query.map { row -> [row[0], []] }
-    ch_seqmisses     = ch_samplesheet_query.map { row -> [row[0], []] }
+    ch_seqhits       = ch_samplesheet_query.map { meta, _query -> [meta, []] }
+    ch_seqmisses     = ch_samplesheet_query.map { meta, _query -> [meta, []] }
 
     GET_ORTHOLOGS (
         ch_samplesheet_query,
@@ -58,7 +63,7 @@ workflow REPORTHO {
         ch_eggnog_idmap
     )
 
-    ch_seqs = ch_samplesheet_query.map { row -> [row[0], []] }
+    ch_seqs = ch_samplesheet_query.map { meta, _query -> [meta, []] }
 
     if (!params.offline_run && (!params.skip_merge || !params.skip_downstream))
     {
@@ -72,8 +77,8 @@ workflow REPORTHO {
         ch_seqmisses = GET_SEQUENCES.out.misses
     }
 
-    ch_id_map   = ch_fasta_query.map { row -> [row[0], []] }
-    ch_clusters = ch_fasta_query.map { row -> [row[0], []] }
+    ch_id_map   = ch_fasta_query.map { meta, _fasta -> [meta, []] }
+    ch_clusters = ch_fasta_query.map { meta, _fasta -> [meta, []] }
 
     if (!params.offline_run && !params.skip_merge)
     {
@@ -93,11 +98,9 @@ workflow REPORTHO {
         params.skip_merge,
         params.skip_orthoplots
     )
-    ch_samplesheet = ch_samplesheet_query.mix (ch_samplesheet_fasta)
-
-    ch_multiqc_files = ch_multiqc_files.mix(SCORE_ORTHOLOGS.out.aggregated_stats.map { row -> row[1] })
-    ch_multiqc_files = ch_multiqc_files.mix(SCORE_ORTHOLOGS.out.aggregated_hits.map { row -> row[1] })
-    ch_multiqc_files = ch_multiqc_files.mix(SCORE_ORTHOLOGS.out.aggregated_merge.map { row -> row[1] })
+    ch_multiqc_files = ch_multiqc_files.mix(SCORE_ORTHOLOGS.out.aggregated_stats.map { _meta, stats_csv -> stats_csv })
+    ch_multiqc_files = ch_multiqc_files.mix(SCORE_ORTHOLOGS.out.aggregated_hits.map { _meta, hits_csv -> hits_csv })
+    ch_multiqc_files = ch_multiqc_files.mix(SCORE_ORTHOLOGS.out.aggregated_merge.map { _meta, merge_csv -> merge_csv })
 
     if(workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() != 0) {
         log.warn(
@@ -108,14 +111,17 @@ workflow REPORTHO {
 
     if(!params.skip_report && workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() == 0) {
         REPORT (
-            params.use_centroid,
-            params.min_score,
+            use_centroid,
+            min_score,
+            skip_merge,
+            min_identity,
+            min_coverage,
             GET_ORTHOLOGS.out.seqinfo,
             SCORE_ORTHOLOGS.out.score_table,
             SCORE_ORTHOLOGS.out.orthologs,
-            SCORE_ORTHOLOGS.out.supports_plot.map { row -> [row[0], row[2]]},
-            SCORE_ORTHOLOGS.out.venn_plot.map { row -> [row[0], row[2]]},
-            SCORE_ORTHOLOGS.out.jaccard_plot.map { row -> [row[0], row[2]]},
+            SCORE_ORTHOLOGS.out.supports_plot.map { meta, _plot_table, supports_plot -> [meta, supports_plot]},
+            SCORE_ORTHOLOGS.out.venn_plot.map { meta, _plot_table, venn_plot -> [meta, venn_plot]},
+            SCORE_ORTHOLOGS.out.jaccard_plot.map { meta, _plot_table, jaccard_plot -> [meta, jaccard_plot]},
             SCORE_ORTHOLOGS.out.stats,
             ch_seqhits,
             ch_seqmisses,

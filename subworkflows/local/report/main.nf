@@ -1,11 +1,14 @@
-include { DUMP_PARAMS } from "../../../modules/local/dump_params"
-include { MAKE_REPORT } from "../../../modules/local/make_report"
+include { DUMP_PARAMS } from "../../../modules/local/dump_params/main.nf"
+include { MAKE_REPORT } from "../../../modules/local/make_report/main.nf"
 
 workflow REPORT {
 
     take:
     use_centroid
     min_score
+    skip_merge
+    min_identity
+    min_coverage
     ch_seqinfo
     ch_scoretable
     ch_filtered
@@ -19,15 +22,13 @@ workflow REPORT {
     ch_clusters
 
     main:
-    ch_fasta     = ch_seqinfo.map { row -> [row[0], []] }
-
     DUMP_PARAMS(
-        ch_seqinfo.map { row -> [row[0], row[3]] },
-        params.use_centroid,
-        params.min_score,
-        params.skip_merge,
-        params.min_identity,
-        params.min_coverage
+        ch_seqinfo.map { meta, _query_id, _taxid, exact -> [meta, exact] },
+        use_centroid,
+        min_score,
+        skip_merge,
+        min_identity,
+        min_coverage
     )
 
     ch_forreport = ch_seqinfo

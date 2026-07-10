@@ -1,14 +1,14 @@
-include { SPLIT_ID_FORMAT                   } from '../../../modules/local/split_id_format'
+include { SPLIT_ID_FORMAT                   } from '../../../modules/local/split_id_format/main'
 
-include { FETCH_UNIPROT_SEQUENCES           } from '../../../modules/local/fetch_uniprot_sequences'
-include { FETCH_ENSEMBL_IDMAP               } from '../../../modules/local/fetch_ensembl_idmap'
-include { FETCH_ENSEMBL_SEQUENCES           } from '../../../modules/local/fetch_ensembl_sequences'
-include { FETCH_REFSEQ_SEQUENCES            } from '../../../modules/local/fetch_refseq_sequences'
-include { FETCH_OMA_SEQUENCES               } from '../../../modules/local/fetch_oma_sequences'
+include { FETCH_UNIPROT_SEQUENCES           } from '../../../modules/local/fetch_uniprot_sequences/main'
+include { FETCH_ENSEMBL_IDMAP               } from '../../../modules/local/fetch_ensembl_idmap/main'
+include { FETCH_ENSEMBL_SEQUENCES           } from '../../../modules/local/fetch_ensembl_sequences/main'
+include { FETCH_REFSEQ_SEQUENCES            } from '../../../modules/local/fetch_refseq_sequences/main'
+include { FETCH_OMA_SEQUENCES               } from '../../../modules/local/fetch_oma_sequences/main'
 
-include { FIND_CONCATENATE as CONCAT_FASTA  } from '../../../modules/nf-core/find/concatenate/main.nf'
-include { FIND_CONCATENATE as CONCAT_HITS   } from '../../../modules/nf-core/find/concatenate/main.nf'
-include { FIND_CONCATENATE as CONCAT_MISSES } from '../../../modules/nf-core/find/concatenate/main.nf'
+include { FIND_CONCATENATE as CONCAT_FASTA  } from '../../../modules/nf-core/find/concatenate/main'
+include { FIND_CONCATENATE as CONCAT_HITS   } from '../../../modules/nf-core/find/concatenate/main'
+include { FIND_CONCATENATE as CONCAT_MISSES } from '../../../modules/nf-core/find/concatenate/main'
 
 workflow GET_SEQUENCES {
     take:
