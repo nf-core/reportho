@@ -27,11 +27,10 @@
                     "requests": "2.31.0"
                 },
                 "FETCH_OMA_GROUP_ONLINE": {
-                    "biopython": 1.83,
                     "oma_api": 1.11,
                     "oma_database": "All.May2026",
-                    "python": "3.11.0",
-                    "requests": "2.31.0"
+                    "omadb": "2.2.4",
+                    "python": "3.14.6"
                 },
                 "FETCH_PANTHER_GROUP_ONLINE": {
                     "biopython": 1.83,
@@ -93,7 +92,7 @@
                 ".stub:md5,d41d8cd98f00b204e9800998ecf8427e"
             ]
         ],
-        "timestamp": "2026-07-03T14:02:10.614631909",
+        "timestamp": "2026-07-10T08:59:05.448535384",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.4"
@@ -101,7 +100,7 @@
     },
     "Params: default": {
         "content": [
-            232,
+            277,
             {
                 "CONCAT_FASTA": {
                     "coreutils": 9.4,
@@ -140,16 +139,15 @@
                     "requests": "2.31.0"
                 },
                 "FETCH_OMA_GROUP_ONLINE": {
-                    "biopython": 1.83,
                     "oma_api": 1.11,
                     "oma_database": "All.May2026",
-                    "python": "3.11.0",
-                    "requests": "2.31.0"
+                    "omadb": "2.2.4",
+                    "python": "3.14.6"
                 },
                 "FETCH_OMA_SEQUENCES": {
                     "biopython": 1.83,
-                    "oma_api": 1.11,
-                    "oma_database": "All.May2026",
+                    "oma_api": null,
+                    "oma_database": null,
                     "python": "3.11.0",
                     "requests": "2.31.0"
                 },
@@ -337,7 +335,7 @@
                 "taxid.txt:md5,d8ce74354d0ddf337bd304faca270ff7"
             ]
         ],
-        "timestamp": "2026-07-03T14:10:34.965445157",
+        "timestamp": "2026-07-10T08:58:35.697380255",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.4"
