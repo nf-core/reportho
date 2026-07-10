@@ -6,16 +6,10 @@
 """Fetch OMA entry for a given protein sequence from the OMA browser API."""
 
 import argparse
-import os
-import subprocess
-import sys
 from warnings import warn
 
-bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(["which", "utils.py"], text=True).strip()))
-sys.path.insert(0, bin_dir)
-
-from Bio import SeqIO  # noqa: E402
-from utils import fetch_seq  # noqa: E402, I001
+from Bio import SeqIO
+from omadb import Client as OmaClient
 
 # Script overview:
 # Fetches the OMA entry for a given protein sequence
@@ -59,45 +53,46 @@ def main() -> None:
 
     seqs = SeqIO.parse(args.fasta, "fasta")
     seq = next(seqs).seq
-    headers = {"User-Agent": "pyomadb/2.1.0"}
 
     # Only use the first sequence, ignore all others
     if next(seqs, None) is not None:
         warn("Multiple sequences passed, only using the first one.")
 
-    success, json = fetch_seq(f"https://omabrowser.org/api/sequence/?query={seq}", headers=headers)
+    oma = OmaClient()
 
-    if not success:
-        raise ValueError("Fetch failed, aborting")
+    prot = oma.proteins.search(seq)
+
+    if not prot.targets:
+        raise ValueError("Nothing found for the given sequence, aborting")
 
     entry: dict = dict()
 
     # Find the main isoform
-    for it in json["targets"]:
-        if it["is_main_isoform"]:
+    for it in prot.targets:
+        if it.is_main_isoform:
             entry = it
             break
 
     # Write exact match status
-    if json["identified_by"] == "exact match":
+    if prot.identified_by == "exact match":
         print("true", file=open(args.exact_out, "w"))
     else:
         print("false", file=open(args.exact_out, "w"))
 
     # If main isoform not found, check the first alternative isoform
     if entry == dict():
-        if len(json["targets"][0]["alternative_isoforms_urls"]) > 0:
-            isoform = json["targets"][0]["alternative_isoforms_urls"][0]
-            success, json = fetch_seq(isoform, headers=headers)
-            if not success:
+        if len(prot.targets[0].alternative_isoforms_urls) > 0:
+            isoform = prot.targets[0].alternative_isoforms_urls[0]
+            prot = oma.proteins[isoform.omaid]
+            if not prot:
                 raise ValueError("Isoform fetch failed, aborting")
-            if json["is_main_isoform"]:
-                entry = json
+            if prot.is_main_isoform:
+                entry = prot
             else:
                 raise ValueError("Isoform not found")
 
-    print(entry["canonicalid"], file=open(args.id_out, "w"))
-    print(entry["species"]["taxon_id"], file=open(args.taxid_out, "w"))
+    print(entry.canonicalid, file=open(args.id_out, "w"))
+    print(entry.species.taxon_id, file=open(args.taxid_out, "w"))
 
 
 if __name__ == "__main__":
