@@ -1,15 +1,15 @@
-include { IDENTIFY_SEQ_ONLINE          } from "../../../modules/local/identify_seq_online/main"
-include { WRITE_SEQINFO                } from "../../../modules/local/write_seqinfo/main"
+include { IDENTIFY_SEQ_ONLINE          } from "../../../modules/local/identify_seq_online/main.nf"
+include { WRITE_SEQINFO                } from "../../../modules/local/write_seqinfo/main.nf"
 
-include { FETCH_OMA_GROUP_ONLINE       } from "../../../modules/local/fetch_oma_group_online/main"
-include { FETCH_PANTHER_GROUP_ONLINE   } from "../../../modules/local/fetch_panther_group_online/main"
-include { FETCH_INSPECTOR_GROUP_ONLINE } from "../../../modules/local/fetch_inspector_group_online/main"
+include { FETCH_OMA_GROUP_ONLINE       } from "../../../modules/local/fetch_oma_group_online/main.nf"
+include { FETCH_PANTHER_GROUP_ONLINE   } from "../../../modules/local/fetch_panther_group_online/main.nf"
+include { FETCH_INSPECTOR_GROUP_ONLINE } from "../../../modules/local/fetch_inspector_group_online/main.nf"
 
-include { FETCH_OMA_GROUP_LOCAL        } from "../../../modules/local/fetch_oma_group_local/main"
-include { FETCH_PANTHER_GROUP_LOCAL    } from "../../../modules/local/fetch_panther_group_local/main"
-include { FETCH_EGGNOG_GROUP_LOCAL     } from "../../../modules/local/fetch_eggnog_group_local/main"
+include { FETCH_OMA_GROUP_LOCAL        } from "../../../modules/local/fetch_oma_group_local/main.nf"
+include { FETCH_PANTHER_GROUP_LOCAL    } from "../../../modules/local/fetch_panther_group_local/main.nf"
+include { FETCH_EGGNOG_GROUP_LOCAL     } from "../../../modules/local/fetch_eggnog_group_local/main.nf"
 
-include { CSVTK_JOIN as MERGE_CSV      } from "../../../modules/nf-core/csvtk/join/main"
+include { CSVTK_JOIN as MERGE_CSV      } from "../../../modules/nf-core/csvtk/join/main.nf"
 
 workflow GET_ORTHOLOGS {
     take:

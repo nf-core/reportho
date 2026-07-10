@@ -1,13 +1,13 @@
-include { MAKE_SCORE_TABLE             } from "../../../modules/local/make_score_table/main"
-include { FILTER_HITS                  } from "../../../modules/local/filter_hits/main"
-include { PLOT_ORTHOLOGS               } from "../../../modules/local/plot_orthologs/main"
-include { MAKE_HITS_TABLE              } from "../../../modules/local/make_hits_table/main"
-include { CSVTK_CONCAT as MERGE_HITS   } from "../../../modules/nf-core/csvtk/concat/main"
-include { MAKE_MERGE_TABLE             } from "../../../modules/local/make_merge_table/main"
-include { CSVTK_CONCAT as MERGE_MERGE  } from "../../../modules/nf-core/csvtk/concat/main"
-include { MAKE_STATS                   } from "../../../modules/local/make_stats/main"
-include { STATS2CSV                    } from "../../../modules/local/stats2csv/main"
-include { CSVTK_CONCAT as MERGE_STATS  } from "../../../modules/nf-core/csvtk/concat/main"
+include { MAKE_SCORE_TABLE             } from "../../../modules/local/make_score_table/main.nf"
+include { FILTER_HITS                  } from "../../../modules/local/filter_hits/main.nf"
+include { PLOT_ORTHOLOGS               } from "../../../modules/local/plot_orthologs/main.nf"
+include { MAKE_HITS_TABLE              } from "../../../modules/local/make_hits_table/main.nf"
+include { CSVTK_CONCAT as MERGE_HITS   } from "../../../modules/nf-core/csvtk/concat/main.nf"
+include { MAKE_MERGE_TABLE             } from "../../../modules/local/make_merge_table/main.nf"
+include { CSVTK_CONCAT as MERGE_MERGE  } from "../../../modules/nf-core/csvtk/concat/main.nf"
+include { MAKE_STATS                   } from "../../../modules/local/make_stats/main.nf"
+include { STATS2CSV                    } from "../../../modules/local/stats2csv/main.nf"
+include { CSVTK_CONCAT as MERGE_STATS  } from "../../../modules/nf-core/csvtk/concat/main.nf"
 
 workflow SCORE_ORTHOLOGS {
     take:

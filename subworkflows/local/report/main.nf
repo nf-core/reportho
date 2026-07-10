@@ -1,5 +1,5 @@
-include { DUMP_PARAMS } from "../../../modules/local/dump_params/main"
-include { MAKE_REPORT } from "../../../modules/local/make_report/main"
+include { DUMP_PARAMS } from "../../../modules/local/dump_params/main.nf"
+include { MAKE_REPORT } from "../../../modules/local/make_report/main.nf"
 
 workflow REPORT {
 
