@@ -4,8 +4,8 @@ process FETCH_OMA_GROUP_ONLINE {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/06/06c8422fa5063073c0c455709d27accb593303cb55e82a3437fad3171e103547/data' :
-        'community.wave.seqera.io/library/pip_omadb:23b3dbf1b029e3cc' }"
+        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/7e/7e4856c01885719af56180e9a2388b7e9272af5b6bf51a3f9719efdf120ffc1e/data' :
+        'community.wave.seqera.io/library/python_pip_omadb:fdec89fd59c44913' }"
 
     input:
     tuple val(meta), path(uniprot_id), path(taxid), path(exact)
