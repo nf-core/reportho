@@ -6,38 +6,32 @@
 """Fetch members of an OMA group by ID."""
 
 import argparse
-import os
-import subprocess
-import sys
-from warnings import warn
 
-bin_dir = os.path.dirname(os.path.realpath(subprocess.check_output(["which", "utils.py"], text=True).strip()))
-sys.path.insert(0, bin_dir)
-
-from utils import handle_http_request  # noqa: E402, I001
+from omadb import Client as OmaClient
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Fetch members of an OMA group by ID.")
     parser.add_argument(
-        "-g",
-        "--group-id",
+        "-p",
+        "--protein-id",
         required=True,
-        help="OMA group ID to query.",
+        help="Protein ID to query.",
     )
     args = parser.parse_args()
 
-    id = args.group_id
-    headers = {"User-Agent": "pyomadb/2.1.0"}
+    oma = OmaClient()
 
-    json = handle_http_request(f"https://omabrowser.org/api/group/{id}", headers=headers)
+    prot = oma.proteins[args.protein_id]
 
-    if json == {}:
-        warn("ID not found")
-        return
+    if not prot.is_main_isoform:
+        for isoform in prot.isoforms:
+            if isoform.is_main_isoform:
+                prot = oma.proteins[isoform.omaid]
+                break
 
-    for member in json["members"]:
-        print(f"{member['canonicalid']}")
+    for ortholog in prot.orthologs:
+        print(f"{ortholog.canonicalid}")
 
 
 if __name__ == "__main__":
