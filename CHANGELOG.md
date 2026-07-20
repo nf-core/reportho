@@ -52,6 +52,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#123](https://github.com/nf-core/reportho/pull/123) - Switch local Python helper scripts and module invocations to named argparse options instead of positional sys.argv ordering
 - [#130](https://github.com/nf-core/reportho/pull/130) - Update local subworkflow metas with meaningful information
 - [#131](https://github.com/nf-core/reportho/pull/131) - Make syntax more consistent in workflows
+- [#132](https://github.com/nf-core/reportho/pull/132) - Migrate OMA modules to pyomadb
 
 #### Fixed
 
