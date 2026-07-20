@@ -6,7 +6,6 @@
 """Fetch OMA entry for a given protein sequence from the OMA browser API."""
 
 import argparse
-import sys
 from warnings import warn
 
 from Bio import SeqIO
@@ -54,8 +53,6 @@ def main() -> None:
 
     seqs = SeqIO.parse(args.fasta, "fasta")
     seq = str(next(seqs).seq)
-
-    print(type(seq), file=sys.stderr)
 
     # Only use the first sequence, ignore all others
     if next(seqs, None) is not None:
