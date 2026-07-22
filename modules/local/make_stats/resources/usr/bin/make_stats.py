@@ -26,7 +26,7 @@ def make_stats(score_table: str) -> None:
     n = len(scores)
     mode = max(set(scores), key=scores.count) if scores else 0
     mean = sum(scores) / n if n else 0
-    goodness = mean / max_score
+    norm_mean = (mean - 1) / (max_score - 1) if max_score > 1 else 0
     percent_max = sum(score == max_score for score in scores) / n if n else 0
     percent_privates = sum(score == 1 for score in scores) / n if n else 0
 
@@ -34,7 +34,7 @@ def make_stats(score_table: str) -> None:
     print(f"n: {n}")
     print(f"mode: {mode}")
     print(f"mean: {round(mean, 3)}")
-    print(f"goodness: {round(goodness, 3)}")
+    print(f"norm_mean: {round(norm_mean, 3)}")
     print(f"percent_max: {round(percent_max, 3)}")
     print(f"percent_privates: {round(percent_privates, 3)}")
 

@@ -58,9 +58,9 @@ custom_table_header_config:
       description: "Percentage of orthologs with score 1."
       hidden: false
       format: "{:,.3f}"
-    goodness:
-      title: "Goodness"
-      description: "Goodness of the predictions (see docs for details)."
+    norm_mean:
+      title: "Normalised Mean"
+      description: "Mean score, normalised to the range [0, 1]."
       hidden: false
       format: "{:,.3f}"
   sample_hits:
