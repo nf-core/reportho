@@ -402,6 +402,9 @@
             "$ref": "#/$defs/process_skipping_options"
         },
         {
+            "$ref": "#/$defs/infrastructure_options"
+        },
+        {
             "$ref": "#/$defs/institutional_config_options"
         },
         {
