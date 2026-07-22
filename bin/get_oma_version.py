@@ -5,14 +5,14 @@
 
 """Get the version of the OMA database and API."""
 
-from utils import handle_http_request
+from omadb import Client as OmaClient
 
 
 def main() -> None:
-    headers = {"User-Agent": "pyomadb/2.1.0"}
-    json = handle_http_request("https://omabrowser.org/api/version", headers=headers)
-    print(f"    OMA Database: {json['oma_version']}")
-    print(f"    OMA API: {json['api_version']}")
+    client = OmaClient()
+    version = client.version
+    print(f"OMA Database: {version.oma_version}")
+    print(f"OMA API: {version.api_version}")
 
 
 if __name__ == "__main__":

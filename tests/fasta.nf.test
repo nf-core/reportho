@@ -8,8 +8,11 @@ nextflow_pipeline {
 
         when {
             params {
-                input  = "${projectDir}/assets/samplesheet.csv"
-                outdir = "$outputDir"
+                input           = "https://raw.githubusercontent.com/nf-core/test-datasets/reportho/testdata/samplesheet/samplesheet_fasta.csv"
+                outdir          = "$outputDir"
+                skip_merge      = true
+                skip_orthoplots = true
+                skip_report     = true
             }
         }
 
@@ -41,8 +44,11 @@ nextflow_pipeline {
 
         when {
             params {
-                input  = "${projectDir}/assets/samplesheet.csv"
-                outdir = "$outputDir"
+                input           = "https://raw.githubusercontent.com/nf-core/test-datasets/reportho/testdata/samplesheet/samplesheet_fasta.csv"
+                outdir          = "$outputDir"
+                skip_merge      = true
+                skip_orthoplots = true
+                skip_report     = true
             }
         }
 

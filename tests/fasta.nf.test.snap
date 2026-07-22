@@ -1,7 +1,7 @@
 {
     "Params: default - stub": {
         "content": [
-            27,
+            32,
             {
                 "CONCAT_FASTA": {
                     "coreutils": 9.4,
@@ -12,9 +12,6 @@
                     "coreutils": 9.4,
                     "find": "4.6.0",
                     "pigz": 2.8
-                },
-                "DUMP_PARAMS": {
-                    "coreutils": 8.3
                 },
                 "FETCH_ENSEMBL_IDMAP": {
                     "python": "3.12.9",
@@ -43,7 +40,29 @@
                     "python": "3.11.0",
                     "requests": "2.31.0"
                 },
+                "FILTER_HITS": {
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
+                },
+                "IDENTIFY_SEQ_ONLINE": {
+                    "biopython": 1.87,
+                    "oma_api": 1.11,
+                    "oma_database": "All.May2026",
+                    "omadb": "2.2.4",
+                    "python": "3.11.15"
+                },
                 "MAKE_HITS_TABLE": {
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
+                },
+                "MAKE_SCORE_TABLE": {
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
+                },
+                "MAKE_STATS": {
                     "biopython": 1.83,
                     "python": "3.11.0",
                     "requests": "2.31.0"
@@ -54,17 +73,16 @@
                 "MERGE_HITS": {
                     "csvtk": "0.37.0"
                 },
+                "MERGE_STATS": {
+                    "csvtk": "0.37.0"
+                },
                 "SPLIT_ID_FORMAT": {
                     "python": "3.12.9",
                     "requests": "2.32.3"
                 },
-                "SPLIT_TAXIDS": {
-                    "gawk": "5.3.1"
-                },
-                "WRITE_SEQINFO": {
-                    "biopython": 1.83,
+                "STATS2CSV": {
                     "python": "3.11.0",
-                    "requests": "2.31.0"
+                    "pyyaml": "5.4.1"
                 },
                 "Workflow": {
                     "nf-core/reportho": "v1.2.0dev"
@@ -81,18 +99,23 @@
                 "pipeline_info/nf_core_reportho_software_mqc_versions.yml",
                 "score",
                 "score/aggregated_hits.csv",
+                "score/aggregated_stats.csv",
+                "score/ste2",
+                "score/ste2/ste2_score_table.csv",
+                "score/ste3",
+                "score/ste3/ste3_score_table.csv",
                 "sequences",
-                "sequences/BicD2",
-                "sequences/BicD2/BicD2_orthologs.txt",
-                "sequences/HBB",
-                "sequences/HBB/HBB_orthologs.txt"
+                "sequences/ste2",
+                "sequences/ste2/ste2_orthologs.txt",
+                "sequences/ste3",
+                "sequences/ste3/ste3_orthologs.txt"
             ],
             [
                 ".stub:md5,d41d8cd98f00b204e9800998ecf8427e",
                 ".stub:md5,d41d8cd98f00b204e9800998ecf8427e"
             ]
         ],
-        "timestamp": "2026-07-22T07:38:41.014247879",
+        "timestamp": "2026-07-20T14:48:55.505672055",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.4"
@@ -100,7 +123,7 @@
     },
     "Params: default": {
         "content": [
-            277,
+            40,
             {
                 "CONCAT_FASTA": {
                     "coreutils": 9.4,
@@ -116,12 +139,6 @@
                     "coreutils": 9.4,
                     "find": "4.6.0",
                     "pigz": 2.8
-                },
-                "DIAMOND_CLUSTER": {
-                    "diamond": "2.2.2"
-                },
-                "DUMP_PARAMS": {
-                    "coreutils": 8.3
                 },
                 "FETCH_ENSEMBL_IDMAP": {
                     "python": "3.12.9",
@@ -172,23 +189,17 @@
                     "python": "3.11.0",
                     "requests": "2.31.0"
                 },
-                "GROUP_DIAMOND": {
-                    "gawk": "5.3.1"
+                "IDENTIFY_SEQ_ONLINE": {
+                    "biopython": 1.87,
+                    "oma_api": 1.11,
+                    "oma_database": "All.May2026",
+                    "omadb": "2.2.4",
+                    "python": "3.11.15"
                 },
                 "MAKE_HITS_TABLE": {
                     "biopython": 1.83,
                     "python": "3.11.0",
                     "requests": "2.31.0"
-                },
-                "MAKE_MERGE_TABLE": {
-                    "biopython": 1.83,
-                    "python": "3.11.0",
-                    "requests": "2.31.0"
-                },
-                "MAKE_REPORT": {
-                    "node": "22.14.0",
-                    "react": "19.2.8",
-                    "yarn": "1.22.22"
                 },
                 "MAKE_SCORE_TABLE": {
                     "biopython": 1.83,
@@ -200,71 +211,28 @@
                     "python": "3.11.0",
                     "requests": "2.31.0"
                 },
-                "MERGE_ALL": {
-                    "coreutils": 9.4,
-                    "find": "4.6.0",
-                    "pigz": 2.8
-                },
                 "MERGE_CSV": {
                     "csvtk": "0.37.0"
                 },
-                "MERGE_DIAMOND": {
-                    "coreutils": 9.4,
-                    "find": "4.6.0",
-                    "pigz": 2.8
-                },
-                "MERGE_FASTA_IDS": {
-                    "gawk": "5.3.1"
-                },
                 "MERGE_HITS": {
-                    "csvtk": "0.37.0"
-                },
-                "MERGE_MERGE": {
                     "csvtk": "0.37.0"
                 },
                 "MERGE_STATS": {
                     "csvtk": "0.37.0"
                 },
-                "PLOT_ORTHOLOGS": {
-                    "ggvenndiagram": null,
-                    "r-base": "4.4.3",
-                    "reshape2": "1.4.4",
-                    "tidyverse": "2.0.0"
-                },
-                "POSTPROCESS_DIAMOND": {
-                    "gawk": "5.3.1"
-                },
-                "REDUCE_IDMAP": {
-                    "gawk": "5.3.1"
-                },
                 "SPLIT_ID_FORMAT": {
                     "python": "3.12.9",
                     "requests": "2.32.3"
                 },
-                "SPLIT_TAXIDS": {
-                    "gawk": "5.3.1"
-                },
                 "STATS2CSV": {
                     "python": "3.11.0",
                     "pyyaml": "5.4.1"
-                },
-                "WRITE_SEQINFO": {
-                    "biopython": 1.83,
-                    "python": "3.11.0",
-                    "requests": "2.31.0"
                 },
                 "Workflow": {
                     "nf-core/reportho": "v1.2.0dev"
                 }
             },
             [
-                "merge",
-                "merge/BicD2",
-                "merge/BicD2/BicD2_clusters.tsv",
-                "merge/BicD2/BicD2_idmap.tsv",
-                "merge/HBB",
-                "merge/HBB/HBB_clusters.tsv",
-                "merge/HBB/HBB_idmap.tsv",
                 "multiqc",
                 "multiqc/multiqc_data",
                 "multiqc/multiqc_data/llms-full.txt",
@@ -273,69 +241,40 @@
                 "multiqc/multiqc_data/multiqc_citations.txt",
                 "multiqc/multiqc_data/multiqc_data.json",
                 "multiqc/multiqc_data/multiqc_sample_hits.txt",
-                "multiqc/multiqc_data/multiqc_sample_merge.txt",
                 "multiqc/multiqc_data/multiqc_sample_stats.txt",
                 "multiqc/multiqc_data/multiqc_software_versions.txt",
                 "multiqc/multiqc_data/multiqc_sources.txt",
                 "multiqc/multiqc_plots",
                 "multiqc/multiqc_plots/pdf",
                 "multiqc/multiqc_plots/pdf/sample_hits.pdf",
-                "multiqc/multiqc_plots/pdf/sample_merge.pdf",
                 "multiqc/multiqc_plots/pdf/sample_stats.pdf",
                 "multiqc/multiqc_plots/png",
                 "multiqc/multiqc_plots/png/sample_hits.png",
-                "multiqc/multiqc_plots/png/sample_merge.png",
                 "multiqc/multiqc_plots/png/sample_stats.png",
                 "multiqc/multiqc_plots/svg",
                 "multiqc/multiqc_plots/svg/sample_hits.svg",
-                "multiqc/multiqc_plots/svg/sample_merge.svg",
                 "multiqc/multiqc_plots/svg/sample_stats.svg",
                 "multiqc/multiqc_report.html",
                 "pipeline_info",
                 "pipeline_info/nf_core_reportho_software_mqc_versions.yml",
                 "score",
-                "score/BicD2",
-                "score/BicD2/BicD2_score_table.csv",
-                "score/BicD2/plots",
-                "score/BicD2/plots/BicD2_jaccard_dark.png",
-                "score/BicD2/plots/BicD2_jaccard_light.png",
-                "score/BicD2/plots/BicD2_supports_dark.png",
-                "score/BicD2/plots/BicD2_supports_light.png",
-                "score/BicD2/plots/BicD2_venn_dark.png",
-                "score/BicD2/plots/BicD2_venn_light.png",
-                "score/HBB",
-                "score/HBB/HBB_score_table.csv",
-                "score/HBB/plots",
-                "score/HBB/plots/HBB_jaccard_dark.png",
-                "score/HBB/plots/HBB_jaccard_light.png",
-                "score/HBB/plots/HBB_supports_dark.png",
-                "score/HBB/plots/HBB_supports_light.png",
-                "score/HBB/plots/HBB_venn_dark.png",
-                "score/HBB/plots/HBB_venn_light.png",
                 "score/aggregated_hits.csv",
-                "score/aggregated_merge.csv",
                 "score/aggregated_stats.csv",
+                "score/ste2",
+                "score/ste2/ste2_score_table.csv",
+                "score/ste3",
+                "score/ste3/ste3_score_table.csv",
                 "sequences",
-                "sequences/BicD2",
-                "sequences/BicD2/BicD2_orthologs.txt",
-                "sequences/HBB",
-                "sequences/HBB/HBB_orthologs.txt"
+                "sequences/ste2",
+                "sequences/ste2/ste2_orthologs.txt",
+                "sequences/ste3",
+                "sequences/ste3/ste3_orthologs.txt"
             ],
             [
-                "multiqc_citations.txt:md5,4c806e63a283ec1b7e78cdae3a923d4f",
-                "id.txt:md5,5e567f80b3e124f6cbfd9d78ec056d7e",
-                "index.html:md5,f65df95dd6ecc78a557b5b0ed9081b92",
-                "params.yml:md5,eddc6446d5f8f1ffed0957a5c8b769ab",
-                "run.sh:md5,314e387b677968e93bc66776a09cad8a",
-                "taxid.txt:md5,d8ce74354d0ddf337bd304faca270ff7",
-                "id.txt:md5,a366b91927c9eb9d123e04ea6e741741",
-                "index.html:md5,f65df95dd6ecc78a557b5b0ed9081b92",
-                "params.yml:md5,fbeea40150b1afa38a2570a6e18259f6",
-                "run.sh:md5,314e387b677968e93bc66776a09cad8a",
-                "taxid.txt:md5,d8ce74354d0ddf337bd304faca270ff7"
+                "multiqc_citations.txt:md5,4c806e63a283ec1b7e78cdae3a923d4f"
             ]
         ],
-        "timestamp": "2026-07-22T07:38:11.190615225",
+        "timestamp": "2026-07-20T14:48:19.250150901",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.4"
