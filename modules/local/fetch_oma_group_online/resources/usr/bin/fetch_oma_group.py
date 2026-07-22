@@ -3,7 +3,7 @@
 # Written by Igor Trujnara, released under the MIT license
 # See https://opensource.org/license/mit for details
 
-"""Fetch members of an OMA group by ID."""
+"""Fetch OMA orthologs of a protein by ID."""
 
 import argparse
 
@@ -11,7 +11,7 @@ from omadb import Client as OmaClient
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Fetch members of an OMA group by ID.")
+    parser = argparse.ArgumentParser(description="Fetch OMA orthologs of a protein by ID.")
     parser.add_argument(
         "-p",
         "--protein-id",

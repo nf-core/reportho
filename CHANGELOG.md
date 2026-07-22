@@ -11,7 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [#107](https://github.com/nf-core/reportho/pull/107) - Update nf-core template to version 4.0.2
 - [#124](https://github.com/nf-core/reportho/pull/124) - Update nf-core modules to topics and clean up subworkflows.
-- [#127](https://github.com/nf-core/reportho/pull/127) - Convert local modules to topics.
+- [#127](https://github.com/nf-core/reportho/pull/127) - Convert local modules to topics
+- [#132](https://github.com/nf-core/reportho/pull/132) - Fetch pairwise orthologs instead of OMA group from OMA
 
 ### Fixed
 
