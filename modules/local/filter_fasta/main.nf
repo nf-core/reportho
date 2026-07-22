@@ -8,7 +8,7 @@ process FILTER_FASTA {
         'community.wave.seqera.io/library/biopython_python_requests:ba620bb488048968' }"
 
     input:
-    tuple val(meta), path(fasta), path(structures)
+    tuple val(meta), path(fasta), path(ids)
 
     output:
     tuple val(meta), path("*_filtered.fa"), emit: fasta
@@ -22,7 +22,7 @@ process FILTER_FASTA {
     script:
     def prefix = task.ext.prefix ?: meta.id
     """
-    filter_fasta.py ${fasta} ${structures} ${prefix}_filtered.fa
+    filter_fasta.py ${fasta} ${ids} ${prefix}_filtered.fa
     """
 
     stub:
