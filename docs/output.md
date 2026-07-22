@@ -141,7 +141,7 @@ The following statistics of the predictions are calculated:
 
 - percentage of consensus - the fraction of predictions which are supported by all the sources
 - percentage of privates - the fractions of predictions which are supported by only 1 source
-- goodness - the ratio of the real sum of scores to the theoretical maximum (i.e. the number of databases times the number of predictions).
+- normalised mean score - mean score rescaled to [0,1], such that all predictions being private yield a score of 0 and all being shared yield a score of 1
 
 ### Report generation
 

@@ -35,12 +35,12 @@ def main() -> None:
 
     if not data:
         with open(args.output_file, "w") as f:
-            print("id,percent_max,percent_privates,goodness", file=f)
+            print("id,percent_max,percent_privates,norm_mean", file=f)
         return
 
     with open(args.output_file, "w") as f:
-        print("id,percent_max,percent_privates,goodness", file=f)
-        print(f"{args.sample_id},{data['percent_max']},{data['percent_privates']},{data['goodness']}", file=f)
+        print("id,percent_max,percent_privates,norm_mean", file=f)
+        print(f"{args.sample_id},{data['percent_max']},{data['percent_privates']},{data['norm_mean']}", file=f)
 
 
 if __name__ == "__main__":
