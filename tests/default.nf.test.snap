@@ -344,13 +344,10 @@
                 "index.html:md5,f65df95dd6ecc78a557b5b0ed9081b92",
                 "params.yml:md5,fab7fbdf6f2aab87e0ba05e4a53483ef",
                 "run.sh:md5,314e387b677968e93bc66776a09cad8a",
-                "taxid.txt:md5,d8ce74354d0ddf337bd304faca270ff7",
-                "BicD2_filtered.fa:md5,932d3a27e69c2d4de65811c494fe1db0",
-                "HBB_filtered.fa:md5,f2cbe3b25a300c9523422f25b3b6e517",
-                "multiplesequencealign_samplesheet.csv:md5,4ebc27e0de622be32d0d7904d59faf1f"
+                "taxid.txt:md5,d8ce74354d0ddf337bd304faca270ff7"
             ]
         ],
-        "timestamp": "2026-07-22T14:05:33.999823763",
+        "timestamp": "2026-07-22T14:57:51.419383735",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.4"
