@@ -38,6 +38,8 @@ Steps 3 and 4 can be skipped with `--skip_merge`.
 5. **Compare and Assemble**: calculation of agreement statistics, creation of ortholog lists, selection of the consensus list.
 6. **Generate Report**: human-readable HTML report generation.
 
+By default, the pipeline also creates `results/samplesheets/multiplesequencealign_samplesheet.csv` for nf-core/multiplesequencealign. Disable this with `--skip_samplesheets`.
+
 ## Usage
 
 > [!NOTE]

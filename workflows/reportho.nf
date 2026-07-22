@@ -13,6 +13,7 @@ include { GET_ORTHOLOGS          } from '../subworkflows/local/get_orthologs/mai
 include { GET_SEQUENCES          } from '../subworkflows/local/get_sequences/main'
 include { MERGE_IDS              } from '../subworkflows/local/merge_ids/main'
 include { SCORE_ORTHOLOGS        } from '../subworkflows/local/score_orthologs/main'
+include { GENERATE_MSA_SAMPLESHEET } from '../subworkflows/local/generate_msa_samplesheet/main'
 include { REPORT                 } from '../subworkflows/local/report/main'
 
 /*
@@ -101,6 +102,14 @@ workflow REPORTHO {
     ch_multiqc_files = ch_multiqc_files.mix(SCORE_ORTHOLOGS.out.aggregated_stats.map { _meta, stats_csv -> stats_csv })
     ch_multiqc_files = ch_multiqc_files.mix(SCORE_ORTHOLOGS.out.aggregated_hits.map { _meta, hits_csv -> hits_csv })
     ch_multiqc_files = ch_multiqc_files.mix(SCORE_ORTHOLOGS.out.aggregated_merge.map { _meta, merge_csv -> merge_csv })
+
+    if(!params.skip_samplesheets) {
+        GENERATE_MSA_SAMPLESHEET(
+            ch_seqs,
+            SCORE_ORTHOLOGS.out.orthologs,
+            outdir
+        )
+    }
 
     if(workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() != 0) {
         log.warn(

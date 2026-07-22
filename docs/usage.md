@@ -112,6 +112,10 @@ While those options allow the pipeline to run its steps offline, the pipeline re
 
 Identifier merging relies on online resources to obtain sequences, and thus cannot be run offline. For your convenience, it will be automatically disabled if you enable `offline_run`. Note that in case some sequences cannot be obtained, the corresponding ortholog will be excluded from merging, and its ID will be passed on as-is.
 
+The pipeline can also generate a downstream samplesheet for nf-core/multiplesequencealign (`results/samplesheets/multiplesequencealign_samplesheet.csv`). This step is enabled by default and can be disabled with `--skip_samplesheets`.
+
+Because this samplesheet requires fetched sequences, the pipeline aborts if samplesheet generation is requested while sequence fetching is disabled (for example in offline mode).
+
 ### ID merging
 
 Identifier merging is performed using `diamond cluster`. By default, the threshold for clustering is 90% identity at 80% coverage. These values can be adjusted by setting the `min_identity` and `min_coverage` parameters.
