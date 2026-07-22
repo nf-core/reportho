@@ -30,7 +30,7 @@
                     "oma_api": 1.11,
                     "oma_database": "All.May2026",
                     "omadb": "2.2.4",
-                    "python": "3.14.6"
+                    "python": "3.11.15"
                 },
                 "FETCH_PANTHER_GROUP_ONLINE": {
                     "biopython": 1.83,
@@ -92,7 +92,7 @@
                 ".stub:md5,d41d8cd98f00b204e9800998ecf8427e"
             ]
         ],
-        "timestamp": "2026-07-10T08:59:05.448535384",
+        "timestamp": "2026-07-22T07:38:41.014247879",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.4"
@@ -142,7 +142,7 @@
                     "oma_api": 1.11,
                     "oma_database": "All.May2026",
                     "omadb": "2.2.4",
-                    "python": "3.14.6"
+                    "python": "3.11.15"
                 },
                 "FETCH_OMA_SEQUENCES": {
                     "biopython": 1.83,
@@ -187,7 +187,7 @@
                 },
                 "MAKE_REPORT": {
                     "node": "22.14.0",
-                    "react": "19.2.7",
+                    "react": "19.2.8",
                     "yarn": "1.22.22"
                 },
                 "MAKE_SCORE_TABLE": {
@@ -335,7 +335,7 @@
                 "taxid.txt:md5,d8ce74354d0ddf337bd304faca270ff7"
             ]
         ],
-        "timestamp": "2026-07-10T08:58:35.697380255",
+        "timestamp": "2026-07-22T07:38:11.190615225",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.4"
