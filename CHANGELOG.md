@@ -35,8 +35,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Parameters
 
-| Params | status |
-| ------ | ------ |
+| Params         | Status |
+| -------------- | ------ |
+| `--array_size` | New    |
 
 ### Developer section
 
@@ -44,6 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [#120](https://github.com/nf-core/reportho/pull/120) - Local module meta files for better documentation of module inputs/outputs
 - [#129](https://github.com/nf-core/reportho/pull/129) - Add experimental AGENTS.md
+- [#133](https://github.com/nf-core/reportho/pull/133) - Add array size parameter
 
 #### Changed
 

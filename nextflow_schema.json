@@ -200,20 +200,6 @@
                 }
             }
         },
-        "downstream_options": {
-            "title": "Downstream analysis options",
-            "type": "object",
-            "fa_icon": "fas fa-search",
-            "description": "All options related to the downstream analysis subworkflows.",
-            "properties": {
-                "skip_report": {
-                    "type": "boolean",
-                    "description": "Skip report generation.",
-                    "help_text": "If set to `true`, the pipeline will not generate a report. Intended for large batch processing.",
-                    "fa_icon": "fas fa-angle-double-right"
-                }
-            }
-        },
         "process_skipping_options": {
             "title": "Process skipping options",
             "type": "object",
@@ -226,10 +212,31 @@
                     "help_text": "If set to `true`, the pipeline will skip the ortholog plots.",
                     "fa_icon": "fas fa-angle-double-right"
                 },
+                "skip_report": {
+                    "type": "boolean",
+                    "description": "Skip report generation.",
+                    "help_text": "If set to `true`, the pipeline will not generate a report. Intended for large batch processing.",
+                    "fa_icon": "fas fa-angle-double-right"
+                },
                 "skip_multiqc": {
                     "type": "boolean",
                     "description": "Skip MultiQC.",
                     "fa_icon": "fas fa-angle-double-right"
+                }
+            }
+        },
+        "infrastructure_options": {
+            "title": "Infrastructure options",
+            "type": "object",
+            "fa_icon": "fas fa-computer",
+            "description": "Options related to specific infrastructures.",
+            "properties": {
+                "array_size": {
+                    "type": "integer",
+                    "default": 10,
+                    "description": "Job array size in grid executors. Only used in grid executors.",
+                    "help_text": "This option is only used if job arrays are enabled.",
+                    "fa_icon": "fas fa-layer-group"
                 }
             }
         },
@@ -392,10 +399,10 @@
             "$ref": "#/$defs/ortholog_options"
         },
         {
-            "$ref": "#/$defs/downstream_options"
+            "$ref": "#/$defs/process_skipping_options"
         },
         {
-            "$ref": "#/$defs/process_skipping_options"
+            "$ref": "#/$defs/infrastructure_options"
         },
         {
             "$ref": "#/$defs/institutional_config_options"
