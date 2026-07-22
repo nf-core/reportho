@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- [#135](https://github.com/nf-core/reoprtho/135) - Add multiplesequencealign samplesheet generation
+
 ### Changed
 
 - [#107](https://github.com/nf-core/reportho/pull/107) - Update nf-core template to version 4.0.2
