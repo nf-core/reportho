@@ -4,7 +4,7 @@ nextflow_pipeline {
     script "../main.nf"
     tag "offline"
 
-    test("Params: default") {
+    test("Params: offline") {
 
         when {
             params {
@@ -51,7 +51,7 @@ nextflow_pipeline {
         }
     }
 
-    test("Params: default - stub") {
+    test("Params: offline - stub") {
 
         options "-stub"
 
