@@ -16,6 +16,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 - [ID merging](#id-merging) - merging identifiers based on their sequence
 - [Ortholog scoring](#ortholog-scoring) - creation of a score table
 - [Ortholog filtering](#ortholog-filtering) - selection of final ortholog list
+- [MSA samplesheet generation](#msa-samplesheet-generation) - filtering FASTA files and writing input for nf-core/multiplesequencealign
 - [Ortholog plotting](#ortholog-plotting) - creation of plots describing the predictions
 - [Ortholog statistics](#ortholog-statistics) - calculation of several statistics about the predictions
 - [Report generation](#report-generation) - creation of a human-readable report
@@ -110,6 +111,20 @@ At this step, the predictions are combined into a single table. They are also as
 In this step, the predictions are split into lists with different minimal scores, indicating each level of support. Additionally, the source with the highest total agreement is found.
 
 The final list of orthologs is determined in one of two ways. If `--use_centroid` is set, the highest-agreement source will be used. Otherwise, orthologs with a score higher than `--min_score` are used.
+
+### MSA samplesheet generation
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `samplesheets/`
+  - `multiplesequencealign_samplesheet.csv`: A 2-column CSV (`id,fasta`) for nf-core/multiplesequencealign.
+  - `[sample_id]/`
+    - `*_filtered.fa`: A FASTA file containing only identifiers that passed the ortholog filtering step.
+    </details>
+
+This step filters each ortholog FASTA file to retain only IDs selected by the final filtering logic, then creates a downstream samplesheet for [nf-core/multiplesequencealign](https://nf-co.re/multiplesequencealign).
+The `fasta` column stores absolute paths to the filtered FASTA files in the pipeline output directory.
 
 ### Ortholog plotting
 

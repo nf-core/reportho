@@ -4,7 +4,7 @@ nextflow_pipeline {
     script "../main.nf"
     tag "default"
 
-    test("Params: default") {
+    test("Params: fasta") {
 
         when {
             params {
@@ -38,7 +38,7 @@ nextflow_pipeline {
         }
     }
 
-    test("Params: default - stub") {
+    test("Params: fasta - stub") {
 
         options "-stub"
 

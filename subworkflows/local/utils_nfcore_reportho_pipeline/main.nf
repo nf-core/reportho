@@ -176,6 +176,13 @@ workflow PIPELINE_COMPLETION {
 //
 def validateParameters() {
     validateOfflineSettings()
+    validateSamplesheetGenerationSettings()
+}
+
+def validateSamplesheetGenerationSettings() {
+    if (!params.skip_samplesheets && (params.offline_run || (params.skip_merge && params.skip_downstream))) {
+        log.error("Samplesheet generation for nf-core/multiplesequencealign requires fetched sequences. Set '--skip_samplesheets' to true or disable offline/no-fetch settings.")
+    }
 }
 
 def validateOfflineSettings() {

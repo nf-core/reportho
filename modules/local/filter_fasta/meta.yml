@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
 name: filter_fasta
-description: Filter FASTA sequences based on available structures
+description: Filter FASTA sequences using a file of sequence identifiers to retain
 keywords:
   - filter
   - fasta
@@ -30,9 +30,9 @@ input:
     - fasta:
         type: file
         description: Input FASTA file containing candidate ortholog sequences
-    - structures:
+    - ids:
         type: file
-        description: File containing structure-derived sequence selection information
+        description: File containing sequence identifiers to retain in the output FASTA
 output:
   fasta:
     - - meta:

@@ -23,4 +23,6 @@ pipeline_info/*.{html,json,txt,yml}
 **/multiqc_sample_*.txt
 **/*.pdf
 **/*.svg
+**/multiplesequencealign_samplesheet.csv
+**/*_filtered.fa
 pipeline_info/**

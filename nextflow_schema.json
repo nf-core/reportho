@@ -222,6 +222,12 @@
                     "type": "boolean",
                     "description": "Skip MultiQC.",
                     "fa_icon": "fas fa-angle-double-right"
+                },
+                "skip_samplesheets": {
+                    "type": "boolean",
+                    "description": "Skip generation of downstream samplesheets.",
+                    "help_text": "If set to `true`, the pipeline will skip generating samplesheets for downstream workflows.",
+                    "fa_icon": "fas fa-angle-double-right"
                 }
             }
         },

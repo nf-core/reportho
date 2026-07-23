@@ -79,6 +79,7 @@
                 "multiqc/multiqc_report.html",
                 "pipeline_info",
                 "pipeline_info/nf_core_reportho_software_mqc_versions.yml",
+                "samplesheets",
                 "score",
                 "score/aggregated_hits.csv",
                 "sequences",
@@ -92,7 +93,7 @@
                 ".stub:md5,d41d8cd98f00b204e9800998ecf8427e"
             ]
         ],
-        "timestamp": "2026-07-22T07:38:41.014247879",
+        "timestamp": "2026-07-22T14:00:04.246745461",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.4"
@@ -100,7 +101,7 @@
     },
     "Params: default": {
         "content": [
-            277,
+            279,
             {
                 "CONCAT_FASTA": {
                     "coreutils": 9.4,
@@ -163,6 +164,11 @@
                     "requests": "2.31.0"
                 },
                 "FETCH_UNIPROT_SEQUENCES": {
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
+                },
+                "FILTER_FASTA_FOR_MSA": {
                     "biopython": 1.83,
                     "python": "3.11.0",
                     "requests": "2.31.0"
@@ -293,6 +299,12 @@
                 "multiqc/multiqc_report.html",
                 "pipeline_info",
                 "pipeline_info/nf_core_reportho_software_mqc_versions.yml",
+                "samplesheets",
+                "samplesheets/BicD2",
+                "samplesheets/BicD2/BicD2_filtered.fa",
+                "samplesheets/HBB",
+                "samplesheets/HBB/HBB_filtered.fa",
+                "samplesheets/multiplesequencealign_samplesheet.csv",
                 "score",
                 "score/BicD2",
                 "score/BicD2/BicD2_score_table.csv",
@@ -325,17 +337,17 @@
                 "multiqc_citations.txt:md5,4c806e63a283ec1b7e78cdae3a923d4f",
                 "id.txt:md5,5e567f80b3e124f6cbfd9d78ec056d7e",
                 "index.html:md5,f65df95dd6ecc78a557b5b0ed9081b92",
-                "params.yml:md5,eddc6446d5f8f1ffed0957a5c8b769ab",
+                "params.yml:md5,8d791aa60015db30655322ca5bc79957",
                 "run.sh:md5,314e387b677968e93bc66776a09cad8a",
                 "taxid.txt:md5,d8ce74354d0ddf337bd304faca270ff7",
                 "id.txt:md5,a366b91927c9eb9d123e04ea6e741741",
                 "index.html:md5,f65df95dd6ecc78a557b5b0ed9081b92",
-                "params.yml:md5,fbeea40150b1afa38a2570a6e18259f6",
+                "params.yml:md5,fab7fbdf6f2aab87e0ba05e4a53483ef",
                 "run.sh:md5,314e387b677968e93bc66776a09cad8a",
                 "taxid.txt:md5,d8ce74354d0ddf337bd304faca270ff7"
             ]
         ],
-        "timestamp": "2026-07-22T07:38:11.190615225",
+        "timestamp": "2026-07-23T07:34:46.639948258",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.4"
