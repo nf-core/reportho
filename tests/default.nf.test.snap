@@ -101,7 +101,7 @@
     },
     "Params: default": {
         "content": [
-            271,
+            279,
             {
                 "CONCAT_FASTA": {
                     "coreutils": 9.4,
@@ -347,7 +347,7 @@
                 "taxid.txt:md5,d8ce74354d0ddf337bd304faca270ff7"
             ]
         ],
-        "timestamp": "2026-07-22T14:57:51.419383735",
+        "timestamp": "2026-07-23T07:34:46.639948258",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.4"
