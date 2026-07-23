@@ -123,7 +123,7 @@ The final list of orthologs is determined in one of two ways. If `--use_centroid
     - `*_filtered.fa`: A FASTA file containing only identifiers that passed the ortholog filtering step.
     </details>
 
-This step filters each ortholog FASTA file to retain only IDs selected by the final filtering logic, then creates a downstream samplesheet for [nf-core/multiplesequencealign](https://nf-co.re/multiplesequencealign). 
+This step filters each ortholog FASTA file to retain only IDs selected by the final filtering logic, then creates a downstream samplesheet for [nf-core/multiplesequencealign](https://nf-co.re/multiplesequencealign).
 The `fasta` column stores absolute paths to the filtered FASTA files in the pipeline output directory.
 
 ### Ortholog plotting
