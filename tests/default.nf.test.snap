@@ -84,16 +84,16 @@
                 "score/aggregated_hits.csv",
                 "sequences",
                 "sequences/BicD2",
-                "sequences/BicD2/BicD2_orthologs.txt",
+                "sequences/BicD2/BicD2_orthologs.fa",
                 "sequences/HBB",
-                "sequences/HBB/HBB_orthologs.txt"
+                "sequences/HBB/HBB_orthologs.fa"
             ],
             [
                 ".stub:md5,d41d8cd98f00b204e9800998ecf8427e",
                 ".stub:md5,d41d8cd98f00b204e9800998ecf8427e"
             ]
         ],
-        "timestamp": "2026-07-22T14:00:04.246745461",
+        "timestamp": "2026-07-23T11:31:44.019580185",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.4"
@@ -329,9 +329,9 @@
                 "score/aggregated_stats.csv",
                 "sequences",
                 "sequences/BicD2",
-                "sequences/BicD2/BicD2_orthologs.txt",
+                "sequences/BicD2/BicD2_orthologs.fa",
                 "sequences/HBB",
-                "sequences/HBB/HBB_orthologs.txt"
+                "sequences/HBB/HBB_orthologs.fa"
             ],
             [
                 "multiqc_citations.txt:md5,4c806e63a283ec1b7e78cdae3a923d4f",
@@ -347,7 +347,7 @@
                 "taxid.txt:md5,d8ce74354d0ddf337bd304faca270ff7"
             ]
         ],
-        "timestamp": "2026-07-23T07:34:46.639948258",
+        "timestamp": "2026-07-23T11:31:12.358385587",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.4"
