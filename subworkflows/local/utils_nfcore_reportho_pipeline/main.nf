@@ -97,12 +97,7 @@ workflow PIPELINE_INITIALISATION {
     )
 
     //
-    // Validate parameters
-    //
-    validateParameters()
-
-    //
-    // Create channel from input file provided through params.input and check for query
+    // Create channel from the input samplesheet and check for query
     //
 
     ch_samplesheet = channel
@@ -132,6 +127,7 @@ workflow PIPELINE_COMPLETION {
     email           //  string: email address
     email_on_fail   //  string: email address sent on pipeline failure
     plaintext_email // boolean: Send plain-text email instead of HTML
+    max_multiqc_email_size // string: Maximum report attachment size for summary emails
     outdir          //    path: Path to output directory where results will be published
     monochrome_logs // boolean: Disable ANSI colour codes in log output
     multiqc_report  //  string: Path to MultiQC report
@@ -150,6 +146,7 @@ workflow PIPELINE_COMPLETION {
                 email,
                 email_on_fail,
                 plaintext_email,
+                max_multiqc_email_size,
                 outdir,
                 monochrome_logs,
                 multiqc_reports.getVal(),
@@ -170,39 +167,6 @@ workflow PIPELINE_COMPLETION {
     FUNCTIONS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
-
-//
-// Validate parameters
-//
-def validateParameters() {
-    validateOfflineSettings()
-    validateSamplesheetGenerationSettings()
-}
-
-def validateSamplesheetGenerationSettings() {
-    if (!params.skip_samplesheets && (params.offline_run || (params.skip_merge && params.skip_downstream))) {
-        log.error("Samplesheet generation for nf-core/multiplesequencealign requires fetched sequences. Set '--skip_samplesheets' to true or disable offline/no-fetch settings.")
-    }
-}
-
-def validateOfflineSettings() {
-    if (params.offline_run) {
-        if (!params.local_databases) {
-            params.local_databases = true
-            log.warn("Offline mode enabled, setting 'local_databases' to 'true'")
-        }
-        if (!params.skip_downstream) {
-            params.skip_downstream = true
-            log.warn("Offline mode enabled, setting 'skip_downstream' to 'true'")
-        }
-        if (params.use_all) {
-            log.warn("Offline run set with 'use_all', only local databases will be used")
-        }
-    } else if (params.use_all && params.local_databases) {
-        log.warn("Local databases set with 'use_all', only local databases will be used")
-    }
-}
-
 
 //
 // Validate channels from input samplesheet
