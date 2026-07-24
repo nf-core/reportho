@@ -63,6 +63,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### Fixed
 
 - [#118](https://github.com/nf-core/reportho/pull/118) - Fix YAML schema link in local module and subworkflow metas
+- [#136](https://github.com/nf-core/reportho/pull/136) - Fix output file extension for MERGE_FASTA
 
 #### Removed
 

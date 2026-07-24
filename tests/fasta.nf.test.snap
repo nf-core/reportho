@@ -117,16 +117,16 @@
                 "score/ste3/ste3_score_table.csv",
                 "sequences",
                 "sequences/ste2",
-                "sequences/ste2/ste2_orthologs.txt",
+                "sequences/ste2/ste2_orthologs.fa",
                 "sequences/ste3",
-                "sequences/ste3/ste3_orthologs.txt"
+                "sequences/ste3/ste3_orthologs.fa"
             ],
             [
                 ".stub:md5,d41d8cd98f00b204e9800998ecf8427e",
                 ".stub:md5,d41d8cd98f00b204e9800998ecf8427e"
             ]
         ],
-        "timestamp": "2026-07-23T09:30:25.851993193",
+        "timestamp": "2026-07-24T07:50:01.613129067",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.4"
@@ -569,15 +569,15 @@
                 "score/ste3/ste3_score_table.csv",
                 "sequences",
                 "sequences/ste2",
-                "sequences/ste2/ste2_orthologs.txt",
+                "sequences/ste2/ste2_orthologs.fa",
                 "sequences/ste3",
-                "sequences/ste3/ste3_orthologs.txt"
+                "sequences/ste3/ste3_orthologs.fa"
             ],
             [
                 "multiqc_citations.txt:md5,4c806e63a283ec1b7e78cdae3a923d4f"
             ]
         ],
-        "timestamp": "2026-07-23T09:29:49.102991847",
+        "timestamp": "2026-07-24T07:49:24.978958628",
         "meta": {
             "nf-test": "0.9.5",
             "nextflow": "26.04.4"
