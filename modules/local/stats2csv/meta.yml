@@ -1,0 +1,79 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: stats2csv
+description: Convert ortholog statistics YAML into a tabular CSV summary
+keywords:
+  - stats2csv
+  - statistics
+  - csv
+  - yaml
+tools:
+  - python:
+      description: Python is a programming language that lets you work quickly and integrate systems more effectively.
+      homepage: https://www.python.org/
+      documentation: https://docs.python.org/3/
+      licence: ["PSF-2.0"]
+  - pyyaml:
+      description: PyYAML is a YAML parser and emitter for Python.
+      homepage: https://pyyaml.org/
+      documentation: https://pyyaml.org/wiki/PyYAMLDocumentation
+      licence: ["MIT"]
+input:
+  - - meta:
+        type: map
+        description: Groovy Map containing sample metadata
+    - stats:
+        type: file
+        description: YAML file containing ortholog statistics to convert into CSV
+output:
+  csv:
+    - - meta:
+          type: map
+          description: Groovy Map containing sample metadata
+      - "*_stats.csv":
+          type: file
+          description: CSV file containing ortholog statistics summary
+          pattern: "*_stats.csv"
+  versions_python:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - python:
+          type: string
+          description: The name of the tool
+      - "python --version | sed 's/Python //'":
+          type: eval
+          description: The expression to obtain the version of the tool
+  versions_pyyaml:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - pyyaml:
+          type: string
+          description: The name of the tool
+      - "pip show pyyaml | sed -n 's/^Version: //p'":
+          type: eval
+          description: The expression to obtain the version of the tool
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - python:
+          type: string
+          description: The name of the tool
+      - "python --version | sed 's/Python //'":
+          type: eval
+          description: The expression to obtain the version of the tool
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - pyyaml:
+          type: string
+          description: The name of the tool
+      - "pip show pyyaml | sed -n 's/^Version: //p'":
+          type: eval
+          description: The expression to obtain the version of the tool
+authors:
+  - "@itrujnara"
+maintainers:
+  - "@itrujnara"

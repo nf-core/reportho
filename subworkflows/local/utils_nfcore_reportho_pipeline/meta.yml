@@ -1,0 +1,57 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
+name: "PIPELINE_INITIALISATION"
+description: Initialise pipeline runtime utilities, validate inputs and parameters, and split the input samplesheet
+keywords:
+  - reportho
+  - utils
+  - nfcore
+  - pipeline
+  - initialisation
+components:
+  - completionEmail
+  - completionSummary
+  - paramsHelp
+  - paramsSummaryMap
+  - samplesheetToList
+  - UTILS_NEXTFLOW_PIPELINE
+  - UTILS_NFCORE_PIPELINE
+  - UTILS_NFSCHEMA_PLUGIN
+input:
+  - version:
+      type: boolean
+      description: Print pipeline version and exit
+  - validate_params:
+      type: boolean
+      description: Validate pipeline parameters against the Nextflow schema at runtime
+  - monochrome_logs:
+      type: boolean
+      description: Disable ANSI colour formatting in log output
+  - nextflow_cli_args:
+      type: list
+      description: Positional Nextflow CLI arguments used for runtime checks
+  - outdir:
+      type: directory
+      description: Output directory used for pipeline artefacts and parameter dumps
+  - input:
+      type: string
+      description: Path to input samplesheet CSV
+  - help:
+      type: boolean
+      description: Show short help and exit
+  - help_full:
+      type: boolean
+      description: Show full help text and exit
+  - show_hidden:
+      type: boolean
+      description: Include hidden parameters in help output
+output:
+  - samplesheet_query:
+      type: channel
+      description: Samplesheet entries routed to identifier-based query processing
+  - samplesheet_fasta:
+      type: channel
+      description: Samplesheet entries routed to FASTA-based query processing
+authors:
+  - "@itrujnara"
+maintainers:
+  - "@itrujnara"

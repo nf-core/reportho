@@ -1,0 +1,101 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: fetch_oma_group_local
+description: Retrieve OMA ortholog group members using local mapping and database files
+keywords:
+  - oma
+  - orthology
+  - uniprot
+  - local-database
+tools:
+  - python:
+      description: Python is a programming language that lets you work quickly and integrate systems more effectively.
+      homepage: https://www.python.org/
+      documentation: https://docs.python.org/3/
+      licence: ["PSF-2.0"]
+  - ripgrep:
+      description: ripgrep recursively searches directories for a regex pattern while respecting your gitignore rules.
+      homepage: https://github.com/BurntSushi/ripgrep
+      documentation: https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md
+      licence: ["MIT", "Unlicense"]
+input:
+  - - meta:
+        type: map
+        description: Groovy Map containing sample metadata
+    - uniprot_id:
+        type: file
+        description: File containing the UniProt identifier used as query
+    - taxid:
+        type: file
+        description: File containing taxonomy identifier associated with the query
+    - exact:
+        type: file
+        description: File indicating whether the ID was found through exact match
+  - db:
+      type: file
+      description: OMA local database export used to recover ortholog members
+      pattern: "*"
+  - uniprot_idmap:
+      type: file
+      description: Mapping file used to convert OMA identifiers to UniProt identifiers
+      pattern: "*"
+  - ensembl_idmap:
+      type: file
+      description: Mapping file used to convert Ensembl identifiers to UniProt identifiers
+      pattern: "*"
+  - refseq_idmap:
+      type: file
+      description: Mapping file used to convert RefSeq identifiers to UniProt identifiers
+      pattern: "*"
+output:
+  oma_group:
+    - - meta:
+          type: map
+          description: Groovy Map containing sample metadata
+      - "*_oma_group.csv":
+          type: file
+          description: CSV file listing recovered OMA ortholog group members
+          pattern: "*_oma_group.csv"
+  versions_python:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - python:
+          type: string
+          description: The name of the tool
+    - "python --version | sed 's/Python //'":
+        type: eval
+        description: The expression to obtain the version of the tool
+  versions_ripgrep:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - ripgrep:
+          type: string
+          description: The name of the tool
+    - "rg --version | sed '1!d; s/ripgrep //; s/ .*//'":
+        type: eval
+        description: The expression to obtain the version of the tool
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - python:
+          type: string
+          description: The name of the tool
+    - "python --version | sed 's/Python //'":
+        type: eval
+        description: The expression to obtain the version of the tool
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - ripgrep:
+          type: string
+          description: The name of the tool
+    - "rg --version | sed '1!d; s/ripgrep //; s/ .*//'":
+        type: eval
+        description: The expression to obtain the version of the tool
+authors:
+  - "@itrujnara"
+maintainers:
+  - "@itrujnara"

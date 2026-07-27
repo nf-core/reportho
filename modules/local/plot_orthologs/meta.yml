@@ -1,0 +1,155 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: plot_orthologs
+description: Generate ortholog support, overlap, and similarity plots from score tables
+keywords:
+  - plot
+  - orthologs
+  - visualization
+  - r
+tools:
+  - r-base:
+      description: R is a language and environment for statistical computing and graphics.
+      homepage: https://www.r-project.org/
+      documentation: https://cran.r-project.org/manuals.html
+      licence: ["GPL-2.0-or-later"]
+  - tidyverse:
+      description: The tidyverse is an opinionated collection of R packages designed for data science.
+      homepage: https://www.tidyverse.org/
+      documentation: https://www.tidyverse.org/packages/
+      licence: ["MIT"]
+  - reshape2:
+      description: reshape2 provides functions to flexibly restructure and aggregate data.
+      homepage: https://cran.r-project.org/package=reshape2
+      documentation: https://cran.r-project.org/web/packages/reshape2/index.html
+      licence: ["MIT"]
+  - ggvenndiagram:
+      description: ggVennDiagram is an R package to create Venn and UpSet plots using ggplot2.
+      homepage: https://gaospecial.github.io/ggVennDiagram/
+      documentation: https://gaospecial.github.io/ggVennDiagram/
+      licence: ["GPL-3.0-only"]
+input:
+  - - meta:
+        type: map
+        description: Groovy Map containing sample metadata
+    - score_table:
+        type: file
+        description: Score table file used to generate ortholog support and overlap plots
+output:
+  supports:
+    - - meta:
+          type: map
+          description: Groovy Map containing sample metadata
+      - "*_supports_light.png":
+          type: file
+          description: Light-theme support plot image
+          pattern: "*_supports_light.png"
+      - "*_supports_dark.png":
+          type: file
+          description: Dark-theme support plot image
+          pattern: "*_supports_dark.png"
+  venn:
+    - - meta:
+          type: map
+          description: Groovy Map containing sample metadata
+      - "*_venn_light.png":
+          type: file
+          description: Light-theme Venn diagram image
+          pattern: "*_venn_light.png"
+      - "*_venn_dark.png":
+          type: file
+          description: Dark-theme Venn diagram image
+          pattern: "*_venn_dark.png"
+  jaccard:
+    - - meta:
+          type: map
+          description: Groovy Map containing sample metadata
+      - "*_jaccard_light.png":
+          type: file
+          description: Light-theme Jaccard similarity plot image
+          pattern: "*_jaccard_light.png"
+      - "*_jaccard_dark.png":
+          type: file
+          description: Dark-theme Jaccard similarity plot image
+          pattern: "*_jaccard_dark.png"
+  versions_r_base:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - r-base:
+          type: string
+          description: The name of the tool
+      - "Rscript -e 'cat(as.character(getRversion()))' | sed 's/^//'":
+          type: eval
+          description: The expression to obtain the version of the tool
+  versions_tidyverse:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - tidyverse:
+          type: string
+          description: The name of the tool
+      - 'Rscript -e ''cat(as.character(packageVersion("tidyverse")))'' | sed ''s/^//''':
+          type: eval
+          description: The expression to obtain the version of the tool
+  versions_reshape2:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - reshape2:
+          type: string
+          description: The name of the tool
+      - 'Rscript -e ''cat(as.character(packageVersion("reshape2")))'' | sed ''s/^//''':
+          type: eval
+          description: The expression to obtain the version of the tool
+  versions_ggvenndiagram:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - ggvenndiagram:
+          type: string
+          description: The name of the tool
+      - 'Rscript -e ''cat(as.character(packageVersion("ggvenndiagram")))'' | sed ''s/^//''':
+          type: eval
+          description: The expression to obtain the version of the tool
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - r-base:
+          type: string
+          description: The name of the tool
+      - "Rscript -e 'cat(as.character(getRversion()))' | sed 's/^//'":
+          type: eval
+          description: The expression to obtain the version of the tool
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - tidyverse:
+          type: string
+          description: The name of the tool
+      - 'Rscript -e ''cat(as.character(packageVersion("tidyverse")))'' | sed ''s/^//''':
+          type: eval
+          description: The expression to obtain the version of the tool
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - reshape2:
+          type: string
+          description: The name of the tool
+      - 'Rscript -e ''cat(as.character(packageVersion("reshape2")))'' | sed ''s/^//''':
+          type: eval
+          description: The expression to obtain the version of the tool
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - ggvenndiagram:
+          type: string
+          description: The name of the tool
+      - 'Rscript -e ''cat(as.character(packageVersion("ggvenndiagram")))'' | sed ''s/^//''':
+          type: eval
+          description: The expression to obtain the version of the tool
+authors:
+  - "@itrujnara"
+maintainers:
+  - "@itrujnara"

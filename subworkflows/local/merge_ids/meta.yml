@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
+name: "MERGE_IDS"
+description: Cluster sequence identifiers and produce per-query ID mapping tables
+keywords:
+  - reportho
+  - merge
+  - ids
+  - clustering
+components:
+  - DIAMOND_CLUSTER
+  - GROUP_DIAMOND
+  - MERGE_ALL
+  - MERGE_DIAMOND
+  - MERGE_FASTA_IDS
+  - POSTPROCESS_DIAMOND
+  - REDUCE_IDMAP
+  - SPLIT_TAXIDS
+input:
+  - ch_fasta_all:
+      type: channel
+      description: Per-query FASTA files containing ortholog sequences to cluster
+output:
+  - id_clusters:
+      type: channel
+      description: Per-query cluster assignment files after merging single-entry and multi-entry inputs
+  - id_map:
+      type: channel
+      description: Per-query reduced ID mapping tables used by downstream scoring steps
+authors:
+  - "@itrujnara"
+maintainers:
+  - "@itrujnara"

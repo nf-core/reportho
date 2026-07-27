@@ -1,0 +1,39 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
+name: "GET_SEQUENCES"
+description: Retrieve ortholog sequences from supported databases and aggregate FASTA and summary tables
+keywords:
+  - reportho
+  - get
+  - sequences
+  - retrieval
+components:
+  - CONCAT_FASTA
+  - CONCAT_HITS
+  - CONCAT_MISSES
+  - FETCH_ENSEMBL_IDMAP
+  - FETCH_ENSEMBL_SEQUENCES
+  - FETCH_OMA_SEQUENCES
+  - FETCH_REFSEQ_SEQUENCES
+  - FETCH_UNIPROT_SEQUENCES
+  - SPLIT_ID_FORMAT
+input:
+  - ch_ids:
+      type: channel
+      description: Per-query identifier collections to fetch from UniProt, Ensembl, RefSeq, and OMA
+  - ch_query_fasta:
+      type: channel
+      description: Query FASTA sequences used by source-specific fetch modules
+output:
+  - fasta:
+      type: channel
+      description: Per-query concatenated FASTA files containing all retrieved ortholog sequences
+  - hits:
+      type: channel
+      description: Per-query concatenated tables of successfully retrieved identifiers
+  - misses:
+      type: channel
+      description: Per-query concatenated tables of identifiers not resolved during sequence retrieval
+authors:
+  - "@itrujnara"
+maintainers:
+  - "@itrujnara"

@@ -6,58 +6,50 @@
 
 ## Introduction
 
-<!-- TODO nf-core: Add documentation about anything specific to running your pipeline. For general topics, please point to (and add to) the main nf-core website. -->
+reportho is a pipeline for the retrieval of pre-computed ortholog predictions for specific genes, as well as the comparative analysis of predictions from multiple sources. It works for all eukaryotic species with sufficient annotation, and given proper setup also for bacteria and archaea. Support for viral genes is not guaranteed. For optimal results, use proteins from Uniprot as input.
 
 ## Samplesheet input
 
-You will need to create a samplesheet with information about the samples you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row as shown in the examples below.
+You will need to create a samplesheet with information about the samples you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 2 columns, and a header row as shown in the examples below.
 
 ```bash
 --input '[path to samplesheet file]'
 ```
 
-### Multiple runs of the same sample
-
-The `sample` identifiers have to be the same when you have re-sequenced the same sample more than once e.g. to increase sequencing depth. The pipeline will concatenate the raw reads before performing any downstream analysis. Below is an example for the same sample sequenced across 3 lanes:
-
-```csv title="samplesheet.csv"
-sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
-CONTROL_REP1,AEG588A1_S1_L003_R1_001.fastq.gz,AEG588A1_S1_L003_R2_001.fastq.gz
-CONTROL_REP1,AEG588A1_S1_L004_R1_001.fastq.gz,AEG588A1_S1_L004_R2_001.fastq.gz
-```
-
 ### Full samplesheet
 
-The pipeline will auto-detect whether a sample is single- or paired-end using the information provided in the samplesheet. The samplesheet can have as many columns as you desire, however, there is a strict requirement for the first 3 columns to match those defined in the table below.
+The samplesheet can have as many columns as you desire, however, there is a strict requirement for the first 2 columns to match those defined in the tables below.
 
-A final samplesheet file consisting of both single- and paired-end data may look something like the one below. This is for 6 samples, where `TREATMENT_REP3` has been sequenced twice.
+A final samplesheet file may look something like the one below:
 
 ```csv title="samplesheet.csv"
-sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
-CONTROL_REP2,AEG588A2_S2_L002_R1_001.fastq.gz,AEG588A2_S2_L002_R2_001.fastq.gz
-CONTROL_REP3,AEG588A3_S3_L002_R1_001.fastq.gz,AEG588A3_S3_L002_R2_001.fastq.gz
-TREATMENT_REP1,AEG588A4_S4_L003_R1_001.fastq.gz,
-TREATMENT_REP2,AEG588A5_S5_L003_R1_001.fastq.gz,
-TREATMENT_REP3,AEG588A6_S6_L003_R1_001.fastq.gz,
-TREATMENT_REP3,AEG588A6_S6_L004_R1_001.fastq.gz,
+id,query
+BicD2,Q8TD16
+HBB,P68871
 ```
 
-| Column    | Description                                                                                                                                                                            |
-| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `sample`  | Custom sample name. This entry will be identical for multiple sequencing libraries/runs from the same sample. Spaces in sample names are automatically converted to underscores (`_`). |
-| `fastq_1` | Full path to FastQ file for Illumina short reads 1. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                             |
-| `fastq_2` | Full path to FastQ file for Illumina short reads 2. File has to be gzipped and have the extension ".fastq.gz" or ".fq.gz".                                                             |
+or the one below, if you provide the sequence of the protein in FASTA format:
 
-An [example samplesheet](../assets/samplesheet.csv) has been provided with the pipeline.
+```csv title="samplesheet.csv"
+id,fasta
+BicD2,/home/myuser/data/bicd2.fa
+HBB,/home/myuser/data/hbb.fa
+```
+
+| Column  | Description                                                                                                                                       |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`    | User-defined identifier. It is used to identify output files for the protein. Can be anything descriptive, as long as it does not contain spaces. |
+| `query` | The query of the user-specified type. It should be a valid Uniprot accession.                                                                     |
+| `fasta` | It should be a valid path to a FASTA file.                                                                                                        |
+
+An [example Uniprot samplesheet](../assets/samplesheet.csv) and [example FASTA samplesheet](../assets/samplesheet_fasta.csv) has been provided with the pipeline.
 
 ## Running the pipeline
 
 The typical command for running the pipeline is as follows:
 
 ```bash
-nextflow run nf-core/reportho --input ./samplesheet.csv --outdir ./results  -profile docker
+nextflow run nf-core/reportho --input ./samplesheet.csv --outdir ./results -profile docker
 ```
 
 This will launch the pipeline with the `docker` configuration profile. See below for more information about profiles.
@@ -93,6 +85,40 @@ outdir: './results/'
 ```
 
 You can also generate such `YAML`/`JSON` files via [nf-core/launch](https://nf-co.re/launch).
+
+### Database snapshots
+
+If you want to use local database copies for the run, you must provide the required files using the appropriate params. See the parameter documentation for details. Below you can find a list of files to provide, as named by the FTP service of the respective databases.
+
+| Parameter           | File name                 |
+| ------------------- | ------------------------- |
+| `oma_path`          | `oma-groups.txt.gz`       |
+| `oma_uniprot_path`  | `oma-uniprot.txt.gz`      |
+| `oma_ensembl_path`  | `oma-ensembl.txt.gz`      |
+| `oma_refseq_path`   | `oma-refseq.txt.gz`       |
+| `panther_path`      | `AllOrthologs.txt`        |
+| `eggnog_path`       | `1_members.tsv.gz`        |
+| `eggnog_idmap_path` | `latest.Eukaryota.tsv.gz` |
+
+If you need reduced versions of the local databases for testing, you can find them [here](https://github.com/nf-core/test-datasets/tree/reportho/testdata/databases). Note that they were designed to work with the [test samplesheet](https://github.com/nf-core/test-datasets/blob/reportho/testdata/samplesheet/samplesheet.csv) and will likely not provide any result for other queries.
+
+### Running offline
+
+With large input sizes, you might want to run the pipeline locally, without runtime access to APIs. There are two main parameters used to achieve this. If you want to use local databases, set `--local_databases` to `true`. Remember to set `--use_all` to `false` to ensure the database step is run fully offline. If your input is especially large, you can also skip the initial online identification steps by setting `--offline_run` to `true`. Note that FASTA input will not work with this option enabled, and the pipeline will be aborted if this is attempted. You can check [test_offline.config](https://github.com/nf-core/reportho/blob/main/conf/test_offline.config) to see the required options for a fully offline run. Keep in mind that the options only affect ortholog finding, and the downstream analysis still requires connection to obtain sequences and structures.
+
+While those options allow the pipeline to run its steps offline, the pipeline requires certain configuration files and container images that are downloaded from the internet. If you wish to run the pipeline on a machine without a connection, you can pre-download the required files with `nf-core download`. See [the nf-core tools documentation](https://nf-co.re/docs/nf-core-tools/pipelines/download) for details.
+
+### Sequence fetching
+
+Identifier merging relies on online resources to obtain sequences, and thus cannot be run offline. For your convenience, it will be automatically disabled if you enable `offline_run`. Note that in case some sequences cannot be obtained, the corresponding ortholog will be excluded from merging, and its ID will be passed on as-is.
+
+The pipeline can also generate a downstream samplesheet for [nf-core/multiplesequencealign](https://nf-co.re/multiplesequencealign) (`results/samplesheets/multiplesequencealign_samplesheet.csv`). This step is enabled by default and can be disabled with `--skip_samplesheets`.
+
+Because this samplesheet requires fetched sequences, the pipeline aborts if samplesheet generation is requested while sequence fetching is disabled (for example in offline mode).
+
+### ID merging
+
+Identifier merging is performed using `diamond cluster`. By default, the threshold for clustering is 90% identity at 80% coverage. These values can be adjusted by setting the `min_identity` and `min_coverage` parameters.
 
 ### Updating the pipeline
 
@@ -155,6 +181,8 @@ If `-profile` is not specified, the pipeline will run locally and expect all sof
   - A generic configuration profile to enable [Wave](https://seqera.io/wave/) containers. Use together with one of the above (requires Nextflow ` 24.03.0-edge` or later).
 - `conda`
   - A generic configuration profile to be used with [Conda](https://conda.io/docs/). Please only use Conda as a last resort i.e. when it's not possible to run the pipeline with Docker, Singularity, Podman, Shifter, Charliecloud, or Apptainer.
+- `array`
+  - A generic configuration profile to be used on HPC environment. It sets a default value for the [array](https://www.nextflow.io/docs/latest/reference/process.html#array) directive per each process. It's use is intended to help the HPC schedulers on resources allocation, by bundling tasks that belongs to the same process in packets of fixed size.
 
 ### `-resume`
 
@@ -188,7 +216,7 @@ To learn how to provide additional arguments to a particular tool of the pipelin
 
 ### nf-core/configs
 
-In most cases, you will only need to create a custom config as a one-off but if you and others within your organisation are likely to be running nf-core pipelines regularly and need to use the same settings regularly it may be a good idea to request that your custom config file is uploaded to the `nf-core/configs` git repository. Before you do this please can you test that the config file works with your pipeline of choice using the `-c` parameter. You can then create a pull request to the `nf-core/configs` repository with the addition of your config file, associated documentation file (see examples in [`nf-core/configs/docs`](https://github.com/nf-core/configs/tree/master/docs)), and amending [`nfcore_custom.config`](https://github.com/nf-core/configs/blob/master/nfcore_custom.config) to include your custom profile.
+In most cases, you will only need to create a custom config as a one-off but if you and others within your organisation are likely to be running nf-core pipelines regularly and need to use the same settings regularly it may be a good idea to request that your custom config file is uploaded to the `nf-core/configs` git repository. Before you do this please can you test that the config file works with your pipeline of choice using the `-c` parameter. You can then create a pull request to the `nf-core/configs` repository with the addition of your config file, associated documentation file (see examples in [`nf-core/configs/docs`](https://github.com/nf-core/configs/tree/main/docs)), and amending [`nfcore_custom.config`](https://github.com/nf-core/configs/blob/main/nfcore_custom.config) to include your custom profile.
 
 See the main [Nextflow documentation](https://www.nextflow.io/docs/latest/config.html) for more information about creating your own configuration files.
 
