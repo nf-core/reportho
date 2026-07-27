@@ -27,9 +27,28 @@ workflow REPORTHO {
     take:
     ch_samplesheet_query // channel: samplesheet query
     ch_samplesheet_fasta // channel: samplesheet fasta
+    offline_run
+    _use_all
     use_centroid
+    _skip_oma
+    _local_databases
+    oma_path
+    oma_uniprot_path
+    oma_ensembl_path
+    oma_refseq_path
+    _skip_panther
+    panther_path
+    _skip_orthoinspector
+    _orthoinspector_version
+    _skip_eggnog
+    eggnog_path
+    eggnog_idmap_path
     min_score
     skip_merge
+    skip_downstream
+    skip_orthoplots
+    skip_samplesheets
+    skip_report
     min_identity
     min_coverage
     multiqc_config
@@ -41,13 +60,13 @@ workflow REPORTHO {
     ch_multiqc_files = channel.empty()
     ch_fasta_query   = ch_samplesheet_query.map { meta, _query -> [meta, []] }.mix(ch_samplesheet_fasta.map { meta, fasta -> [meta, file(fasta)] })
 
-    ch_oma_groups    = params.oma_path ? channel.value(file(params.oma_path)) : channel.empty()
-    ch_oma_uniprot   = params.oma_uniprot_path ? channel.value(file(params.oma_uniprot_path)) : channel.empty()
-    ch_oma_ensembl   = params.oma_ensembl_path ? channel.value(file(params.oma_ensembl_path)) : channel.empty()
-    ch_oma_refseq    = params.oma_refseq_path ? channel.value(file(params.oma_refseq_path)) : channel.empty()
-    ch_panther       = params.panther_path ? channel.value(file(params.panther_path)) : channel.empty()
-    ch_eggnog        = params.eggnog_path ? channel.value(file(params.eggnog_path)) : channel.empty()
-    ch_eggnog_idmap  = params.eggnog_idmap_path ? channel.value(file(params.eggnog_idmap_path)) : channel.empty()
+    ch_oma_groups    = oma_path ? channel.value(file(oma_path)) : channel.empty()
+    ch_oma_uniprot   = oma_uniprot_path ? channel.value(file(oma_uniprot_path)) : channel.empty()
+    ch_oma_ensembl   = oma_ensembl_path ? channel.value(file(oma_ensembl_path)) : channel.empty()
+    ch_oma_refseq    = oma_refseq_path ? channel.value(file(oma_refseq_path)) : channel.empty()
+    ch_panther       = panther_path ? channel.value(file(panther_path)) : channel.empty()
+    ch_eggnog        = eggnog_path ? channel.value(file(eggnog_path)) : channel.empty()
+    ch_eggnog_idmap  = eggnog_idmap_path ? channel.value(file(eggnog_idmap_path)) : channel.empty()
 
     ch_seqhits       = ch_samplesheet_query.map { meta, _query -> [meta, []] }
     ch_seqmisses     = ch_samplesheet_query.map { meta, _query -> [meta, []] }
@@ -55,18 +74,26 @@ workflow REPORTHO {
     GET_ORTHOLOGS (
         ch_samplesheet_query,
         ch_samplesheet_fasta,
+        offline_run,
+        _use_all,
+        _skip_oma,
+        _local_databases,
         ch_oma_groups,
         ch_oma_uniprot,
         ch_oma_ensembl,
         ch_oma_refseq,
+        _skip_panther,
         ch_panther,
+        _skip_orthoinspector,
+        _orthoinspector_version,
+        _skip_eggnog,
         ch_eggnog,
         ch_eggnog_idmap
     )
 
     ch_seqs = ch_samplesheet_query.map { meta, _query -> [meta, []] }
 
-    if (!params.offline_run && (!params.skip_merge || !params.skip_downstream))
+    if (!offline_run && (!skip_merge || !skip_downstream))
     {
         GET_SEQUENCES (
             GET_ORTHOLOGS.out.orthologs,
@@ -81,7 +108,7 @@ workflow REPORTHO {
     ch_id_map   = ch_fasta_query.map { meta, _fasta -> [meta, []] }
     ch_clusters = ch_fasta_query.map { meta, _fasta -> [meta, []] }
 
-    if (!params.offline_run && !params.skip_merge)
+    if (!offline_run && !skip_merge)
     {
         MERGE_IDS (
             ch_seqs
@@ -96,14 +123,16 @@ workflow REPORTHO {
         GET_ORTHOLOGS.out.orthologs,
         ch_id_map,
         ch_clusters,
-        params.skip_merge,
-        params.skip_orthoplots
+        use_centroid,
+        min_score,
+        skip_merge,
+        skip_orthoplots
     )
     ch_multiqc_files = ch_multiqc_files.mix(SCORE_ORTHOLOGS.out.aggregated_stats.map { _meta, stats_csv -> stats_csv })
     ch_multiqc_files = ch_multiqc_files.mix(SCORE_ORTHOLOGS.out.aggregated_hits.map { _meta, hits_csv -> hits_csv })
     ch_multiqc_files = ch_multiqc_files.mix(SCORE_ORTHOLOGS.out.aggregated_merge.map { _meta, merge_csv -> merge_csv })
 
-    if(!params.skip_samplesheets) {
+    if(!skip_samplesheets) {
         GENERATE_MSA_SAMPLESHEET(
             ch_seqs,
             SCORE_ORTHOLOGS.out.orthologs,
@@ -118,7 +147,7 @@ workflow REPORTHO {
         )
     }
 
-    if(!params.skip_report && workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() == 0) {
+    if(!skip_report && workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() == 0) {
         REPORT (
             use_centroid,
             min_score,

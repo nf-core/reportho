@@ -15,6 +15,8 @@ workflow SCORE_ORTHOLOGS {
     ch_orthologs
     ch_id_map
     ch_clusters
+    use_centroid
+    min_score
     skip_merge
     skip_plots
 
@@ -30,8 +32,8 @@ workflow SCORE_ORTHOLOGS {
 
     FILTER_HITS (
         ch_forfilter,
-        params.use_centroid,
-        params.min_score
+        use_centroid,
+        min_score
     )
 
     // Plotting

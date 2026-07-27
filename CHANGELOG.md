@@ -59,6 +59,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [#130](https://github.com/nf-core/reportho/pull/130) - Update local subworkflow metas with meaningful information
 - [#131](https://github.com/nf-core/reportho/pull/131) - Make syntax more consistent in workflows
 - [#132](https://github.com/nf-core/reportho/pull/132) - Migrate OMA modules to pyomadb
+- [#138](https://github.com/nf-core/reportho/pull/138) - Remove params from subworkflows
 
 #### Fixed
 

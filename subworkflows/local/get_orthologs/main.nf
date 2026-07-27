@@ -15,11 +15,19 @@ workflow GET_ORTHOLOGS {
     take:
     ch_samplesheet_query
     ch_samplesheet_fasta
+    offline_run
+    use_all
+    skip_oma
+    local_databases
     ch_oma_groups
     ch_oma_uniprot
     ch_oma_ensembl
     ch_oma_refseq
+    skip_panther
     ch_panther
+    skip_orthoinspector
+    orthoinspector_version
+    skip_eggnog
     ch_eggnog
     ch_eggnog_idmap
 
@@ -27,7 +35,7 @@ workflow GET_ORTHOLOGS {
     ch_orthogroups  = channel.empty()
 
     ch_samplesheet_fasta = ch_samplesheet_fasta.map { meta, fasta ->
-        if (params.offline_run) {
+        if (offline_run) {
             error "Tried to use FASTA input in an offline run. Aborting pipeline for user safety."
         }
         return [meta, fasta]
@@ -44,7 +52,7 @@ workflow GET_ORTHOLOGS {
 
     WRITE_SEQINFO (
         ch_samplesheet_query,
-        params.offline_run
+        offline_run
     )
 
     ch_query = IDENTIFY_SEQ_ONLINE.out.seqinfo.mix(WRITE_SEQINFO.out.seqinfo)
@@ -53,8 +61,8 @@ workflow GET_ORTHOLOGS {
 
     // OMA
 
-    if (params.use_all || !params.skip_oma) {
-        if (params.local_databases) {
+    if (use_all || !skip_oma) {
+        if (local_databases) {
             FETCH_OMA_GROUP_LOCAL (
                 ch_query,
                 ch_oma_groups,
@@ -78,8 +86,8 @@ workflow GET_ORTHOLOGS {
 
     // PANTHER
 
-    if (params.use_all || !params.skip_panther) {
-        if (params.local_databases) {
+    if (use_all || !skip_panther) {
+        if (local_databases) {
             FETCH_PANTHER_GROUP_LOCAL (
                 ch_query,
                 ch_panther
@@ -99,10 +107,10 @@ workflow GET_ORTHOLOGS {
 
     // OrthoInspector
 
-    if ((params.use_all || !params.skip_orthoinspector) && !params.local_databases) {
+    if ((use_all || !skip_orthoinspector) && !local_databases) {
         FETCH_INSPECTOR_GROUP_ONLINE (
             ch_query,
-            params.orthoinspector_version
+            orthoinspector_version
         )
 
         ch_orthogroups = ch_orthogroups
@@ -111,7 +119,7 @@ workflow GET_ORTHOLOGS {
 
     // EggNOG
 
-    if (params.use_all || (!params.skip_eggnog && params.local_databases)) {
+    if (use_all || (!skip_eggnog && local_databases)) {
         FETCH_EGGNOG_GROUP_LOCAL (
             ch_query,
             ch_eggnog,
