@@ -1,6 +1,6 @@
 nextflow_pipeline {
 
-    name "Test pipeline with default settings"
+    name "Test pipeline with FASTA input"
     script "../main.nf"
     tag "default"
 
