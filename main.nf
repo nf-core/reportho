@@ -136,7 +136,6 @@ workflow NFCORE_REPORTHO {
     eggnog_idmap_path
     min_score
     skip_merge
-    skip_downstream
     skip_orthoplots
     skip_samplesheets
     skip_report
@@ -173,7 +172,6 @@ workflow NFCORE_REPORTHO {
         eggnog_idmap_path,
         min_score,
         skip_merge,
-        skip_downstream,
         skip_orthoplots,
         skip_samplesheets,
         skip_report,
@@ -196,16 +194,11 @@ workflow NFCORE_REPORTHO {
 
 workflow {
     effective_local_databases = params.local_databases
-    effective_skip_downstream = params.containsKey('skip_downstream') ? params['skip_downstream'] : false
 
     if (params.offline_run) {
         if (!effective_local_databases) {
             effective_local_databases = true
             log.warn("Offline mode enabled, setting 'local_databases' to 'true'")
-        }
-        if (!effective_skip_downstream) {
-            effective_skip_downstream = true
-            log.warn("Offline mode enabled, setting 'skip_downstream' to 'true'")
         }
         if (params.use_all) {
             log.warn("Offline run set with 'use_all', only local databases will be used")
@@ -215,7 +208,7 @@ workflow {
         log.warn("Local databases set with 'use_all', only local databases will be used")
     }
 
-    if (!params.skip_samplesheets && (params.offline_run || (params.skip_merge && effective_skip_downstream))) {
+    if (!params.skip_samplesheets && (params.offline_run || params.skip_merge)) {
         log.error("Samplesheet generation for nf-core/multiplesequencealign requires fetched sequences. Set '--skip_samplesheets' to true or disable offline/no-fetch settings.")
     }
 
@@ -258,7 +251,6 @@ workflow {
         params.eggnog_idmap_path,
         params.min_score,
         params.skip_merge,
-        effective_skip_downstream,
         params.skip_orthoplots,
         params.skip_samplesheets,
         params.skip_report,
