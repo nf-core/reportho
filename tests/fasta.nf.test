@@ -1,6 +1,6 @@
 nextflow_pipeline {
 
-    name "Test pipeline with default settings"
+    name "Test pipeline with FASTA input"
     script "../main.nf"
     tag "default"
 
@@ -8,11 +8,12 @@ nextflow_pipeline {
 
         when {
             params {
-                input           = "https://raw.githubusercontent.com/nf-core/test-datasets/reportho/testdata/samplesheet/samplesheet_fasta.csv"
-                outdir          = "$outputDir"
-                skip_merge      = true
-                skip_orthoplots = true
-                skip_report     = true
+                input             = "https://raw.githubusercontent.com/nf-core/test-datasets/reportho/testdata/samplesheet/samplesheet_fasta.csv"
+                outdir            = "$outputDir"
+                skip_merge        = true
+                skip_orthoplots   = true
+                skip_report       = true
+                skip_samplesheets = true
             }
         }
 
@@ -44,11 +45,12 @@ nextflow_pipeline {
 
         when {
             params {
-                input           = "https://raw.githubusercontent.com/nf-core/test-datasets/reportho/testdata/samplesheet/samplesheet_fasta.csv"
-                outdir          = "$outputDir"
-                skip_merge      = true
-                skip_orthoplots = true
-                skip_report     = true
+                input             = "https://raw.githubusercontent.com/nf-core/test-datasets/reportho/testdata/samplesheet/samplesheet_fasta.csv"
+                outdir            = "$outputDir"
+                skip_merge        = true
+                skip_orthoplots   = true
+                skip_report       = true
+                skip_samplesheets = true
             }
         }
 

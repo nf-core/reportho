@@ -11,9 +11,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- [#107](https://github.com/nf-core/reportho/pull/107) - Update nf-core template to version 4.0.2
-- [#124](https://github.com/nf-core/reportho/pull/124) - Update nf-core modules to topics and clean up subworkflows.
-- [#127](https://github.com/nf-core/reportho/pull/127) - Convert local modules to topics
 - [#132](https://github.com/nf-core/reportho/pull/132) - Fetch pairwise orthologs instead of OMA group from OMA
 
 ### Fixed
@@ -53,13 +50,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### Changed
 
 - [#100](https://github.com/nf-core/reportho/pull/100) - Back to dev (1.2.0dev)
+- [#107](https://github.com/nf-core/reportho/pull/107) - Update nf-core template to version 4.0.2
 - [#107](https://github.com/nf-core/reportho/pull/107) - Module structure migrated to nf-core standard directory format
 - [#116](https://github.com/nf-core/reportho/pull/116) - Migrate modules to use module binaries instead of global bin/
 - [#123](https://github.com/nf-core/reportho/pull/123) - Switch local Python helper scripts and module invocations to named argparse options instead of positional sys.argv ordering
+- [#124](https://github.com/nf-core/reportho/pull/124) - Update nf-core modules to topics and clean up subworkflows.
+- [#127](https://github.com/nf-core/reportho/pull/127) - Convert local modules to topics
 - [#130](https://github.com/nf-core/reportho/pull/130) - Update local subworkflow metas with meaningful information
 - [#131](https://github.com/nf-core/reportho/pull/131) - Make syntax more consistent in workflows
 - [#132](https://github.com/nf-core/reportho/pull/132) - Migrate OMA modules to pyomadb
+- [#137](https://github.com/nf-core/reportho/pull/137) - Update nf-core template to version 4.0.3
 - [#138](https://github.com/nf-core/reportho/pull/138) - Remove params from subworkflows
+- [#141](https://github.com/nf-core/reportho/pull/141) - Convert to typed params
 
 #### Fixed
 
