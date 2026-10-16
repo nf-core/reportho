@@ -1,0 +1,452 @@
+{
+    "Params: offline - stub": {
+        "content": [
+            25,
+            {
+                "DUMP_PARAMS": {
+                    "coreutils": 8.3
+                },
+                "FETCH_OMA_GROUP_LOCAL": {
+                    "python": "3.12.3",
+                    "ripgrep": "14.1.0"
+                },
+                "FETCH_PANTHER_GROUP_LOCAL": {
+                    "python": "3.12.3",
+                    "ripgrep": "14.1.0"
+                },
+                "FILTER_HITS": {
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
+                },
+                "MAKE_HITS_TABLE": {
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
+                },
+                "MAKE_SCORE_TABLE": {
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
+                },
+                "MAKE_STATS": {
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
+                },
+                "MERGE_CSV": {
+                    "csvtk": "0.37.0"
+                },
+                "MERGE_HITS": {
+                    "csvtk": "0.37.0"
+                },
+                "MERGE_STATS": {
+                    "csvtk": "0.37.0"
+                },
+                "PLOT_ORTHOLOGS": {
+                    "ggvenndiagram": null,
+                    "r-base": "4.4.3",
+                    "reshape2": "1.4.4",
+                    "tidyverse": "2.0.0"
+                },
+                "STATS2CSV": {
+                    "python": "3.11.0",
+                    "pyyaml": "5.4.1"
+                },
+                "WRITE_SEQINFO": {
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
+                },
+                "Workflow": {
+                    "nf-core/reportho": "v1.2.0dev"
+                }
+            },
+            [
+                "multiqc",
+                "multiqc/multiqc_data",
+                "multiqc/multiqc_data/.stub",
+                "multiqc/multiqc_plots",
+                "multiqc/multiqc_plots/.stub",
+                "multiqc/multiqc_report.html",
+                "pipeline_info",
+                "pipeline_info/nf_core_reportho_software_mqc_versions.yml",
+                "score",
+                "score/BicD2",
+                "score/BicD2/BicD2_score_table.csv",
+                "score/BicD2/plots",
+                "score/BicD2/plots/BicD2_jaccard_dark.png",
+                "score/BicD2/plots/BicD2_jaccard_light.png",
+                "score/BicD2/plots/BicD2_supports_dark.png",
+                "score/BicD2/plots/BicD2_supports_light.png",
+                "score/BicD2/plots/BicD2_venn_dark.png",
+                "score/BicD2/plots/BicD2_venn_light.png",
+                "score/HBB",
+                "score/HBB/HBB_score_table.csv",
+                "score/HBB/plots",
+                "score/HBB/plots/HBB_jaccard_dark.png",
+                "score/HBB/plots/HBB_jaccard_light.png",
+                "score/HBB/plots/HBB_supports_dark.png",
+                "score/HBB/plots/HBB_supports_light.png",
+                "score/HBB/plots/HBB_venn_dark.png",
+                "score/HBB/plots/HBB_venn_light.png",
+                "score/aggregated_hits.csv",
+                "score/aggregated_stats.csv"
+            ],
+            [
+                ".stub:md5,d41d8cd98f00b204e9800998ecf8427e",
+                ".stub:md5,d41d8cd98f00b204e9800998ecf8427e"
+            ]
+        ],
+        "timestamp": "2026-07-23T09:27:22.721192113",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.4"
+        }
+    },
+    "Params: default - stub": {
+        "content": [
+            25,
+            {
+                "DUMP_PARAMS": {
+                    "coreutils": 8.3
+                },
+                "FETCH_OMA_GROUP_LOCAL": {
+                    "python": "3.12.3",
+                    "ripgrep": "14.1.0"
+                },
+                "FETCH_PANTHER_GROUP_LOCAL": {
+                    "python": "3.12.3",
+                    "ripgrep": "14.1.0"
+                },
+                "FILTER_HITS": {
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
+                },
+                "MAKE_HITS_TABLE": {
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
+                },
+                "MAKE_SCORE_TABLE": {
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
+                },
+                "MAKE_STATS": {
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
+                },
+                "MERGE_CSV": {
+                    "csvtk": "0.37.0"
+                },
+                "MERGE_HITS": {
+                    "csvtk": "0.37.0"
+                },
+                "MERGE_STATS": {
+                    "csvtk": "0.37.0"
+                },
+                "PLOT_ORTHOLOGS": {
+                    "ggvenndiagram": null,
+                    "r-base": "4.4.3",
+                    "reshape2": "1.4.4",
+                    "tidyverse": "2.0.0"
+                },
+                "STATS2CSV": {
+                    "python": "3.11.0",
+                    "pyyaml": "5.4.1"
+                },
+                "WRITE_SEQINFO": {
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
+                },
+                "Workflow": {
+                    "nf-core/reportho": "v1.2.0dev"
+                }
+            },
+            [
+                "multiqc",
+                "multiqc/multiqc_data",
+                "multiqc/multiqc_data/.stub",
+                "multiqc/multiqc_plots",
+                "multiqc/multiqc_plots/.stub",
+                "multiqc/multiqc_report.html",
+                "pipeline_info",
+                "pipeline_info/nf_core_reportho_software_mqc_versions.yml",
+                "score",
+                "score/BicD2",
+                "score/BicD2/BicD2_score_table.csv",
+                "score/BicD2/plots",
+                "score/BicD2/plots/BicD2_jaccard_dark.png",
+                "score/BicD2/plots/BicD2_jaccard_light.png",
+                "score/BicD2/plots/BicD2_supports_dark.png",
+                "score/BicD2/plots/BicD2_supports_light.png",
+                "score/BicD2/plots/BicD2_venn_dark.png",
+                "score/BicD2/plots/BicD2_venn_light.png",
+                "score/HBB",
+                "score/HBB/HBB_score_table.csv",
+                "score/HBB/plots",
+                "score/HBB/plots/HBB_jaccard_dark.png",
+                "score/HBB/plots/HBB_jaccard_light.png",
+                "score/HBB/plots/HBB_supports_dark.png",
+                "score/HBB/plots/HBB_supports_light.png",
+                "score/HBB/plots/HBB_venn_dark.png",
+                "score/HBB/plots/HBB_venn_light.png",
+                "score/aggregated_hits.csv",
+                "score/aggregated_stats.csv"
+            ],
+            [
+                ".stub:md5,d41d8cd98f00b204e9800998ecf8427e",
+                ".stub:md5,d41d8cd98f00b204e9800998ecf8427e"
+            ]
+        ],
+        "timestamp": "2026-07-03T14:03:17.231242421",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.4"
+        }
+    },
+    "Params: default": {
+        "content": [
+            25,
+            {
+                "DUMP_PARAMS": {
+                    "coreutils": 8.3
+                },
+                "FETCH_OMA_GROUP_LOCAL": {
+                    "python": "3.12.3",
+                    "ripgrep": "14.1.0"
+                },
+                "FETCH_PANTHER_GROUP_LOCAL": {
+                    "python": "3.12.3",
+                    "ripgrep": "14.1.0"
+                },
+                "FILTER_HITS": {
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
+                },
+                "MAKE_HITS_TABLE": {
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
+                },
+                "MAKE_SCORE_TABLE": {
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
+                },
+                "MAKE_STATS": {
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
+                },
+                "MERGE_CSV": {
+                    "csvtk": "0.37.0"
+                },
+                "MERGE_HITS": {
+                    "csvtk": "0.37.0"
+                },
+                "MERGE_STATS": {
+                    "csvtk": "0.37.0"
+                },
+                "PLOT_ORTHOLOGS": {
+                    "ggvenndiagram": null,
+                    "r-base": "4.4.3",
+                    "reshape2": "1.4.4",
+                    "tidyverse": "2.0.0"
+                },
+                "STATS2CSV": {
+                    "python": "3.11.0",
+                    "pyyaml": "5.4.1"
+                },
+                "WRITE_SEQINFO": {
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
+                },
+                "Workflow": {
+                    "nf-core/reportho": "v1.2.0dev"
+                }
+            },
+            [
+                "multiqc",
+                "multiqc/multiqc_data",
+                "multiqc/multiqc_data/llms-full.txt",
+                "multiqc/multiqc_data/multiqc.log",
+                "multiqc/multiqc_data/multiqc.parquet",
+                "multiqc/multiqc_data/multiqc_citations.txt",
+                "multiqc/multiqc_data/multiqc_data.json",
+                "multiqc/multiqc_data/multiqc_sample_hits.txt",
+                "multiqc/multiqc_data/multiqc_sample_stats.txt",
+                "multiqc/multiqc_data/multiqc_software_versions.txt",
+                "multiqc/multiqc_data/multiqc_sources.txt",
+                "multiqc/multiqc_plots",
+                "multiqc/multiqc_plots/pdf",
+                "multiqc/multiqc_plots/pdf/sample_hits.pdf",
+                "multiqc/multiqc_plots/pdf/sample_stats.pdf",
+                "multiqc/multiqc_plots/png",
+                "multiqc/multiqc_plots/png/sample_hits.png",
+                "multiqc/multiqc_plots/png/sample_stats.png",
+                "multiqc/multiqc_plots/svg",
+                "multiqc/multiqc_plots/svg/sample_hits.svg",
+                "multiqc/multiqc_plots/svg/sample_stats.svg",
+                "multiqc/multiqc_report.html",
+                "pipeline_info",
+                "pipeline_info/nf_core_reportho_software_mqc_versions.yml",
+                "score",
+                "score/BicD2",
+                "score/BicD2/BicD2_score_table.csv",
+                "score/BicD2/plots",
+                "score/BicD2/plots/BicD2_jaccard_dark.png",
+                "score/BicD2/plots/BicD2_jaccard_light.png",
+                "score/BicD2/plots/BicD2_supports_dark.png",
+                "score/BicD2/plots/BicD2_supports_light.png",
+                "score/BicD2/plots/BicD2_venn_dark.png",
+                "score/BicD2/plots/BicD2_venn_light.png",
+                "score/HBB",
+                "score/HBB/HBB_score_table.csv",
+                "score/HBB/plots",
+                "score/HBB/plots/HBB_jaccard_dark.png",
+                "score/HBB/plots/HBB_jaccard_light.png",
+                "score/HBB/plots/HBB_supports_dark.png",
+                "score/HBB/plots/HBB_supports_light.png",
+                "score/HBB/plots/HBB_venn_dark.png",
+                "score/HBB/plots/HBB_venn_light.png",
+                "score/aggregated_hits.csv",
+                "score/aggregated_stats.csv"
+            ],
+            [
+                "multiqc_citations.txt:md5,4c806e63a283ec1b7e78cdae3a923d4f"
+            ]
+        ],
+        "timestamp": "2026-07-03T14:11:40.163698926",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.4"
+        }
+    },
+    "Params: offline": {
+        "content": [
+            25,
+            {
+                "DUMP_PARAMS": {
+                    "coreutils": 8.3
+                },
+                "FETCH_OMA_GROUP_LOCAL": {
+                    "python": "3.12.3",
+                    "ripgrep": "14.1.0"
+                },
+                "FETCH_PANTHER_GROUP_LOCAL": {
+                    "python": "3.12.3",
+                    "ripgrep": "14.1.0"
+                },
+                "FILTER_HITS": {
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
+                },
+                "MAKE_HITS_TABLE": {
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
+                },
+                "MAKE_SCORE_TABLE": {
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
+                },
+                "MAKE_STATS": {
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
+                },
+                "MERGE_CSV": {
+                    "csvtk": "0.37.0"
+                },
+                "MERGE_HITS": {
+                    "csvtk": "0.37.0"
+                },
+                "MERGE_STATS": {
+                    "csvtk": "0.37.0"
+                },
+                "PLOT_ORTHOLOGS": {
+                    "ggvenndiagram": null,
+                    "r-base": "4.4.3",
+                    "reshape2": "1.4.4",
+                    "tidyverse": "2.0.0"
+                },
+                "STATS2CSV": {
+                    "python": "3.11.0",
+                    "pyyaml": "5.4.1"
+                },
+                "WRITE_SEQINFO": {
+                    "biopython": 1.83,
+                    "python": "3.11.0",
+                    "requests": "2.31.0"
+                },
+                "Workflow": {
+                    "nf-core/reportho": "v1.2.0dev"
+                }
+            },
+            [
+                "multiqc",
+                "multiqc/multiqc_data",
+                "multiqc/multiqc_data/llms-full.txt",
+                "multiqc/multiqc_data/multiqc.log",
+                "multiqc/multiqc_data/multiqc.parquet",
+                "multiqc/multiqc_data/multiqc_citations.txt",
+                "multiqc/multiqc_data/multiqc_data.json",
+                "multiqc/multiqc_data/multiqc_sample_hits.txt",
+                "multiqc/multiqc_data/multiqc_sample_stats.txt",
+                "multiqc/multiqc_data/multiqc_software_versions.txt",
+                "multiqc/multiqc_data/multiqc_sources.txt",
+                "multiqc/multiqc_plots",
+                "multiqc/multiqc_plots/pdf",
+                "multiqc/multiqc_plots/pdf/sample_hits.pdf",
+                "multiqc/multiqc_plots/pdf/sample_stats.pdf",
+                "multiqc/multiqc_plots/png",
+                "multiqc/multiqc_plots/png/sample_hits.png",
+                "multiqc/multiqc_plots/png/sample_stats.png",
+                "multiqc/multiqc_plots/svg",
+                "multiqc/multiqc_plots/svg/sample_hits.svg",
+                "multiqc/multiqc_plots/svg/sample_stats.svg",
+                "multiqc/multiqc_report.html",
+                "pipeline_info",
+                "pipeline_info/nf_core_reportho_software_mqc_versions.yml",
+                "score",
+                "score/BicD2",
+                "score/BicD2/BicD2_score_table.csv",
+                "score/BicD2/plots",
+                "score/BicD2/plots/BicD2_jaccard_dark.png",
+                "score/BicD2/plots/BicD2_jaccard_light.png",
+                "score/BicD2/plots/BicD2_supports_dark.png",
+                "score/BicD2/plots/BicD2_supports_light.png",
+                "score/BicD2/plots/BicD2_venn_dark.png",
+                "score/BicD2/plots/BicD2_venn_light.png",
+                "score/HBB",
+                "score/HBB/HBB_score_table.csv",
+                "score/HBB/plots",
+                "score/HBB/plots/HBB_jaccard_dark.png",
+                "score/HBB/plots/HBB_jaccard_light.png",
+                "score/HBB/plots/HBB_supports_dark.png",
+                "score/HBB/plots/HBB_supports_light.png",
+                "score/HBB/plots/HBB_venn_dark.png",
+                "score/HBB/plots/HBB_venn_light.png",
+                "score/aggregated_hits.csv",
+                "score/aggregated_stats.csv"
+            ],
+            [
+                "multiqc_citations.txt:md5,4c806e63a283ec1b7e78cdae3a923d4f"
+            ]
+        ],
+        "timestamp": "2026-07-23T09:26:53.936441032",
+        "meta": {
+            "nf-test": "0.9.5",
+            "nextflow": "26.04.4"
+        }
+    }
+}

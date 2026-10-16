@@ -1,0 +1,75 @@
+nextflow_pipeline {
+
+    name "Test pipeline with default settings"
+    script "../main.nf"
+    tag "default"
+
+    test("Params: fasta") {
+
+        when {
+            params {
+                input           = "https://raw.githubusercontent.com/nf-core/test-datasets/reportho/testdata/samplesheet/samplesheet_fasta.csv"
+                outdir          = "$outputDir"
+                skip_merge      = true
+                skip_orthoplots = true
+                skip_report     = true
+            }
+        }
+
+        then {
+            // stable_path: All files + folders in ${params.outdir}/ with a stable path
+            def stable_path = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}', 'report', 'report/**'])
+            // stable_content: All files in ${params.outdir}/ with stable content
+            def stable_content = getAllFilesFromDir(params.outdir, ignoreFile: 'tests/.nftignore')
+
+            assertAll(
+                { assert workflow.success},
+                { assert snapshot(
+                    // Number of successful tasks
+                    workflow.trace.succeeded().size(),
+                    // pipeline versions.yml file for multiqc from which Nextflow version is removed because we tests pipelines on multiple Nextflow versions
+                    removeNextflowVersion("$outputDir/pipeline_info/nf_core_reportho_software_mqc_versions.yml"),
+                    // All report stable path name, with a relative path
+                    stable_path,
+                    // All report files with stable contents
+                    stable_content
+                ).match()  }
+            )
+        }
+    }
+
+    test("Params: fasta - stub") {
+
+        options "-stub"
+
+        when {
+            params {
+                input           = "https://raw.githubusercontent.com/nf-core/test-datasets/reportho/testdata/samplesheet/samplesheet_fasta.csv"
+                outdir          = "$outputDir"
+                skip_merge      = true
+                skip_orthoplots = true
+                skip_report     = true
+            }
+        }
+
+        then {
+            // stable_path: All files + folders in ${params.outdir}/ with a stable path
+            def stable_path = getAllFilesFromDir(params.outdir, relative: true, includeDir: true, ignore: ['pipeline_info/*.{html,json,txt}', 'report', 'report/**'])
+            // stable_content: All files in ${params.outdir}/ with stable content
+            def stable_content = getAllFilesFromDir(params.outdir, ignoreFile: 'tests/.nftignore')
+
+            assertAll(
+                { assert snapshot(
+                    // Number of successful tasks
+                    workflow.trace.succeeded().size(),
+                    // pipeline versions.yml file for multiqc from which Nextflow version is removed because we tests pipelines on multiple Nextflow versions
+                    removeNextflowVersion("$outputDir/pipeline_info/nf_core_reportho_software_mqc_versions.yml"),
+                    // All report stable path name, with a relative path
+                    stable_path,
+                    // All report files with stable contents
+                    stable_content
+                ).match() }
+            )
+        }
+    }
+}
