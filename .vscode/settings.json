@@ -1,4 +1,8 @@
 {
     // Render nf-core website admonitions nicely in markdown previews
-    "markdown.styles": ["https://nf-co.re/vscode_markdown.css"]
+    "markdown.styles": ["https://nf-co.re/vscode_markdown.css"],
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "cSpell.words": ["ORTHOLOGS"],
+    "nextflow.telemetry.enabled": false
 }

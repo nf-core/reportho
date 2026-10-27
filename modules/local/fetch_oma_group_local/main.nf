@@ -1,0 +1,46 @@
+process FETCH_OMA_GROUP_LOCAL {
+    tag "$meta.id"
+    label 'process_short'
+
+    conda "conda-forge::python=3.12.3 conda-forge::ripgrep=14.1.0"
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+        'oras://community.wave.seqera.io/library/python_ripgrep:6f07fd6cbda0142b' :
+        'community.wave.seqera.io/library/python_ripgrep:324b372792aae9ce' }"
+
+    input:
+    tuple val(meta), path(uniprot_id), path(taxid), path(exact)
+    path db
+    path uniprot_idmap
+    path ensembl_idmap
+    path refseq_idmap
+
+    output:
+    tuple val(meta), path("*_oma_group.csv"), emit: oma_group
+    tuple val("${task.process}"), val('python'), eval("python --version | sed 's/Python //'"), emit: versions_python, topic: versions
+    tuple val("${task.process}"), val('ripgrep'), eval("rg --version | sed '1!d; s/ripgrep //; s/ .*//'"), emit: versions_ripgrep, topic: versions
+
+    when:
+    task.ext.when == null || task.ext.when
+
+    script:
+    def prefix = task.ext.prefix ?: meta.id
+    """
+    # Obtain the OMA ID for the given Uniprot ID of the query protein
+    uniprot2oma_local.py --idmap-path $uniprot_idmap --ids-path $uniprot_id > oma_id.txt || touch oma_id.txt
+
+    # Perform the database search for the given query in OMA
+    zcat $db | rg \$(cat oma_id.txt) | head -1 | cut -f3- | awk '{gsub(/\\t/,"\\n"); print}' > ${prefix}_oma_group_oma.txt || touch ${prefix}_oma_group_oma.txt
+    # Convert the OMA ids to Uniprot, Ensembl and RefSeq ids
+    oma2uniprot_local.py --idmap-path $uniprot_idmap --ids-path ${prefix}_oma_group_oma.txt > ${prefix}_oma_group_raw.txt
+    uniprotize_oma_local.py --ids-path ${prefix}_oma_group_raw.txt --ensembl-idmap $ensembl_idmap --refseq-idmap $refseq_idmap > ${prefix}_oma_group.txt
+
+    # Add the OMA column to the csv file
+    csv_adorn.py --path ${prefix}_oma_group.txt --header OMA > ${prefix}_oma_group.csv
+    """
+
+    stub:
+    def prefix = task.ext.prefix ?: "${meta.id}"
+    """
+    touch ${prefix}_oma_group.csv
+    """
+}
