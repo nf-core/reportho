@@ -1,0 +1,69 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
+name: "GET_ORTHOLOGS"
+description: Build query sequence metadata and fetch orthogroups from configured orthology sources
+keywords:
+  - reportho
+  - get
+  - orthologs
+    - annotation
+components:
+  - FETCH_EGGNOG_GROUP_LOCAL
+  - FETCH_INSPECTOR_GROUP_ONLINE
+  - FETCH_OMA_GROUP_LOCAL
+  - FETCH_OMA_GROUP_ONLINE
+  - FETCH_PANTHER_GROUP_LOCAL
+  - FETCH_PANTHER_GROUP_ONLINE
+  - IDENTIFY_SEQ_ONLINE
+  - MERGE_CSV
+  - WRITE_SEQINFO
+input:
+  - ch_samplesheet_query:
+      type: channel
+      description: Samplesheet entries with direct query identifiers
+  - ch_samplesheet_fasta:
+      type: channel
+      description: Samplesheet entries with query FASTA paths for online sequence identification
+  - ch_oma_groups:
+      type: channel
+      description: Local OMA orthogroup database files
+  - ch_oma_uniprot:
+      type: channel
+      description: Local OMA to UniProt mapping files
+  - ch_oma_ensembl:
+      type: channel
+      description: Local OMA to Ensembl mapping files
+  - ch_oma_refseq:
+      type: channel
+      description: Local OMA to RefSeq mapping files
+  - ch_panther:
+      type: channel
+      description: Local PANTHER database files
+  - ch_eggnog:
+      type: channel
+      description: Local EggNOG orthogroup database files
+  - ch_eggnog_idmap:
+      type: channel
+      description: Local EggNOG identifier mapping files
+output:
+  - seqinfo:
+      type: channel
+      description: Per-query metadata records with query identifier, taxonomic context, and exact match flag
+  - id:
+      type: channel
+      description: Per-query identifier stream derived from sequence metadata
+  - taxid:
+      type: channel
+      description: Per-query taxonomic identifier stream derived from sequence metadata
+  - exact:
+      type: channel
+      description: Per-query exact-match flags derived from sequence metadata
+  - orthogroups:
+      type: channel
+      description: Per-query orthogroup tables collected from enabled sources
+  - orthologs:
+      type: channel
+      description: Per-query merged ortholog tables combining all collected orthogroup sources
+authors:
+  - "@itrujnara"
+maintainers:
+  - "@itrujnara"

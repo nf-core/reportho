@@ -1,0 +1,56 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/subworkflows/yaml-schema.json
+name: "REPORT"
+description: Prepare per-query report inputs and generate final reports
+keywords:
+  - reportho
+  - report
+  - html
+  - summary
+components:
+  - DUMP_PARAMS
+  - MAKE_REPORT
+input:
+  - use_centroid:
+      type: boolean
+      description: Whether orthologs should be taken from the top consensus source
+  - min_score:
+      type: integer
+      description: Minimum score threshold used to filter ortholog hits
+  - ch_seqinfo:
+      type: channel
+      description: Per-query sequence metadata
+  - ch_scoretable:
+      type: channel
+      description: Per-query score tables
+  - ch_filtered:
+      type: channel
+      description: Per-query filtered ortholog results
+  - ch_supportsplot:
+      type: channel
+      description: Per-query support plot files
+  - ch_vennplot:
+      type: channel
+      description: Per-query venn plot files
+  - ch_jaccardplot:
+      type: channel
+      description: Per-query jaccard similarity plot files
+  - ch_orthostats:
+      type: channel
+      description: Per-query ortholog statistics tables
+  - ch_seqhits:
+      type: channel
+      description: Per-query sequence hit tables
+  - ch_seqmisses:
+      type: channel
+      description: Per-query sequence miss tables
+  - ch_mergestats:
+      type: channel
+      description: Per-query merge statistics tables
+  - ch_clusters:
+      type: channel
+      description: Per-query cluster assignments
+output: []
+authors:
+  - "@itrujnara"
+maintainers:
+  - "@itrujnara"

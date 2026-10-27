@@ -1,13 +1,14 @@
 <h1>
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/nf-core-reportho_logo_dark.png">
-    <img alt="nf-core/reportho" src="docs/images/nf-core-reportho_logo_light.png">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/nf-core-reportho_logo_hex_dark.png">
+    <img alt="nf-core/reportho" src="docs/images/nf-core-reportho_logo_hex_light.png">
   </picture>
 </h1>
 
 [![Open in GitHub Codespaces](https://img.shields.io/badge/Open_In_GitHub_Codespaces-black?labelColor=grey&logo=github)](https://github.com/codespaces/new/nf-core/reportho)
 [![GitHub Actions CI Status](https://github.com/nf-core/reportho/actions/workflows/nf-test.yml/badge.svg)](https://github.com/nf-core/reportho/actions/workflows/nf-test.yml)
-[![GitHub Actions Linting Status](https://github.com/nf-core/reportho/actions/workflows/linting.yml/badge.svg)](https://github.com/nf-core/reportho/actions/workflows/linting.yml)[![AWS CI](https://img.shields.io/badge/CI%20tests-full%20size-FF9900?labelColor=000000&logo=Amazon%20AWS)](https://nf-co.re/reportho/results)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXXX-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.XXXXXXX)
+[![GitHub Actions Linting Status](https://github.com/nf-core/reportho/actions/workflows/linting.yml/badge.svg)](https://github.com/nf-core/reportho/actions/workflows/linting.yml)[![AWS CI](https://img.shields.io/badge/CI%20tests-full%20size-FF9900?labelColor=000000&logo=Amazon%20AWS)](https://nf-co.re/reportho/results)
+[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.11574565-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.11574565)
 [![nf-test](https://img.shields.io/badge/unit_tests-nf--test-337ab7.svg)](https://www.nf-test.com)
 
 [![Nextflow](https://img.shields.io/badge/version-%E2%89%A525.10.4-green?style=flat&logo=nextflow&logoColor=white&color=%230DC09D&link=https%3A%2F%2Fnextflow.io)](https://www.nextflow.io/)
@@ -21,42 +22,53 @@
 
 ## Introduction
 
-**nf-core/reportho** is a bioinformatics pipeline that ...
+**nf-core/reportho** is a bioinformatics pipeline that compares and summarizes orthology predictions for one or a set of query proteins. For each query (or its closest annotated homolog), it fetches ortholog lists from public databases, identifies synonymous identifiers based on sequences, calculates the agreement of the obtained predictions (pairwise and global) and finally generates a consensus list of orthologs with the desired level of confidence. Additionally, it generates a clean, human-readable report of the results.
 
-<!-- TODO nf-core:
-   Complete this sentence with a 2-3 sentence summary of what types of data the pipeline ingests, a brief overview of the
-   major pipeline sections and the types of output it produces. You're giving an overview to someone new
-   to nf-core here, in 15-20 seconds. For an example, see https://github.com/nf-core/rnaseq/blob/master/README.md#introduction
--->
+<!-- Tube map -->
 
-<!-- TODO nf-core: Include a figure that guides the user through the major workflow steps. Many nf-core
-     workflows use the "tube map" design for that. See https://nf-co.re/docs/community/brand/workflow-schematics#examples for examples.   -->
-<!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->2. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
+![nf-core-reportho tube map](docs/images/reportho_tube_map.svg?raw=true "nf-core-reportho tube map")
+
+1. **Obtain Query Information**: identification of Uniprot ID and taxon ID for the query (or its closest homolog if the fasta file is used as input instead of the Uniprot ID).
+2. **Fetch Orthologs**: fetching of ortholog predictions from public databases, either through API or from local snapshot.
+
+Steps 3 and 4 can be skipped with `--skip_merge`.
+
+3. **Fetch Sequences**: fetching of sequences of identified orthologs.
+4. **Merge Synonymous Identifiers**: identification of synonymous identifiers based on sequence identity.
+5. **Compare and Assemble**: calculation of agreement statistics, creation of ortholog lists, selection of the consensus list.
+6. **Generate Report**: human-readable HTML report generation.
+
+By default, the pipeline also creates `results/samplesheets/multiplesequencealign_samplesheet.csv` for nf-core/multiplesequencealign. Disable this with `--skip_samplesheets`.
 
 ## Usage
 
 > [!NOTE]
 > If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/get_started/environment_setup/overview) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/get_started/run-your-first-pipeline) with `-profile test` before running the workflow on actual data.
 
-<!-- TODO nf-core: Describe the minimum required steps to execute the pipeline, e.g. how to prepare samplesheets.
-     Explain what rows and columns represent. For instance (please edit as appropriate):
+:::warning
+Due to an nf-test issue outside our control, the current version of the pipeline is not tested with Conda. Most functionality should work with Conda, but we cannot guarantee it. We will rectify this issue as soon as possible.
+:::
 
 First, prepare a samplesheet with your input data that looks as follows:
 
-`samplesheet.csv`:
-
-```csv
-sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
+```csv title="samplesheet_fasta.csv"
+id,fasta
+BicD2,data/bicd2.fasta
+HBB,data/hbb.fasta
 ```
 
-Each row represents a fastq file (single-end) or a pair of fastq files (paired end).
+or if you know the UniProt ID of the protein you can provide it directly:
 
--->
+```csv title="samplesheet.csv"
+id,query
+BicD2,Q8TD16
+HBB,P68871
+```
+
+> [!NOTE]
+> If you provide both a FASTA file and a UniProt ID only the latter will be used.
 
 Now, you can run the pipeline using:
-
-<!-- TODO nf-core: update the following command to include all required parameters for a minimal example -->
 
 ```bash
 nextflow run nf-core/reportho \
@@ -76,13 +88,19 @@ To see the results of an example test run with a full size dataset refer to the 
 For more details about the output files and reports, please refer to the
 [output documentation](https://nf-co.re/reportho/output).
 
+## Report image
+
+The code to create the image producing the pipeline report is available under [this](https://github.com/itrujnara/orthologs-report) GitHub repository.
+
 ## Credits
 
-nf-core/reportho was originally written by itrujnara.
+nf-core/reportho was originally written by Igor Trujnara ([@itrujnara](https://github.com/itrujnara)).
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 
-<!-- TODO nf-core: If applicable, make list of people who have also contributed -->
+- Luisa Santus ([@luisas](https://github.com/luisas))
+- Alessio Vignoli ([@alessiovignoli](https://github.com/alessiovignoli))
+- Jose Espinosa-Carrasco ([@JoseEspinosa](https://github.com/JoseEspinosa))
 
 ## Contributions and Support
 
@@ -92,10 +110,7 @@ For further information or help, don't hesitate to get in touch on the [Slack `#
 
 ## Citations
 
-<!-- TODO nf-core: Add citation for pipeline after first release. Uncomment lines below and update Zenodo doi and badge at the top of this file. -->
-<!-- If you use nf-core/reportho for your analysis, please cite it using the following doi: [10.5281/zenodo.XXXXXX](https://doi.org/10.5281/zenodo.XXXXXX) -->
-
-<!-- TODO nf-core: Add bibliography of tools and data used in your pipeline -->
+If you use nf-core/reportho for your analysis, please cite it using the following doi: [10.5281/zenodo.11574565](https://doi.org/10.5281/zenodo.11574565)
 
 An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
 

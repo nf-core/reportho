@@ -1,0 +1,55 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: split_taxids
+description: Split multi-species FASTA records into separate files by taxonomic identifier
+keywords:
+  - split
+  - taxids
+  - fasta
+  - taxonomy
+tools:
+  - gawk:
+      description: Gawk is the GNU implementation of the AWK programming language.
+      homepage: https://www.gnu.org/software/gawk/
+      documentation: https://www.gnu.org/software/gawk/manual/
+      licence: ["GPL-3.0-or-later"]
+input:
+  - - meta:
+        type: map
+        description: Groovy Map containing sample metadata
+    - input_file:
+        type: file
+        description: FASTA file containing records to be split into per-taxid outputs
+output:
+  fastas:
+    - - meta:
+          type: map
+          description: Groovy Map containing sample metadata
+      - "*.fa":
+          type: file
+          description: FASTA files split by taxonomic identifier
+          pattern: "*.fa"
+  versions_gawk:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - gawk:
+          type: string
+          description: The name of the tool
+      - "awk -Wversion | sed -n '1s/.*Awk //; s/,.*//; p'":
+          type: eval
+          description: The expression to obtain the version of the tool
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - gawk:
+          type: string
+          description: The name of the tool
+      - "awk -Wversion | sed -n '1s/.*Awk //; s/,.*//; p'":
+          type: eval
+          description: The expression to obtain the version of the tool
+authors:
+  - "@itrujnara"
+maintainers:
+  - "@itrujnara"

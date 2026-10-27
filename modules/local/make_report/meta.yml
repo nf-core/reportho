@@ -1,0 +1,146 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: make_report
+description: Build an interactive HTML report from ortholog analysis outputs
+keywords:
+  - report
+  - html
+  - visualization
+  - react
+tools:
+  - node:
+      description: Node.js is an open-source, cross-platform JavaScript runtime environment.
+      homepage: https://nodejs.org/
+      documentation: https://nodejs.org/en/docs
+      licence: ["MIT"]
+  - yarn:
+      description: Yarn is a package manager that doubles down as project manager.
+      homepage: https://yarnpkg.com/
+      documentation: https://yarnpkg.com/getting-started
+      licence: ["BSD-2-Clause"]
+  - react:
+      description: React is a JavaScript library for building user interfaces.
+      homepage: https://react.dev/
+      documentation: https://react.dev/learn
+      licence: ["MIT"]
+input:
+  - - meta:
+        type: map
+        description: Groovy Map containing sample metadata
+    - id:
+        type: file
+        description: File containing the query sequence identifier
+    - taxid:
+        type: file
+        description: File containing taxonomy identifier associated with the query
+    - exact:
+        type: file
+        description: File indicating whether sequence identification was exact
+    - score_table:
+        type: file
+        description: CSV table with per-source ortholog scores
+    - filtered_hits:
+        type: file
+        description: Text file containing filtered ortholog hits used in the report
+    - support_plot:
+        type: file
+        description: Plot image showing support metrics across sources
+    - venn_plot:
+        type: file
+        description: Plot image showing ortholog overlap across sources
+    - jaccard_plot:
+        type: file
+        description: Plot image showing Jaccard similarity across sources
+    - orthostats:
+        type: file
+        description: YAML file containing ortholog statistics summary
+    - seq_hits:
+        type: file
+        description: Optional text file listing sequence-level hits
+        optional: true
+    - seq_misses:
+        type: file
+        description: Optional text file listing sequence-level misses
+        optional: true
+    - merge_stats:
+        type: file
+        description: Optional CSV file with merge statistics
+        optional: true
+    - clusters:
+        type: file
+        description: Optional CSV file with cluster membership details
+        optional: true
+    - params_file:
+        type: file
+        description: YAML file containing pipeline parameters for report display
+output:
+  report_files:
+    - - meta:
+          type: map
+          description: Groovy Map containing sample metadata
+      - "${prefix}/*":
+          type: file
+          description: Directory contents for the generated interactive report
+          pattern: "${prefix}/*"
+  versions_node:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - node:
+          type: string
+          description: The name of the tool
+      - "node --version | sed 's/^v//'":
+          type: eval
+          description: The expression to obtain the version of the tool
+  versions_yarn:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - yarn:
+          type: string
+          description: The name of the tool
+      - "yarn --version | sed 's/^//'":
+          type: eval
+          description: The expression to obtain the version of the tool
+  versions_react:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - react:
+          type: string
+          description: The name of the tool
+      - "yarn info react version | sed -n '2p' | sed 's/^//'":
+          type: eval
+          description: The expression to obtain the version of the tool
+topics:
+  versions:
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - node:
+          type: string
+          description: The name of the tool
+      - "node --version | sed 's/^v//'":
+          type: eval
+          description: The expression to obtain the version of the tool
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - yarn:
+          type: string
+          description: The name of the tool
+      - "yarn --version | sed 's/^//'":
+          type: eval
+          description: The expression to obtain the version of the tool
+    - - ${task.process}:
+          type: string
+          description: The name of the process
+      - react:
+          type: string
+          description: The name of the tool
+      - "yarn info react version | sed -n '2p' | sed 's/^//'":
+          type: eval
+          description: The expression to obtain the version of the tool
+authors:
+  - "@itrujnara"
+maintainers:
+  - "@itrujnara"

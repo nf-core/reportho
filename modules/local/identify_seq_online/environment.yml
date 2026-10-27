@@ -1,0 +1,11 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/environment-schema.json
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - conda-forge::biopython=1.87.0
+  - conda-forge::python=3.11.15
+  - conda-forge::pip=26.1.2
+  - pip:
+      - omadb==2.2.4
