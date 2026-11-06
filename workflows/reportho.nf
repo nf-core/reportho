@@ -45,7 +45,6 @@ workflow REPORTHO {
     eggnog_idmap_path
     min_score
     skip_merge
-    skip_downstream
     skip_orthoplots
     skip_samplesheets
     skip_report
@@ -93,7 +92,7 @@ workflow REPORTHO {
 
     ch_seqs = ch_samplesheet_query.map { meta, _query -> [meta, []] }
 
-    if (!offline_run && (!skip_merge || !skip_downstream))
+    if (!offline_run && !skip_merge )
     {
         GET_SEQUENCES (
             GET_ORTHOLOGS.out.orthologs,

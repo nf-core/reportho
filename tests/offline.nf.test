@@ -24,7 +24,6 @@ nextflow_pipeline {
                 eggnog_idmap_path = pipelines_testdata_base_path + 'databases/latest.Eukaryota-mini.tsv.gz'
                 skip_merge        = true
                 min_score         = 2
-                skip_downstream   = true
                 skip_samplesheets = true
             }
         }
@@ -73,7 +72,6 @@ nextflow_pipeline {
                 eggnog_idmap_path = pipelines_testdata_base_path + 'databases/latest.Eukaryota-mini.tsv.gz'
                 skip_merge        = true
                 min_score         = 2
-                skip_downstream   = true
                 skip_samplesheets = true
             }
         }
@@ -120,7 +118,6 @@ nextflow_pipeline {
                 eggnog_idmap_path = pipelines_testdata_base_path + 'databases/latest.Eukaryota-mini.tsv.gz'
                 skip_merge        = true
                 min_score         = 2
-                skip_downstream   = true
                 skip_samplesheets = false
             }
         }

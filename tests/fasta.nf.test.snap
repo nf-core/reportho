@@ -1,22 +1,8 @@
 {
     "Params: fasta - stub": {
         "content": [
-            34,
+            23,
             {
-                "CONCAT_FASTA": {
-                    "coreutils": 9.4,
-                    "find": "4.6.0",
-                    "pigz": 2.8
-                },
-                "CONCAT_HITS": {
-                    "coreutils": 9.4,
-                    "find": "4.6.0",
-                    "pigz": 2.8
-                },
-                "FETCH_ENSEMBL_IDMAP": {
-                    "python": "3.12.9",
-                    "requests": "2.32.3"
-                },
                 "FETCH_INSPECTOR_GROUP_ONLINE": {
                     "biopython": 1.83,
                     "orthoinspector_database": "Eukaryota2023",
@@ -32,16 +18,6 @@
                 "FETCH_PANTHER_GROUP_ONLINE": {
                     "biopython": 1.83,
                     "panther_database": null,
-                    "python": "3.11.0",
-                    "requests": "2.31.0"
-                },
-                "FETCH_UNIPROT_SEQUENCES": {
-                    "biopython": 1.83,
-                    "python": "3.11.0",
-                    "requests": "2.31.0"
-                },
-                "FILTER_FASTA_FOR_MSA": {
-                    "biopython": 1.83,
                     "python": "3.11.0",
                     "requests": "2.31.0"
                 },
@@ -81,10 +57,6 @@
                 "MERGE_STATS": {
                     "csvtk": "0.37.0"
                 },
-                "SPLIT_ID_FORMAT": {
-                    "python": "3.12.9",
-                    "requests": "2.32.3"
-                },
                 "STATS2CSV": {
                     "python": "3.11.0",
                     "pyyaml": "5.4.1"
@@ -102,34 +74,23 @@
                 "multiqc/multiqc_report.html",
                 "pipeline_info",
                 "pipeline_info/nf_core_reportho_software_mqc_versions.yml",
-                "samplesheets",
-                "samplesheets/multiplesequencealign_samplesheet.csv",
-                "samplesheets/ste2",
-                "samplesheets/ste2/ste2_filtered.fa",
-                "samplesheets/ste3",
-                "samplesheets/ste3/ste3_filtered.fa",
                 "score",
                 "score/aggregated_hits.csv",
                 "score/aggregated_stats.csv",
                 "score/ste2",
                 "score/ste2/ste2_score_table.csv",
                 "score/ste3",
-                "score/ste3/ste3_score_table.csv",
-                "sequences",
-                "sequences/ste2",
-                "sequences/ste2/ste2_orthologs.fa",
-                "sequences/ste3",
-                "sequences/ste3/ste3_orthologs.fa"
+                "score/ste3/ste3_score_table.csv"
             ],
             [
                 ".stub:md5,d41d8cd98f00b204e9800998ecf8427e",
                 ".stub:md5,d41d8cd98f00b204e9800998ecf8427e"
             ]
         ],
-        "timestamp": "2026-07-24T07:50:01.613129067",
+        "timestamp": "2026-07-28T13:05:45.575407487",
         "meta": {
             "nf-test": "0.9.5",
-            "nextflow": "26.04.4"
+            "nextflow": "26.04.6"
         }
     },
     "Params: default - stub": {
@@ -415,32 +376,8 @@
     },
     "Params: fasta": {
         "content": [
-            42,
+            23,
             {
-                "CONCAT_FASTA": {
-                    "coreutils": 9.4,
-                    "find": "4.6.0",
-                    "pigz": 2.8
-                },
-                "CONCAT_HITS": {
-                    "coreutils": 9.4,
-                    "find": "4.6.0",
-                    "pigz": 2.8
-                },
-                "CONCAT_MISSES": {
-                    "coreutils": 9.4,
-                    "find": "4.6.0",
-                    "pigz": 2.8
-                },
-                "FETCH_ENSEMBL_IDMAP": {
-                    "python": "3.12.9",
-                    "requests": "2.32.3"
-                },
-                "FETCH_ENSEMBL_SEQUENCES": {
-                    "biopython": 1.83,
-                    "python": "3.11.0",
-                    "requests": "2.31.0"
-                },
                 "FETCH_INSPECTOR_GROUP_ONLINE": {
                     "biopython": 1.83,
                     "orthoinspector_database": "Eukaryota2023",
@@ -453,31 +390,9 @@
                     "omadb": "2.2.4",
                     "python": "3.11.15"
                 },
-                "FETCH_OMA_SEQUENCES": {
-                    "biopython": 1.83,
-                    "oma_api": null,
-                    "oma_database": null,
-                    "python": "3.11.0",
-                    "requests": "2.31.0"
-                },
                 "FETCH_PANTHER_GROUP_ONLINE": {
                     "biopython": 1.83,
                     "panther_database": null,
-                    "python": "3.11.0",
-                    "requests": "2.31.0"
-                },
-                "FETCH_REFSEQ_SEQUENCES": {
-                    "biopython": 1.83,
-                    "python": "3.11.0",
-                    "requests": "2.31.0"
-                },
-                "FETCH_UNIPROT_SEQUENCES": {
-                    "biopython": 1.83,
-                    "python": "3.11.0",
-                    "requests": "2.31.0"
-                },
-                "FILTER_FASTA_FOR_MSA": {
-                    "biopython": 1.83,
                     "python": "3.11.0",
                     "requests": "2.31.0"
                 },
@@ -517,10 +432,6 @@
                 "MERGE_STATS": {
                     "csvtk": "0.37.0"
                 },
-                "SPLIT_ID_FORMAT": {
-                    "python": "3.12.9",
-                    "requests": "2.32.3"
-                },
                 "STATS2CSV": {
                     "python": "3.11.0",
                     "pyyaml": "5.4.1"
@@ -554,33 +465,22 @@
                 "multiqc/multiqc_report.html",
                 "pipeline_info",
                 "pipeline_info/nf_core_reportho_software_mqc_versions.yml",
-                "samplesheets",
-                "samplesheets/multiplesequencealign_samplesheet.csv",
-                "samplesheets/ste2",
-                "samplesheets/ste2/ste2_filtered.fa",
-                "samplesheets/ste3",
-                "samplesheets/ste3/ste3_filtered.fa",
                 "score",
                 "score/aggregated_hits.csv",
                 "score/aggregated_stats.csv",
                 "score/ste2",
                 "score/ste2/ste2_score_table.csv",
                 "score/ste3",
-                "score/ste3/ste3_score_table.csv",
-                "sequences",
-                "sequences/ste2",
-                "sequences/ste2/ste2_orthologs.fa",
-                "sequences/ste3",
-                "sequences/ste3/ste3_orthologs.fa"
+                "score/ste3/ste3_score_table.csv"
             ],
             [
                 "multiqc_citations.txt:md5,4c806e63a283ec1b7e78cdae3a923d4f"
             ]
         ],
-        "timestamp": "2026-07-24T07:49:24.978958628",
+        "timestamp": "2026-07-28T13:05:14.549762965",
         "meta": {
             "nf-test": "0.9.5",
-            "nextflow": "26.04.4"
+            "nextflow": "26.04.6"
         }
     }
 }
